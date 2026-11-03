@@ -1,0 +1,78 @@
+# lang_ID.yaml - Wordclock 16x16, ESPHome language package ID (Bahasa Indonesia), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_ID.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: ID
+  name: jamkata
+  friendly_name: JamKata
+  ap_ssid: JamKata Fallback
+  timezone: Asia/Jakarta
+  latitude: "-6.209°"           # Jakarta
+  longitude: "106.846°"
+  extra_hidden: "false"         # language has extra words (SELAMAT DATANG), switch shown
+
+  # entity names
+  t_br_day: Kecerahan siang
+  t_br_night: Kecerahan malam
+  t_cur_limit: Batas arus
+  t_night_start: Selisih awal malam
+  t_night_end: Selisih akhir malam
+  t_night_mode: Mode malam
+  nm_mix: Campuran
+  nm_sun: Posisi matahari
+  nm_fixed: Waktu tetap
+  t_night_not_before: Malam tidak sebelum
+  t_night_not_after: Malam tidak setelah
+  t_night_from: Malam dari
+  t_night_until: Malam sampai
+  t_fx_dur: Durasi efek
+  t_blink_cycle: Siklus kedip
+  t_tin_min: Suhu dalam min
+  t_tin_max: Suhu dalam maks
+  t_tout_min: Suhu luar min
+  t_tout_max: Suhu luar maks
+  t_col_time: Warna waktu
+  t_col_vent: Warna VENTILASI
+  t_col_alarm: Warna ALARM
+  t_col_battery: Warna DAYA
+  t_col_tout: Warna suhu luar
+  t_col_tin: Warna suhu dalam
+  t_sw_temp: Tampilkan suhu
+  t_sw_min: Tampilkan menit tunggal
+  t_sw_alarm: Tampilkan alarm
+  t_sw_vent: Tampilkan ventilasi
+  t_sw_battery: Tampilkan baterai
+  t_sw_extra: Tampilkan SELAMAT DATANG
+  t_fx: Efek
+  t_fx_color: Warna efek
+  t_fx_start: Mulai efek
+  t_fx_stop: Hentikan efek
+  t_text: Teks berjalan
+  t_text_start: Tampilkan teks
+
+  # colour options (palette order, never change the order)
+  c_0: Putih hangat
+  c_1: Putih
+  c_2: Merah
+  c_3: Oranye
+  c_4: Kuning
+  c_5: Hijau
+  c_6: Biru
+  c_7: Ungu
+  c_random: Acak
+  c_temp: Suhu
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: Pelangi
+  fx_aurora: Aurora
+  fx_matrix: Matrix
+  fx_fire: Api
+  fx_confetti: Konfeti
+  fx_stars: Langit berbintang
+  fx_blink: Berkedip
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_ID.h

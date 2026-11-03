@@ -1,0 +1,80 @@
+# lang_scifi_HVA.yaml - Wordclock 16x16, ESPHome language package scifi_HVA (Valyrio), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_scifi_HVA.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+# Fictional language without a country: existing location Roma. Entity names in English
+# clock words in Valyrio.
+substitutions:
+  lang_code: scifi_HVA
+  name: valyrio
+  friendly_name: Valyrio
+  ap_ssid: Valyrio Fallback
+  timezone: Europe/Rome
+  latitude: "41.903°"           # Roma
+  longitude: "12.496°"
+  extra_hidden: "false"         # language has extra words (RYTSAS), switch shown
+
+  # entity names
+  t_br_day: Brightness day
+  t_br_night: Brightness night
+  t_cur_limit: Current limit
+  t_night_start: Night start offset
+  t_night_end: Night end offset
+  t_night_mode: Night mode
+  nm_mix: Mixed
+  nm_sun: Sun position
+  nm_fixed: Fixed times
+  t_night_not_before: Night not before
+  t_night_not_after: Night not after
+  t_night_from: Night from
+  t_night_until: Night until
+  t_fx_dur: Effect duration
+  t_blink_cycle: Blink cycle
+  t_tin_min: Temperature inside min
+  t_tin_max: Temperature inside max
+  t_tout_min: Temperature outside min
+  t_tout_max: Temperature outside max
+  t_col_time: Colour time
+  t_col_vent: Colour JELMĀZMA
+  t_col_alarm: Colour PERZYS
+  t_col_battery: Colour ĀEKS
+  t_col_tout: Colour temperature outside
+  t_col_tin: Colour temperature inside
+  t_sw_temp: Show temperature
+  t_sw_min: Show single minutes
+  t_sw_alarm: Show alarm
+  t_sw_vent: Show ventilate
+  t_sw_battery: Show battery
+  t_sw_extra: Show RYTSAS
+  t_fx: Effect
+  t_fx_color: Effect colour
+  t_fx_start: Start effect
+  t_fx_stop: Stop effect
+  t_text: Text ticker
+  t_text_start: Start text
+
+  # colour options (palette order, never change the order)
+  c_0: Warm white
+  c_1: White
+  c_2: Red
+  c_3: Orange
+  c_4: Yellow
+  c_5: Green
+  c_6: Blue
+  c_7: Violet
+  c_random: Random
+  c_temp: Temperature
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: Rainbow
+  fx_aurora: Aurora
+  fx_matrix: Matrix
+  fx_fire: Fire
+  fx_confetti: Confetti
+  fx_stars: Starry sky
+  fx_blink: Blink
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_scifi_HVA.h

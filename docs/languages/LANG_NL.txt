@@ -1,0 +1,121 @@
+Wordclock_Multi v2.0 - Nederlands (NL)
+======================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Amsterdam  (52.3676, 4.9041)
+Zeitzone / time zone:         Europe/Amsterdam  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   Woordklok  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://woordklok.local
+ESPHome: Gerät / device:      woordklok (Woordklok), Fallback-Hotspot "Woordklok Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_NL.h
+                              esphome/wordclock_multi/lang/lang_NL.yaml (+ src/wc_lang_NL.h)
+                              models/lang/lang_NL.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_NL.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_NL.yaml
+                              OpenSCAD/FreeCAD: LANG = "NL"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xHETxISxHALLOx*
+   2 *xVIJFxxTIENxxx*
+   3 *xxKWARTxxxxxxx*
+   4 *xVOORxxxOVERxx*
+   5 *xxxxHALFxxxxxx*
+   6 *xEENxxxxTWEExx*
+   7 *DRIExxxxVIERxx*
+   8 *xVIJFxxxxZESxx*
+   9 *xxxZEVENxxxxxx*
+  10 *ACHTxxxNEGENxx*
+  11 *xTIENxxxxELFxx*
+  12 *xxTWAALFxxxxxx*
+  13 *xxxxxxUURxxxxx*
+  14 x+x1234xMINUUTEN
+  15 xLUCHTENxxxALARM
+  16 xACCUx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau (Standard-Niederländisch, „half“-System): HET IS [<Minuten> OVER|VOOR] [HALF] <Stunde> [UUR]
+Ab :20 bezieht sich die Uhrzeit auf die nächste Stunde (wie im Deutschen „halb zehn“).
+:00 <Stunde> UUR, :05 VIJF OVER, :10 TIEN OVER, :15 KWART OVER, :20 TIEN VOOR HALF,
+:25 VIJF VOOR HALF, :30 HALF, :35 VIJF OVER HALF, :40 TIEN OVER HALF, :45 KWART VOOR,
+:50 TIEN VOOR, :55 VIJF VOOR
+Beispiel: 9:30 = HET IS HALF TIEN.
+UUR nur zur vollen Stunde. 12-Stunden-Anzeige: 0 und 12 Uhr = TWAALF.
+Minutenzeile: + 1 MINUUT (Einzahl), + 2..4 MINUTEN (im Raster „MINUUTEN“: MINUUT = die ersten
+6 Felder, MINUTEN = MINU + TEN, das zweite U bleibt dunkel).
+Zusatzwörter (Schalter „HALLO tonen“): HALLO („Hallo“, Gruß).
+
+GRAMMAR (English)
+-----------------
+Sentence (standard Dutch, "half" system): HET IS [<minutes> OVER|VOOR] [HALF] <hour> [UUR]
+From :20 on the time refers to the next hour.
+:00 <hour> UUR, :05 VIJF OVER, :10 TIEN OVER, :15 KWART OVER, :20 TIEN VOOR HALF,
+:25 VIJF VOOR HALF, :30 HALF, :35 VIJF OVER HALF, :40 TIEN OVER HALF, :45 KWART VOOR,
+:50 TIEN VOOR, :55 VIJF VOOR
+Example: 9:30 = HET IS HALF TIEN (half on the way to ten).
+UUR only at the full hour. 12-hour display: 0 and 12 o'clock = TWAALF.
+Minute row: + 1 MINUUT (singular), + 2..4 MINUTEN (grid "MINUUTEN": MINUUT = the first
+6 cells, MINUTEN = MINU + TEN, the second U stays dark).
+Extra words (switch "HALLO tonen"): HALLO ("hello", greeting).
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  HET IS NEGEN UUR
+09:05  HET IS VIJF OVER NEGEN
+09:10  HET IS TIEN OVER NEGEN
+09:15  HET IS KWART OVER NEGEN
+09:20  HET IS TIEN VOOR HALF TIEN
+09:25  HET IS VIJF VOOR HALF TIEN
+09:30  HET IS HALF TIEN
+09:35  HET IS VIJF OVER HALF TIEN
+09:40  HET IS TIEN OVER HALF TIEN
+09:45  HET IS KWART VOOR TIEN
+09:50  HET IS TIEN VOOR TIEN
+09:55  HET IS VIJF VOOR TIEN
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  HET IS
+00:00  HET IS TWAALF UUR
+00:30  HET IS HALF EEN
+00:35  HET IS VIJF OVER HALF EEN
+01:00  HET IS EEN UUR
+01:05  HET IS VIJF OVER EEN
+12:00  HET IS TWAALF UUR
+12:30  HET IS HALF EEN
+13:00  HET IS EEN UUR
+09:01  HET IS NEGEN UUR + 1 MINUUT
+09:02  HET IS NEGEN UUR + 2 MINUTEN
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+··HET·IS········   ··HET·IS········   ··HET·IS········   ··HET·IS········
+················   ··VIJF··········   ················   ··VIJF··········
+················   ················   ···KWART········   ················
+················   ··VOOR··········   ··VOOR··········   ··VOOR··········
+················   ·····HALF·······   ················   ················
+················   ················   ·········TWEE···   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+········NEGEN···   ················   ················   ················
+················   ··········ELF···   ················   ················
+················   ················   ················   ···TWAALF·······
+·······UUR······   ················   ················   ················
+················   ················   ·+··2···MINU·TEN   ·+···3··MINU·TEN
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  HET IS NEGEN UUR
+10:25  HET IS VIJF VOOR HALF ELF
+13:47  HET IS KWART VOOR TWEE + 2 MINUTEN
+23:58  HET IS VIJF VOOR TWAALF + 3 MINUTEN

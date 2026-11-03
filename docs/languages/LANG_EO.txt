@@ -1,0 +1,129 @@
+Wordclock_Multi v2.0 - Esperanto (EO)
+=====================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Warszawa  (52.2297, 21.0122)
+Zeitzone / time zone:         Europe/Warsaw  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   VortHorlogo  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://vorthorlogo.local
+ESPHome: Gerät / device:      vorthorlogo (VortHorlogo), Fallback-Hotspot "VortHorlogo Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_EO.h
+                              esphome/wordclock_multi/lang/lang_EO.yaml (+ src/wc_lang_EO.h)
+                              models/lang/lang_EO.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_EO.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_EO.yaml
+                              OpenSCAD/FreeCAD: LANG = "EO"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xESTASxxDUDEKx*
+   2 *KVARONOxxKVINx*
+   3 *xxDEKxxxxPOSTx*
+   4 *xANTAŬxxxxxLAx*
+   5 *xxDEKxUNUAxDUA*
+   6 *TRIAxxxxxKVARA*
+   7 *xKVINAxxxSESAx*
+   8 *SEPAxxOKAxNAŬA*
+   9 *xxxDEKAxxKAJxx*
+  10 *xxxxDUONOxxxxx*
+  11 *xxxxxxxxxxxxxx*
+  12 *xSALUTONxMONDO*
+  13 *xxxxxxxxxxxxxx*
+  14 x+x1234xMINUTOJx
+  15 xAERUMIxxxALARMO
+  16 PILOxx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Kürzel EO (ISO-639-Sprachcode, Esperanto hat kein Hauptland). Standort Warszawa (Erstausgabe „Unua Libro“ 1887).
+Satzbau: ESTAS [<Minuten> POST | <Minuten> ANTAŬ] LA <Stunde>, zur halben Stunde ESTAS LA <Stunde> KAJ DUONO
+(ESTAS = „es ist“, POST = „nach“, ANTAŬ = „vor“, KAJ DUONO = „und eine Hälfte“, KVARONO = „Viertel“).
+Ab :35 bezieht sich die Uhrzeit auf die nächste Stunde.
+:00 ESTAS LA <Stunde>, :05 KVIN POST, :10 DEK POST, :15 KVARONO POST, :20 DUDEK POST, :25 DUDEK KVIN POST,
+:30 LA <Stunde> KAJ DUONO, :35 DUDEK KVIN ANTAŬ, :40 DUDEK ANTAŬ, :45 KVARONO ANTAŬ, :50 DEK ANTAŬ,
+:55 KVIN ANTAŬ; z. B. 3:05 ESTAS KVIN POST LA TRIA, 3:30 ESTAS LA TRIA KAJ DUONO, 3:45 ESTAS KVARONO ANTAŬ LA KVARA.
+Stunden als Ordnungszahlen (12-Stunden-Zählung, „la tria“ = „die dritte [Stunde]“): UNUA, DUA, TRIA, KVARA,
+KVINA, SESA, SEPA, OKA, NAŬA, DEKA, DEKUNUA, DEKDUA (11 und 12 aus DEK + UNUA / DUA, im Text zusammengeschrieben).
+12 und 0 Uhr = LA DEKDUA. Ohne gültige Uhrzeit leuchtet nur ESTAS.
+Minutenzeile: + 1 MINUTO / + 2..4 MINUTOJ (Mehrzahl = angehängtes J).
+Ersatzwörter: LÜFTEN = AERUMI („lüften“), ALARM = ALARMO, AKKU = PILO („Batterie, Zelle“; BATERIO zu lang).
+Zusatzwörter (Schalter „Montri SALUTON MONDO“, aus = Standard): SALUTON MONDO („Hallo Welt“).
+Sonderzeichen: Ŭ (ANTAŬ, NAŬA) ist eine Zelle (Metriken für Ĉ Ĝ Ĥ Ĵ Ŝ Ŭ in Wordclock_Model.scad).
+
+GRAMMAR (English)
+-----------------
+Code EO (ISO 639 language code, Esperanto has no main country). Location Warszawa (first "Unua Libro", 1887).
+Sentence: ESTAS [<minutes> POST | <minutes> ANTAŬ] LA <hour>, at half past ESTAS LA <hour> KAJ DUONO
+(ESTAS = "it is", POST = "after", ANTAŬ = "before", KAJ DUONO = "and a half", KVARONO = "quarter").
+From :35 on the time refers to the next hour.
+:00 ESTAS LA <hour>, :05 KVIN POST, :10 DEK POST, :15 KVARONO POST, :20 DUDEK POST, :25 DUDEK KVIN POST,
+:30 LA <hour> KAJ DUONO, :35 DUDEK KVIN ANTAŬ, :40 DUDEK ANTAŬ, :45 KVARONO ANTAŬ, :50 DEK ANTAŬ,
+:55 KVIN ANTAŬ; e.g. 3:05 ESTAS KVIN POST LA TRIA, 3:30 ESTAS LA TRIA KAJ DUONO, 3:45 ESTAS KVARONO ANTAŬ LA KVARA.
+Hours as ordinal numbers (12-hour count, "la tria" = "the third [hour]"): UNUA, DUA, TRIA, KVARA,
+KVINA, SESA, SEPA, OKA, NAŬA, DEKA, DEKUNUA, DEKDUA (11 and 12 from DEK + UNUA / DUA, written as one word).
+12:00 and 0:00 = LA DEKDUA. Without a valid time only ESTAS is lit.
+Minute row: + 1 MINUTO / + 2..4 MINUTOJ (plural = appended J).
+Substitute words: VENTILATE = AERUMI ("to air"), ALARM = ALARMO, BATTERY = PILO ("battery, cell"; BATERIO too long).
+Extra words (switch "Montri SALUTON MONDO", off by default): SALUTON MONDO ("hello world").
+Special character: Ŭ (ANTAŬ, NAŬA) is one cell (metrics for Ĉ Ĝ Ĥ Ĵ Ŝ Ŭ in Wordclock_Model.scad).
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  ESTAS LA NAŬA
+09:05  ESTAS KVIN POST LA NAŬA
+09:10  ESTAS DEK POST LA NAŬA
+09:15  ESTAS KVARONO POST LA NAŬA
+09:20  ESTAS DUDEK POST LA NAŬA
+09:25  ESTAS DUDEK KVIN POST LA NAŬA
+09:30  ESTAS LA NAŬA KAJ DUONO
+09:35  ESTAS DUDEK KVIN ANTAŬ LA DEKA
+09:40  ESTAS DUDEK ANTAŬ LA DEKA
+09:45  ESTAS KVARONO ANTAŬ LA DEKA
+09:50  ESTAS DEK ANTAŬ LA DEKA
+09:55  ESTAS KVIN ANTAŬ LA DEKA
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  ESTAS
+00:00  ESTAS LA DEKDUA
+00:30  ESTAS LA DEKDUA KAJ DUONO
+00:35  ESTAS DUDEK KVIN ANTAŬ LA UNUA
+01:00  ESTAS LA UNUA
+01:05  ESTAS KVIN POST LA UNUA
+12:00  ESTAS LA DEKDUA
+12:30  ESTAS LA DEKDUA KAJ DUONO
+13:00  ESTAS LA UNUA
+09:01  ESTAS LA NAŬA + 1 MINUTO
+09:02  ESTAS LA NAŬA + 2 MINUTOJ
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+··ESTAS·········   ··ESTAS··DUDEK··   ··ESTAS·········   ··ESTAS·········
+················   ··········KVIN··   ·KVARONO········   ··········KVIN··
+················   ··········POST··   ················   ················
+············LA··   ············LA··   ··ANTAŬ·····LA··   ··ANTAŬ·····LA··
+················   ················   ············DUA·   ···DEK······DUA·
+················   ················   ················   ················
+················   ················   ················   ················
+···········NAŬA·   ················   ················   ················
+················   ····DEKA········   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ·+··2···MINUTOJ·   ·+···3··MINUTOJ·
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  ESTAS LA NAŬA
+10:25  ESTAS DUDEK KVIN POST LA DEKA
+13:47  ESTAS KVARONO ANTAŬ LA DUA + 2 MINUTOJ
+23:58  ESTAS KVIN ANTAŬ LA DEKDUA + 3 MINUTOJ

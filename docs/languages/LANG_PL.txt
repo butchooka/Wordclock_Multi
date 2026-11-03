@@ -1,0 +1,144 @@
+Wordclock_Multi v2.0 - Polski (PL)
+==================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Warszawa  (52.2297, 21.0122)
+Zeitzone / time zone:         Europe/Warsaw  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   ZegarSlowny  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://zegarslowny.local
+ESPHome: Gerät / device:      zegarslowny (ZegarSlowny), Fallback-Hotspot "ZegarSlowny Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_PL.h
+                              esphome/wordclock_multi/lang/lang_PL.yaml (+ src/wc_lang_PL.h)
+                              models/lang/lang_PL.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_PL.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_PL.yaml
+                              OpenSCAD/FreeCAD: LANG = "PL"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *ZAxDWADZIEŚCIA*
+   2 *PIĘĆxDZIESIĘĆx*
+   3 *KWADRANSxxWPÓŁ*
+   4 *POxDOxDRUGAIEJ*
+   5 *xxPIERWSZAEJxx*
+   6 *TRZECIAEJxCZAS*
+   7 *CZWARTAEJxLECI*
+   8 *PIĄTAEJxÓSMAEJ*
+   9 *xxxSZÓSTAEJxxx*
+  10 *xxxSIÓDMAEJxxx*
+  11 *xDZIEWSIĄTAEJx*
+  12 *xxJEDENASTAEJx*
+  13 *xxDWUNASTAEJxx*
+  14 x+x1234xMINUTAYx
+  15 WIETRZxxxxxALARM
+  16 xAKUxx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau (gängige Umgangsform, 12-Stunden-Zählung, Stunden als weibliche Ordnungszahlen):
+<Minuten> PO <Stunde>[Lokativ] | WPÓŁ DO <nächste Stunde>[Genitiv] | ZA <Minuten> <nächste Stunde> |
+<Stunde>. Ohne vorangestelltes „JEST“ („es ist“) – im Polnischen ganz natürlich („Za pięć druga.“).
+Ab :30 (WPÓŁ DO = „halb zur …“) bezieht sich die Uhrzeit auf die nächste Stunde.
+:00 <Stunde>, :05 PIĘĆ PO <Stunde-Lok.>, :10 DZIESIĘĆ PO, :15 KWADRANS PO, :20 DWADZIEŚCIA PO,
+:25 DWADZIEŚCIA PIĘĆ PO, :30 WPÓŁ DO <nächste Stunde-Gen.>, :35 ZA DWADZIEŚCIA PIĘĆ <nächste Stunde>,
+:40 ZA DWADZIEŚCIA, :45 ZA KWADRANS, :50 ZA DZIESIĘĆ, :55 ZA PIĘĆ
+Beispiele: 3:05 PIĘĆ PO TRZECIEJ, 3:30 WPÓŁ DO CZWARTEJ, 3:45 ZA KWADRANS CZWARTA.
+Stunden (Nominativ / Lokativ = Genitiv): PIERWSZA/PIERWSZEJ, DRUGA/DRUGIEJ, TRZECIA/TRZECIEJ,
+CZWARTA/CZWARTEJ, PIĄTA/PIĄTEJ, SZÓSTA/SZÓSTEJ, SIÓDMA/SIÓDMEJ, ÓSMA/ÓSMEJ, DZIEWIĄTA/DZIEWIĄTEJ,
+DZIESIĄTA/DZIESIĄTEJ, JEDENASTA/JEDENASTEJ, DWUNASTA/DWUNASTEJ.
+Im Raster folgen beide Endungen dem Wortstamm (z. B. „PIERWSZAEJ“): Nominativ = Stamm + A
+(zusammenhängend), Lokativ = Stamm + EJ (eine Lücke, das A bleibt dunkel; DRUG + IEJ).
+DZIEWIĄTA und DZIESIĄTA teilen sich ein Wort „DZIEWSIĄTAEJ“: DZIEW·IĄTA bzw. DZIE·SIĄTA
+(je ein Buchstabe Lücke).
+0 und 12 Uhr = DWUNASTA. Keine Wörter für Mitternacht/Mittag.
+Ohne gültige Uhrzeit bleibt das Raster dunkel (kein Vorsatzwort).
+Minutenzeile: + 1 MINUTA, + 2..4 MINUTY (MINUT + Y, eine Lücke).
+Statuswörter: LÜFTEN = WIETRZ („lüfte!“), ALARM = ALARM, AKKU = AKU (Kurzform von „akumulator“;
+BATERIA ist mit 7 Buchstaben zu lang für die Zeile mit den 10 Balken).
+Zusatzwörter (Schalter „Pokaż CZAS LECI“): CZAS LECI („die Zeit vergeht/fliegt“).
+Sonderzeichen: Ą, Ę, Ć, Ś, Ł, Ó (Metriken für OpenSCAD in Wordclock_Model.scad vorhanden).
+
+GRAMMAR (English)
+-----------------
+Sentence (common spoken form, 12-hour counting, hours as feminine ordinal numbers):
+<minutes> PO <hour>[locative] | WPÓŁ DO <next hour>[genitive] | ZA <minutes> <next hour> |
+<hour>. Without a leading "JEST" ("it is") - quite natural in Polish ("Za pięć druga.").
+From :30 on (WPÓŁ DO = "half to ...") the time refers to the next hour.
+:00 <hour>, :05 PIĘĆ PO <hour-loc.>, :10 DZIESIĘĆ PO, :15 KWADRANS PO, :20 DWADZIEŚCIA PO,
+:25 DWADZIEŚCIA PIĘĆ PO, :30 WPÓŁ DO <next hour-gen.>, :35 ZA DWADZIEŚCIA PIĘĆ <next hour>,
+:40 ZA DWADZIEŚCIA, :45 ZA KWADRANS, :50 ZA DZIESIĘĆ, :55 ZA PIĘĆ
+Examples: 3:05 PIĘĆ PO TRZECIEJ, 3:30 WPÓŁ DO CZWARTEJ, 3:45 ZA KWADRANS CZWARTA.
+Hours (nominative / locative = genitive): PIERWSZA/PIERWSZEJ, DRUGA/DRUGIEJ, TRZECIA/TRZECIEJ,
+CZWARTA/CZWARTEJ, PIĄTA/PIĄTEJ, SZÓSTA/SZÓSTEJ, SIÓDMA/SIÓDMEJ, ÓSMA/ÓSMEJ, DZIEWIĄTA/DZIEWIĄTEJ,
+DZIESIĄTA/DZIESIĄTEJ, JEDENASTA/JEDENASTEJ, DWUNASTA/DWUNASTEJ.
+In the grid both endings follow the stem (e.g. "PIERWSZAEJ"): nominative = stem + A (contiguous),
+locative = stem + EJ (one gap, the A stays dark; DRUG + IEJ).
+DZIEWIĄTA and DZIESIĄTA share one word "DZIEWSIĄTAEJ": DZIEW·IĄTA and DZIE·SIĄTA (one letter gap each).
+0 and 12 o'clock = DWUNASTA. No words for midnight/noon.
+Without a valid time the grid stays dark (no prefix word).
+Minute row: + 1 MINUTA, + 2..4 MINUTY (MINUT + Y, one gap).
+Status words: VENTILATE = WIETRZ ("ventilate!"), ALARM = ALARM, BATTERY = AKU (short for "akumulator";
+BATERIA with 7 letters is too long for the row with the 10 bars).
+Extra words (switch "Pokaż CZAS LECI"): CZAS LECI ("time flies").
+Special letters: Ą, Ę, Ć, Ś, Ł, Ó (metrics for OpenSCAD available in Wordclock_Model.scad).
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  DZIEWIĄTA
+09:05  PIĘĆ PO DZIEWIĄTEJ
+09:10  DZIESIĘĆ PO DZIEWIĄTEJ
+09:15  KWADRANS PO DZIEWIĄTEJ
+09:20  DWADZIEŚCIA PO DZIEWIĄTEJ
+09:25  DWADZIEŚCIA PIĘĆ PO DZIEWIĄTEJ
+09:30  WPÓŁ DO DZIESIĄTEJ
+09:35  ZA DWADZIEŚCIA PIĘĆ DZIESIĄTA
+09:40  ZA DWADZIEŚCIA DZIESIĄTA
+09:45  ZA KWADRANS DZIESIĄTA
+09:50  ZA DZIESIĘĆ DZIESIĄTA
+09:55  ZA PIĘĆ DZIESIĄTA
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  
+00:00  DWUNASTA
+00:30  WPÓŁ DO PIERWSZEJ
+00:35  ZA DWADZIEŚCIA PIĘĆ PIERWSZA
+01:00  PIERWSZA
+01:05  PIĘĆ PO PIERWSZEJ
+12:00  DWUNASTA
+12:30  WPÓŁ DO PIERWSZEJ
+13:00  PIERWSZA
+09:01  DZIEWIĄTA + 1 MINUTA
+09:02  DZIEWIĄTA + 2 MINUTY
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+················   ····DWADZIEŚCIA·   ·ZA·············   ·ZA·············
+················   ·PIĘĆ···········   ················   ·PIĘĆ···········
+················   ················   ·KWADRANS·······   ················
+················   ·PO·············   ·······DRUGA····   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+··DZIEW·IĄTA····   ··DZIE·SIĄT·EJ··   ················   ················
+················   ················   ················   ················
+················   ················   ················   ···DWUNASTA·····
+················   ················   ·+··2···MINUT·Y·   ·+···3··MINUT·Y·
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  DZIEWIĄTA
+10:25  DWADZIEŚCIA PIĘĆ PO DZIESIĄTEJ
+13:47  ZA KWADRANS DRUGA + 2 MINUTY
+23:58  ZA PIĘĆ DWUNASTA + 3 MINUTY

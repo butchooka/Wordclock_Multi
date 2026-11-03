@@ -1,0 +1,78 @@
+# lang_VA.yaml - Wordclock 16x16, ESPHome language package VA (Latina), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_VA.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: VA
+  name: horologium
+  friendly_name: Horologium
+  ap_ssid: Horologium Fallback
+  timezone: Europe/Rome
+  latitude: "41.903°"           # Città del Vaticano
+  longitude: "12.453°"
+  extra_hidden: "false"         # language has extra words (ROMANI ITE DOMUM), switch shown
+
+  # entity names
+  t_br_day: Claritas diei
+  t_br_night: Claritas noctis
+  t_cur_limit: Limes currentis
+  t_night_start: Translatio initii noctis
+  t_night_end: Translatio finis noctis
+  t_night_mode: Modus nocturnus
+  nm_mix: Mixtus
+  nm_sun: Situs solis
+  nm_fixed: Tempora fixa
+  t_night_not_before: Nox non ante
+  t_night_not_after: Nox non post
+  t_night_from: Nox ab
+  t_night_until: Nox usque ad
+  t_fx_dur: Duratio effectus
+  t_blink_cycle: Cyclus micationis
+  t_tin_min: Temperatura interna min
+  t_tin_max: Temperatura interna max
+  t_tout_min: Temperatura externa min
+  t_tout_max: Temperatura externa max
+  t_col_time: Color horae
+  t_col_vent: Color VENTILA
+  t_col_alarm: Color MONITUM
+  t_col_battery: Color VIGOR
+  t_col_tout: Color temperaturae externae
+  t_col_tin: Color temperaturae internae
+  t_sw_temp: Ostende temperaturam
+  t_sw_min: Ostende minuta singula
+  t_sw_alarm: Ostende monitum
+  t_sw_vent: Ostende ventila
+  t_sw_battery: Ostende accumulatrum
+  t_sw_extra: Ostende ROMANI ITE DOMUM
+  t_fx: Effectus
+  t_fx_color: Color effectus
+  t_fx_start: Incipe effectum
+  t_fx_stop: Siste effectum
+  t_text: Textus currens
+  t_text_start: Textum ostende
+
+  # colour options (palette order, never change the order)
+  c_0: Album calidum
+  c_1: Album
+  c_2: Rubrum
+  c_3: Aurantium
+  c_4: Flavum
+  c_5: Viride
+  c_6: Caeruleum
+  c_7: Violaceum
+  c_random: Fortuitus
+  c_temp: Temperatura
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: Arcus caelestis
+  fx_aurora: Aurora
+  fx_matrix: Matrix
+  fx_fire: Ignis
+  fx_confetti: Confetti
+  fx_stars: Caelum stellatum
+  fx_blink: Micatio
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_VA.h

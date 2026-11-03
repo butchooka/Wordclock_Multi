@@ -1,0 +1,143 @@
+Wordclock_Multi v2.0 - 한국어 (KR)
+===============================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Seoul  (37.5665, 126.9780)
+Zeitzone / time zone:         Asia/Seoul  (POSIX KST-9)
+Arduino: Hotspot / hotspot:   GeuljaSigye  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://geuljasigye.local
+ESPHome: Gerät / device:      geuljasigye (GeuljaSigye), Fallback-Hotspot "GeuljaSigye Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_KR.h
+                              esphome/wordclock_multi/lang/lang_KR.yaml (+ src/wc_lang_KR.h)
+                              models/lang/lang_KR.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_KR.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_KR.yaml
+                              OpenSCAD/FreeCAD: LANG = "KR"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xx지금은xxx오전x오후x*
+   2 *xx자정xxxxxx정오xx*
+   3 *xx한xx두xx세xx네xx*
+   4 *xx다섯xxxxxx여섯xx*
+   5 *xx일곱xxxxxx여덟xx*
+   6 *xx아홉xxxxxx열xxx*
+   7 *xx열한xxxxxx열두xx*
+   8 *xxxxx시xxx반xxxx*
+   9 *xx이xx삼xx사xx오xx*
+  10 *xxxx십xxxx오xxxx*
+  11 *xxxxxxx분xxxxxx*
+  12 *xxxxx입니다xxxxxx*
+  13 *xxx시간은xx금이다xxx*
+  14 x+x1234xx분xxxxxx
+  15 xxx환기xxxxxx알람xxx
+  16 x배터리xx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau (Standardform, 12-Stunden-Zählung mit 오전/오후, immer auf die laufende Stunde bezogen):
+지금은 [오전 | 오후] <Stunde> 시 [<Minuten> 분 | 반]입니다 („jetzt ist es [vormittags | nachmittags] … Uhr …“).
+Die Stunde zählt koreanisch (한, 두, 세 …), die Minuten sinokoreanisch (오, 십, 이십 …); es gibt keinen Bezug
+auf die nächste Stunde („vor“) und keine Viertel. :30 = 반 („halb“, nachgestellt: 세 시 반 = 3:30).
+:00 <Stunde> 시, :05 <Stunde> 시 오 분, :10 십 분, :15 십오 분, :20 이십 분, :25 이십오 분, :30 반,
+:35 삼십오 분, :40 사십 분, :45 사십오 분, :50 오십 분, :55 오십오 분
+Die Minutenzahlen werden aus Zehnerziffer (이, 삼, 사, 오) + 십 + Einer 오 zusammengesetzt (im Text ohne
+Leerzeichen: 이십오). 입니다 („ist“) hängt ohne Leerzeichen am letzten Wort (분입니다, 시입니다, 반입니다).
+Beispiele: 3:05 지금은 오전 세 시 오 분입니다, 15:30 지금은 오후 세 시 반입니다,
+21:55 지금은 오후 아홉 시 오십오 분입니다.
+Stunden: 한, 두, 세, 네, 다섯, 여섯, 일곱, 여덟, 아홉, 열, 열한, 열두 (Kurzformen vor 시).
+오전 („vormittags“) 0:05-11:59, 오후 („nachmittags“) 12:05-23:59; 0 und 12 Uhr = 열두 시.
+Sonderfälle: 0:00-0:04 지금은 자정입니다 = „Mitternacht“, 12:00-12:04 지금은 정오입니다 = „Mittag“
+(ohne 오전/오후 und ohne 시).
+Ohne gültige Uhrzeit leuchtet nur 지금은.
+Minutenzeile: + 1..4 분 (im Koreanischen keine Mehrzahl; im Text „+ 2분“).
+Statuswörter: LÜFTEN = 환기 („Lüftung“), ALARM = 알람, AKKU = 배터리 („Batterie“).
+Zusatzwörter (Schalter „'시간은 금이다' 표시“): 시간은 금이다 („Zeit ist Gold“, Sprichwort).
+Schrift: Hangul-Silben (je eine Silbe = ein Feld) mit eigener Schrift Noto Sans KR Bold (lang_KR.scad);
+die Zeichen werden nur grob zentriert (keine Metriken). Füllfelder als Punkt (lang_KR.scad: Feld 6 = dot, gilt mit FILLER = auto).
+Offen (Testdruck): die strichreichen Silben 덟 (여덟) und 섯 (다섯, 여섯) bei 7 mm auf zugelaufene Lücken prüfen.
+
+GRAMMAR (English)
+-----------------
+Sentence (standard form, 12-hour counting with 오전/오후, always refers to the current hour):
+지금은 [오전 | 오후] <hour> 시 [<minutes> 분 | 반]입니다 ("now it is [a.m. | p.m.] … o'clock …").
+Hours use native Korean numbers (한, 두, 세 …), minutes Sino-Korean numbers (오, 십, 이십 …); there is no
+reference to the next hour ("to") and no quarters. :30 = 반 ("half", after the hour: 세 시 반 = 3:30).
+:00 <hour> 시, :05 <hour> 시 오 분, :10 십 분, :15 십오 분, :20 이십 분, :25 이십오 분, :30 반,
+:35 삼십오 분, :40 사십 분, :45 사십오 분, :50 오십 분, :55 오십오 분
+The minute numbers are made of the tens digit (이, 삼, 사, 오) + 십 + unit 오 (in the text without spaces:
+이십오). 입니다 ("is") is attached to the last word without a space (분입니다, 시입니다, 반입니다).
+Examples: 3:05 지금은 오전 세 시 오 분입니다, 15:30 지금은 오후 세 시 반입니다,
+21:55 지금은 오후 아홉 시 오십오 분입니다.
+Hours: 한, 두, 세, 네, 다섯, 여섯, 일곱, 여덟, 아홉, 열, 열한, 열두 (short forms before 시).
+오전 ("a.m.") 0:05-11:59, 오후 ("p.m.") 12:05-23:59; 0 and 12 o'clock = 열두 시.
+Special cases: 0:00-0:04 지금은 자정입니다 = "midnight", 12:00-12:04 지금은 정오입니다 = "noon"
+(without 오전/오후 and without 시).
+Without a valid time only 지금은 is lit.
+Minute row: + 1..4 분 (Korean has no plural; in the text "+ 2분").
+Status words: VENTILATE = 환기 ("ventilation"), ALARM = 알람, BATTERY = 배터리.
+Extra words (switch "'시간은 금이다' 표시"): 시간은 금이다 ("time is gold", proverb).
+Font: Hangul syllables (one syllable = one cell) with the own font Noto Sans KR Bold (lang_KR.scad);
+the characters are only roughly centred (no metrics). Fillers as dots (lang_KR.scad: field 6 = dot, used with FILLER = auto).
+Open (test print): check the stroke-rich syllables 덟 (여덟) and 섯 (다섯, 여섯) at 7 mm for closed gaps.
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  지금은 오전 아홉 시입니다
+09:05  지금은 오전 아홉 시 오 분입니다
+09:10  지금은 오전 아홉 시 십 분입니다
+09:15  지금은 오전 아홉 시 십오 분입니다
+09:20  지금은 오전 아홉 시 이십 분입니다
+09:25  지금은 오전 아홉 시 이십오 분입니다
+09:30  지금은 오전 아홉 시 반입니다
+09:35  지금은 오전 아홉 시 삼십오 분입니다
+09:40  지금은 오전 아홉 시 사십 분입니다
+09:45  지금은 오전 아홉 시 사십오 분입니다
+09:50  지금은 오전 아홉 시 오십 분입니다
+09:55  지금은 오전 아홉 시 오십오 분입니다
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  지금은
+00:00  지금은 자정입니다
+00:30  지금은 오전 열두 시 반입니다
+00:35  지금은 오전 열두 시 삼십오 분입니다
+01:00  지금은 오전 한 시입니다
+01:05  지금은 오전 한 시 오 분입니다
+12:00  지금은 정오입니다
+12:30  지금은 오후 열두 시 반입니다
+13:00  지금은 오후 한 시입니다
+09:01  지금은 오전 아홉 시입니다 + 1분
+09:02  지금은 오전 아홉 시입니다 + 2분
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+···지금은···오전·····   ···지금은···오전·····   ···지금은······오후··   ···지금은······오후··
+················   ················   ················   ················
+················   ················   ···한············   ················
+················   ················   ················   ················
+················   ················   ················   ················
+···아홉···········   ···········열····   ················   ················
+················   ················   ················   ···열한···········
+······시·········   ······시·········   ······시·········   ······시·········
+················   ···이············   ·········사······   ············오···
+················   ·····십····오·····   ·····십····오·····   ·····십····오·····
+················   ········분·······   ········분·······   ········분·······
+······입니다·······   ······입니다·······   ······입니다·······   ······입니다·······
+················   ················   ················   ················
+················   ················   ·+··2····분······   ·+···3···분······
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  지금은 오전 아홉 시입니다
+10:25  지금은 오전 열 시 이십오 분입니다
+13:47  지금은 오후 한 시 사십오 분입니다 + 2분
+23:58  지금은 오후 열한 시 오십오 분입니다 + 3분

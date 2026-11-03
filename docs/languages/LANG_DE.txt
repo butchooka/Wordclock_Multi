@@ -1,0 +1,119 @@
+Wordclock_Multi v2.0 - Deutsch (DE)
+===================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v2.0 (getestet / tested)
+Hauptstadt / capital:         Berlin  (52.5200, 13.4050)
+Zeitzone / time zone:         Europe/Berlin  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   Wortuhr  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://wortuhr.local
+ESPHome: Gerät / device:      wortuhr (Wortuhr), Fallback-Hotspot "Wortuhr Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_DE.h
+                              esphome/wordclock_multi/lang/lang_DE.yaml (+ src/wc_lang_DE.h)
+                              models/lang/lang_DE.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_DE.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_DE.yaml
+                              OpenSCAD/FreeCAD: LANG = "DE"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xxxxESxISTxxxx*
+   2 *xxFÜNFxZEHNxxx*
+   3 *xxxZWANZIGxxxx*
+   4 *xxxVIERTELxxxx*
+   5 *xxVORxxxNACHxx*
+   6 *xxxxxHALBxxxxx*
+   7 *xxEINSxxZWEIxx*
+   8 *xxDREIxxVIERxx*
+   9 *xFÜNFxxSECHSxx*
+  10 *xSIEBENxxACHTx*
+  11 *xxNEUNxxZEHNxx*
+  12 *xxELFxxZWÖLFxx*
+  13 *xxxxxUHRxHALLO*
+  14 x+x1234xMINUTENx
+  15 xxLÜFTENxALARMxx
+  16 xAKKUx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau: ES IST [<Minuten> NACH|VOR] [HALB] <Stunde> [UHR]
+Ab :25 („fünf vor halb“) bezieht sich die Uhrzeit auf die nächste Stunde.
+:00 <Stunde> UHR, :05 FÜNF NACH, :10 ZEHN NACH, :15 VIERTEL NACH, :20 ZWANZIG NACH,
+:25 FÜNF VOR HALB, :30 HALB, :35 FÜNF NACH HALB, :40 ZWANZIG VOR, :45 VIERTEL VOR,
+:50 ZEHN VOR, :55 FÜNF VOR
+Sonderfall: volle Stunde 1 Uhr = EIN UHR (nicht EINS UHR), sonst EINS (z. B. FÜNF NACH EINS).
+12-Stunden-Anzeige: 0 und 12 Uhr = ZWÖLF. UHR nur zur vollen Stunde.
+Minutenzeile: + 1 MINUTE (Einzahl), + 2..4 MINUTEN.
+Zusatzwörter (Schalter „HALLO anzeigen“): HALLO („Hallo“, Gruß).
+
+GRAMMAR (English)
+-----------------
+Sentence: ES IST [<minutes> NACH|VOR] [HALB] <hour> [UHR]
+From :25 ("five to half") on the time refers to the next hour.
+:00 <hour> UHR, :05 FÜNF NACH, :10 ZEHN NACH, :15 VIERTEL NACH, :20 ZWANZIG NACH,
+:25 FÜNF VOR HALB, :30 HALB, :35 FÜNF NACH HALB, :40 ZWANZIG VOR, :45 VIERTEL VOR,
+:50 ZEHN VOR, :55 FÜNF VOR
+Special case: full hour 1 o'clock = EIN UHR (not EINS UHR), otherwise EINS (e.g. FÜNF NACH EINS).
+12-hour display: 0 and 12 o'clock = ZWÖLF. UHR only at the full hour.
+Minute row: + 1 MINUTE (singular), + 2..4 MINUTEN.
+Extra words (switch "HALLO anzeigen"): HALLO ("hello", greeting).
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  ES IST NEUN UHR
+09:05  ES IST FÜNF NACH NEUN
+09:10  ES IST ZEHN NACH NEUN
+09:15  ES IST VIERTEL NACH NEUN
+09:20  ES IST ZWANZIG NACH NEUN
+09:25  ES IST FÜNF VOR HALB ZEHN
+09:30  ES IST HALB ZEHN
+09:35  ES IST FÜNF NACH HALB ZEHN
+09:40  ES IST ZWANZIG VOR ZEHN
+09:45  ES IST VIERTEL VOR ZEHN
+09:50  ES IST ZEHN VOR ZEHN
+09:55  ES IST FÜNF VOR ZEHN
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  ES IST
+00:00  ES IST ZWÖLF UHR
+00:30  ES IST HALB EINS
+00:35  ES IST FÜNF NACH HALB EINS
+01:00  ES IST EIN UHR
+01:05  ES IST FÜNF NACH EINS
+12:00  ES IST ZWÖLF UHR
+12:30  ES IST HALB EINS
+13:00  ES IST EIN UHR
+09:01  ES IST NEUN UHR + 1 MINUTE
+09:02  ES IST NEUN UHR + 2 MINUTEN
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+·····ES·IST·····   ·····ES·IST·····   ·····ES·IST·····   ·····ES·IST·····
+················   ···FÜNF·········   ················   ···FÜNF·········
+················   ················   ················   ················
+················   ················   ····VIERTEL·····   ················
+················   ···VOR··········   ···VOR··········   ···VOR··········
+················   ······HALB······   ················   ················
+················   ················   ·········ZWEI···   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+···NEUN·········   ················   ················   ················
+················   ···ELF··········   ················   ········ZWÖLF···
+······UHR·······   ················   ················   ················
+················   ················   ·+··2···MINUTEN·   ·+···3··MINUTEN·
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  ES IST NEUN UHR
+10:25  ES IST FÜNF VOR HALB ELF
+13:47  ES IST VIERTEL VOR ZWEI + 2 MINUTEN
+23:58  ES IST FÜNF VOR ZWÖLF + 3 MINUTEN

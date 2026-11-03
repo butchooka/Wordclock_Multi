@@ -1,0 +1,78 @@
+# lang_ES.yaml - Wordclock 16x16, ESPHome language package ES (Español), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_ES.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: ES
+  name: reloj
+  friendly_name: Reloj
+  ap_ssid: Reloj Fallback
+  timezone: Europe/Madrid
+  latitude: "40.417°"           # Madrid
+  longitude: "-3.704°"
+  extra_hidden: "false"         # language has extra words (HOLA), switch shown
+
+  # entity names
+  t_br_day: Brillo de día
+  t_br_night: Brillo de noche
+  t_cur_limit: Límite de corriente
+  t_night_start: Desfase inicio de noche
+  t_night_end: Desfase fin de noche
+  t_night_mode: Modo noche
+  nm_mix: Mixto
+  nm_sun: Posición del sol
+  nm_fixed: Horas fijas
+  t_night_not_before: Noche no antes de
+  t_night_not_after: Noche no después de
+  t_night_from: Noche desde
+  t_night_until: Noche hasta
+  t_fx_dur: Duración del efecto
+  t_blink_cycle: Ciclo de parpadeo
+  t_tin_min: Temperatura interior mín
+  t_tin_max: Temperatura interior máx
+  t_tout_min: Temperatura exterior mín
+  t_tout_max: Temperatura exterior máx
+  t_col_time: Color hora
+  t_col_vent: Color VENTILAR
+  t_col_alarm: Color ALARMA
+  t_col_battery: Color BAT
+  t_col_tout: Color temperatura exterior
+  t_col_tin: Color temperatura interior
+  t_sw_temp: Mostrar temperatura
+  t_sw_min: Mostrar minutos sueltos
+  t_sw_alarm: Mostrar alarma
+  t_sw_vent: Mostrar ventilar
+  t_sw_battery: Mostrar batería
+  t_sw_extra: Mostrar HOLA
+  t_fx: Efecto
+  t_fx_color: Color del efecto
+  t_fx_start: Iniciar efecto
+  t_fx_stop: Parar efecto
+  t_text: Texto
+  t_text_start: Mostrar texto
+
+  # colour options (palette order, never change the order)
+  c_0: Blanco cálido
+  c_1: Blanco
+  c_2: Rojo
+  c_3: Naranja
+  c_4: Amarillo
+  c_5: Verde
+  c_6: Azul
+  c_7: Violeta
+  c_random: Aleatorio
+  c_temp: Temperatura
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: Arcoíris
+  fx_aurora: Aurora
+  fx_matrix: Matrix
+  fx_fire: Fuego
+  fx_confetti: Confeti
+  fx_stars: Cielo estrellado
+  fx_blink: Parpadeo
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_ES.h

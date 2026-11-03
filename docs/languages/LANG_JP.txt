@@ -1,0 +1,142 @@
+Wordclock_Multi v2.0 - 日本語 (JP)
+===============================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Tokyo  (35.6762, 139.6503)
+Zeitzone / time zone:         Asia/Tokyo  (POSIX JST-9)
+Arduino: Hotspot / hotspot:   MojiDokei  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://mojidokei.local
+ESPHome: Gerät / device:      mojidokei (MojiDokei), Fallback-Hotspot "MojiDokei Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_JP.h
+                              esphome/wordclock_multi/lang/lang_JP.yaml (+ src/wc_lang_JP.h)
+                              models/lang/lang_JP.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_JP.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_JP.yaml
+                              OpenSCAD/FreeCAD: LANG = "JP"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xx今はxx正午前x午後xx*
+   2 *xx零xxx一xxx二xxx*
+   3 *xx三xxx四xxx五xxx*
+   4 *xx六xxx七xxx八xxx*
+   5 *xx九xxx十一xxxxxx*
+   6 *xxxxx時xxx半xxxx*
+   7 *xx二xx三xx四xx五xx*
+   8 *xxxx十xxxx五xxxx*
+   9 *xxxxxxx分xxxxxx*
+  10 *xxxxxちょうどxxxxx*
+  11 *xxxxxxですxxxxxx*
+  12 *xxxxx時はxxxxxxx*
+  13 *xxxxxxx金なりxxxx*
+  14 x+x1234xx分xxxxxx
+  15 xxx換気xxxxアラームxxx
+  16 x電池xxx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau (Standardform wie bei Zeitansagen, 12-Stunden-Zählung mit 午前/午後, immer auf die laufende Stunde):
+今は [午前 | 午後] <Stunde>時 [<Minuten>分 | 半] [ちょうど]です („jetzt ist es [vormittags | nachmittags] … Uhr …“).
+Stunden und Minuten werden mit Kanji-Zahlen geschrieben; es gibt keinen Bezug auf die nächste Stunde
+(die Form „… 分前“ = „vor“ ist umgangssprachlich und wird nicht verwendet) und keine Viertel.
+:30 = 半 („halb“, nachgestellt: 三時半 = 3:30).
+:00 <Stunde>時ちょうど, :05 <Stunde>時五分, :10 十分, :15 十五分, :20 二十分, :25 二十五分, :30 半,
+:35 三十五分, :40 四十分, :45 四十五分, :50 五十分, :55 五十五分
+Die Minutenzahlen werden aus Zehnerziffer (二, 三, 四, 五) + 十 + Einer 五 zusammengesetzt.
+ちょうど („genau“) leuchtet nur zur vollen Minute :00, bei :01-:04 steht <Stunde>時です + Einzelminuten.
+Japanisch schreibt ohne Leerzeichen; der Text wird ohne Leerzeichen zusammengesetzt (nur vor „+ 2分“).
+Beispiele: 3:00 今は午前三時ちょうどです, 3:05 今は午前三時五分です, 15:30 今は午後三時半です,
+21:55 今は午後九時五十五分です.
+Stunden: 零, 一, 二, 三, 四, 五, 六, 七, 八, 九, 十, 十一 (Zählung 0-11 wie bei NHK und Bahn:
+0:05 = 午前零時五分, 12:05 = 午後零時五分). 午前 („vormittags“) 0:00-11:59, 午後 („nachmittags“) 12:05-23:59.
+Sonderfall: 12:00-12:04 今は正午です = „Mittag“ (ohne 午後, 時 und ちょうど). 0:00 = 今は午前零時ちょうどです.
+Ohne gültige Uhrzeit leuchtet nur 今は.
+Minutenzeile: + 1..4 分 (im Japanischen keine Mehrzahl; im Text „+ 2分“).
+Statuswörter: LÜFTEN = 換気 („Lüftung“), ALARM = アラーム, AKKU = 電池 („Batterie“).
+Zusatzwörter (Schalter „「時は金なり」を表示“): 時は金なり („Zeit ist Geld“, Sprichwort).
+Schrift: Kanji, Hiragana und Katakana (je ein Zeichen = ein Feld) mit eigener Schrift Noto Sans JP Bold
+(lang_JP.scad); die Zeichen werden nur grob zentriert (keine Metriken). Füllfelder als Punkt (lang_JP.scad: Feld 6 = dot, gilt mit FILLER = auto).
+
+GRAMMAR (English)
+-----------------
+Sentence (standard form as in time announcements, 12-hour counting with 午前/午後, always the current hour):
+今は [午前 | 午後] <hour>時 [<minutes>分 | 半] [ちょうど]です ("now it is [a.m. | p.m.] … o'clock …").
+Hours and minutes are written with kanji numbers; there is no reference to the next hour (the form
+"… 分前" = "to" is colloquial and not used) and no quarters. :30 = 半 ("half", after the hour: 三時半 = 3:30).
+:00 <hour>時ちょうど, :05 <hour>時五分, :10 十分, :15 十五分, :20 二十分, :25 二十五分, :30 半,
+:35 三十五分, :40 四十分, :45 四十五分, :50 五十分, :55 五十五分
+The minute numbers are made of the tens digit (二, 三, 四, 五) + 十 + unit 五.
+ちょうど ("exactly") is lit only at the full minute :00, at :01-:04 it reads <hour>時です + single minutes.
+Japanese is written without spaces; the text is joined without spaces (only before "+ 2分").
+Examples: 3:00 今は午前三時ちょうどです, 3:05 今は午前三時五分です, 15:30 今は午後三時半です,
+21:55 今は午後九時五十五分です.
+Hours: 零, 一, 二, 三, 四, 五, 六, 七, 八, 九, 十, 十一 (counting 0-11 as used by NHK and the railways:
+0:05 = 午前零時五分, 12:05 = 午後零時五分). 午前 ("a.m.") 0:00-11:59, 午後 ("p.m.") 12:05-23:59.
+Special case: 12:00-12:04 今は正午です = "noon" (without 午後, 時 and ちょうど). 0:00 = 今は午前零時ちょうどです.
+Without a valid time only 今は is lit.
+Minute row: + 1..4 分 (Japanese has no plural; in the text "+ 2分").
+Status words: VENTILATE = 換気 ("ventilation"), ALARM = アラーム, BATTERY = 電池.
+Extra words (switch "「時は金なり」を表示"): 時は金なり ("time is money", proverb).
+Font: kanji, hiragana and katakana (one character = one cell) with the own font Noto Sans JP Bold
+(lang_JP.scad); the characters are only roughly centred (no metrics). Fillers as dots (lang_JP.scad: field 6 = dot, used with FILLER = auto).
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  今は午前九時ちょうどです
+09:05  今は午前九時五分です
+09:10  今は午前九時十分です
+09:15  今は午前九時十五分です
+09:20  今は午前九時二十分です
+09:25  今は午前九時二十五分です
+09:30  今は午前九時半です
+09:35  今は午前九時三十五分です
+09:40  今は午前九時四十分です
+09:45  今は午前九時四十五分です
+09:50  今は午前九時五十分です
+09:55  今は午前九時五十五分です
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  今は
+00:00  今は午前零時ちょうどです
+00:30  今は午前零時半です
+00:35  今は午前零時三十五分です
+01:00  今は午前一時ちょうどです
+01:05  今は午前一時五分です
+12:00  今は正午です
+12:30  今は午後零時半です
+13:00  今は午後一時ちょうどです
+09:01  今は午前九時です + 1分
+09:02  今は午前九時です + 2分
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+···今は···午前······   ···今は···午前······   ···今は······午後···   ···今は······午後···
+················   ················   ·······一········   ················
+················   ················   ················   ················
+················   ················   ················   ················
+···九············   ·······十········   ················   ·······十一·······
+······時·········   ······時·········   ······時·········   ······時·········
+················   ···二············   ·········四······   ············五···
+················   ·····十····五·····   ·····十····五·····   ·····十····五·····
+················   ········分·······   ········分·······   ········分·······
+······ちょうど······   ················   ················   ················
+·······です·······   ·······です·······   ·······です·······   ·······です·······
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ·+··2····分······   ·+···3···分······
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  今は午前九時ちょうどです
+10:25  今は午前十時二十五分です
+13:47  今は午後一時四十五分です + 2分
+23:58  今は午後十一時五十五分です + 3分

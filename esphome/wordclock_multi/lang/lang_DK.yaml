@@ -1,0 +1,78 @@
+# lang_DK.yaml - Wordclock 16x16, ESPHome language package DK (Dansk), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_DK.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: DK
+  name: ordur
+  friendly_name: Ordur
+  ap_ssid: Ordur Fallback
+  timezone: Europe/Copenhagen
+  latitude: "55.676°"      # København
+  longitude: "12.568°"
+  extra_hidden: "false"         # language has extra words (HEJ), switch shown
+
+  # entity names
+  t_br_day: Lysstyrke dag
+  t_br_night: Lysstyrke nat
+  t_cur_limit: Strømgrænse
+  t_night_start: Forskydning nattens start
+  t_night_end: Forskydning nattens slut
+  t_night_mode: Nattilstand
+  nm_mix: Blandet
+  nm_sun: Solens stilling
+  nm_fixed: Faste tider
+  t_night_not_before: Nat ikke før
+  t_night_not_after: Nat ikke efter
+  t_night_from: Nat fra
+  t_night_until: Nat til
+  t_fx_dur: Effektvarighed
+  t_blink_cycle: Blinkcyklus
+  t_tin_min: Temperatur inde min
+  t_tin_max: Temperatur inde max
+  t_tout_min: Temperatur ude min
+  t_tout_max: Temperatur ude max
+  t_col_time: Farve tid
+  t_col_vent: Farve UDLUFTE
+  t_col_alarm: Farve ALARM
+  t_col_battery: Farve BATT
+  t_col_tout: Farve temperatur ude
+  t_col_tin: Farve temperatur inde
+  t_sw_temp: Vis temperatur
+  t_sw_min: Vis enkelte minutter
+  t_sw_alarm: Vis alarm
+  t_sw_vent: Vis udluftning
+  t_sw_battery: Vis batteri
+  t_sw_extra: Vis HEJ
+  t_fx: Effekt
+  t_fx_color: Effektfarve
+  t_fx_start: Start effekt
+  t_fx_stop: Stop effekt
+  t_text: Rulletekst
+  t_text_start: Vis tekst
+
+  # colour options (palette order, never change the order)
+  c_0: Varmhvid
+  c_1: Hvid
+  c_2: Rød
+  c_3: Orange
+  c_4: Gul
+  c_5: Grøn
+  c_6: Blå
+  c_7: Violet
+  c_random: Tilfældig
+  c_temp: Temperatur
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: Regnbue
+  fx_aurora: Nordlys
+  fx_matrix: Matrix
+  fx_fire: Ild
+  fx_confetti: Konfetti
+  fx_stars: Stjernehimmel
+  fx_blink: Blink
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_DK.h

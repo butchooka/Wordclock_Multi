@@ -1,0 +1,78 @@
+# lang_TZ.yaml - Wordclock 16x16, ESPHome language package TZ (Kiswahili), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_TZ.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: TZ
+  name: saamaneno
+  friendly_name: SaaManeno
+  ap_ssid: SaaManeno Fallback
+  timezone: Africa/Dar_es_Salaam
+  latitude: "-6.163°"           # Dodoma
+  longitude: "35.752°"
+  extra_hidden: "false"         # language has extra words (HAKUNA MATATA), switch shown
+
+  # entity names
+  t_br_day: Mwangaza mchana
+  t_br_night: Mwangaza usiku
+  t_cur_limit: Kikomo cha mkondo
+  t_night_start: Tofauti ya mwanzo wa usiku
+  t_night_end: Tofauti ya mwisho wa usiku
+  t_night_mode: Hali ya usiku
+  nm_mix: Mchanganyiko
+  nm_sun: Mahali pa jua
+  nm_fixed: Nyakati maalum
+  t_night_not_before: Usiku si kabla ya
+  t_night_not_after: Usiku si baada ya
+  t_night_from: Usiku kuanzia
+  t_night_until: Usiku hadi
+  t_fx_dur: Muda wa madoido
+  t_blink_cycle: Mzunguko wa kumulika
+  t_tin_min: Joto la ndani chini
+  t_tin_max: Joto la ndani juu
+  t_tout_min: Joto la nje chini
+  t_tout_max: Joto la nje juu
+  t_col_time: Rangi ya muda
+  t_col_vent: Rangi ya HEWA
+  t_col_alarm: Rangi ya KENGELE
+  t_col_battery: Rangi ya BETRI
+  t_col_tout: Rangi ya joto la nje
+  t_col_tin: Rangi ya joto la ndani
+  t_sw_temp: Onyesha joto
+  t_sw_min: Onyesha dakika moja moja
+  t_sw_alarm: Onyesha kengele
+  t_sw_vent: Onyesha hewa
+  t_sw_battery: Onyesha betri
+  t_sw_extra: Onyesha HAKUNA MATATA
+  t_fx: Madoido
+  t_fx_color: Rangi ya madoido
+  t_fx_start: Anzisha madoido
+  t_fx_stop: Simamisha madoido
+  t_text: Maandishi
+  t_text_start: Onyesha maandishi
+
+  # colour options (palette order, never change the order)
+  c_0: Nyeupe ya joto
+  c_1: Nyeupe
+  c_2: Nyekundu
+  c_3: Chungwa
+  c_4: Njano
+  c_5: Kijani
+  c_6: Buluu
+  c_7: Zambarau
+  c_random: Nasibu
+  c_temp: Joto
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: Upinde wa mvua
+  fx_aurora: Aurora
+  fx_matrix: Matrix
+  fx_fire: Moto
+  fx_confetti: Konfeti
+  fx_stars: Anga la nyota
+  fx_blink: Kumulika
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_TZ.h

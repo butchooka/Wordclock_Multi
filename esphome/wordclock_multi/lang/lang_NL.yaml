@@ -1,0 +1,78 @@
+# lang_NL.yaml - Wordclock 16x16, ESPHome language package NL (Nederlands), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_NL.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: NL
+  name: woordklok
+  friendly_name: Woordklok
+  ap_ssid: Woordklok Fallback
+  timezone: Europe/Amsterdam
+  latitude: "52.368°"           # Amsterdam
+  longitude: "4.904°"
+  extra_hidden: "false"         # language has extra words (HALLO), switch shown
+
+  # entity names
+  t_br_day: Helderheid dag
+  t_br_night: Helderheid nacht
+  t_cur_limit: Stroomlimiet
+  t_night_start: Verschuiving begin nacht
+  t_night_end: Verschuiving einde nacht
+  t_night_mode: Nachtmodus
+  nm_mix: Gemengd
+  nm_sun: Zonnestand
+  nm_fixed: Vaste tijden
+  t_night_not_before: Nacht niet vóór
+  t_night_not_after: Nacht niet na
+  t_night_from: Nacht vanaf
+  t_night_until: Nacht tot
+  t_fx_dur: Effectduur
+  t_blink_cycle: Knippercyclus
+  t_tin_min: Temperatuur binnen min
+  t_tin_max: Temperatuur binnen max
+  t_tout_min: Temperatuur buiten min
+  t_tout_max: Temperatuur buiten max
+  t_col_time: Kleur tijd
+  t_col_vent: Kleur LUCHTEN
+  t_col_alarm: Kleur ALARM
+  t_col_battery: Kleur ACCU
+  t_col_tout: Kleur temperatuur buiten
+  t_col_tin: Kleur temperatuur binnen
+  t_sw_temp: Temperatuur tonen
+  t_sw_min: Losse minuten tonen
+  t_sw_alarm: Alarm tonen
+  t_sw_vent: Luchten tonen
+  t_sw_battery: Accu tonen
+  t_sw_extra: HALLO tonen
+  t_fx: Effect
+  t_fx_color: Effectkleur
+  t_fx_start: Effect starten
+  t_fx_stop: Effect stoppen
+  t_text: Lichtkrant
+  t_text_start: Tekst starten
+
+  # colour options (palette order, never change the order)
+  c_0: Warm wit
+  c_1: Wit
+  c_2: Rood
+  c_3: Oranje
+  c_4: Geel
+  c_5: Groen
+  c_6: Blauw
+  c_7: Violet
+  c_random: Willekeurig
+  c_temp: Temperatuur
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: Regenboog
+  fx_aurora: Noorderlicht
+  fx_matrix: Matrix
+  fx_fire: Vuur
+  fx_confetti: Confetti
+  fx_stars: Sterrenhemel
+  fx_blink: Knipperen
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_NL.h

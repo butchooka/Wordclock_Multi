@@ -1,0 +1,129 @@
+Wordclock_Multi v2.0 - Bahasa Indonesia (ID)
+============================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Jakarta  (-6.2088, 106.8456)
+Zeitzone / time zone:         Asia/Jakarta  (POSIX WIB-7)
+Arduino: Hotspot / hotspot:   JamKata  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://jamkata.local
+ESPHome: Gerät / device:      jamkata (JamKata), Fallback-Hotspot "JamKata Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_ID.h
+                              esphome/wordclock_multi/lang/lang_ID.yaml (+ src/wc_lang_ID.h)
+                              models/lang/lang_ID.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_ID.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_ID.yaml
+                              OpenSCAD/FreeCAD: LANG = "ID"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *SEKARANGxxxJAM*
+   2 *SETENGAHxxSATU*
+   3 *DUAxTIGAxEMPAT*
+   4 *xLIMAxxxxENAMx*
+   5 *TUJUHxxDELAPAN*
+   6 *xxxSEMBILANxxx*
+   7 *SEPULUHSEBELAS*
+   8 *LEWATxxxKURANG*
+   9 *SEPEREMPATxDUA*
+  10 *SEPULUHxxxLIMA*
+  11 *PAGIxxxxxSIANG*
+  12 *SORExxxxxMALAM*
+  13 *SELAMATxDATANG*
+  14 x+x1234xxMENITxx
+  15 xVENTILASIxALARM
+  16 DAYAxx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau: SEKARANG JAM <Stunde> [LEWAT|KURANG <Minuten>] <Tageszeit>
+:30 SEKARANG JAM SETENGAH <nächste Stunde> („halb vier“). Ab :30 bezieht sich die Uhrzeit auf die nächste Stunde.
+:00 (nichts), :05 LEWAT LIMA, :10 LEWAT SEPULUH, :15 LEWAT SEPEREMPAT, :20 LEWAT DUA PULUH,
+:25 LEWAT DUA PULUH LIMA, :30 SETENGAH <Stunde+1>, :35 KURANG DUA PULUH LIMA, :40 KURANG DUA PULUH,
+:45 KURANG SEPEREMPAT, :50 KURANG SEPULUH, :55 KURANG LIMA
+Stunden (12-Stunden-Zählung): SATU, DUA, TIGA, EMPAT, LIMA, ENAM, TUJUH, DELAPAN, SEMBILAN, SEPULUH,
+SEBELAS, DUA BELAS (BELAS ist das Ende von SEBELAS). Volle Stunde ohne Zusatzwort.
+Tageszeit am Satzende (nach der genannten Stunde): PAGI 4-10 Uhr, SIANG 11-14 Uhr, SORE 15-17 Uhr,
+MALAM 18-3 Uhr; z. B. 12 Uhr JAM DUA BELAS SIANG, 0 Uhr JAM DUA BELAS MALAM, 15:30 JAM SETENGAH EMPAT SORE.
+Im Raster: DUA PULUH = DUA + PULUH (Ende von SEPULUH in der Minutenzeile darunter).
+Minutenzeile: + 1..4 MENIT (Indonesisch hat keine Mehrzahlform, immer MENIT).
+Ersatzwörter: LÜFTEN = VENTILASI („Lüftung“), AKKU = DAYA („Energie“, wie in der Handy-Akkuanzeige;
+BATERAI ist für das Raster zu lang).
+Zusatzwörter (Schalter „Tampilkan SELAMAT DATANG“): SELAMAT DATANG („Willkommen“, Gruß).
+
+GRAMMAR (English)
+-----------------
+Sentence: SEKARANG JAM <hour> [LEWAT|KURANG <minutes>] <time of day>
+:30 SEKARANG JAM SETENGAH <next hour> ("half to four"). From :30 on the time refers to the next hour.
+:00 (nothing), :05 LEWAT LIMA, :10 LEWAT SEPULUH, :15 LEWAT SEPEREMPAT, :20 LEWAT DUA PULUH,
+:25 LEWAT DUA PULUH LIMA, :30 SETENGAH <hour+1>, :35 KURANG DUA PULUH LIMA, :40 KURANG DUA PULUH,
+:45 KURANG SEPEREMPAT, :50 KURANG SEPULUH, :55 KURANG LIMA
+Hours (12-hour count): SATU, DUA, TIGA, EMPAT, LIMA, ENAM, TUJUH, DELAPAN, SEMBILAN, SEPULUH,
+SEBELAS, DUA BELAS (BELAS is the end of SEBELAS). Full hour without extra word.
+Time of day at the end (after the hour said): PAGI 4-10 h, SIANG 11-14 h, SORE 15-17 h, MALAM 18-3 h;
+e.g. 12:00 JAM DUA BELAS SIANG, 0:00 JAM DUA BELAS MALAM, 15:30 JAM SETENGAH EMPAT SORE.
+Grid: DUA PULUH = DUA + PULUH (end of SEPULUH in the minute row below).
+Minute row: + 1..4 MENIT (Indonesian has no plural form, always MENIT).
+Substitute words: VENTILATE = VENTILASI ("ventilation"), BATTERY = DAYA ("power", as in the phone battery
+display; BATERAI is too long for the grid).
+Extra words (switch "Tampilkan SELAMAT DATANG"): SELAMAT DATANG ("welcome", greeting).
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  SEKARANG JAM SEMBILAN PAGI
+09:05  SEKARANG JAM SEMBILAN LEWAT LIMA PAGI
+09:10  SEKARANG JAM SEMBILAN LEWAT SEPULUH PAGI
+09:15  SEKARANG JAM SEMBILAN LEWAT SEPEREMPAT PAGI
+09:20  SEKARANG JAM SEMBILAN LEWAT DUA PULUH PAGI
+09:25  SEKARANG JAM SEMBILAN LEWAT DUA PULUH LIMA PAGI
+09:30  SEKARANG JAM SETENGAH SEPULUH PAGI
+09:35  SEKARANG JAM SEPULUH KURANG DUA PULUH LIMA PAGI
+09:40  SEKARANG JAM SEPULUH KURANG DUA PULUH PAGI
+09:45  SEKARANG JAM SEPULUH KURANG SEPEREMPAT PAGI
+09:50  SEKARANG JAM SEPULUH KURANG SEPULUH PAGI
+09:55  SEKARANG JAM SEPULUH KURANG LIMA PAGI
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  SEKARANG JAM
+00:00  SEKARANG JAM DUA BELAS MALAM
+00:30  SEKARANG JAM SETENGAH SATU MALAM
+00:35  SEKARANG JAM SATU KURANG DUA PULUH LIMA MALAM
+01:00  SEKARANG JAM SATU MALAM
+01:05  SEKARANG JAM SATU LEWAT LIMA MALAM
+12:00  SEKARANG JAM DUA BELAS SIANG
+12:30  SEKARANG JAM SETENGAH SATU SIANG
+13:00  SEKARANG JAM SATU SIANG
+09:01  SEKARANG JAM SEMBILAN PAGI + 1 MENIT
+09:02  SEKARANG JAM SEMBILAN PAGI + 2 MENIT
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+·SEKARANG···JAM·   ·SEKARANG···JAM·   ·SEKARANG···JAM·   ·SEKARANG···JAM·
+················   ················   ················   ················
+················   ················   ·DUA············   ·DUA············
+················   ················   ················   ················
+················   ················   ················   ················
+····SEMBILAN····   ················   ················   ················
+················   ·SEPULUH········   ················   ··········BELAS·
+················   ·LEWAT··········   ·········KURANG·   ·········KURANG·
+················   ············DUA·   ·SEPEREMPAT·····   ················
+················   ···PULUH···LIMA·   ················   ···········LIMA·
+·PAGI···········   ·PAGI···········   ··········SIANG·   ················
+················   ················   ················   ··········MALAM·
+················   ················   ················   ················
+················   ················   ·+··2····MENIT··   ·+···3···MENIT··
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  SEKARANG JAM SEMBILAN PAGI
+10:25  SEKARANG JAM SEPULUH LEWAT DUA PULUH LIMA PAGI
+13:47  SEKARANG JAM DUA KURANG SEPEREMPAT SIANG + 2 MENIT
+23:58  SEKARANG JAM DUA BELAS KURANG LIMA MALAM + 3 MENIT

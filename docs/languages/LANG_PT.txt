@@ -1,0 +1,120 @@
+Wordclock_Multi v2.0 - Português (PT)
+=====================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Lisboa  (38.7223, -9.1393)
+Zeitzone / time zone:         Europe/Lisbon  (POSIX GMT0BST,M3.5.0/1,M10.5.0)
+Arduino: Hotspot / hotspot:   Relogio  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://relogio.local
+ESPHome: Gerät / device:      relogio (Relogio), Fallback-Hotspot "Relogio Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_PT.h
+                              esphome/wordclock_multi/lang/lang_PT.yaml (+ src/wc_lang_PT.h)
+                              models/lang/lang_PT.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_PT.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_PT.yaml
+                              OpenSCAD/FreeCAD: LANG = "PT"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xÉxxSÃOxxxUMAx*
+   2 *xDUASxxxTRÊSxx*
+   3 *QUATROxxxCINCO*
+   4 *xSEISxxSETExxx*
+   5 *xxOITOxxNOVExx*
+   6 *xDEZxxxxONZExx*
+   7 *xxxMEIO-DIAxxx*
+   8 *xxMEIA-NOITExx*
+   9 *xHORASxxOLÁxxx*
+  10 *xxExxxxxMENOSx*
+  11 *xVINTExExCINCO*
+  12 *DEZxUMxQUARTOx*
+  13 *xxxxxxMEIAxxxx*
+  14 x+x1234xMINUTOSx
+  15 xAREJARxxALARMEx
+  16 xCARGA||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau (europäisches Portugiesisch): SÃO / É <Stunde> [HORA(S)] [E <Minuten> | MENOS <Minuten>]
+Ab :35 (MENOS) bezieht sich die Uhrzeit auf die nächste Stunde.
+:00 HORA(S), :05 E CINCO, :10 E DEZ, :15 E UM QUARTO, :20 E VINTE, :25 E VINTE E CINCO,
+:30 E MEIA, :35 MENOS VINTE E CINCO, :40 MENOS VINTE, :45 MENOS UM QUARTO, :50 MENOS DEZ,
+:55 MENOS CINCO
+É bei UMA, MEIO-DIA (12 Uhr) und MEIA-NOITE (0 Uhr), sonst SÃO. Stunden sind weiblich (UMA, DUAS).
+HORA/HORAS nur zur vollen Stunde (É UMA HORA, SÃO TRÊS HORAS), nie bei MEIO-DIA/MEIA-NOITE.
+Minutenzeile: + 1 MINUTO (Einzahl), + 2..4 MINUTOS.
+Zusatzwörter (Schalter „Mostrar OLÁ“): OLÁ („Hallo“, Gruß).
+
+GRAMMAR (English)
+-----------------
+Sentence (European Portuguese): SÃO / É <hour> [HORA(S)] [E <minutes> | MENOS <minutes>]
+From :35 (MENOS) on the time refers to the next hour.
+:00 HORA(S), :05 E CINCO, :10 E DEZ, :15 E UM QUARTO, :20 E VINTE, :25 E VINTE E CINCO,
+:30 E MEIA, :35 MENOS VINTE E CINCO, :40 MENOS VINTE, :45 MENOS UM QUARTO, :50 MENOS DEZ,
+:55 MENOS CINCO
+É with UMA, MEIO-DIA (12 o'clock) and MEIA-NOITE (0 o'clock), otherwise SÃO. Hours are feminine
+(UMA, DUAS). HORA/HORAS only at the full hour (É UMA HORA, SÃO TRÊS HORAS), never with
+MEIO-DIA/MEIA-NOITE.
+Minute row: + 1 MINUTO (singular), + 2..4 MINUTOS.
+Extra words (switch "Mostrar OLÁ"): OLÁ ("hello", greeting).
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  SÃO NOVE HORAS
+09:05  SÃO NOVE E CINCO
+09:10  SÃO NOVE E DEZ
+09:15  SÃO NOVE E UM QUARTO
+09:20  SÃO NOVE E VINTE
+09:25  SÃO NOVE E VINTE E CINCO
+09:30  SÃO NOVE E MEIA
+09:35  SÃO DEZ MENOS VINTE E CINCO
+09:40  SÃO DEZ MENOS VINTE
+09:45  SÃO DEZ MENOS UM QUARTO
+09:50  SÃO DEZ MENOS DEZ
+09:55  SÃO DEZ MENOS CINCO
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  SÃO
+00:00  É MEIA-NOITE
+00:30  É MEIA-NOITE E MEIA
+00:35  É UMA MENOS VINTE E CINCO
+01:00  É UMA HORA
+01:05  É UMA E CINCO
+12:00  É MEIO-DIA
+12:30  É MEIO-DIA E MEIA
+13:00  É UMA HORA
+09:01  SÃO NOVE HORAS + 1 MINUTO
+09:02  SÃO NOVE HORAS + 2 MINUTOS
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+·····SÃO········   ·····SÃO········   ·····SÃO········   ··É·············
+················   ················   ··DUAS··········   ················
+················   ················   ················   ················
+················   ················   ················   ················
+·········NOVE···   ················   ················   ················
+················   ··DEZ···········   ················   ················
+················   ················   ················   ················
+················   ················   ················   ···MEIA-NOITE···
+··HORAS·········   ················   ················   ················
+················   ···E············   ·········MENOS··   ·········MENOS··
+················   ··VINTE·E·CINCO·   ················   ··········CINCO·
+················   ················   ·····UM·QUARTO··   ················
+················   ················   ················   ················
+················   ················   ·+··2···MINUTOS·   ·+···3··MINUTOS·
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  SÃO NOVE HORAS
+10:25  SÃO DEZ E VINTE E CINCO
+13:47  SÃO DUAS MENOS UM QUARTO + 2 MINUTOS
+23:58  É MEIA-NOITE MENOS CINCO + 3 MINUTOS

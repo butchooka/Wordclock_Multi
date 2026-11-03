@@ -1,0 +1,32 @@
+# Wordclock_Multi - only the software goes to GitHub; the 3D models stay private (published on MakerWorld)
+models/*
+!models/lang/
+models/lang/*.bak
+
+# private working files (notes, archive, instructions for Claude)
+_private/
+CLAUDE.md
+Claude.md
+
+# local outputs (firmware builds, logs, STL exports)
+output/
+models/export/
+arduino/Wordclock/firmware/
+check_log.txt
+*_log.txt
+
+# large overview renders (the README uses docs/img/ instead)
+docs/render/**/*_ALL_*.png
+
+# build / system files
+*.zip
+__pycache__/
+*.pyc
+preview
+preview.exe
+*.o
+build/
+.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini

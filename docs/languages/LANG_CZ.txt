@@ -1,0 +1,143 @@
+Wordclock_Multi v2.0 - Čeština (CZ)
+===================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Praha  (50.0755, 14.4378)
+Zeitzone / time zone:         Europe/Prague  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   SlovniHodiny  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://slovnihodiny.local
+ESPHome: Gerät / device:      slovnihodiny (SlovniHodiny), Fallback-Hotspot "SlovniHodiny Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_CZ.h
+                              esphome/wordclock_multi/lang/lang_CZ.yaml (+ src/wc_lang_CZ.h)
+                              models/lang/lang_CZ.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_CZ.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_CZ.yaml
+                              OpenSCAD/FreeCAD: LANG = "CZ"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *JExJSOUxxJEDNA*
+   2 *DVĚxTŘIxxČTYŘI*
+   3 *PĚTxŠESTxxSEDM*
+   4 *xOSMxxxxDEVĚTx*
+   5 *DESETxJEDENÁCT*
+   6 *xxxxDVANÁCTxxx*
+   7 *xxHODINAYxxAxx*
+   8 *DESETxxPATNÁCT*
+   9 *DVACETxxTŘICET*
+  10 *xxxČTYŘICETxxx*
+  11 *xxPADESÁTxxPĚT*
+  12 *xxxxMINUTxxxxx*
+  13 *xxČASxxxxLETÍx*
+  14 x+x1234xMINUTAYx
+  15 VĚTRATxxxxxALARM
+  16 xAKUxx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau (digitale Form wie die Zeitansage im Radio, 12-Stunden-Zählung):
+JE|JSOU <Stunde> HODINA|HODINY|HODIN [A <Minuten> MINUT].
+Immer die aktuelle Stunde (kein Bezug auf die nächste Stunde), die Minuten werden addiert.
+Einzahl/Mehrzahl hängt an der Stunde: 1 = JE JEDNA HODINA, 2..4 = JSOU DVĚ/TŘI/ČTYŘI HODINY,
+5..12 = JE PĚT ... DVANÁCT HODIN.
+:00 <Stunde>, :05 A PĚT MINUT, :10 A DESET MINUT, :15 A PATNÁCT MINUT, :20 A DVACET MINUT,
+:25 A DVACET PĚT MINUT, :30 A TŘICET MINUT, :35 A TŘICET PĚT MINUT, :40 A ČTYŘICET MINUT,
+:45 A ČTYŘICET PĚT MINUT, :50 A PADESÁT MINUT, :55 A PADESÁT PĚT MINUT
+(nach Zahlen ab 5 steht immer der Genitiv Plural MINUT).
+Beispiele: 1:05 JE JEDNA HODINA A PĚT MINUT, 3:25 JSOU TŘI HODINY A DVACET PĚT MINUT,
+8:45 JE OSM HODIN A ČTYŘICET PĚT MINUT.
+0 und 12 Uhr = JE DVANÁCT HODIN. Keine Wörter für Mitternacht/Mittag.
+HODINA und HODINY teilen sich ein Wort „HODINAY“: HODIN + A (zusammenhängend) bzw. HODIN + Y
+(eine Lücke), HODIN allein für 5..12.
+Ohne gültige Uhrzeit bleibt das Raster dunkel (JE/JSOU hängen von der Stunde ab).
+Minutenzeile: + 1 MINUTA, + 2..4 MINUTY (MINUT + Y, eine Lücke).
+Statuswörter: LÜFTEN = VĚTRAT („lüften“, Infinitiv wie auf Hinweisschildern), ALARM = ALARM,
+AKKU = AKU (gängige Kurzform, z. B. „aku baterie“; BATERIE ist mit 7 Buchstaben zu lang für die
+Zeile mit den 10 Balken).
+Zusatzwörter (Schalter „Zobrazit ČAS LETÍ“): ČAS LETÍ („die Zeit fliegt“).
+Sonderzeichen: Á, Í (Latin-1) sowie Č, Ě, Ř, Š (Latin Extended-A), alle mit Metriken in Wordclock_Model.scad.
+
+GRAMMAR (English)
+-----------------
+Sentence (digital form like the radio time announcement, 12-hour counting):
+JE|JSOU <hour> HODINA|HODINY|HODIN [A <minutes> MINUT].
+Always the current hour (no reference to the next hour), the minutes are added.
+Singular/plural depends on the hour: 1 = JE JEDNA HODINA, 2..4 = JSOU DVĚ/TŘI/ČTYŘI HODINY,
+5..12 = JE PĚT ... DVANÁCT HODIN.
+:00 <hour>, :05 A PĚT MINUT, :10 A DESET MINUT, :15 A PATNÁCT MINUT, :20 A DVACET MINUT,
+:25 A DVACET PĚT MINUT, :30 A TŘICET MINUT, :35 A TŘICET PĚT MINUT, :40 A ČTYŘICET MINUT,
+:45 A ČTYŘICET PĚT MINUT, :50 A PADESÁT MINUT, :55 A PADESÁT PĚT MINUT
+(after numbers from 5 on always genitive plural MINUT).
+Examples: 1:05 JE JEDNA HODINA A PĚT MINUT, 3:25 JSOU TŘI HODINY A DVACET PĚT MINUT,
+8:45 JE OSM HODIN A ČTYŘICET PĚT MINUT.
+0 and 12 o'clock = JE DVANÁCT HODIN. No words for midnight/noon.
+HODINA and HODINY share one word "HODINAY": HODIN + A (contiguous) and HODIN + Y (one gap),
+HODIN alone for 5..12.
+Without a valid time the grid stays dark (JE/JSOU depend on the hour).
+Minute row: + 1 MINUTA, + 2..4 MINUTY (MINUT + Y, one gap).
+Status words: VENTILATE = VĚTRAT ("ventilate", infinitive as on signs), ALARM = ALARM,
+BATTERY = AKU (common short form, e.g. "aku baterie"; BATERIE with 7 letters is too long for the
+row with the 10 bars).
+Extra words (switch "Zobrazit ČAS LETÍ"): ČAS LETÍ ("time flies").
+Special letters: Á, Í (Latin-1) and Č, Ě, Ř, Š (Latin Extended-A), all with metrics in Wordclock_Model.scad.
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  JE DEVĚT HODIN
+09:05  JE DEVĚT HODIN A PĚT MINUT
+09:10  JE DEVĚT HODIN A DESET MINUT
+09:15  JE DEVĚT HODIN A PATNÁCT MINUT
+09:20  JE DEVĚT HODIN A DVACET MINUT
+09:25  JE DEVĚT HODIN A DVACET PĚT MINUT
+09:30  JE DEVĚT HODIN A TŘICET MINUT
+09:35  JE DEVĚT HODIN A TŘICET PĚT MINUT
+09:40  JE DEVĚT HODIN A ČTYŘICET MINUT
+09:45  JE DEVĚT HODIN A ČTYŘICET PĚT MINUT
+09:50  JE DEVĚT HODIN A PADESÁT MINUT
+09:55  JE DEVĚT HODIN A PADESÁT PĚT MINUT
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  
+00:00  JE DVANÁCT HODIN
+00:30  JE DVANÁCT HODIN A TŘICET MINUT
+00:35  JE DVANÁCT HODIN A TŘICET PĚT MINUT
+01:00  JE JEDNA HODINA
+01:05  JE JEDNA HODINA A PĚT MINUT
+12:00  JE DVANÁCT HODIN
+12:30  JE DVANÁCT HODIN A TŘICET MINUT
+13:00  JE JEDNA HODINA
+09:01  JE DEVĚT HODIN + 1 MINUTA
+09:02  JE DEVĚT HODIN + 2 MINUTY
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+·JE·············   ·JE·············   ·JE·······JEDNA·   ·JE·············
+················   ················   ················   ················
+················   ················   ················   ················
+·········DEVĚT··   ················   ················   ················
+················   ·DESET··········   ················   ·······JEDENÁCT·
+················   ················   ················   ················
+···HODIN········   ···HODIN····A···   ···HODINA···A···   ···HODIN····A···
+················   ················   ················   ················
+················   ·DVACET·········   ················   ················
+················   ················   ····ČTYŘICET····   ················
+················   ············PĚT·   ············PĚT·   ···PADESÁT··PĚT·
+················   ·····MINUT······   ·····MINUT······   ·····MINUT······
+················   ················   ················   ················
+················   ················   ·+··2···MINUT·Y·   ·+···3··MINUT·Y·
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  JE DEVĚT HODIN
+10:25  JE DESET HODIN A DVACET PĚT MINUT
+13:47  JE JEDNA HODINA A ČTYŘICET PĚT MINUT + 2 MINUTY
+23:58  JE JEDENÁCT HODIN A PADESÁT PĚT MINUT + 3 MINUTY

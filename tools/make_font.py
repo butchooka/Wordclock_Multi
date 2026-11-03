@@ -1,0 +1,170 @@
+#!/usr/bin/env python3
+"""
+make_font.py - Wordclock 16x16, generates the 16x16 bitmap font for the text ticker (src/wc_font16.h), v2.0
+
+Every glyph fills the whole matrix (capital height = 16 LEDs). Lower case letters are shown as capitals.
+Covered: Latin (basic, Latin-1, Extended-A, Romanian/Turkish letters), Greek, Cyrillic (incl. Ukrainian),
+digits, common punctuation, euro sign and heart. Characters without a glyph (e.g. Chinese, Japanese, Korean)
+are skipped by the ticker.
+
+Source font: DejaVu Sans Condensed Bold (free licence, https://dejavu-fonts.github.io/), rendered 10x larger
+and reduced to 16x16 by area averaging. Requires Pillow:
+    python3 tools/make_font.py [path/to/DejaVuSansCondensed-Bold.ttf] [--png preview.png]
+"""
+import os
+import sys
+
+from PIL import Image, ImageDraw, ImageFont
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT = os.path.join(ROOT, "arduino", "Wordclock", "src", "wc_font16.h")
+FONT_CANDIDATES = [
+    "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf",
+    "C:/Windows/Fonts/DejaVuSansCondensed-Bold.ttf",
+    os.path.join(ROOT, "tools", "DejaVuSansCondensed-Bold.ttf"),
+]
+N = 16          # matrix size
+OS = 10         # oversampling
+THRESH = 0.42   # coverage from which a LED is lit
+
+
+def charset():
+    s = set()
+    for a, b in [(0x21, 0x7E), (0xC0, 0xFF), (0x100, 0x17F), (0x218, 0x21B), (0x232, 0x233), (0x391, 0x3A1), (0x3A3, 0x3A9), (0x386, 0x38A), (0x38C, 0x38C), (0x38E, 0x38F),
+                 (0x400, 0x45F), (0x490, 0x491), (0x3AC, 0x3CE)]:
+        s.update(range(a, b + 1))
+    s.update([0x20AC, 0x2665, 0xA7, 0xB0, 0x1E9E, 0xBF, 0xA1])
+    s.discard(0xD7)
+    s.discard(0xF7)
+    return s
+
+
+def upper_of(cp):
+    ch = chr(cp)
+    if ch == "ß":
+        return 0x1E9E
+    u = ch.upper()
+    return ord(u) if len(u) == 1 else cp
+
+
+def render(font, cap_px, cp):
+    ch = chr(cp)
+    big = N * OS
+    l, t, r, b = font.getbbox(ch)
+    if r <= l or b <= t:
+        return None
+    w, h = r - l, b - t
+    ky = min(1.0, big / h)                 # too high (accents, descenders): reduce evenly
+    kx = min(1.0, big / w)
+    k = ky
+    if kx < ky:                            # too wide (W, M, Ж, Ш): first only narrower, at most to 60 %
+        kx = kx / ky
+        if kx < 0.6:
+            k, kx = k * kx / 0.6, 0.6
+    else:
+        kx = 1.0
+    img = Image.new("L", (int(w + 4), int(h + 4)), 0)
+    ImageDraw.Draw(img).text((2 - l, 2 - t), ch, font=font, fill=255)
+    if k != 1.0 or kx != 1.0:
+        img = img.resize((max(1, int(img.width * k * kx)), max(1, int(img.height * k))), Image.LANCZOS)
+    bb = img.getbbox()
+    if not bb:
+        return None
+    img = img.crop(bb)
+    # position: baseline at the bottom row if the glyph fits, otherwise centred
+    canvas = Image.new("L", (big, big), 0)
+    x = (big - img.width) // 2
+    asc, _ = font.getmetrics()
+    top_from_base = (asc - t) * k   # distance of the glyph top above the baseline
+    y = int(round(big - top_from_base))
+    if y < 0 or y + img.height > big:
+        y = (big - img.height) // 2
+    canvas.paste(img, (x, y))
+    small = canvas.resize((N, N), Image.BOX)
+    rows = []
+    px = small.load()
+    for yy in range(N):
+        v = 0
+        for xx in range(N):
+            if px[xx, yy] / 255.0 >= THRESH:
+                v |= 1 << (15 - xx)
+        rows.append(v)
+    return rows
+
+
+def main():
+    args = [a for a in sys.argv[1:]]
+    png = None
+    if "--png" in args:
+        i = args.index("--png")
+        png = args[i + 1]
+        del args[i:i + 2]
+    path = args[0] if args else next((p for p in FONT_CANDIDATES if os.path.isfile(p)), None)
+    if not path:
+        sys.exit("font not found, pass the path to DejaVuSansCondensed-Bold.ttf")
+    # font size so that the capital H is exactly 16 * OS pixels high (baseline = bottom row)
+    size = 100
+    for _ in range(30):
+        f = ImageFont.truetype(path, size)
+        l, t, r, b = f.getbbox("H")
+        size = int(round(size * N * OS / (b - t)))
+    font = ImageFont.truetype(path, size)
+    glyphs, index = [], {}
+    gid_of_rows = {}
+    cps = sorted(charset())
+    targets = sorted(set(upper_of(c) for c in cps))
+    gid = {}
+    for cp in targets:
+        rows = render(font, N * OS, cp)
+        if rows is None or not any(rows):
+            continue
+        key = tuple(rows)
+        if key not in gid_of_rows:
+            gid_of_rows[key] = len(glyphs)
+            glyphs.append((cp, rows))
+        gid[cp] = gid_of_rows[key]
+    for cp in cps:
+        u = upper_of(cp)
+        if u in gid:
+            index[cp] = gid[u]
+    for cp, g in list(gid.items()):
+        index.setdefault(cp, g)
+    idx = sorted(index.items())
+
+    with open(OUT, "w", encoding="utf-8", newline="\n") as o:
+        o.write("/*\n  wc_font16.h - Wordclock 16x16, bitmap font for the text ticker, v2.0\n")
+        o.write("  GENERATED by tools/make_font.py - do not edit. %d glyphs, %d characters.\n" % (len(glyphs), len(idx)))
+        o.write("  Source: DejaVu Sans Condensed Bold (free licence, https://dejavu-fonts.github.io/).\n")
+        o.write("  One glyph = 16 rows of 16 bits, bit 15 = column 0 (left), row 0 = top.\n*/\n")
+        o.write("#pragma once\n#include <stdint.h>\n\n")
+        o.write("static const uint16_t WC_FONT16[%d][16] = {\n" % len(glyphs))
+        for cp, rows in glyphs:
+            o.write(("  {%s},  // %s" % (",".join("0x%04X" % v for v in rows), "U+%04X %s" % (cp, chr(cp) if chr(cp) not in "\\/*" else ""))).rstrip() + "\n")
+        o.write("};\n\n")
+        o.write("// code point -> glyph number, sorted by code point (binary search)\n")
+        o.write("struct WcFontIdx { uint16_t cp, g; };\n")
+        o.write("static const WcFontIdx WC_FONT16_IDX[%d] = {\n" % len(idx))
+        for i in range(0, len(idx), 8):
+            o.write("  " + "".join("{0x%04X,%d}," % (c, g) for c, g in idx[i:i + 8]) + "\n")
+        o.write("};\nstatic const int WC_FONT16_N = %d;\n" % len(idx))
+    print("written %s: %d glyphs, %d characters, approx. %d bytes" % (OUT, len(glyphs), len(idx), len(glyphs) * 32 + len(idx) * 4))
+
+    if png:
+        cols = 24
+        rws = (len(glyphs) + cols - 1) // cols
+        sc = 4
+        im = Image.new("RGB", (cols * (N + 2) * sc, rws * (N + 2) * sc), (20, 20, 20))
+        d = ImageDraw.Draw(im)
+        for i, (cp, rows) in enumerate(glyphs):
+            ox, oy = (i % cols) * (N + 2) * sc, (i // cols) * (N + 2) * sc
+            for y in range(N):
+                for x in range(N):
+                    on = rows[y] >> (15 - x) & 1
+                    d.rectangle([ox + x * sc, oy + y * sc, ox + x * sc + sc - 2, oy + y * sc + sc - 2],
+                                fill=(255, 190, 60) if on else (45, 45, 45))
+        im.save(png)
+        print("preview", png)
+
+
+if __name__ == "__main__":
+    main()

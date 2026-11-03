@@ -1,0 +1,78 @@
+# lang_JP.yaml - Wordclock 16x16, ESPHome language package JP (日本語 / Japanese), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_JP.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: JP
+  name: mojidokei
+  friendly_name: MojiDokei
+  ap_ssid: MojiDokei Fallback
+  timezone: Asia/Tokyo
+  latitude: "35.676°"           # Tokyo
+  longitude: "139.650°"
+  extra_hidden: "false"         # language has extra words (時は金なり), switch shown
+
+  # entity names
+  t_br_day: 昼間の明るさ
+  t_br_night: 夜間の明るさ
+  t_cur_limit: 電流制限
+  t_night_start: 夜間開始のオフセット
+  t_night_end: 夜間終了のオフセット
+  t_night_mode: 夜間モード
+  nm_mix: 組み合わせ
+  nm_sun: 太陽の位置
+  nm_fixed: 固定時刻
+  t_night_not_before: 夜間開始 (最も早く)
+  t_night_not_after: 夜間終了 (最も遅く)
+  t_night_from: 夜間開始時刻
+  t_night_until: 夜間終了時刻
+  t_fx_dur: エフェクトの長さ
+  t_blink_cycle: 点滅周期
+  t_tin_min: 室温 最小
+  t_tin_max: 室温 最大
+  t_tout_min: 外気温 最小
+  t_tout_max: 外気温 最大
+  t_col_time: 時刻の色
+  t_col_vent: 換気の色
+  t_col_alarm: アラームの色
+  t_col_battery: 電池の色
+  t_col_tout: 外気温の色
+  t_col_tin: 室温の色
+  t_sw_temp: 温度表示
+  t_sw_min: 1分単位の表示
+  t_sw_alarm: アラーム表示
+  t_sw_vent: 換気表示
+  t_sw_battery: 電池表示
+  t_sw_extra: 「時は金なり」表示
+  t_fx: エフェクト
+  t_fx_color: エフェクトの色
+  t_fx_start: エフェクト開始
+  t_fx_stop: エフェクト停止
+  t_text: スクロール文字
+  t_text_start: 文字を表示
+
+  # colour options (palette order, never change the order)
+  c_0: 温白色
+  c_1: 白
+  c_2: 赤
+  c_3: オレンジ
+  c_4: 黄
+  c_5: 緑
+  c_6: 青
+  c_7: 紫
+  c_random: ランダム
+  c_temp: 温度
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: 虹
+  fx_aurora: オーロラ
+  fx_matrix: マトリックス
+  fx_fire: 炎
+  fx_confetti: 紙吹雪
+  fx_stars: 星空
+  fx_blink: 点滅
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_JP.h

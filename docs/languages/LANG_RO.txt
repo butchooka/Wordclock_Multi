@@ -1,0 +1,137 @@
+Wordclock_Multi v2.0 - Română (RO)
+==================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         București  (44.4268, 26.1025)
+Zeitzone / time zone:         Europe/Bucharest  (POSIX EET-2EEST,M3.5.0/3,M10.5.0/4)
+Arduino: Hotspot / hotspot:   CeasCuCuvinte  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://ceascucuvinte.local
+ESPHome: Gerät / device:      ceascucuvinte (CeasCuCuvinte), Fallback-Hotspot "CeasCuCuvinte Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_RO.h
+                              esphome/wordclock_multi/lang/lang_RO.yaml (+ src/wc_lang_RO.h)
+                              models/lang/lang_RO.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_RO.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_RO.yaml
+                              OpenSCAD/FreeCAD: LANG = "RO"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *ESTExORAxxxUNU*
+   2 *DOUĂxTREIxxOPT*
+   3 *PATRUxxxxCINCI*
+   4 *ȘASExxxxxȘAPTE*
+   5 *NOUĂxxxxxxZECE*
+   6 *xxUNSPREZECExx*
+   7 *xDOUĂSPREZECEx*
+   8 *ȘIxxxxxxxxFĂRĂ*
+   9 *DOUĂZECIxxxxȘI*
+  10 *CINCIxxxxxZECE*
+  11 *xxxUNxSFERTxxx*
+  12 *xxxJUMĂTATExxx*
+  13 *xTIMPULxZBOARĂ*
+  14 x+x1234xMINUTExx
+  15 AERISIRExxALARMĂ
+  16 xBATxx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau: ESTE ORA <Stunde> ȘI <Minuten> | ESTE ORA <nächste Stunde> FĂRĂ <Minuten> |
+ESTE ORA <Stunde> (gängige Umgangsform, 12-Stunden-Zählung; ȘI = „und“, FĂRĂ = „ohne/vor“).
+Ab :35 (FĂRĂ) bezieht sich die Uhrzeit auf die nächste Stunde.
+:00 ESTE ORA <Stunde>, :05 <Stunde> ȘI CINCI, :10 ȘI ZECE, :15 ȘI UN SFERT, :20 ȘI DOUĂZECI,
+:25 ȘI DOUĂZECI ȘI CINCI, :30 ȘI JUMĂTATE, :35 <nächste Stunde> FĂRĂ DOUĂZECI ȘI CINCI,
+:40 FĂRĂ DOUĂZECI, :45 FĂRĂ UN SFERT, :50 FĂRĂ ZECE, :55 FĂRĂ CINCI
+Beispiele: 3:05 ESTE ORA TREI ȘI CINCI, 3:30 ESTE ORA TREI ȘI JUMĂTATE, 3:45 ESTE ORA PATRU FĂRĂ UN SFERT.
+Stunden: UNU, DOUĂ, TREI, PATRU, CINCI, ȘASE, ȘAPTE, OPT, NOUĂ, ZECE, UNSPREZECE, DOUĂSPREZECE
+(nach „ora“ steht die Grundzahl, 1 Uhr = ORA UNU, 2 Uhr = ORA DOUĂ).
+CINCI und ZECE gibt es je zweimal (Stunde und Minuten), ȘI zweimal (für :25 / :35).
+0 und 12 Uhr = DOUĂSPREZECE. Keine Wörter für Mitternacht/Mittag.
+Ohne gültige Uhrzeit leuchtet nur ESTE ORA.
+Minutenzeile: + 1 MINUT, + 2..4 MINUTE (MINUT + E, zusammenhängend).
+Statuswörter: LÜFTEN = AERISIRE („Lüften“), ALARM = ALARMĂ, AKKU = BAT (Abkürzung von BATERIE;
+BATERIE ist mit 7 Buchstaben zu lang für die Zeile mit den 10 Balken).
+Zusatzwörter (Schalter „Afișează TIMPUL ZBOARĂ“): TIMPUL ZBOARĂ („die Zeit fliegt“).
+Sonderzeichen: Ă und Ș (S mit Komma darunter, nicht das türkische Ş mit Cedille); Metriken für
+OpenSCAD in Wordclock_Model.scad vorhanden. Â, Î und Ț kommen im Raster nicht vor.
+
+GRAMMAR (English)
+-----------------
+Sentence: ESTE ORA <hour> ȘI <minutes> | ESTE ORA <next hour> FĂRĂ <minutes> |
+ESTE ORA <hour> (common spoken form, 12-hour counting; ȘI = "and", FĂRĂ = "without/to").
+From :35 on (FĂRĂ) the time refers to the next hour.
+:00 ESTE ORA <hour>, :05 <hour> ȘI CINCI, :10 ȘI ZECE, :15 ȘI UN SFERT, :20 ȘI DOUĂZECI,
+:25 ȘI DOUĂZECI ȘI CINCI, :30 ȘI JUMĂTATE, :35 <next hour> FĂRĂ DOUĂZECI ȘI CINCI,
+:40 FĂRĂ DOUĂZECI, :45 FĂRĂ UN SFERT, :50 FĂRĂ ZECE, :55 FĂRĂ CINCI
+Examples: 3:05 ESTE ORA TREI ȘI CINCI, 3:30 ESTE ORA TREI ȘI JUMĂTATE, 3:45 ESTE ORA PATRU FĂRĂ UN SFERT.
+Hours: UNU, DOUĂ, TREI, PATRU, CINCI, ȘASE, ȘAPTE, OPT, NOUĂ, ZECE, UNSPREZECE, DOUĂSPREZECE
+(after "ora" the cardinal number is used, 1 o'clock = ORA UNU, 2 o'clock = ORA DOUĂ).
+CINCI and ZECE exist twice (hour and minutes), ȘI twice (for :25 / :35).
+0 and 12 o'clock = DOUĂSPREZECE. No words for midnight/noon.
+Without a valid time only ESTE ORA is lit.
+Minute row: + 1 MINUT, + 2..4 MINUTE (MINUT + E, contiguous).
+Status words: VENTILATE = AERISIRE ("ventilation"), ALARM = ALARMĂ, BATTERY = BAT (short for BATERIE;
+BATERIE with 7 letters is too long for the row with the 10 bars).
+Extra words (switch "Afișează TIMPUL ZBOARĂ"): TIMPUL ZBOARĂ ("time flies").
+Special letters: Ă and Ș (S with comma below, not the Turkish Ş with cedilla); metrics for OpenSCAD
+available in Wordclock_Model.scad. Â, Î and Ț do not occur in the grid.
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  ESTE ORA NOUĂ
+09:05  ESTE ORA NOUĂ ȘI CINCI
+09:10  ESTE ORA NOUĂ ȘI ZECE
+09:15  ESTE ORA NOUĂ ȘI UN SFERT
+09:20  ESTE ORA NOUĂ ȘI DOUĂZECI
+09:25  ESTE ORA NOUĂ ȘI DOUĂZECI ȘI CINCI
+09:30  ESTE ORA NOUĂ ȘI JUMĂTATE
+09:35  ESTE ORA ZECE FĂRĂ DOUĂZECI ȘI CINCI
+09:40  ESTE ORA ZECE FĂRĂ DOUĂZECI
+09:45  ESTE ORA ZECE FĂRĂ UN SFERT
+09:50  ESTE ORA ZECE FĂRĂ ZECE
+09:55  ESTE ORA ZECE FĂRĂ CINCI
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  ESTE ORA
+00:00  ESTE ORA DOUĂSPREZECE
+00:30  ESTE ORA DOUĂSPREZECE ȘI JUMĂTATE
+00:35  ESTE ORA UNU FĂRĂ DOUĂZECI ȘI CINCI
+01:00  ESTE ORA UNU
+01:05  ESTE ORA UNU ȘI CINCI
+12:00  ESTE ORA DOUĂSPREZECE
+12:30  ESTE ORA DOUĂSPREZECE ȘI JUMĂTATE
+13:00  ESTE ORA UNU
+09:01  ESTE ORA NOUĂ + 1 MINUT
+09:02  ESTE ORA NOUĂ + 2 MINUTE
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+·ESTE·ORA·······   ·ESTE·ORA·······   ·ESTE·ORA·······   ·ESTE·ORA·······
+················   ················   ·DOUĂ···········   ················
+················   ················   ················   ················
+················   ················   ················   ················
+·NOUĂ···········   ···········ZECE·   ················   ················
+················   ················   ················   ················
+················   ················   ················   ··DOUĂSPREZECE··
+················   ·ȘI·············   ···········FĂRĂ·   ···········FĂRĂ·
+················   ·DOUĂZECI····ȘI·   ················   ················
+················   ·CINCI··········   ················   ·CINCI··········
+················   ················   ····UN·SFERT····   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ·+··2···MINUTE··   ·+···3··MINUTE··
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  ESTE ORA NOUĂ
+10:25  ESTE ORA ZECE ȘI DOUĂZECI ȘI CINCI
+13:47  ESTE ORA DOUĂ FĂRĂ UN SFERT + 2 MINUTE
+23:58  ESTE ORA DOUĂSPREZECE FĂRĂ CINCI + 3 MINUTE

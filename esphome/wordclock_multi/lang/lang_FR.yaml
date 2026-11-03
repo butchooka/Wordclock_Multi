@@ -1,0 +1,78 @@
+# lang_FR.yaml - Wordclock 16x16, ESPHome language package FR (Français), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_FR.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: FR
+  name: horloge
+  friendly_name: Horloge
+  ap_ssid: Horloge Fallback
+  timezone: Europe/Paris
+  latitude: "48.857°"           # Paris
+  longitude: "2.352°"
+  extra_hidden: "false"         # language has extra words (BONJOUR), switch shown
+
+  # entity names
+  t_br_day: Luminosité jour
+  t_br_night: Luminosité nuit
+  t_cur_limit: Limite de courant
+  t_night_start: Décalage début de nuit
+  t_night_end: Décalage fin de nuit
+  t_night_mode: Mode nuit
+  nm_mix: Mixte
+  nm_sun: Position du soleil
+  nm_fixed: Heures fixes
+  t_night_not_before: Nuit pas avant
+  t_night_not_after: Nuit pas après
+  t_night_from: Nuit de
+  t_night_until: Nuit jusqu'à
+  t_fx_dur: Durée de l'effet
+  t_blink_cycle: Cycle de clignotement
+  t_tin_min: Température intérieure min
+  t_tin_max: Température intérieure max
+  t_tout_min: Température extérieure min
+  t_tout_max: Température extérieure max
+  t_col_time: Couleur heure
+  t_col_vent: Couleur AÉRER
+  t_col_alarm: Couleur ALARME
+  t_col_battery: Couleur BATT
+  t_col_tout: Couleur température extérieure
+  t_col_tin: Couleur température intérieure
+  t_sw_temp: Afficher température
+  t_sw_min: Afficher minutes isolées
+  t_sw_alarm: Afficher alarme
+  t_sw_vent: Afficher aérer
+  t_sw_battery: Afficher batterie
+  t_sw_extra: Afficher BONJOUR
+  t_fx: Effet
+  t_fx_color: Couleur effet
+  t_fx_start: Démarrer l'effet
+  t_fx_stop: Arrêter l'effet
+  t_text: Texte défilant
+  t_text_start: Afficher le texte
+
+  # colour options (palette order, never change the order)
+  c_0: Blanc chaud
+  c_1: Blanc
+  c_2: Rouge
+  c_3: Orange
+  c_4: Jaune
+  c_5: Vert
+  c_6: Bleu
+  c_7: Violet
+  c_random: Aléatoire
+  c_temp: Température
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: Arc-en-ciel
+  fx_aurora: Aurore
+  fx_matrix: Matrix
+  fx_fire: Feu
+  fx_confetti: Confettis
+  fx_stars: Ciel étoilé
+  fx_blink: Clignoter
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_FR.h

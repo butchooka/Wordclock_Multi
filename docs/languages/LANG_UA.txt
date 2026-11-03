@@ -1,0 +1,153 @@
+Wordclock_Multi v2.0 - Українська (UA)
+======================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Київ (Kyiv)  (50.4501, 30.5234)
+Zeitzone / time zone:         Europe/Kyiv  (POSIX EET-2EEST,M3.5.0/3,M10.5.0/4)
+Arduino: Hotspot / hotspot:   SlovoHodynnyk  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://slovohodynnyk.local
+ESPHome: Gerät / device:      slovohodynnyk (SlovoHodynnyk), Fallback-Hotspot "SlovoHodynnyk Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_UA.h
+                              esphome/wordclock_multi/lang/lang_UA.yaml (+ src/wc_lang_UA.h)
+                              models/lang/lang_UA.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_UA.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_UA.yaml
+                              OpenSCAD/FreeCAD: LANG = "UA"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *ЗАРАЗxЗАxxПІВx*
+   2 *ЧВЕРТЬxxДЕСЯТЬ*
+   3 *ДВАДЦЯТЬxП'ЯТЬ*
+   4 *НАxОДИНАДЦЯТАУ*
+   5 *xПЕРШАУxДРУГАУ*
+   6 *ТРЕТЯЮxxП'ЯТАУ*
+   7 *xxЧЕТВЕРТАУxxx*
+   8 *ШОСТАУxВОСЬМАУ*
+   9 *СЬОМАУxДЕСЯТАУ*
+  10 *ДЕВ'ЯТАУxСЛАВА*
+  11 *xДВАНАДЦЯТАУxx*
+  12 *ГОДИНАxУКРАЇНІ*
+  13 *xГЕРОЯМxСЛАВАx*
+  14 +x1234xxХВИЛИНАИ
+  15 ПРОВІТРИxТРИВОГА
+  16 ЗАРЯДx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau (gängige Umgangssprache, 12-Stunden-Zählung, Stunden als Ordnungszahl weiblich, „година“):
+ЗАРАЗ <Stunde> ГОДИНА (volle Stunde) bzw. ЗАРАЗ <Minuten> НА <nächste Stunde, Akkusativ> (:05..:30)
+bzw. ЗАРАЗ ЗА <Minuten> <nächste Stunde, Nominativ> (:35..:55). ЗАРАЗ = „jetzt“.
+Ab :05 zählt die nächste Stunde („fünf auf die dritte“ = 2:05, „in fünf die dritte“ = 2:55).
+Beispiel 2:xx (nächste Stunde ТРЕТЯ, Akkusativ ТРЕТЮ):
+:00 ДРУГА ГОДИНА, :05 П'ЯТЬ НА ТРЕТЮ, :10 ДЕСЯТЬ НА ТРЕТЮ, :15 ЧВЕРТЬ НА ТРЕТЮ,
+:20 ДВАДЦЯТЬ НА ТРЕТЮ, :25 ДВАДЦЯТЬ П'ЯТЬ НА ТРЕТЮ, :30 ПІВ НА ТРЕТЮ,
+:35 ЗА ДВАДЦЯТЬ П'ЯТЬ ТРЕТЯ, :40 ЗА ДВАДЦЯТЬ ТРЕТЯ, :45 ЗА ЧВЕРТЬ ТРЕТЯ, :50 ЗА ДЕСЯТЬ ТРЕТЯ,
+:55 ЗА П'ЯТЬ ТРЕТЯ.
+Stunden 1..12: ПЕРША, ДРУГА, ТРЕТЯ, ЧЕТВЕРТА, П'ЯТА, ШОСТА, СЬОМА, ВОСЬМА, ДЕВ'ЯТА, ДЕСЯТА,
+ОДИНАДЦЯТА, ДВАНАДЦЯТА; Akkusativ mit -У statt -А (ТРЕТЯ: -Ю statt -Я).
+Nominativ und Akkusativ teilen sich ein Wort: Stamm + А (zusammenhängend) bzw. Stamm + У (eine Lücke),
+z. B. „ПЕРШАУ“: ПЕРШ + А = ПЕРША, ПЕРШ + У = ПЕРШУ; „ТРЕТЯЮ“: ТРЕТ + Я / ТРЕТ + Ю.
+0 und 12 Uhr = ЗАРАЗ ДВАНАДЦЯТА ГОДИНА. Keine Wörter für Mitternacht/Mittag.
+Ohne gültige Uhrzeit leuchtet nur ЗАРАЗ.
+Minutenzeile: + 1 ХВИЛИНА, + 2..4 ХВИЛИНИ (ХВИЛИН + И, eine Lücke).
+Statuswörter: LÜFTEN = ПРОВІТРИ („lüfte!“), ALARM = ТРИВОГА („Alarm“, auch Luftalarm),
+AKKU = ЗАРЯД („Ladung“, wie „заряд батареї“ auf dem Handy; АКУМУЛЯТОР und БАТАРЕЯ sind zu lang für
+die Zeile mit den 10 Balken).
+Zusatzwörter (Schalter „Показувати СЛАВА УКРАЇНІ“): СЛАВА УКРАЇНІ – ГЕРОЯМ СЛАВА („Ruhm der Ukraine – den Helden
+Ruhm“, Gruß und Antwort).
+Zeichen: kyrillische Großbuchstaben (Ї mit Trema, Д/Ц mit kurzer Unterlänge) und der Apostroph in
+П'ЯТЬ/ДЕВ'ЯТА als eigenes Feld. Die Modelle nutzen die Einstellung SCHRIFT (OpenSCAD: Liberation Sans,
+Arial oder DejaVu Sans Bold) bzw. die gewählte Schrift (FreeCAD, z. B. Arial Bold) – die Schrift muss
+Kyrillisch enthalten. Metriken in Wordclock_Model.scad vorhanden (Block Cyrillic, А–Я, Ё Є І Ї Ґ).
+Füllfelder: Vorgabe der Sprache ist der Punkt (FILLER = auto), da ein X mit dem kyrillischen Х verwechselbar ist.
+
+GRAMMAR (English)
+-----------------
+Sentence (common colloquial form, 12-hour counting, hours as feminine ordinals, "година" = hour):
+ЗАРАЗ <hour> ГОДИНА (full hour) or ЗАРАЗ <minutes> НА <next hour, accusative> (:05..:30)
+or ЗАРАЗ ЗА <minutes> <next hour, nominative> (:35..:55). ЗАРАЗ = "now".
+From :05 on the next hour counts ("five onto the third" = 2:05, "in five the third" = 2:55).
+Example 2:xx (next hour ТРЕТЯ, accusative ТРЕТЮ):
+:00 ДРУГА ГОДИНА, :05 П'ЯТЬ НА ТРЕТЮ, :10 ДЕСЯТЬ НА ТРЕТЮ, :15 ЧВЕРТЬ НА ТРЕТЮ,
+:20 ДВАДЦЯТЬ НА ТРЕТЮ, :25 ДВАДЦЯТЬ П'ЯТЬ НА ТРЕТЮ, :30 ПІВ НА ТРЕТЮ,
+:35 ЗА ДВАДЦЯТЬ П'ЯТЬ ТРЕТЯ, :40 ЗА ДВАДЦЯТЬ ТРЕТЯ, :45 ЗА ЧВЕРТЬ ТРЕТЯ, :50 ЗА ДЕСЯТЬ ТРЕТЯ,
+:55 ЗА П'ЯТЬ ТРЕТЯ.
+Hours 1..12: ПЕРША, ДРУГА, ТРЕТЯ, ЧЕТВЕРТА, П'ЯТА, ШОСТА, СЬОМА, ВОСЬМА, ДЕВ'ЯТА, ДЕСЯТА,
+ОДИНАДЦЯТА, ДВАНАДЦЯТА; accusative with -У instead of -А (ТРЕТЯ: -Ю instead of -Я).
+Nominative and accusative share one word: stem + А (contiguous) or stem + У (one gap),
+e.g. "ПЕРШАУ": ПЕРШ + А = ПЕРША, ПЕРШ + У = ПЕРШУ; "ТРЕТЯЮ": ТРЕТ + Я / ТРЕТ + Ю.
+0 and 12 o'clock = ЗАРАЗ ДВАНАДЦЯТА ГОДИНА. No words for midnight/noon.
+Without a valid time only ЗАРАЗ is lit.
+Minute row: + 1 ХВИЛИНА, + 2..4 ХВИЛИНИ (ХВИЛИН + И, one gap).
+Status words: VENTILATE = ПРОВІТРИ ("ventilate!"), ALARM = ТРИВОГА ("alarm", also air raid alarm),
+BATTERY = ЗАРЯД ("charge", as in "заряд батареї" on phones; АКУМУЛЯТОР and БАТАРЕЯ are too long for
+the row with the 10 bars).
+Extra words (switch "Показувати СЛАВА УКРАЇНІ"): СЛАВА УКРАЇНІ – ГЕРОЯМ СЛАВА ("glory to Ukraine – glory to the
+heroes", greeting and answer).
+Characters: Cyrillic capitals (Ї with diaeresis, Д/Ц with a short descender) and the apostrophe in
+П'ЯТЬ/ДЕВ'ЯТА as its own cell. The models use the setting SCHRIFT (OpenSCAD: Liberation Sans, Arial or
+DejaVu Sans Bold) or the chosen font (FreeCAD, e.g. Arial Bold) - the font must contain Cyrillic.
+Metrics are in Wordclock_Model.scad (block Cyrillic, А-Я, Ё Є І Ї Ґ).
+Fillers: the language default is a dot (FILLER = auto), as an X is easily confused with the Cyrillic Х.
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  ЗАРАЗ ДЕВ'ЯТА ГОДИНА
+09:05  ЗАРАЗ П'ЯТЬ НА ДЕСЯТУ
+09:10  ЗАРАЗ ДЕСЯТЬ НА ДЕСЯТУ
+09:15  ЗАРАЗ ЧВЕРТЬ НА ДЕСЯТУ
+09:20  ЗАРАЗ ДВАДЦЯТЬ НА ДЕСЯТУ
+09:25  ЗАРАЗ ДВАДЦЯТЬ П'ЯТЬ НА ДЕСЯТУ
+09:30  ЗАРАЗ ПІВ НА ДЕСЯТУ
+09:35  ЗАРАЗ ЗА ДВАДЦЯТЬ П'ЯТЬ ДЕСЯТА
+09:40  ЗАРАЗ ЗА ДВАДЦЯТЬ ДЕСЯТА
+09:45  ЗАРАЗ ЗА ЧВЕРТЬ ДЕСЯТА
+09:50  ЗАРАЗ ЗА ДЕСЯТЬ ДЕСЯТА
+09:55  ЗАРАЗ ЗА П'ЯТЬ ДЕСЯТА
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  ЗАРАЗ
+00:00  ЗАРАЗ ДВАНАДЦЯТА ГОДИНА
+00:30  ЗАРАЗ ПІВ НА ПЕРШУ
+00:35  ЗАРАЗ ЗА ДВАДЦЯТЬ П'ЯТЬ ПЕРША
+01:00  ЗАРАЗ ПЕРША ГОДИНА
+01:05  ЗАРАЗ П'ЯТЬ НА ДРУГУ
+12:00  ЗАРАЗ ДВАНАДЦЯТА ГОДИНА
+12:30  ЗАРАЗ ПІВ НА ПЕРШУ
+13:00  ЗАРАЗ ПЕРША ГОДИНА
+09:01  ЗАРАЗ ДЕВ'ЯТА ГОДИНА + 1 ХВИЛИНА
+09:02  ЗАРАЗ ДЕВ'ЯТА ГОДИНА + 2 ХВИЛИНИ
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+·ЗАРАЗ··········   ·ЗАРАЗ··········   ·ЗАРАЗ·ЗА·······   ·ЗАРАЗ·ЗА·······
+················   ················   ·ЧВЕРТЬ·········   ················
+················   ·ДВАДЦЯТЬ·П'ЯТЬ·   ················   ··········П'ЯТЬ·
+················   ·НА·ОДИНАДЦЯТ·У·   ················   ················
+················   ················   ·········ДРУГА··   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+·ДЕВ'ЯТА········   ················   ················   ················
+················   ················   ················   ··ДВАНАДЦЯТА····
+·ГОДИНА·········   ················   ················   ················
+················   ················   ················   ················
+················   ················   +··2····ХВИЛИН·И   +···3···ХВИЛИН·И
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  ЗАРАЗ ДЕВ'ЯТА ГОДИНА
+10:25  ЗАРАЗ ДВАДЦЯТЬ П'ЯТЬ НА ОДИНАДЦЯТУ
+13:47  ЗАРАЗ ЗА ЧВЕРТЬ ДРУГА + 2 ХВИЛИНИ
+23:58  ЗАРАЗ ЗА П'ЯТЬ ДВАНАДЦЯТА + 3 ХВИЛИНИ

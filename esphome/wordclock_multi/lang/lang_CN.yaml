@@ -1,0 +1,78 @@
+# lang_CN.yaml - Wordclock 16x16, ESPHome language package CN (中文 / Mandarin Chinese), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_CN.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: CN
+  name: wenzizhong
+  friendly_name: WenziZhong
+  ap_ssid: WenziZhong Fallback
+  timezone: Asia/Shanghai
+  latitude: "39.904°"           # Beijing
+  longitude: "116.407°"
+  extra_hidden: "false"         # language has extra words (一寸光阴一寸金), switch shown
+
+  # entity names
+  t_br_day: 白天亮度
+  t_br_night: 夜间亮度
+  t_cur_limit: 电流限制
+  t_night_start: 夜间开始偏移
+  t_night_end: 夜间结束偏移
+  t_night_mode: 夜间模式
+  nm_mix: 组合
+  nm_sun: 太阳位置
+  nm_fixed: 固定时间
+  t_night_not_before: 夜间开始 (最早)
+  t_night_not_after: 夜间结束 (最晚)
+  t_night_from: 夜间开始时间
+  t_night_until: 夜间结束时间
+  t_fx_dur: 特效时长
+  t_blink_cycle: 闪烁周期
+  t_tin_min: 室内温度 最小
+  t_tin_max: 室内温度 最大
+  t_tout_min: 室外温度 最小
+  t_tout_max: 室外温度 最大
+  t_col_time: 时间颜色
+  t_col_vent: 通风颜色
+  t_col_alarm: 警报颜色
+  t_col_battery: 电池颜色
+  t_col_tout: 室外温度颜色
+  t_col_tin: 室内温度颜色
+  t_sw_temp: 温度显示
+  t_sw_min: 单分钟显示
+  t_sw_alarm: 警报显示
+  t_sw_vent: 通风显示
+  t_sw_battery: 电池显示
+  t_sw_extra: 显示「一寸光阴一寸金」
+  t_fx: 特效
+  t_fx_color: 特效颜色
+  t_fx_start: 开始特效
+  t_fx_stop: 停止特效
+  t_text: 滚动文字
+  t_text_start: 显示文字
+
+  # colour options (palette order, never change the order)
+  c_0: 暖白
+  c_1: 白
+  c_2: 红
+  c_3: 橙
+  c_4: 黄
+  c_5: 绿
+  c_6: 蓝
+  c_7: 紫
+  c_random: 随机
+  c_temp: 温度
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: 彩虹
+  fx_aurora: 极光
+  fx_matrix: 矩阵
+  fx_fire: 火焰
+  fx_confetti: 彩纸
+  fx_stars: 星空
+  fx_blink: 闪烁
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_CN.h

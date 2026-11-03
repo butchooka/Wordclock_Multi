@@ -1,0 +1,119 @@
+Wordclock_Multi v2.0 - Norsk (NO)
+=================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Oslo  (59.9139, 10.7522)
+Zeitzone / time zone:         Europe/Oslo  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   Ordklokke  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://ordklokke.local
+ESPHome: Gerät / device:      ordklokke (Ordklokke), Fallback-Hotspot "Ordklokke Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_NO.h
+                              esphome/wordclock_multi/lang/lang_NO.yaml (+ src/wc_lang_NO.h)
+                              models/lang/lang_NO.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_NO.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_NO.yaml
+                              OpenSCAD/FreeCAD: LANG = "NO"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xKLOKKAxxxERxx*
+   2 *xxFEMxxxxxTIxx*
+   3 *xxxxKVARTxxxxx*
+   4 *xOVERxxHEIxxxx*
+   5 *xxxxxxxxxxPÅxx*
+   6 *xxxxxHALVxxxxx*
+   7 *xETTxxxxxxTOxx*
+   8 *xTRExxxxFIRExx*
+   9 *xxFEMxxxSEKSxx*
+  10 *xSJUxxxxÅTTExx*
+  11 *xxxNIxxxxxTIxx*
+  12 *xxxxELLEVExxxx*
+  13 *xxxxxTOLVxxxxx*
+  14 x+x1234xMINUTTER
+  15 xLUFTExxxxxALARM
+  16 xBATTx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau (Norwegisch Bokmål, „halv“-System): KLOKKA ER [<Minuten> OVER|PÅ] [HALV] <Stunde>
+Ab :20 bezieht sich die Uhrzeit auf die nächste Stunde (HALV TRE = 2:30, wie „halb drei“).
+:00 <Stunde>, :05 FEM OVER, :10 TI OVER, :15 KVART OVER, :20 TI PÅ HALV, :25 FEM PÅ HALV,
+:30 HALV, :35 FEM OVER HALV, :40 TI OVER HALV, :45 KVART PÅ, :50 TI PÅ, :55 FEM PÅ
+Beispiel: 9:20 = KLOKKA ER TI PÅ HALV TI.
+Kein Wort für „Uhr“ zur vollen Stunde (9:00 = KLOKKA ER NI). 12-Stunden-Anzeige: 0 und 12 Uhr = TOLV.
+OVER = nach, PÅ = vor. FEM und TI stehen je zweimal im Raster (Minuten oben, Stunden unten).
+Minutenzeile: + 1 MINUTT (Einzahl, die ersten 6 Felder von MINUTTER), + 2..4 MINUTTER.
+Zusatzwörter (Schalter „Vis HEI“): HEI („Hallo“, Gruß).
+
+GRAMMAR (English)
+-----------------
+Sentence (Norwegian Bokmål, "halv" system): KLOKKA ER [<minutes> OVER|PÅ] [HALV] <hour>
+From :20 on the time refers to the next hour (HALV TRE = 2:30, "half to three").
+:00 <hour>, :05 FEM OVER, :10 TI OVER, :15 KVART OVER, :20 TI PÅ HALV, :25 FEM PÅ HALV,
+:30 HALV, :35 FEM OVER HALV, :40 TI OVER HALV, :45 KVART PÅ, :50 TI PÅ, :55 FEM PÅ
+Example: 9:20 = KLOKKA ER TI PÅ HALV TI (ten to half ten).
+No word for "o'clock" (9:00 = KLOKKA ER NI). 12-hour display: 0 and 12 o'clock = TOLV.
+OVER = past, PÅ = to. FEM and TI are in the grid twice (minutes at the top, hours below).
+Minute row: + 1 MINUTT (singular, the first 6 cells of MINUTTER), + 2..4 MINUTTER.
+Extra words (switch "Vis HEI"): HEI ("hello", greeting).
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  KLOKKA ER NI
+09:05  KLOKKA ER FEM OVER NI
+09:10  KLOKKA ER TI OVER NI
+09:15  KLOKKA ER KVART OVER NI
+09:20  KLOKKA ER TI PÅ HALV TI
+09:25  KLOKKA ER FEM PÅ HALV TI
+09:30  KLOKKA ER HALV TI
+09:35  KLOKKA ER FEM OVER HALV TI
+09:40  KLOKKA ER TI OVER HALV TI
+09:45  KLOKKA ER KVART PÅ TI
+09:50  KLOKKA ER TI PÅ TI
+09:55  KLOKKA ER FEM PÅ TI
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  KLOKKA ER
+00:00  KLOKKA ER TOLV
+00:30  KLOKKA ER HALV ETT
+00:35  KLOKKA ER FEM OVER HALV ETT
+01:00  KLOKKA ER ETT
+01:05  KLOKKA ER FEM OVER ETT
+12:00  KLOKKA ER TOLV
+12:30  KLOKKA ER HALV ETT
+13:00  KLOKKA ER ETT
+09:01  KLOKKA ER NI + 1 MINUTT
+09:02  KLOKKA ER NI + 2 MINUTTER
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+··KLOKKA···ER···   ··KLOKKA···ER···   ··KLOKKA···ER···   ··KLOKKA···ER···
+················   ···FEM··········   ················   ···FEM··········
+················   ················   ·····KVART······   ················
+················   ················   ················   ················
+················   ···········PÅ···   ···········PÅ···   ···········PÅ···
+················   ······HALV······   ················   ················
+················   ················   ···········TO···   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+····NI··········   ················   ················   ················
+················   ·····ELLEVE·····   ················   ················
+················   ················   ················   ······TOLV······
+················   ················   ·+··2···MINUTTER   ·+···3··MINUTTER
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  KLOKKA ER NI
+10:25  KLOKKA ER FEM PÅ HALV ELLEVE
+13:47  KLOKKA ER KVART PÅ TO + 2 MINUTTER
+23:58  KLOKKA ER FEM PÅ TOLV + 3 MINUTTER

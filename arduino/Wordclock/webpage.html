@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<!--
+  webpage.html - Wordclock 16x16, web interface (Arduino), v2.0
+  SOURCE of the web interface. After a change run  python3 tools/make_webpage.py : it writes webpage.h
+  (gzip-compressed byte array, approx. a quarter of the size; the browser unpacks it).
+  One page, no external files (works in the hotspot without internet).
+  All texts come from the language file (ui_json in src/wc_lang_XX.h), delivered with /api/info.
+  Elements: data-t = textContent, data-th = innerHTML, data-tp = placeholder. In JS: t('key', {var: value}).
+  The English texts in this file are only shown for a moment before the translation is loaded.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wordclock</title>
+<style>
+:root{--bg:#f3efe7;--card:#fffdf9;--tx:#22201c;--mu:#776f63;--bd:#e4ddd0;--in:#f8f5ef;--ac:#c9721e;--ac2:#fff1e2;--ok:#2f8a4b;--bad:#b8402f;--glow:#ffb35c;color-scheme:light}
+@media(prefers-color-scheme:dark){:root{--bg:#12110f;--card:#1c1a17;--tx:#efe9df;--mu:#a59d90;--bd:#302c27;--in:#24211d;--ac:#f0a050;--ac2:#3a2a19;--ok:#5cc27a;--bad:#ef7a66;--glow:#ffb35c;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:860px;margin:0 auto;padding:16px}
+.hero{background:#0f0e0c;color:#3b3731;border-radius:18px;padding:22px 20px;margin-bottom:16px;text-align:center}
+.words{font:600 clamp(18px,4.4vw,30px)/1.35 ui-monospace,"SF Mono",Menlo,Consolas,monospace;letter-spacing:.18em;color:var(--glow);text-shadow:0 0 14px rgba(255,170,80,.55);min-height:1.4em}
+.sub{margin-top:10px;color:#a59d90;font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:12px}
+.chip{background:#24211d;color:#d8d0c4;border-radius:99px;padding:3px 11px;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px 18px}
+.card h2{margin:0 0 12px;font-size:16px;letter-spacing:.04em}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px solid var(--bd)}
+.row:first-of-type{border-top:0}
+.row>label:first-child,.row>span:first-child{flex:1}
+.hint{color:var(--mu);font-size:13px;margin:6px 0 0}
+input,select,button{font:inherit;color:inherit}
+input[type=text],input[type=number],input[type=password],input[type=time],select{background:var(--in);border:1px solid var(--bd);border-radius:8px;padding:6px 8px;min-width:0}
+input[type=number]{width:96px}
+input[type=text],input[type=password]{width:100%}
+.wide{display:block;padding:7px 0;border-top:1px solid var(--bd)}
+.wide>label{display:block;margin-bottom:4px}
+input[type=range]{width:150px;accent-color:var(--ac)}
+input[type=color]{width:42px;height:32px;border:1px solid var(--bd);border-radius:8px;background:none;padding:2px}
+output{display:inline-block;min-width:52px;text-align:right;color:var(--mu);font-variant-numeric:tabular-nums}
+.sw{position:relative;width:44px;height:24px;flex:none}
+.sw input{opacity:0;width:0;height:0;position:absolute}
+.sw span{position:absolute;inset:0;background:var(--bd);border-radius:99px;transition:.2s;cursor:pointer}
+.sw span:before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.sw input:checked+span{background:var(--ac)}
+.sw input:checked+span:before{transform:translateX(20px)}
+button{background:var(--ac2);border:1px solid var(--bd);border-radius:9px;padding:8px 12px;cursor:pointer}
+button:hover{border-color:var(--ac)}
+button.pri{background:var(--ac);color:#fff;border-color:var(--ac)}
+button.dan{color:var(--bad)}
+.fx{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-bottom:10px}
+.fx button{padding:10px 6px}
+.txt button{white-space:nowrap}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14px}
+.kv span:nth-child(odd){color:var(--mu)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+#scanList{list-style:none;margin:6px 0 0;padding:0;max-height:180px;overflow:auto}
+#scanList li{padding:6px 8px;border-radius:7px;cursor:pointer;display:flex;justify-content:space-between}
+#scanList li:hover{background:var(--in)}
+code{background:var(--in);border-radius:6px;padding:2px 5px;font-size:12.5px;word-break:break-all}
+progress{width:100%;margin-top:8px;accent-color:var(--ac)}
+.banner{margin:20px 0 8px;background:#0f0e0c;color:#d8d0c4;border-radius:14px;padding:16px 18px;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;justify-content:center;text-align:center}
+.banner a{color:var(--glow);text-decoration:none;font-weight:600}
+.banner a:hover{text-decoration:underline}
+.ver{text-align:center;color:var(--mu);font-size:12px;margin-bottom:16px}
+#toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,80px);background:#22201c;color:#fff;padding:9px 16px;border-radius:10px;opacity:0;transition:.25s;pointer-events:none;z-index:9}
+#toast.on{transform:translate(-50%,0);opacity:1}
+.hide{display:none!important}
+.warn{background:var(--ac2);border:1px solid var(--ac);border-radius:10px;padding:10px 12px;margin-bottom:16px}
+</style>
+</head>
+<body>
+<main>
+<section class="hero">
+  <div class="words" id="words">…</div>
+  <div class="sub"><span id="clock">--:--:--</span> · <span id="date"></span></div>
+  <div class="chips">
+    <span class="chip" id="chDay">–</span>
+    <span class="chip" id="chNet">–</span>
+    <span class="chip hide" id="chFx"></span>
+  </div>
+</section>
+
+<div class="warn hide" id="noTime"><span data-t="notime_msg">The clock has no time yet (no internet or NTP).</span> <button class="pri" onclick="setTime()" data-t="btn_settime">Take time from phone/PC</button></div>
+<div class="warn hide" id="apInfo" data-th="ap_info">Hotspot active.</div>
+
+<div class="grid">
+
+<section class="card live" id="secShow">
+  <h2 data-t="sec_show">Display</h2>
+  <div class="row"><label for="on" data-t="on">Clock switched on</label><label class="sw"><input type="checkbox" id="on" name="on"><span></span></label></div>
+  <div class="row"><label for="swMin" data-t="swMin">Single minutes</label><label class="sw"><input type="checkbox" id="swMin" name="swMin"><span></span></label></div>
+  <div class="row"><label for="brD" data-t="brD">Brightness day</label><input type="range" id="brD" name="brD" min="1" max="100" data-u=" %"><output for="brD"></output></div>
+  <div class="row"><label for="brN" data-t="brN">Brightness night</label><input type="range" id="brN" name="brN" min="0" max="100" data-u=" %"><output for="brN"></output></div>
+  <div class="row"><label for="cur" data-t="cur">Current limit (mA)</label><input type="number" id="cur" name="cur" min="100" max="3000" step="10"></div>
+  <p class="hint" data-t="hint_show"></p>
+</section>
+
+<section class="card live" id="secCol">
+  <h2 data-t="sec_col">Colours</h2>
+  <div id="colRows"></div>
+  <p class="hint" data-t="hint_col"></p>
+</section>
+
+<section class="card live" id="secFx">
+  <h2 data-t="sec_fx">Effects</h2>
+  <div class="fx" id="fxBtns"></div>
+  <div class="row"><label for="fxd" data-t="fxd">Effect duration</label><input type="range" id="fxd" name="fxd" min="0" max="120" data-u=" s"><output for="fxd"></output></div>
+  <div class="row"><label for="blk" data-t="blk">Blink cycle</label><input type="range" id="blk" name="blk" min="0.3" max="3" step="0.1" data-u=" s"><output for="blk"></output></div>
+  <p class="hint" data-t="hint_fx"></p>
+  <div class="row txt"><input type="text" id="txt" maxlength="64" data-tp="txt_ph" autocomplete="off" onkeydown="if(event.key==='Enter')txtGo()"><button class="pri" onclick="txtGo()" data-t="txt_start">Start text</button></div>
+  <p class="hint" data-t="hint_txt"></p>
+</section>
+
+<section class="card live" id="secSun">
+  <h2 data-t="sec_sun">Day / night</h2>
+  <div class="row"><label for="nmode" data-t="nmode">Night mode</label><select id="nmode" name="nmode"><option value="2" data-t="nm_mix">Mixed</option><option value="0" data-t="nm_sun">Sun position</option><option value="1" data-t="nm_fixed">Fixed times</option></select></div>
+  <div class="row"><label for="locSel" data-t="loc">Location</label><select id="locSel"></select></div>
+  <div class="row locc"><label for="lat" data-t="lat">Latitude</label><input type="number" id="lat" name="lat" step="0.0001" min="-90" max="90"></div>
+  <div class="row locc"><label for="lon" data-t="lon">Longitude</label><input type="number" id="lon" name="lon" step="0.0001" min="-180" max="180"></div>
+  <div class="row" data-nm="02"><label for="nso" data-t="nso">Night start offset (min)</label><input type="number" id="nso" name="nso" step="5" min="-240" max="240"></div>
+  <div class="row" data-nm="02"><label for="neo" data-t="neo">Night end offset (min)</label><input type="number" id="neo" name="neo" step="5" min="-240" max="240"></div>
+  <div class="row" data-nm="2"><label for="nme" data-t="nme">Night not before</label><input type="time" id="nme" name="nme"></div>
+  <div class="row" data-nm="2"><label for="nml" data-t="nml">Night not after</label><input type="time" id="nml" name="nml"></div>
+  <div class="row" data-nm="1"><label for="nfs" data-t="nfs">Night from</label><input type="time" id="nfs" name="nfs"></div>
+  <div class="row" data-nm="1"><label for="nfe" data-t="nfe">Night until</label><input type="time" id="nfe" name="nfe"></div>
+  <div class="kv" style="margin-top:8px"><span data-t="sunrise">Sunrise</span><span id="sr">–</span><span data-t="sunset">Sunset</span><span id="ss">–</span><span data-t="night_today">Night today</span><span id="nt">–</span><span data-t="now">Now</span><span id="dn">–</span></div>
+  <p class="hint" id="nmHint"></p>
+</section>
+
+<section class="card live" id="secExtra">
+  <h2 data-t="sec_extra">Additional displays</h2>
+  <div class="row"><label for="swTemp" data-t="swTemp">Temperature dots</label><label class="sw"><input type="checkbox" id="swTemp" name="swTemp"><span></span></label></div>
+  <div class="row"><label for="tOnl" data-t="tOnl">Outdoor temperature from Open-Meteo</label><label class="sw"><input type="checkbox" id="tOnl" name="tOnl"><span></span></label></div>
+  <div class="row"><span data-t="scale_out">Scale outside (°C)</span><span><input type="number" name="toMin" step="0.5" min="-40" max="60"> – <input type="number" name="toMax" step="0.5" min="-40" max="60"></span></div>
+  <div class="row"><span data-t="scale_in">Scale inside (°C)</span><span><input type="number" name="tiMin" step="0.5" min="-40" max="60"> – <input type="number" name="tiMax" step="0.5" min="-40" max="60"></span></div>
+  <div class="row"><label for="swLuft" data-t="swLuft">Show VENTILATE</label><label class="sw"><input type="checkbox" id="swLuft" name="swLuft"><span></span></label></div>
+  <div class="row"><label for="swAlarm" data-t="swAlarm">Show ALARM</label><label class="sw"><input type="checkbox" id="swAlarm" name="swAlarm"><span></span></label></div>
+  <div class="row"><label for="swAkku" data-t="swAkku">Show BATTERY</label><label class="sw"><input type="checkbox" id="swAkku" name="swAkku"><span></span></label></div>
+  <div class="row hide" id="rowExtra"><label for="swExtra" data-t="swExtra">Show extra words</label><label class="sw"><input type="checkbox" id="swExtra" name="swExtra"><span></span></label></div>
+  <div class="row"><label for="apiTo" data-t="apiTo">Values valid for (min, 0 = always)</label><input type="number" id="apiTo" name="apiTo" min="0" max="1440"></div>
+  <div class="kv" style="margin-top:8px"><span data-t="v_out">Outside</span><span id="vOut">–</span><span data-t="v_in">Inside</span><span id="vIn">–</span><span data-t="v_batt">Battery</span><span id="vAkku">–</span><span data-t="v_la">Ventilate / alarm</span><span id="vLA">–</span></div>
+  <p class="hint"><span data-t="hint_extra"></span><br><code id="apiEx">/api/set?tout=8.5&amp;tin=21.5&amp;akku=80&amp;luft=1&amp;alarm=0</code></p>
+</section>
+
+<section class="card" id="secApi">
+  <h2 data-t="sec_api">HTTP control</h2>
+  <p class="hint" style="margin-top:0" data-th="hint_api1"></p>
+  <div class="kv" style="margin-top:8px;grid-template-columns:1fr">
+    <code data-p="/api/set?fx=blink&amp;fxcolor=ff8800&amp;fxdur=20">–</code>
+    <code data-p="/api/set?brday=40&amp;brnight=0">–</code>
+    <code data-p="/api/set?text=Hello%20World&amp;textcolor=rainbow">–</code>
+    <code data-p="/api/set?col_time=random&amp;show_minutes=1">–</code>
+    <code data-p="/api/get">–</code>
+  </div>
+  <p class="hint" id="apiKeys"></p>
+</section>
+
+<section class="card live" id="secTime">
+  <h2 data-t="sec_time">Time</h2>
+  <div class="row"><label for="ntpD" data-t="ntpD">NTP server</label><select id="ntpD" name="ntpD"><option value="1" data-t="ntp_auto">automatic (DHCP)</option><option value="0" data-t="ntp_manual">manual</option></select></div>
+  <div class="wide"><label for="ntp" id="ntpLbl">Server</label><input type="text" id="ntp" name="ntp" placeholder="pool.ntp.org"></div>
+  <div class="kv hide" id="tzLoc" style="padding:7px 0"><span data-t="tz">Time zone</span><span id="tzLocTxt">–</span></div>
+  <div class="row" id="tzRow"><label for="tzSel" data-t="tz">Time zone</label><select id="tzSel">
+    <option value="CET-1CEST,M3.5.0,M10.5.0/3" data-t="tz_cet">Central Europe</option>
+    <option value="GMT0BST,M3.5.0/1,M10.5.0" data-t="tz_wet">London, Lisbon</option>
+    <option value="EET-2EEST,M3.5.0/3,M10.5.0/4" data-t="tz_eet">Eastern Europe</option>
+    <option value="&lt;+03&gt;-3" data-t="tz_trt">Turkey</option>
+    <option value="EAT-3" data-t="tz_eat">East Africa</option>
+    <option value="UTC0" data-t="tz_utc">UTC</option>
+    <option value="EST5EDT,M3.2.0,M11.1.0" data-t="tz_use">USA East</option>
+    <option value="CST6CDT,M3.2.0,M11.1.0" data-t="tz_usc">USA Central</option>
+    <option value="MST7MDT,M3.2.0,M11.1.0" data-t="tz_usm">USA Mountain</option>
+    <option value="PST8PDT,M3.2.0,M11.1.0" data-t="tz_usw">USA West</option>
+    <option value="WIB-7" data-t="tz_wib">Indonesia (Jakarta)</option>
+    <option value="CST-8" data-t="tz_cst">China</option>
+    <option value="KST-9" data-t="tz_kst">Korea</option>
+    <option value="JST-9" data-t="tz_jst">Japan</option>
+    <option value="AEST-10AEDT,M10.1.0,M4.1.0/3" data-t="tz_aus">Australia East</option>
+    <option value="custom" data-t="tz_custom">custom (POSIX TZ) …</option>
+  </select></div>
+  <div class="wide hide" id="tzWrap"><label for="tz" data-t="tz_posix">POSIX time zone</label><input type="text" id="tz" name="tz"></div>
+  <div class="kv" style="margin-top:8px"><span data-t="ntp_active">Active server</span><span id="ntpAct">–</span></div>
+  <p class="hint" id="ntpHint" data-t="ntp_hint"></p>
+  <div class="btns"><button onclick="setTime()" data-t="btn_settime">Take time from phone/PC</button></div>
+</section>
+
+<section class="card" id="secWifi">
+  <h2 data-t="sec_wifi">Wi-Fi</h2>
+  <form method="post" action="/api/wifi" id="wifiForm">
+  <div class="wide"><label for="ssid" data-t="ssid">Network (SSID)</label><input type="text" id="ssid" name="ssid" required autocomplete="off" autocapitalize="none"></div>
+  <div class="btns" style="margin-top:2px"><button type="button" onclick="scan()" data-t="scan">Search networks</button></div>
+  <ul id="scanList"></ul>
+  <div class="wide"><label for="pass" data-t="pass">Password</label><input type="password" id="pass" name="pass" autocomplete="new-password" autocapitalize="none" data-tp="pass_ph"></div>
+  <div class="wide"><label for="host" data-t="host">Device name (http://name.local)</label><input type="text" id="host" name="host" autocapitalize="none"></div>
+  <div class="btns"><button type="submit" class="pri" data-t="save_wifi">Save &amp; reconnect</button></div>
+  </form>
+  <div class="kv" style="margin-top:10px"><span data-t="status">Status</span><span id="wSt">–</span><span data-t="ip">IP</span><span id="wIp">–</span><span data-t="last_err">Last error</span><span id="wErr">–</span></div>
+  <p class="hint" data-th="hint_wifi"></p>
+</section>
+
+<section class="card" id="secSys">
+  <h2 data-t="sec_sys">System</h2>
+  <div class="live">
+    <div class="row"><label for="mir" data-t="mir">LED 0 front top right (mirror)</label><label class="sw"><input type="checkbox" id="mir" name="mir"><span></span></label></div>
+    <div class="row"><label for="srp" data-t="srp">Matrix wired in zigzag</label><label class="sw"><input type="checkbox" id="srp" name="srp"><span></span></label></div>
+  </div>
+  <div class="btns">
+    <button onclick="act('restart','q_restart')" data-t="restart">Restart</button>
+    <button class="dan" onclick="act('reset','q_reset')" data-t="reset">Factory reset</button>
+  </div>
+  <div class="kv" style="margin-top:10px"><span data-t="language">Language</span><span id="lng">–</span><span data-t="firmware">Firmware</span><span id="ver">–</span><span data-t="uptime">Uptime</span><span id="up">–</span><span data-t="heap">Free memory</span><span id="heap">–</span></div>
+</section>
+
+</div>
+
+<footer class="banner">
+  <span data-t="footer">Build guide, code and print files:</span>
+  <a href="https://github.com/butchooka/Wordclock_Multi" target="_blank" rel="noopener">GitHub · butchooka/Wordclock_Multi</a>
+  <a href="https://makerworld.com/@butchooka" target="_blank" rel="noopener">MakerWorld · @butchooka</a>
+</footer>
+<div class="ver" id="verFoot"></div>
+</main>
+<div id="toast"></div>
+
+<script>
+const Q=s=>document.querySelector(s),QA=s=>[...document.querySelectorAll(s)];
+const T={};let U={},I={fx:[]};
+const PALK=['warmwhite','white','red','orange','yellow','green','blue','violet'];
+const PALC=['#ff8c28','#ffffff','#ff0000','#ff4600','#ffbe00','#00ff00','#0000ff','#9600ff'];
+const GROUPS=[['g_time',0],['g_vent',0],['g_alarm',0],['g_batt',0],['g_tout',1],['g_tin',1]];
+const FXI={rainbow:'🌈',aurora:'🌌',matrix:'🟩',fire:'🔥',confetti:'🎉',stars:'✨'};
+const BLINK=[6,5,2,1];   // palette index of the blink buttons: blue, green, red, white
+
+function t(k,v){let s=(k in U)?U[k]:k;if(v)for(const n in v)s=s.split('{'+n+'}').join(v[n]);return s;}
+function vars(){return {ap:I.ap||'',host:I.host||''};}
+function applyLang(){
+  document.documentElement.lang=U.html_lang||'en';document.title=I.ap||document.title;
+  QA('[data-t]').forEach(e=>e.textContent=t(e.dataset.t,vars()));
+  QA('[data-th]').forEach(e=>e.innerHTML=t(e.dataset.th,vars()));
+  QA('[data-tp]').forEach(e=>e.placeholder=t(e.dataset.tp,vars()));
+  Q('#apiKeys').textContent=t('hint_api2')+' '+t('hint_api_keys',{fx:I.fx.map(f=>f.k).join(', ')});
+  Q('#lng').textContent=I.name+' ('+I.code+')';
+  Q('#rowExtra').classList.toggle('hide',!I.extra);
+}
+function toast(s){const e=Q('#toast');e.textContent=s;e.classList.add('on');clearTimeout(T.toast);T.toast=setTimeout(()=>e.classList.remove('on'),2200);}
+function val(el){return el.type==='checkbox'?(el.checked?'1':'0'):el.value;}
+async function post(u,d){const r=await fetch(u,{method:'POST',body:new URLSearchParams(d||{})});return r.json();}
+function out(el){const o=Q('output[for="'+el.name+'"]');if(o)o.textContent=el.value+(el.dataset.u||'');}
+
+async function send(el){
+  const d={};d[el.name]=val(el);
+  try{const r=await post('/api/save',d);
+    if(r.restart){toast(t('saved_restart'));setTimeout(()=>location.reload(),9000);}else toast(t('saved'));
+  }catch(e){toast(t('save_err'));}
+}
+
+function buildColors(){
+  let h='';
+  GROUPS.forEach(([n,tm],i)=>{
+    let o=PALK.map((p,j)=>'<option value="'+j+'">'+t('pal_'+j)+'</option>').join('');
+    o+='<option value="8">'+t(tm?'c_temp':'c_random')+'</option>';
+    if(i===0)o+='<option value="10">'+t('c_pride')+'</option>';
+    o+='<option value="9">'+t('c_custom')+'</option>';
+    h+='<div class="row"><label for="c'+i+'">'+t(n)+'</label><span><input type="color" name="x'+i+'" class="hide"> <select id="c'+i+'" name="c'+i+'">'+o+'</select></span></div>';
+  });
+  Q('#colRows').innerHTML=h;
+}
+function fxName(k,c){if(k==='blink')return c==null?t('fx_blink_own'):t('fx_blink')+' '+t('pal_'+c);return t('fx_'+k);}
+function buildFx(){
+  let h='';
+  I.fx.forEach(f=>{
+    if(f.c){BLINK.forEach(c=>{h+='<button onclick="fx(\''+f.k+'\','+c+')"><span class="dot" style="background:'+PALC[c]+(c===1?';border:1px solid #999':'')+'"></span>'+fxName(f.k,c)+'</button>';});}
+    else h+='<button onclick="fx(\''+f.k+'\')">'+(FXI[f.k]||'✨')+' '+fxName(f.k)+'</button>';
+  });
+  h+='<button onclick="fx(\'stop\')">⏹ '+t('stop')+'</button>';
+  Q('#fxBtns').innerHTML=h;
+}
+function custom(){for(let i=0;i<6;i++)Q('[name="x'+i+'"]').classList.toggle('hide',Q('#c'+i).value!=='9');}
+function nmUi(){const m=Q('#nmode').value;QA('[data-nm]').forEach(e=>e.classList.toggle('hide',!e.dataset.nm.includes(m)));Q('#nmHint').textContent=t('nmh_'+m);}
+function ntpUi(){const a=Q('#ntpD').value==='1';Q('#ntpLbl').textContent=a?t('ntp_fallback'):t('ntp_server');}
+function tzUi(){const s=Q('#tzSel'),c=locCur()<0;Q('#tzRow').classList.toggle('hide',!c);Q('#tzLoc').classList.toggle('hide',c);
+  Q('#tzWrap').classList.toggle('hide',!c||s.value!=='custom');}
+// Locations: capitals of the languages (own spelling + country code), coordinates and time zone are set together.
+// "custom" = own coordinates, then the time zone is chosen in the card "Time".
+const TZ={cet:'CET-1CEST,M3.5.0,M10.5.0/3',wet:'GMT0BST,M3.5.0/1,M10.5.0',eet:'EET-2EEST,M3.5.0/3,M10.5.0/4',trt:'<+03>-3',
+  eat:'EAT-3',wib:'WIB-7',cst:'CST-8',kst:'KST-9',jst:'JST-9'};
+const LOC=[['Amsterdam','NL',52.3676,4.9041,'cet'],['Ankara','TR',39.9334,32.8597,'trt'],['Athína','GR',37.9838,23.7275,'eet'],
+  ['Beijing','CN',39.9042,116.4074,'cst'],['Berlin','DE',52.5200,13.4050,'cet'],['Bern','CH',46.9480,7.4474,'cet'],
+  ['București','RO',44.4268,26.1025,'eet'],['Budapest','HU',47.4979,19.0402,'cet'],['Città del Vaticano','VA',41.9029,12.4534,'cet'],
+  ['Dodoma','TZ',-6.1630,35.7516,'eat'],['Freiburg','DE',47.9990,7.8421,'cet'],['Jakarta','ID',-6.2088,106.8456,'wib'],
+  ['København','DK',55.6761,12.5683,'cet'],['Kyiv','UA',50.4501,30.5234,'eet'],['Lisboa','PT',38.7223,-9.1393,'wet'],
+  ['London','GB',51.5074,-0.1278,'wet'],['Madrid','ES',40.4168,-3.7038,'cet'],['Oslo','NO',59.9139,10.7522,'cet'],
+  ['Paris','FR',48.8566,2.3522,'cet'],['Praha','CZ',50.0755,14.4378,'cet'],['Roma','IT',41.9028,12.4964,'cet'],
+  ['Seoul','KR',37.5665,126.9780,'kst'],['Stockholm','SE',59.3293,18.0686,'cet'],['Stuttgart','DE',48.7758,9.1829,'cet'],['Tokyo','JP',35.6762,139.6503,'jst'],
+  ['Warszawa','PL',52.2297,21.0122,'cet'],['Wien','AT',48.2082,16.3738,'cet']];
+let locCustom=false;
+function locName(i){return LOC[i][0]+' ('+LOC[i][1]+')';}
+function locCur(){  // index of the location matching lat/lon/tz, -1 = custom
+  if(locCustom)return -1;
+  const la=+Q('#lat').value,lo=+Q('#lon').value,tz=Q('#tz').value;
+  return LOC.findIndex(l=>Math.abs(l[2]-la)<0.0011&&Math.abs(l[3]-lo)<0.0011&&TZ[l[4]]===tz);
+}
+function buildLoc(){
+  Q('#locSel').innerHTML=LOC.map((l,i)=>'<option value="'+i+'">'+locName(i)+'</option>').join('')+'<option value="-1">'+t('loc_custom')+'</option>';
+}
+function locUi(){
+  const i=locCur();Q('#locSel').value=String(i);
+  QA('.locc').forEach(e=>e.classList.toggle('hide',i>=0));
+  if(i>=0)Q('#tzLocTxt').textContent=t('tz_from_loc',{city:locName(i)});
+  tzUi();
+}
+async function setLoc(v){
+  const i=+v;
+  if(i<0){locCustom=true;locUi();const s=Q('#tzSel');s.value=Q('#tz').value;if(s.value!==Q('#tz').value)s.value='custom';tzUi();return;}
+  locCustom=false;const l=LOC[i];
+  Q('#lat').value=l[2];Q('#lon').value=l[3];Q('#tz').value=TZ[l[4]];
+  try{await post('/api/save',{lat:l[2],lon:l[3],tz:TZ[l[4]]});toast(t('saved'));}catch(e){toast(t('save_err'));}
+  locUi();status();
+}
+
+document.addEventListener('input',e=>{
+  const el=e.target;if(!el.name||!el.closest('.live'))return;out(el);
+  if(el.type==='range'){clearTimeout(T[el.name]);T[el.name]=setTimeout(()=>send(el),250);}
+});
+document.addEventListener('change',e=>{
+  const el=e.target;
+  if(el.id==='locSel'){setLoc(el.value);return;}
+  if(el.id==='tzSel'){tzUi();if(el.value!=='custom'){Q('#tz').value=el.value;send(Q('#tz'));}return;}
+  if(!el.name||!el.closest('.live')||el.type==='range')return;
+  if(/^c\d$/.test(el.name))custom();
+  if(el.name==='ntpD')ntpUi();
+  if(el.name==='nmode')nmUi();
+  send(el);
+});
+
+async function info(){
+  const r=await (await fetch('/api/info')).json();
+  I=r;U=r.ui||{};
+  applyLang();buildColors();buildFx();buildLoc();
+}
+async function load(){
+  const c=await (await fetch('/api/config')).json();
+  for(const k in c){
+    const el=Q('[name="'+k+'"]');
+    if(el){if(el.type==='checkbox')el.checked=!!c[k];else el.value=c[k];out(el);}
+  }
+  Q('#ssid').value=c.ssid||'';Q('#host').value=c.host||I.host||'';
+  const s=Q('#tzSel');s.value=c.tz;if(s.value!==c.tz)s.value='custom';
+  Q('#txt').value=c.txt||'';
+  custom();ntpUi();nmUi();locCustom=false;locCustom=locCur()<0;locUi();
+}
+
+function fmtUp(s){const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return (d?d+' d ':'')+h+' h '+m+' min';}
+function deg(v,src){return v===null?'–':v.toFixed(1).replace('.',U.dec||'.')+' °C'+(src?' ('+src+')':'');}
+
+async function status(){
+  try{
+    const s=await (await fetch('/api/status')).json();
+    Q('#words').textContent=s.valid?s.words:(s.words+' …');
+    Q('#clock').textContent=s.time;Q('#date').textContent=s.date;
+    Q('#chDay').textContent=s.night?'🌙 '+t('night'):'☀️ '+t('day');
+    Q('#chNet').textContent=s.sta?('📶 '+s.ssid+' ('+s.rssi+' dBm)'):(s.ap?'📡 '+t('net_hotspot',vars()):t('net_off'));
+    const f=Q('#chFx');f.classList.toggle('hide',!s.fx&&!s.txt);f.textContent=s.txt?'🔤 '+t('txt'):'✨ '+(s.fx?fxName(s.fxk,s.fxc):'');
+    Q('#noTime').classList.toggle('hide',s.valid);
+    Q('#apInfo').classList.toggle('hide',!s.ap||s.sta);
+    Q('#sr').textContent=s.sr;Q('#ss').textContent=s.ss;Q('#dn').textContent=s.night?t('night'):t('day');
+    Q('#nt').textContent=s.ns!=='-'?s.ns+' – '+s.ne:'–';
+    Q('#vOut').textContent=deg(s.tout,s.toutSrc);Q('#vIn').textContent=deg(s.tin);
+    Q('#vAkku').textContent=s.akku===null?'–':s.akku+' %';
+    Q('#vLA').textContent=(s.luft?t('on_'):t('off_'))+' / '+(s.alarm?t('on_'):t('off_'));
+    Q('#ntpAct').textContent=s.ntp;
+    if(!s.dhcpNtp)Q('#ntpHint').textContent=t('ntp_nodhcp');
+    Q('#wSt').textContent=s.sta?t('w_conn',{ssid:s.ssid}):(s.ap?t('w_ap',{ip:s.apIp}):t('w_none'));
+    Q('#wIp').textContent=s.ip||'–';
+    Q('#wErr').textContent=s.reason?(s.reason+(('wr_'+s.reason) in U?' – '+t('wr_'+s.reason):'')):'–';
+    const base='http://'+(s.ip||location.host);
+    Q('#apiEx').textContent=base+'/api/set?tout=8.5&tin=21.5&akku=80&luft=1&alarm=0';
+    QA('[data-p]').forEach(e=>e.textContent=base+e.dataset.p);
+    Q('#ver').textContent=s.ver;Q('#verFoot').textContent=s.ver;
+    Q('#up').textContent=fmtUp(s.up);Q('#heap').textContent=Math.round(s.heap/1024)+' kB';
+  }catch(e){Q('#chNet').textContent='⚠️ '+t('net_lost');}
+}
+
+async function fx(k,c){
+  let u='/api/set?fx='+k;if(c!==undefined)u+='&fxcolor='+PALK[c];
+  await fetch(u);toast(k==='stop'?t('fx_stopped'):t('fx_started',{fx:fxName(k,c)}));status();
+}
+async function txtGo(){
+  const v=Q('#txt').value.trim();if(!v)return;
+  await fetch('/api/set?text='+encodeURIComponent(v));toast(t('txt_started'));status();
+}
+async function setTime(){await fetch('/api/settime?e='+Math.floor(Date.now()/1000));toast(t('time_set'));status();}
+
+async function scan(){
+  const l=Q('#scanList');l.innerHTML='<li>'+t('scanning')+'</li>';
+  try{
+    const r=await (await fetch('/api/scan')).json();
+    l.innerHTML='';
+    if(!r.length)l.innerHTML='<li>'+t('scan_none')+'</li>';
+    r.sort((a,b)=>b.r-a.r).forEach(n=>{
+      const li=document.createElement('li');
+      const a=document.createElement('span');a.textContent=(n.o?'🔓 ':'🔒 ')+n.s;
+      const b=document.createElement('span');b.textContent=n.r+' dBm';b.style.color='var(--mu)';
+      li.append(a,b);li.onclick=()=>{Q('#ssid').value=n.s;Q('#pass').focus();};l.append(li);
+    });
+  }catch(e){l.innerHTML='<li>'+t('scan_err')+'</li>';}
+}
+async function act(a,q){if(!confirm(t(q)))return;try{await post('/api/'+a);}catch(e){}toast(t('restarting'));setTimeout(()=>location.reload(),9000);}
+
+// Hotspot without Wi-Fi connection (captive portal): move the Wi-Fi card to the top and jump there
+async function first(){
+  try{
+    const s=await (await fetch('/api/status')).json();
+    if(s.ap&&!s.sta){
+      const w=Q('#secWifi');Q('.grid').prepend(w);
+      w.scrollIntoView();Q('#ssid').focus({preventScroll:true});
+      scan();
+    }
+  }catch(e){}
+}
+info().then(first).then(load).then(status);
+setInterval(status,2000);
+</script>
+</body>
+</html>

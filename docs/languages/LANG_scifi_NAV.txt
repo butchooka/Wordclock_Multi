@@ -1,0 +1,141 @@
+Wordclock_Multi v2.0 - Na'vi (scifi_NAV)
+========================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Berlin  (52.5200, 13.4050)
+Zeitzone / time zone:         Europe/Berlin  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   LiuKrr  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://liukrr.local
+ESPHome: Gerät / device:      liukrr (LiuKrr), Fallback-Hotspot "LiuKrr Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_scifi_NAV.h
+                              esphome/wordclock_multi/lang/lang_scifi_NAV.yaml (+ src/wc_lang_scifi_NAV.h)
+                              models/lang/lang_scifi_NAV.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_scifi_NAV.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_scifi_NAV.yaml
+                              OpenSCAD/FreeCAD: LANG = "scifi_NAV"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xxKRRLIKxLUxxx*
+   2 *x'AWVExxMUVExx*
+   3 *xPXEYVExTSÌVEx*
+   4 *xMRRVExxxPUVEx*
+   5 *xKIVExxVOLVExx*
+   6 *VOLAWVExVOMUVE*
+   7 *VOPEYVExVOSÌVE*
+   8 *xSÌxMExPXExTSÌ*
+   9 *xMRRxPUxVOLAWx*
+  10 *xMUNxPEYxSÌNGx*
+  11 *xxMRRxFUxHINxx*
+  12 *xxOELxxNGATIxx*
+  13 *xxxxKAMEIExxxx*
+  14 x+x1234xTRRPXÌVI
+  15 xHUFWExxxxHRRAPx
+  16 TSWALx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Kürzel scifi_NAV (Kunstsprache, kein Land). Standort Berlin (bestehender Eintrag, Zeitzone Mitteleuropa).
+Satzbau: KRRLIK LU <Stunde> [SÌ <Minuten>] („Zeitpunkt ist <n-te Stunde> [und <Minuten>]“, Umgangsform
+nach „lu mrrve sì vomun“). Immer Bezug auf die volle Stunde (keine nächste Stunde, kein „vor“).
+Zahlen im Oktalsystem (Basis 8): Minuten = Achter + VO(L) + Einer, im Raster aus Bausteinen zusammengesetzt,
+im Text zusammengeschrieben. Achter: ME 2, PXE 3, TSÌ 4, MRR 5, PU 6; VOL = 8; Einer nach VO: (L)AW 1,
+MUN 2, PEY 3, SÌNG 4, MRR 5, FU 6, HIN 7.
+:00 KRRLIK LU <Stunde>, :05 SÌ MRR (5), :10 SÌ VOMUN (12 okt.), :15 SÌ VOHIN (17), :20 SÌ MEVOSÌNG (24),
+:25 SÌ PXEVOLAW (31), :30 SÌ PXEVOFU (36), :35 SÌ TSÌVOPEY (43), :40 SÌ MRRVOL (50),
+:45 SÌ MRRVOMRR (55), :50 SÌ PUVOMUN (62), :55 SÌ PUVOHIN (67); z. B. 3:25 KRRLIK LU PXEYVE SÌ PXEVOLAW.
+Stunden als Ordnungszahlen (12-Stunden-Zählung): 'AWVE 1, MUVE 2, PXEYVE 3, TSÌVE 4, MRRVE 5, PUVE 6,
+KIVE 7, VOLVE 8, VOLAWVE 9, VOMUVE 10, VOPEYVE 11, VOSÌVE 12. 12 und 0 Uhr = VOSÌVE.
+Ordnungszahlen nach der Grammatik „Horen leNa'vi“ (-ve; 9.-12. aus VOL + -awve/-muve/-peyve/-sìve).
+Ohne gültige Uhrzeit leuchtet nur KRRLIK LU.
+Minutenzeile: + 1..4 TRRPXÌVI (Minute; nach einer Zahl keine Mehrzahlform). Die Ziffern 1-4 sind oktal gleich.
+Ersatzwörter: LÜFTEN = HUFWE („Wind“), ALARM = HRRAP („Gefahr“), AKKU = TSWAL („Kraft, Stärke“;
+abgeleitet aus dem belegten LETSWAL „mächtig“ = le- + tswal).
+Zusatzwörter (Schalter „Show OEL NGATI KAMEIE“, aus = Standard): OEL NGATI KAMEIE („Ich sehe dich“, Gruß).
+Sonderzeichen: Ì (TSÌVE, VOSÌVE, SÌ, TSÌ, SÌNG, TRRPXÌVI) und der Apostroph ' ('AWVE) sind je eine Zelle
+(Metriken vorhanden). Weboberfläche und ESPHome-Entitäten auf Englisch (Na'vi hat kaum Technikwortschatz),
+Uhrwörter auf Na'vi. Gerätename liukrr (lì'u = Wort, krr = Zeit), Hotspot LiuKrr.
+
+GRAMMAR (English)
+-----------------
+Code scifi_NAV (constructed language, no country). Location Berlin (existing entry, Central European time).
+Sentence: KRRLIK LU <hour> [SÌ <minutes>] ("the point in time is <nth hour> [and <minutes>]", colloquial form
+as in "lu mrrve sì vomun"). Always counted from the full hour (no next hour, no "before").
+Numbers are octal (base 8): minutes = eights + VO(L) + ones, built from parts in the grid and written as one
+word in the text. Eights: ME 2, PXE 3, TSÌ 4, MRR 5, PU 6; VOL = 8; ones after VO: (L)AW 1, MUN 2, PEY 3,
+SÌNG 4, MRR 5, FU 6, HIN 7.
+:00 KRRLIK LU <hour>, :05 SÌ MRR (5), :10 SÌ VOMUN (12 octal), :15 SÌ VOHIN (17), :20 SÌ MEVOSÌNG (24),
+:25 SÌ PXEVOLAW (31), :30 SÌ PXEVOFU (36), :35 SÌ TSÌVOPEY (43), :40 SÌ MRRVOL (50),
+:45 SÌ MRRVOMRR (55), :50 SÌ PUVOMUN (62), :55 SÌ PUVOHIN (67); e.g. 3:25 KRRLIK LU PXEYVE SÌ PXEVOLAW.
+Hours as ordinal numbers (12-hour count): 'AWVE 1, MUVE 2, PXEYVE 3, TSÌVE 4, MRRVE 5, PUVE 6,
+KIVE 7, VOLVE 8, VOLAWVE 9, VOMUVE 10, VOPEYVE 11, VOSÌVE 12. 12:00 and 0:00 = VOSÌVE.
+Ordinals after the grammar "Horen leNa'vi" (-ve; 9th-12th from VOL + -awve/-muve/-peyve/-sìve).
+Without a valid time only KRRLIK LU is lit.
+Minute row: + 1..4 TRRPXÌVI (minute; no plural form after a number). The digits 1-4 are the same in octal.
+Substitute words: VENTILATE = HUFWE ("wind"), ALARM = HRRAP ("danger"), BATTERY = TSWAL ("strength, power";
+derived from the attested LETSWAL "powerful" = le- + tswal).
+Extra words (switch "Show OEL NGATI KAMEIE", off by default): OEL NGATI KAMEIE ("I see you", greeting).
+Special characters: Ì (TSÌVE, VOSÌVE, SÌ, TSÌ, SÌNG, TRRPXÌVI) and the apostrophe ' ('AWVE) are one cell
+each (metrics available). Web interface and ESPHome entities in English (Na'vi has hardly any technical
+vocabulary), clock words in Na'vi. Device name liukrr (lì'u = word, krr = time), hotspot LiuKrr.
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  KRRLIK LU VOLAWVE
+09:05  KRRLIK LU VOLAWVE SÌ MRR
+09:10  KRRLIK LU VOLAWVE SÌ VOMUN
+09:15  KRRLIK LU VOLAWVE SÌ VOHIN
+09:20  KRRLIK LU VOLAWVE SÌ MEVOSÌNG
+09:25  KRRLIK LU VOLAWVE SÌ PXEVOLAW
+09:30  KRRLIK LU VOLAWVE SÌ PXEVOFU
+09:35  KRRLIK LU VOLAWVE SÌ TSÌVOPEY
+09:40  KRRLIK LU VOLAWVE SÌ MRRVOL
+09:45  KRRLIK LU VOLAWVE SÌ MRRVOMRR
+09:50  KRRLIK LU VOLAWVE SÌ PUVOMUN
+09:55  KRRLIK LU VOLAWVE SÌ PUVOHIN
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  KRRLIK LU
+00:00  KRRLIK LU VOSÌVE
+00:30  KRRLIK LU VOSÌVE SÌ PXEVOFU
+00:35  KRRLIK LU VOSÌVE SÌ TSÌVOPEY
+01:00  KRRLIK LU 'AWVE
+01:05  KRRLIK LU 'AWVE SÌ MRR
+12:00  KRRLIK LU VOSÌVE
+12:30  KRRLIK LU VOSÌVE SÌ PXEVOFU
+13:00  KRRLIK LU 'AWVE
+09:01  KRRLIK LU VOLAWVE + 1 TRRPXÌVI
+09:02  KRRLIK LU VOLAWVE + 2 TRRPXÌVI
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+···KRRLIK·LU····   ···KRRLIK·LU····   ···KRRLIK·LU····   ···KRRLIK·LU····
+················   ················   ··'AWVE·········   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+·VOLAWVE········   ·········VOMUVE·   ················   ················
+················   ················   ················   ·VOPEYVE········
+················   ··SÌ····PXE·····   ··SÌ············   ··SÌ············
+················   ·········VOLAW··   ··MRR····VO·····   ······PU·VO·····
+················   ················   ················   ················
+················   ················   ···MRR··········   ··········HIN···
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ·+··2···TRRPXÌVI   ·+···3··TRRPXÌVI
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  KRRLIK LU VOLAWVE
+10:25  KRRLIK LU VOMUVE SÌ PXEVOLAW
+13:47  KRRLIK LU 'AWVE SÌ MRRVOMRR + 2 TRRPXÌVI
+23:58  KRRLIK LU VOPEYVE SÌ PUVOHIN + 3 TRRPXÌVI

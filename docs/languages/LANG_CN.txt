@@ -1,0 +1,145 @@
+Wordclock_Multi v2.0 - 中文 (CN)
+==============================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Beijing  (39.9042, 116.4074)
+Zeitzone / time zone:         Asia/Shanghai  (POSIX CST-8)
+Arduino: Hotspot / hotspot:   WenziZhong  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://wenzizhong.local
+ESPHome: Gerät / device:      wenzizhong (WenziZhong), Fallback-Hotspot "WenziZhong Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_CN.h
+                              esphome/wordclock_multi/lang/lang_CN.yaml (+ src/wc_lang_CN.h)
+                              models/lang/lang_CN.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_CN.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_CN.yaml
+                              OpenSCAD/FreeCAD: LANG = "CN"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xx现在是x凌晨xxxxxx*
+   2 *xx晚上午x中午x下午xxx*
+   3 *xxxxxxxxxxxxxx*
+   4 *xx一x两x三x四x五x六x*
+   5 *xx七x八x九x十一x十二x*
+   6 *xxxxx点半x整xxxxx*
+   7 *xxxxxxxxxxxxxx*
+   8 *xxx二x三x四x五xxxx*
+   9 *xxxxxxx十五分xxxx*
+  10 *xxxxxxxxxxxxxx*
+  11 *xxxx一寸光阴一寸金xxx*
+  12 *xxxxxxxxxxxxxx*
+  13 *xxxx寸金难买寸光阴xxx*
+  14 x+x1234xx分xxxxxx
+  15 xxx通风xxxx警报xxxxx
+  16 x电池xxx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau (Standardform des Hochchinesischen/Putonghua, Kurzzeichen, 12-Stunden-Zählung mit Tageszeit,
+immer auf die laufende Stunde): 现在是 <Tageszeit> <Stunde>点 [<Minuten>分 | 半 | 整]
+(„jetzt ist es <Tageszeit> … Uhr …“). Stunden und Minuten werden mit chinesischen Zahlzeichen geschrieben;
+es gibt keinen Bezug auf die nächste Stunde (die Form „差五分四点“ = „fünf vor vier“ ist umgangssprachlich und
+wird nicht verwendet) und keine Viertel (一刻 ist veraltet, 三刻 selten). :30 = 半 („halb“, nachgestellt: 三点半 = 3:30).
+:00 <Stunde>点整, :05 <Stunde>点五分, :10 十分, :15 十五分, :20 二十分, :25 二十五分, :30 半,
+:35 三十五分, :40 四十分, :45 四十五分, :50 五十分, :55 五十五分
+Die Minutenzahlen werden aus Zehnerziffer (二, 三, 四, 五) + 十 + Einer 五 zusammengesetzt.
+整 („genau“) leuchtet nur zur vollen Minute :00, bei :01-:04 steht <Stunde>点 + Einzelminuten.
+Chinesisch schreibt ohne Leerzeichen; der Text wird ohne Leerzeichen zusammengesetzt (nur vor „+ 2分“).
+Stunden: 一, 两, 三, 四, 五, 六, 七, 八, 九, 十, 十一, 十二 (2 Uhr = 两点, nicht 二点; 0 Uhr und 12 Uhr = 十二点).
+Tageszeit: 凌晨 (früher Morgen) 0:00-4:59, 上午 (Vormittag) 5:00-11:59, 中午 (Mittag) 12:00-12:59,
+下午 (Nachmittag) 13:00-17:59, 晚上 (Abend) 18:00-23:59. 上 wird von 晚上 und 上午 gemeinsam genutzt.
+Beispiele: 0:00 现在是凌晨十二点整, 2:05 现在是凌晨两点五分, 12:30 现在是中午十二点半,
+15:45 现在是下午三点四十五分, 21:55 现在是晚上九点五十五分.
+Ohne gültige Uhrzeit leuchtet nur 现在是.
+Minutenzeile: + 1..4 分 (im Chinesischen keine Mehrzahl; im Text „+ 2分“).
+Statuswörter: LÜFTEN = 通风 („Lüftung“), ALARM = 警报 („Alarm, Warnung“), AKKU = 电池 („Batterie“).
+Zusatzwörter (Schalter „显示「一寸光阴一寸金」“): 一寸光阴一寸金 / 寸金难买寸光阴 („Ein Zoll Zeit ist ein Zoll Gold wert,
+doch ein Zoll Gold kauft keinen Zoll Zeit“, Sprichwort).
+Schrift: chinesische Kurzzeichen (je ein Zeichen = ein Feld) mit eigener Schrift Noto Sans SC Bold
+(lang_CN.scad); die Zeichen werden nur grob zentriert (keine Metriken). Füllfelder als Punkt (lang_CN.scad: Feld 6 = dot, gilt mit FILLER = auto).
+
+GRAMMAR (English)
+-----------------
+Sentence (standard form of Mandarin/Putonghua, simplified characters, 12-hour counting with time of day,
+always the current hour): 现在是 <time of day> <hour>点 [<minutes>分 | 半 | 整] ("now it is <time of day> …
+o'clock …"). Hours and minutes are written with Chinese numerals; there is no reference to the next hour
+(the form "差五分四点" = "five to four" is colloquial and not used) and no quarters (一刻 is old-fashioned,
+三刻 rare). :30 = 半 ("half", after the hour: 三点半 = 3:30).
+:00 <hour>点整, :05 <hour>点五分, :10 十分, :15 十五分, :20 二十分, :25 二十五分, :30 半,
+:35 三十五分, :40 四十分, :45 四十五分, :50 五十分, :55 五十五分
+The minute numbers are made of the tens digit (二, 三, 四, 五) + 十 + unit 五.
+整 ("exactly") is lit only at the full minute :00, at :01-:04 it reads <hour>点 + single minutes.
+Chinese is written without spaces; the text is joined without spaces (only before "+ 2分").
+Hours: 一, 两, 三, 四, 五, 六, 七, 八, 九, 十, 十一, 十二 (2 o'clock = 两点, not 二点; 0 and 12 o'clock = 十二点).
+Time of day: 凌晨 (early morning) 0:00-4:59, 上午 (morning) 5:00-11:59, 中午 (noon) 12:00-12:59,
+下午 (afternoon) 13:00-17:59, 晚上 (evening) 18:00-23:59. 上 is shared by 晚上 and 上午.
+Examples: 0:00 现在是凌晨十二点整, 2:05 现在是凌晨两点五分, 12:30 现在是中午十二点半,
+15:45 现在是下午三点四十五分, 21:55 现在是晚上九点五十五分.
+Without a valid time only 现在是 is lit.
+Minute row: + 1..4 分 (Chinese has no plural; in the text "+ 2分").
+Status words: VENTILATE = 通风 ("ventilation"), ALARM = 警报 ("alarm, warning"), BATTERY = 电池.
+Extra words (switch "显示「一寸光阴一寸金」"): 一寸光阴一寸金 / 寸金难买寸光阴 ("an inch of time is an inch of gold,
+but an inch of gold cannot buy an inch of time", proverb).
+Font: simplified Chinese characters (one character = one cell) with the own font Noto Sans SC Bold
+(lang_CN.scad); the characters are only roughly centred (no metrics). Fillers as dots (lang_CN.scad: field 6 = dot, used with FILLER = auto).
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  现在是上午九点整
+09:05  现在是上午九点五分
+09:10  现在是上午九点十分
+09:15  现在是上午九点十五分
+09:20  现在是上午九点二十分
+09:25  现在是上午九点二十五分
+09:30  现在是上午九点半
+09:35  现在是上午九点三十五分
+09:40  现在是上午九点四十分
+09:45  现在是上午九点四十五分
+09:50  现在是上午九点五十分
+09:55  现在是上午九点五十五分
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  现在是
+00:00  现在是凌晨十二点整
+00:30  现在是凌晨十二点半
+00:35  现在是凌晨十二点三十五分
+01:00  现在是凌晨一点整
+01:05  现在是凌晨一点五分
+12:00  现在是中午十二点整
+12:30  现在是中午十二点半
+13:00  现在是下午一点整
+09:01  现在是上午九点 + 1分
+09:02  现在是上午九点 + 2分
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+···现在是··········   ···现在是··········   ···现在是··········   ···现在是··········
+····上午··········   ····上午··········   ··········下午····   ···晚上···········
+················   ················   ················   ················
+················   ················   ···一············   ················
+·······九········   ·········十······   ················   ·········十一·····
+······点··整······   ······点·········   ······点·········   ······点·········
+················   ················   ················   ················
+················   ····二···········   ········四·······   ··········五·····
+················   ········十五分·····   ········十五分·····   ········十五分·····
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ·+··2····分······   ·+···3···分······
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  现在是上午九点整
+10:25  现在是上午十点二十五分
+13:47  现在是下午一点四十五分 + 2分
+23:58  现在是晚上十一点五十五分 + 3分

@@ -1,0 +1,78 @@
+# lang_KR.yaml - Wordclock 16x16, ESPHome language package KR (한국어 / Korean), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_KR.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: KR
+  name: geuljasigye
+  friendly_name: GeuljaSigye
+  ap_ssid: GeuljaSigye Fallback
+  timezone: Asia/Seoul
+  latitude: "37.567°"           # Seoul
+  longitude: "126.978°"
+  extra_hidden: "false"         # language has extra words (시간은 금이다), switch shown
+
+  # entity names
+  t_br_day: 주간 밝기
+  t_br_night: 야간 밝기
+  t_cur_limit: 전류 제한
+  t_night_start: 야간 시작 오프셋
+  t_night_end: 야간 종료 오프셋
+  t_night_mode: 야간 모드
+  nm_mix: 혼합
+  nm_sun: 태양 위치
+  nm_fixed: 고정 시간
+  t_night_not_before: 야간 시작 (빨라도)
+  t_night_not_after: 야간 종료 (늦어도)
+  t_night_from: 야간 시작 시각
+  t_night_until: 야간 종료 시각
+  t_fx_dur: 효과 지속 시간
+  t_blink_cycle: 깜빡임 주기
+  t_tin_min: 실내 온도 최소
+  t_tin_max: 실내 온도 최대
+  t_tout_min: 실외 온도 최소
+  t_tout_max: 실외 온도 최대
+  t_col_time: 시간 색상
+  t_col_vent: 환기 색상
+  t_col_alarm: 알람 색상
+  t_col_battery: 배터리 색상
+  t_col_tout: 실외 온도 색상
+  t_col_tin: 실내 온도 색상
+  t_sw_temp: 온도 표시
+  t_sw_min: 개별 분 표시
+  t_sw_alarm: 알람 표시
+  t_sw_vent: 환기 표시
+  t_sw_battery: 배터리 표시
+  t_sw_extra: '시간은 금이다' 표시
+  t_fx: 효과
+  t_fx_color: 효과 색상
+  t_fx_start: 효과 시작
+  t_fx_stop: 효과 정지
+  t_text: 텍스트 표시
+  t_text_start: 텍스트 시작
+
+  # colour options (palette order, never change the order)
+  c_0: 따뜻한 흰색
+  c_1: 흰색
+  c_2: 빨강
+  c_3: 주황
+  c_4: 노랑
+  c_5: 초록
+  c_6: 파랑
+  c_7: 보라
+  c_random: 무작위
+  c_temp: 온도
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: 무지개
+  fx_aurora: 오로라
+  fx_matrix: 매트릭스
+  fx_fire: 불꽃
+  fx_confetti: 색종이
+  fx_stars: 별이 빛나는 하늘
+  fx_blink: 깜빡임
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_KR.h

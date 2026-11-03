@@ -1,0 +1,137 @@
+Wordclock_Multi v2.0 - Quenya (scifi_QYA)
+=========================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         London  (51.5074, -0.1278)
+Zeitzone / time zone:         Europe/London  (POSIX GMT0BST,M3.5.0/1,M10.5.0)
+Arduino: Hotspot / hotspot:   QuettaLume  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://quettalume.local
+ESPHome: Gerät / device:      quettalume (QuettaLume), Fallback-Hotspot "QuettaLume Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_scifi_QYA.h
+                              esphome/wordclock_multi/lang/lang_scifi_QYA.yaml (+ src/wc_lang_scifi_QYA.h)
+                              models/lang/lang_scifi_QYA.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_scifi_QYA.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_scifi_QYA.yaml
+                              OpenSCAD/FreeCAD: LANG = "scifi_QYA"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xSÍxNÁxCANASTA*
+   2 *YUCAINENxLEMPË*
+   3 *PERTAxxAPAxNÓx*
+   4 *xMINËxxxATTAxx*
+   5 *NELDËxxxxCANTA*
+   6 *xLEMPËxxENQUËx*
+   7 *OTSOxxxxxTOLTO*
+   8 *xNERTËxxCAINEN*
+   9 *MINQUËxYUNQUËx*
+  10 *xxxxxxxxxxxxxx*
+  11 *xPEDOxMELLONxx*
+  12 *xxxAxMINNOxxxx*
+  13 *xxxxxxxxxxxxxx*
+  14 xxxxx+x1234xxxxx
+  15 xSÚRËxxxxxxROMBA
+  16 xTUOxx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Kürzel scifi_QYA (Fantasiesprache: scifi_ + QYA, ISO-639-3-Code). Standort London (vorhandener Eintrag, Europe/London).
+Satzbau: SÍ NÁ [<Minuten> APA | <Minuten> NÓ] <Stunde>
+(SÍ NÁ = „jetzt ist“, APA = „nach“, NÓ = „vor“, CANASTA = „Viertel“, PERTA = „Hälfte“).
+Ab :35 bezieht sich die Uhrzeit auf die nächste Stunde.
+:00 SÍ NÁ <Stunde>, :05 LEMPË APA, :10 CAINEN APA, :15 CANASTA APA, :20 YUCAINEN APA,
+:25 YUCAINEN LEMPË APA, :30 PERTA APA, :35 YUCAINEN LEMPË NÓ, :40 YUCAINEN NÓ, :45 CANASTA NÓ,
+:50 CAINEN NÓ, :55 LEMPË NÓ; z. B. 3:05 SÍ NÁ LEMPË APA NELDË, 3:30 SÍ NÁ PERTA APA NELDË,
+3:45 SÍ NÁ CANASTA NÓ CANTA.
+Stunden mit den belegten Zahlwörtern (12-Stunden-Zählung): MINË, ATTA, NELDË, CANTA, LEMPË, ENQUË, OTSO,
+TOLTO, NERTË, CAINEN, MINQUË, YUNQUË. 12 und 0 Uhr = YUNQUË. Ohne gültige Uhrzeit leuchtet nur SÍ NÁ.
+YUCAINEN („zwanzig“, yu- „zwei“ + cainen „zehn“) ist Neo-Quenya, bei Tolkien ist kein Wort für 20 belegt;
+im Raster YU vor dem CAINEN der Minuten, im Text zusammengeschrieben. 25 = YUCAINEN LEMPË.
+Minutenzeile: nur + 1..4 ohne Wort (Quenya hat kein Wort für Minute), daher keine Einzahl/Mehrzahl.
+Ersatzwörter: LÜFTEN = SÚRË („Wind“), ALARM = ROMBA („Horn, Trompete“), AKKU = TUO („Kraft, Stärke“).
+Zusatzwörter (Schalter „Show PEDO MELLON“, aus = Standard): PEDO MELLON A MINNO
+(„Sprich, Freund, und tritt ein“, Torinschrift; das Original ist Sindarin, nicht Quenya, Schreibweise ohne Akzente).
+Sonderzeichen: Ë Á Í Ó Ú sind je eine Zelle (Latin-1, Metriken vorhanden).
+Webinterface auf Englisch (Quenya hat keine Begriffe für Technik), Uhrwörter auf Quenya.
+
+GRAMMAR (English)
+-----------------
+Code scifi_QYA (fictional language: scifi_ + QYA, ISO 639-3 code). Location London (existing entry, Europe/London).
+Sentence: SÍ NÁ [<minutes> APA | <minutes> NÓ] <hour>
+(SÍ NÁ = "now is", APA = "after", NÓ = "before", CANASTA = "quarter", PERTA = "half").
+From :35 on the time refers to the next hour.
+:00 SÍ NÁ <hour>, :05 LEMPË APA, :10 CAINEN APA, :15 CANASTA APA, :20 YUCAINEN APA,
+:25 YUCAINEN LEMPË APA, :30 PERTA APA, :35 YUCAINEN LEMPË NÓ, :40 YUCAINEN NÓ, :45 CANASTA NÓ,
+:50 CAINEN NÓ, :55 LEMPË NÓ; e.g. 3:05 SÍ NÁ LEMPË APA NELDË, 3:30 SÍ NÁ PERTA APA NELDË,
+3:45 SÍ NÁ CANASTA NÓ CANTA.
+Hours with the attested numerals (12-hour count): MINË, ATTA, NELDË, CANTA, LEMPË, ENQUË, OTSO,
+TOLTO, NERTË, CAINEN, MINQUË, YUNQUË. 12:00 and 0:00 = YUNQUË. Without a valid time only SÍ NÁ is lit.
+YUCAINEN ("twenty", yu- "two" + cainen "ten") is Neo-Quenya, Tolkien left no word for 20;
+in the grid YU in front of the minute CAINEN, written as one word in the text. 25 = YUCAINEN LEMPË.
+Minute row: only + 1..4 without a word (Quenya has no word for minute), so no singular/plural.
+Substitute words: VENTILATE = SÚRË ("wind"), ALARM = ROMBA ("horn, trumpet"), BATTERY = TUO ("strength").
+Extra words (switch "Show PEDO MELLON", off by default): PEDO MELLON A MINNO
+("speak, friend, and enter", door inscription; the original is Sindarin, not Quenya, written without accents).
+Special characters: Ë Á Í Ó Ú are one cell each (Latin-1, metrics present).
+Web interface in English (Quenya has no technical vocabulary), clock words in Quenya.
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  SÍ NÁ NERTË
+09:05  SÍ NÁ LEMPË APA NERTË
+09:10  SÍ NÁ CAINEN APA NERTË
+09:15  SÍ NÁ CANASTA APA NERTË
+09:20  SÍ NÁ YUCAINEN APA NERTË
+09:25  SÍ NÁ YUCAINEN LEMPË APA NERTË
+09:30  SÍ NÁ PERTA APA NERTË
+09:35  SÍ NÁ YUCAINEN LEMPË NÓ CAINEN
+09:40  SÍ NÁ YUCAINEN NÓ CAINEN
+09:45  SÍ NÁ CANASTA NÓ CAINEN
+09:50  SÍ NÁ CAINEN NÓ CAINEN
+09:55  SÍ NÁ LEMPË NÓ CAINEN
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  SÍ NÁ
+00:00  SÍ NÁ YUNQUË
+00:30  SÍ NÁ PERTA APA YUNQUË
+00:35  SÍ NÁ YUCAINEN LEMPË NÓ MINË
+01:00  SÍ NÁ MINË
+01:05  SÍ NÁ LEMPË APA MINË
+12:00  SÍ NÁ YUNQUË
+12:30  SÍ NÁ PERTA APA YUNQUË
+13:00  SÍ NÁ MINË
+09:01  SÍ NÁ NERTË + 1
+09:02  SÍ NÁ NERTË + 2
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+··SÍ·NÁ·········   ··SÍ·NÁ·········   ··SÍ·NÁ·CANASTA·   ··SÍ·NÁ·········
+················   ·YUCAINEN·LEMPË·   ················   ··········LEMPË·
+················   ········APA·····   ············NÓ··   ············NÓ··
+················   ················   ·········ATTA···   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+··NERTË·········   ·········CAINEN·   ················   ················
+················   ················   ················   ········YUNQUË··
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ·····+··2·······   ·····+···3······
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  SÍ NÁ NERTË
+10:25  SÍ NÁ YUCAINEN LEMPË APA CAINEN
+13:47  SÍ NÁ CANASTA NÓ ATTA + 2
+23:58  SÍ NÁ LEMPË NÓ YUNQUË + 3

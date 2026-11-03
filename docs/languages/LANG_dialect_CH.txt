@@ -1,0 +1,131 @@
+Wordclock_Multi v2.0 - Schwizerdütsch (dialect_CH)
+==================================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v2.0 (getestet / tested)
+Hauptstadt / capital:         Bern  (46.9480, 7.4474)
+Zeitzone / time zone:         Europe/Zurich  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   Wortuehrli  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://wortuehrli.local
+ESPHome: Gerät / device:      wortuehrli (Wortuehrli), Fallback-Hotspot "Wortuehrli Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_dialect_CH.h
+                              esphome/wordclock_multi/lang/lang_dialect_CH.yaml (+ src/wc_lang_dialect_CH.h)
+                              models/lang/lang_dialect_CH.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_dialect_CH.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_dialect_CH.yaml
+                              OpenSCAD/FreeCAD: LANG = "dialect_CH"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xESxISCHxxFÜFx*
+   2 *xZÄHxxZWÄNZGxx*
+   3 *xxxVIERTELxxxx*
+   4 *xxVORxxxxABxxx*
+   5 *xxxxHALBIxxxxx*
+   6 *xEISxZWÖIxDRÜx*
+   7 *xVIERIxxxFÜFIx*
+   8 *xSÄCHSIxSIBNIx*
+   9 *xACHTIxxxNÜNIx*
+  10 *xZÄNIxxxxELFIx*
+  11 *xxxxZWÖLFIxxxx*
+  12 *xxxxGRÜEZIxxxx*
+  13 *xxxMITENANDxxx*
+  14 x+x1234xMINUTExx
+  15 xxLÜFTExxALARMxx
+  16 xAKKUx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau (Schwizerdütsch, Zürcher Form wie bei den meisten Schweizer Wortuhren):
+ES ISCH [<Minuten> AB|VOR] [HALBI] <Stunde>
+Ab :25 („füf vor halbi drü“ = 2:25) bezieht sich die Uhrzeit auf die nächste Stunde.
+:00 <Stunde>, :05 FÜF AB, :10 ZÄH AB, :15 VIERTEL AB, :20 ZWÄNZG AB,
+:25 FÜF VOR HALBI, :30 HALBI, :35 FÜF AB HALBI, :40 ZWÄNZG VOR, :45 VIERTEL VOR,
+:50 ZÄH VOR, :55 FÜF VOR
+Beispiele: 3:00 = ES ISCH DRÜ, 3:20 = ES ISCH ZWÄNZG AB DRÜ, 3:30 = ES ISCH HALBI VIERI.
+Schwizerdütsch: „ab“ statt „nach“, HALBI statt halb, ZÄH/FÜF/ZWÄNZG statt zehn/fünf/zwanzig,
+Stunden in der Form mit -i („am vieri“): EIS, ZWÖI, DRÜ, VIERI, FÜFI, SÄCHSI, SIBNI, ACHTI,
+NÜNI, ZÄNI, ELFI, ZWÖLFI (EIS, ZWÖI und DRÜ ohne -i).
+Kein „Uhr“ zur vollen Stunde (ES ISCH DRÜ).
+12-Stunden-Anzeige: 0 und 12 Uhr = ZWÖLFI.
+Minutenzeile: + 1 MINUTE und + 2..4 MINUTE (Einzahl und Mehrzahl sind gleich, kein -n).
+Webinterface: Schweizer Hochdeutsch (ss statt ß).
+Extra-Wörter (Schalter „GRÜEZI MITENAND anzeigen“): GRÜEZI MITENAND („Grüss euch alle“).
+
+GRAMMAR (English)
+-----------------
+Sentence (Swiss German, Zurich form as used by most Swiss word clocks):
+ES ISCH [<minutes> AB|VOR] [HALBI] <hour>
+From :25 ("füf vor halbi drü" = 2:25, five before half three) on the time refers to the next hour.
+:00 <hour>, :05 FÜF AB, :10 ZÄH AB, :15 VIERTEL AB, :20 ZWÄNZG AB,
+:25 FÜF VOR HALBI, :30 HALBI, :35 FÜF AB HALBI, :40 ZWÄNZG VOR, :45 VIERTEL VOR,
+:50 ZÄH VOR, :55 FÜF VOR
+Examples: 3:00 = ES ISCH DRÜ, 3:20 = ES ISCH ZWÄNZG AB DRÜ, 3:30 = ES ISCH HALBI VIERI (half four).
+Swiss German: "ab" (past), "vor" (to), HALBI (half), ZÄH/FÜF/ZWÄNZG (ten/five/twenty),
+hours in the form with -i ("am vieri" = at four): EIS, ZWÖI, DRÜ, VIERI, FÜFI, SÄCHSI, SIBNI, ACHTI,
+NÜNI, ZÄNI, ELFI, ZWÖLFI (EIS, ZWÖI and DRÜ without -i).
+No "o'clock" word at the full hour (ES ISCH DRÜ).
+12-hour display: 0 and 12 o'clock = ZWÖLFI.
+Minute row: + 1 MINUTE and + 2..4 MINUTE (singular and plural are the same, no -n).
+Web interface: Swiss Standard German (ss instead of ß).
+Extra words (switch "GRÜEZI MITENAND anzeigen"): GRÜEZI MITENAND ("hello everybody").
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  ES ISCH NÜNI
+09:05  ES ISCH FÜF AB NÜNI
+09:10  ES ISCH ZÄH AB NÜNI
+09:15  ES ISCH VIERTEL AB NÜNI
+09:20  ES ISCH ZWÄNZG AB NÜNI
+09:25  ES ISCH FÜF VOR HALBI ZÄNI
+09:30  ES ISCH HALBI ZÄNI
+09:35  ES ISCH FÜF AB HALBI ZÄNI
+09:40  ES ISCH ZWÄNZG VOR ZÄNI
+09:45  ES ISCH VIERTEL VOR ZÄNI
+09:50  ES ISCH ZÄH VOR ZÄNI
+09:55  ES ISCH FÜF VOR ZÄNI
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  ES ISCH
+00:00  ES ISCH ZWÖLFI
+00:30  ES ISCH HALBI EIS
+00:35  ES ISCH FÜF AB HALBI EIS
+01:00  ES ISCH EIS
+01:05  ES ISCH FÜF AB EIS
+12:00  ES ISCH ZWÖLFI
+12:30  ES ISCH HALBI EIS
+13:00  ES ISCH EIS
+09:01  ES ISCH NÜNI + 1 MINUTE
+09:02  ES ISCH NÜNI + 2 MINUTE
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+··ES·ISCH·······   ··ES·ISCH··FÜF··   ··ES·ISCH·······   ··ES·ISCH··FÜF··
+················   ················   ················   ················
+················   ················   ····VIERTEL·····   ················
+················   ···VOR··········   ···VOR··········   ···VOR··········
+················   ·····HALBI······   ················   ················
+················   ················   ······ZWÖI······   ················
+················   ················   ················   ················
+················   ················   ················   ················
+··········NÜNI··   ················   ················   ················
+················   ··········ELFI··   ················   ················
+················   ················   ················   ·····ZWÖLFI·····
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ·+··2···MINUTE··   ·+···3··MINUTE··
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  ES ISCH NÜNI
+10:25  ES ISCH FÜF VOR HALBI ELFI
+13:47  ES ISCH VIERTEL VOR ZWÖI + 2 MINUTE
+23:58  ES ISCH FÜF VOR ZWÖLFI + 3 MINUTE

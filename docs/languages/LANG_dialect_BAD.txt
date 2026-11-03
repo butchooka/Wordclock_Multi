@@ -1,0 +1,127 @@
+Wordclock_Multi v2.0 - Badisch (dialect_BAD)
+============================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v2.0 (getestet / tested)
+Hauptstadt / capital:         Freiburg im Breisgau  (47.9990, 7.8421)
+Zeitzone / time zone:         Europe/Berlin  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   Wortuhrle  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://wortuhrle.local
+ESPHome: Gerät / device:      wortuhrle (Wortuhrle), Fallback-Hotspot "Wortuhrle Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_dialect_BAD.h
+                              esphome/wordclock_multi/lang/lang_dialect_BAD.yaml (+ src/wc_lang_dialect_BAD.h)
+                              models/lang/lang_dialect_BAD.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_dialect_BAD.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_dialect_BAD.yaml
+                              OpenSCAD/FreeCAD: LANG = "dialect_BAD"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xxxESxISCHxxxx*
+   2 *xxFÜNFxxZEHxxx*
+   3 *xDREIVIERTELxx*
+   4 *xxVORxxxNOCHxx*
+   5 *xxxxxHALBxxxxx*
+   6 *xxOINSxxZWOIxx*
+   7 *xDREIExxVIEREx*
+   8 *xFÜNFExSECHSEx*
+   9 *xSIEBENExACHTE*
+  10 *xxNEINExZEHNEx*
+  11 *xxELFExZWÖLFEx*
+  12 *xxxxxxxxxxxxxx*
+  13 *xxBADNERLANDxx*
+  14 x+x1234xMINUTExx
+  15 xxLÜFTExxALARMxx
+  16 xAKKUx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau (Badisch, Viertel-/Dreiviertel-System wie in Baden-Württemberg üblich):
+ES ISCH [<Minuten> NOCH|VOR] [HALB|VIERTEL|DREIVIERTEL] <Stunde>
+Ab :15 („viertel vier“ = 3:15) bezieht sich die Uhrzeit auf die nächste Stunde.
+:00 <Stunde>, :05 FÜNF NOCH, :10 ZEH NOCH, :15 VIERTEL, :20 ZEH VOR HALB,
+:25 FÜNF VOR HALB, :30 HALB, :35 FÜNF NOCH HALB, :40 ZEH NOCH HALB, :45 DREIVIERTEL,
+:50 ZEH VOR, :55 FÜNF VOR
+Beispiele: 3:00 = ES ISCH DREIE, 3:15 = ES ISCH VIERTEL VIERE, 3:45 = ES ISCH DREIVIERTEL VIERE.
+Stunden in der badischen Form mit -e: OINS, ZWOI, DREIE, VIERE, FÜNFE, SECHSE, SIEBENE, ACHTE,
+NEINE, ZEHNE, ELFE, ZWÖLFE. Kein „Uhr“ zur vollen Stunde (ES ISCH DREIE).
+DREIVIERTEL = DREI + VIERTEL in einer Zeile (für :15 leuchtet nur VIERTEL).
+12-Stunden-Anzeige: 0 und 12 Uhr = ZWÖLFE.
+Minutenzeile: + 1 MINUT (Einzahl), + 2..4 MINUTE (badische Mehrzahl ohne -n).
+Extra-Wort (Schalter „BADNERLAND anzeigen“): BADNERLAND (aus dem Badnerlied).
+
+GRAMMAR (English)
+-----------------
+Sentence (Baden dialect, quarter/three-quarter system as usual in Baden-Württemberg):
+ES ISCH [<minutes> NOCH|VOR] [HALB|VIERTEL|DREIVIERTEL] <hour>
+From :15 ("viertel vier" = 3:15, a quarter on the way to four) on the time refers to the next hour.
+:00 <hour>, :05 FÜNF NOCH, :10 ZEH NOCH, :15 VIERTEL, :20 ZEH VOR HALB,
+:25 FÜNF VOR HALB, :30 HALB, :35 FÜNF NOCH HALB, :40 ZEH NOCH HALB, :45 DREIVIERTEL,
+:50 ZEH VOR, :55 FÜNF VOR
+Examples: 3:00 = ES ISCH DREIE, 3:15 = ES ISCH VIERTEL VIERE, 3:45 = ES ISCH DREIVIERTEL VIERE.
+Hours in the Baden form with -e: OINS, ZWOI, DREIE, VIERE, FÜNFE, SECHSE, SIEBENE, ACHTE,
+NEINE, ZEHNE, ELFE, ZWÖLFE. No "o'clock" word at the full hour (ES ISCH DREIE).
+DREIVIERTEL = DREI + VIERTEL in one row (for :15 only VIERTEL lights up).
+12-hour display: 0 and 12 o'clock = ZWÖLFE.
+Minute row: + 1 MINUT (singular), + 2..4 MINUTE (Baden plural without -n).
+Extra word (switch "BADNERLAND anzeigen"): BADNERLAND (from the Badnerlied, the anthem of Baden).
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  ES ISCH NEINE
+09:05  ES ISCH FÜNF NOCH NEINE
+09:10  ES ISCH ZEH NOCH NEINE
+09:15  ES ISCH VIERTEL ZEHNE
+09:20  ES ISCH ZEH VOR HALB ZEHNE
+09:25  ES ISCH FÜNF VOR HALB ZEHNE
+09:30  ES ISCH HALB ZEHNE
+09:35  ES ISCH FÜNF NOCH HALB ZEHNE
+09:40  ES ISCH ZEH NOCH HALB ZEHNE
+09:45  ES ISCH DREIVIERTEL ZEHNE
+09:50  ES ISCH ZEH VOR ZEHNE
+09:55  ES ISCH FÜNF VOR ZEHNE
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  ES ISCH
+00:00  ES ISCH ZWÖLFE
+00:30  ES ISCH HALB OINS
+00:35  ES ISCH FÜNF NOCH HALB OINS
+01:00  ES ISCH OINS
+01:05  ES ISCH FÜNF NOCH OINS
+12:00  ES ISCH ZWÖLFE
+12:30  ES ISCH HALB OINS
+13:00  ES ISCH OINS
+09:01  ES ISCH NEINE + 1 MINUT
+09:02  ES ISCH NEINE + 2 MINUTE
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+····ES·ISCH·····   ····ES·ISCH·····   ····ES·ISCH·····   ····ES·ISCH·····
+················   ···FÜNF·········   ················   ···FÜNF·········
+················   ················   ··DREIVIERTEL···   ················
+················   ···VOR··········   ················   ···VOR··········
+················   ······HALB······   ················   ················
+················   ················   ·········ZWOI···   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+···NEINE········   ················   ················   ················
+················   ···ELFE·········   ················   ········ZWÖLFE··
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ·+··2···MINUTE··   ·+···3··MINUTE··
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  ES ISCH NEINE
+10:25  ES ISCH FÜNF VOR HALB ELFE
+13:47  ES ISCH DREIVIERTEL ZWOI + 2 MINUTE
+23:58  ES ISCH FÜNF VOR ZWÖLFE + 3 MINUTE

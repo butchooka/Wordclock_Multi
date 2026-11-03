@@ -1,0 +1,78 @@
+# lang_SE.yaml - Wordclock 16x16, ESPHome language package SE (Svenska), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_SE.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: SE
+  name: ordklocka
+  friendly_name: Ordklocka
+  ap_ssid: Ordklocka Fallback
+  timezone: Europe/Stockholm
+  latitude: "59.329°"      # Stockholm
+  longitude: "18.069°"
+  extra_hidden: "false"         # language has extra words (HEJ), switch shown
+
+  # entity names
+  t_br_day: Ljusstyrka dag
+  t_br_night: Ljusstyrka natt
+  t_cur_limit: Strömgräns
+  t_night_start: Förskjutning nattens början
+  t_night_end: Förskjutning nattens slut
+  t_night_mode: Nattläge
+  nm_mix: Blandat
+  nm_sun: Solens läge
+  nm_fixed: Fasta tider
+  t_night_not_before: Natt inte före
+  t_night_not_after: Natt inte efter
+  t_night_from: Natt från
+  t_night_until: Natt till
+  t_fx_dur: Effektlängd
+  t_blink_cycle: Blinkcykel
+  t_tin_min: Temperatur inne min
+  t_tin_max: Temperatur inne max
+  t_tout_min: Temperatur ute min
+  t_tout_max: Temperatur ute max
+  t_col_time: Färg tid
+  t_col_vent: Färg VÄDRA
+  t_col_alarm: Färg LARM
+  t_col_battery: Färg BATT
+  t_col_tout: Färg temperatur ute
+  t_col_tin: Färg temperatur inne
+  t_sw_temp: Visa temperatur
+  t_sw_min: Visa enstaka minuter
+  t_sw_alarm: Visa larm
+  t_sw_vent: Visa vädra
+  t_sw_battery: Visa batteri
+  t_sw_extra: Visa HEJ
+  t_fx: Effekt
+  t_fx_color: Effektfärg
+  t_fx_start: Starta effekt
+  t_fx_stop: Stoppa effekt
+  t_text: Rulltext
+  t_text_start: Visa text
+
+  # colour options (palette order, never change the order)
+  c_0: Varmvit
+  c_1: Vit
+  c_2: Röd
+  c_3: Orange
+  c_4: Gul
+  c_5: Grön
+  c_6: Blå
+  c_7: Violett
+  c_random: Slumpmässig
+  c_temp: Temperatur
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: Regnbåge
+  fx_aurora: Norrsken
+  fx_matrix: Matrix
+  fx_fire: Eld
+  fx_confetti: Konfetti
+  fx_stars: Stjärnhimmel
+  fx_blink: Blinka
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_SE.h

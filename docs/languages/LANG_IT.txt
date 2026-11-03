@@ -1,0 +1,121 @@
+Wordclock_Multi v2.0 - Italiano (IT)
+====================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Roma  (41.9028, 12.4964)
+Zeitzone / time zone:         Europe/Rome  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   Orologio  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://orologio.local
+ESPHome: Gerät / device:      orologio (Orologio), Fallback-Hotspot "Orologio Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_IT.h
+                              esphome/wordclock_multi/lang/lang_IT.yaml (+ src/wc_lang_IT.h)
+                              models/lang/lang_IT.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_IT.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_IT.yaml
+                              OpenSCAD/FreeCAD: LANG = "IT"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *SONOxLExÈxCIAO*
+   2 *L'UNAxDUExxxxx*
+   3 *xTRExQUATTROxx*
+   4 *CINQUExxSEIxxx*
+   5 *xSETTExxxOTTOx*
+   6 *NOVExxDIECIxxx*
+   7 *xxxUNDICIxxxxx*
+   8 *xMEZZOGIORNOxx*
+   9 *xxMEZZANOTTExx*
+  10 *xxExxxxMENOxxx*
+  11 *xVENTICINQUExx*
+  12 *xUNxxQUARTOxxx*
+  13 *DIECIxxxMEZZAx*
+  14 x+x1234xMINUTIOx
+  15 xAERARExALLARMEx
+  16 xBATTx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau: SONO LE <Stunde> [E|MENO <Minuten>]
+Ab :35 (MENO) bezieht sich die Uhrzeit auf die nächste Stunde.
+:00 (nichts), :05 E CINQUE, :10 E DIECI, :15 E UN QUARTO, :20 E VENTI, :25 E VENTICINQUE,
+:30 E MEZZA, :35 MENO VENTICINQUE, :40 MENO VENTI, :45 MENO UN QUARTO, :50 MENO DIECI,
+:55 MENO CINQUE
+1 Uhr: È L'UNA (Einzahl), 12 Uhr: È MEZZOGIORNO, 0 Uhr: È MEZZANOTTE.
+Volle Stunde ohne Zusatzwort.
+Minutenzeile: + 1 MINUTO (Einzahl), + 2..4 MINUTI (im Raster „MINUTIO“: Mehrzahl MINUTI,
+Einzahl MINUT + O).
+Zusatzwörter (Schalter „Mostra CIAO“): CIAO („Hallo“, Gruß).
+
+GRAMMAR (English)
+-----------------
+Sentence: SONO LE <hour> [E|MENO <minutes>]
+From :35 (MENO) on the time refers to the next hour.
+:00 (nothing), :05 E CINQUE, :10 E DIECI, :15 E UN QUARTO, :20 E VENTI, :25 E VENTICINQUE,
+:30 E MEZZA, :35 MENO VENTICINQUE, :40 MENO VENTI, :45 MENO UN QUARTO, :50 MENO DIECI,
+:55 MENO CINQUE
+1 o'clock: È L'UNA (singular), 12 o'clock: È MEZZOGIORNO, 0 o'clock: È MEZZANOTTE.
+Full hour without extra word.
+Minute row: + 1 MINUTO (singular), + 2..4 MINUTI (grid "MINUTIO": plural MINUTI,
+singular MINUT + O).
+Extra words (switch "Mostra CIAO"): CIAO ("hello", greeting).
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  SONO LE NOVE
+09:05  SONO LE NOVE E CINQUE
+09:10  SONO LE NOVE E DIECI
+09:15  SONO LE NOVE E UN QUARTO
+09:20  SONO LE NOVE E VENTI
+09:25  SONO LE NOVE E VENTICINQUE
+09:30  SONO LE NOVE E MEZZA
+09:35  SONO LE DIECI MENO VENTICINQUE
+09:40  SONO LE DIECI MENO VENTI
+09:45  SONO LE DIECI MENO UN QUARTO
+09:50  SONO LE DIECI MENO DIECI
+09:55  SONO LE DIECI MENO CINQUE
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  SONO LE
+00:00  È MEZZANOTTE
+00:30  È MEZZANOTTE E MEZZA
+00:35  È L'UNA MENO VENTICINQUE
+01:00  È L'UNA
+01:05  È L'UNA E CINQUE
+12:00  È MEZZOGIORNO
+12:30  È MEZZOGIORNO E MEZZA
+13:00  È L'UNA
+09:01  SONO LE NOVE + 1 MINUTO
+09:02  SONO LE NOVE + 2 MINUTI
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+·SONO·LE········   ·SONO·LE········   ·SONO·LE········   ·········È······
+················   ················   ·······DUE······   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+·NOVE···········   ·······DIECI····   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ···MEZZANOTTE···
+················   ···E············   ········MENO····   ········MENO····
+················   ··VENTICINQUE···   ················   ·······CINQUE···
+················   ················   ··UN··QUARTO····   ················
+················   ················   ················   ················
+················   ················   ·+··2···MINUTI··   ·+···3··MINUTI··
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  SONO LE NOVE
+10:25  SONO LE DIECI E VENTICINQUE
+13:47  SONO LE DUE MENO UN QUARTO + 2 MINUTI
+23:58  È MEZZANOTTE MENO CINQUE + 3 MINUTI

@@ -1,0 +1,119 @@
+Wordclock_Multi v2.0 - English (GB)
+===================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v2.0 (getestet / tested)
+Hauptstadt / capital:         London  (51.5074, -0.1278)
+Zeitzone / time zone:         Europe/London  (POSIX GMT0BST,M3.5.0/1,M10.5.0)
+Arduino: Hotspot / hotspot:   Wordclock  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://wordclock.local
+ESPHome: Gerät / device:      wordclock (Wordclock), Fallback-Hotspot "Wordclock Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_GB.h
+                              esphome/wordclock_multi/lang/lang_GB.yaml (+ src/wc_lang_GB.h)
+                              models/lang/lang_GB.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_GB.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_GB.yaml
+                              OpenSCAD/FreeCAD: LANG = "GB"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xxxxITxISxxxxx*
+   2 *xxxQUARTERxxxx*
+   3 *xxxTWENTYHELLO*
+   4 *xxFIVExxTENxxx*
+   5 *xxxxxHALFxxxxx*
+   6 *xxPASTxxxTOxxx*
+   7 *xxONExxxTWOxxx*
+   8 *xTHREExxFOURxx*
+   9 *xxFIVExxxSIXxx*
+  10 *xSEVENxxEIGHTx*
+  11 *xxNINExxxTENxx*
+  12 *ELEVENxxTWELVE*
+  13 *xxxxOCLOCKxxxx*
+  14 x+x1234xMINUTESx
+  15 xVENTILATExALARM
+  16 xBATTx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau: IT IS [<Minuten> PAST|TO] <Stunde> [OCLOCK]
+Ab :35 („twenty five to“) bezieht sich die Uhrzeit auf die nächste Stunde.
+:00 <Stunde> OCLOCK, :05 FIVE PAST, :10 TEN PAST, :15 QUARTER PAST, :20 TWENTY PAST,
+:25 TWENTY FIVE PAST, :30 HALF PAST, :35 TWENTY FIVE TO, :40 TWENTY TO, :45 QUARTER TO,
+:50 TEN TO, :55 FIVE TO
+TWENTY FIVE wird aus TWENTY + FIVE zusammengesetzt (FIVE der Minuten).
+12-Stunden-Anzeige: 0 und 12 Uhr = TWELVE. OCLOCK nur zur vollen Stunde.
+Minutenzeile: + 1 MINUTE (Einzahl), + 2..4 MINUTES.
+Zusatzwörter (Schalter „Show HELLO“): HELLO („Hallo“, Gruß).
+
+GRAMMAR (English)
+-----------------
+Sentence: IT IS [<minutes> PAST|TO] <hour> [OCLOCK]
+From :35 ("twenty five to") on the time refers to the next hour.
+:00 <hour> OCLOCK, :05 FIVE PAST, :10 TEN PAST, :15 QUARTER PAST, :20 TWENTY PAST,
+:25 TWENTY FIVE PAST, :30 HALF PAST, :35 TWENTY FIVE TO, :40 TWENTY TO, :45 QUARTER TO,
+:50 TEN TO, :55 FIVE TO
+TWENTY FIVE is made of TWENTY + FIVE (FIVE of the minutes).
+12-hour display: 0 and 12 o'clock = TWELVE. OCLOCK only at the full hour.
+Minute row: + 1 MINUTE (singular), + 2..4 MINUTES.
+Extra words (switch "Show HELLO"): HELLO ("hello", greeting).
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  IT IS NINE OCLOCK
+09:05  IT IS FIVE PAST NINE
+09:10  IT IS TEN PAST NINE
+09:15  IT IS QUARTER PAST NINE
+09:20  IT IS TWENTY PAST NINE
+09:25  IT IS TWENTY FIVE PAST NINE
+09:30  IT IS HALF PAST NINE
+09:35  IT IS TWENTY FIVE TO TEN
+09:40  IT IS TWENTY TO TEN
+09:45  IT IS QUARTER TO TEN
+09:50  IT IS TEN TO TEN
+09:55  IT IS FIVE TO TEN
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  IT IS
+00:00  IT IS TWELVE OCLOCK
+00:30  IT IS HALF PAST TWELVE
+00:35  IT IS TWENTY FIVE TO ONE
+01:00  IT IS ONE OCLOCK
+01:05  IT IS FIVE PAST ONE
+12:00  IT IS TWELVE OCLOCK
+12:30  IT IS HALF PAST TWELVE
+13:00  IT IS ONE OCLOCK
+09:01  IT IS NINE OCLOCK + 1 MINUTE
+09:02  IT IS NINE OCLOCK + 2 MINUTES
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+·····IT·IS······   ·····IT·IS······   ·····IT·IS······   ·····IT·IS······
+················   ················   ····QUARTER·····   ················
+················   ····TWENTY······   ················   ················
+················   ···FIVE·········   ················   ···FIVE·········
+················   ················   ················   ················
+················   ···PAST·········   ··········TO····   ··········TO····
+················   ················   ·········TWO····   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+···NINE·········   ··········TEN···   ················   ················
+················   ················   ················   ·········TWELVE·
+·····OCLOCK·····   ················   ················   ················
+················   ················   ·+··2···MINUTES·   ·+···3··MINUTES·
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  IT IS NINE OCLOCK
+10:25  IT IS TWENTY FIVE PAST TEN
+13:47  IT IS QUARTER TO TWO + 2 MINUTES
+23:58  IT IS FIVE TO TWELVE + 3 MINUTES

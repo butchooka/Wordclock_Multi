@@ -1,0 +1,79 @@
+# lang_EO.yaml - Wordclock 16x16, ESPHome language package EO (Esperanto), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_EO.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+# Esperanto has no country: location Warszawa (first "Unua Libro", 1887).
+substitutions:
+  lang_code: EO
+  name: vorthorlogo
+  friendly_name: VortHorlogo
+  ap_ssid: VortHorlogo Fallback
+  timezone: Europe/Warsaw
+  latitude: "52.230°"           # Warszawa
+  longitude: "21.012°"
+  extra_hidden: "false"         # language has extra words (SALUTON MONDO), switch shown
+
+  # entity names
+  t_br_day: Heleco tage
+  t_br_night: Heleco nokte
+  t_cur_limit: Kurentlimo
+  t_night_start: Deŝovo de nokta komenco
+  t_night_end: Deŝovo de nokta fino
+  t_night_mode: Nokta reĝimo
+  nm_mix: Miksita
+  nm_sun: Sunpozicio
+  nm_fixed: Fiksaj horoj
+  t_night_not_before: Nokto ne antaŭ
+  t_night_not_after: Nokto ne post
+  t_night_from: Nokto de
+  t_night_until: Nokto ĝis
+  t_fx_dur: Daŭro de efekto
+  t_blink_cycle: Ciklo de brileto
+  t_tin_min: Interna temperaturo min
+  t_tin_max: Interna temperaturo maks
+  t_tout_min: Ekstera temperaturo min
+  t_tout_max: Ekstera temperaturo maks
+  t_col_time: Koloro de horo
+  t_col_vent: Koloro de AERUMI
+  t_col_alarm: Koloro de ALARMO
+  t_col_battery: Koloro de PILO
+  t_col_tout: Koloro de ekstera temperaturo
+  t_col_tin: Koloro de interna temperaturo
+  t_sw_temp: Montri temperaturon
+  t_sw_min: Montri unuopajn minutojn
+  t_sw_alarm: Montri alarmon
+  t_sw_vent: Montri aerumi
+  t_sw_battery: Montri pilon
+  t_sw_extra: Montri SALUTON MONDO
+  t_fx: Efekto
+  t_fx_color: Koloro de efekto
+  t_fx_start: Komenci efekton
+  t_fx_stop: Haltigi efekton
+  t_text: Kurtektsto
+  t_text_start: Montri tekston
+
+  # colour options (palette order, never change the order)
+  c_0: Varma blanka
+  c_1: Blanka
+  c_2: Ruĝa
+  c_3: Oranĝa
+  c_4: Flava
+  c_5: Verda
+  c_6: Blua
+  c_7: Viola
+  c_random: Hazarda
+  c_temp: Temperaturo
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: Ĉielarko
+  fx_aurora: Aŭroro
+  fx_matrix: Matrico
+  fx_fire: Fajro
+  fx_confetti: Konfetoj
+  fx_stars: Stelplena ĉielo
+  fx_blink: Brileti
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_EO.h

@@ -1,0 +1,117 @@
+Wordclock_Multi v2.0 - Français (FR)
+====================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Paris  (48.8566, 2.3522)
+Zeitzone / time zone:         Europe/Paris  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   Horloge  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://horloge.local
+ESPHome: Gerät / device:      horloge (Horloge), Fallback-Hotspot "Horloge Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_FR.h
+                              esphome/wordclock_multi/lang/lang_FR.yaml (+ src/wc_lang_FR.h)
+                              models/lang/lang_FR.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_FR.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_FR.yaml
+                              OpenSCAD/FreeCAD: LANG = "FR"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xxxILxESTxxxxx*
+   2 *xxUNExxxDEUXxx*
+   3 *xTROISxQUATREx*
+   4 *xCINQxSIXxSEPT*
+   5 *xxHUITxxxNEUFx*
+   6 *xxDIXxxxxONZEx*
+   7 *xMIDIxxMINUITx*
+   8 *xxxxHEURESxxxx*
+   9 *xxxETxBONJOURx*
+  10 *xxxxMOINSxxxxx*
+  11 *xxVINGT-CINQxx*
+  12 *xDIXxxLExQUART*
+  13 *xxxxDEMIExxxxx*
+  14 x+x1234xMINUTESx
+  15 xxAÉRERxxALARMEx
+  16 xBATTx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau: IL EST <Stunde> HEURE(S) [<Minuten> | MOINS <Minuten>]
+Ab :35 (MOINS) bezieht sich die Uhrzeit auf die nächste Stunde.
+:00 (nichts), :05 CINQ, :10 DIX, :15 ET QUART, :20 VINGT, :25 VINGT-CINQ, :30 ET DEMIE,
+:35 MOINS VINGT-CINQ, :40 MOINS VINGT, :45 MOINS LE QUART, :50 MOINS DIX, :55 MOINS CINQ
+UNE HEURE (Einzahl), sonst HEURES. 12 Uhr = MIDI, 0 Uhr = MINUIT, jeweils ohne HEURE(S)
+und dann „ET DEMI“ (ohne E).
+Minutenzeile: + 1 MINUTE (Einzahl), + 2..4 MINUTES.
+Zusatzwörter (Schalter „Afficher BONJOUR“): BONJOUR („Guten Tag“, Gruß).
+
+GRAMMAR (English)
+-----------------
+Sentence: IL EST <hour> HEURE(S) [<minutes> | MOINS <minutes>]
+From :35 (MOINS) on the time refers to the next hour.
+:00 (nothing), :05 CINQ, :10 DIX, :15 ET QUART, :20 VINGT, :25 VINGT-CINQ, :30 ET DEMIE,
+:35 MOINS VINGT-CINQ, :40 MOINS VINGT, :45 MOINS LE QUART, :50 MOINS DIX, :55 MOINS CINQ
+UNE HEURE (singular), otherwise HEURES. 12 o'clock = MIDI, 0 o'clock = MINUIT, both without
+HEURE(S), and then "ET DEMI" (without E).
+Minute row: + 1 MINUTE (singular), + 2..4 MINUTES.
+Extra words (switch "Afficher BONJOUR"): BONJOUR ("good day", greeting).
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  IL EST NEUF HEURES
+09:05  IL EST NEUF HEURES CINQ
+09:10  IL EST NEUF HEURES DIX
+09:15  IL EST NEUF HEURES ET QUART
+09:20  IL EST NEUF HEURES VINGT
+09:25  IL EST NEUF HEURES VINGT-CINQ
+09:30  IL EST NEUF HEURES ET DEMIE
+09:35  IL EST DIX HEURES MOINS VINGT-CINQ
+09:40  IL EST DIX HEURES MOINS VINGT
+09:45  IL EST DIX HEURES MOINS LE QUART
+09:50  IL EST DIX HEURES MOINS DIX
+09:55  IL EST DIX HEURES MOINS CINQ
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  IL EST
+00:00  IL EST MINUIT
+00:30  IL EST MINUIT ET DEMI
+00:35  IL EST UNE HEURE MOINS VINGT-CINQ
+01:00  IL EST UNE HEURE
+01:05  IL EST UNE HEURE CINQ
+12:00  IL EST MIDI
+12:30  IL EST MIDI ET DEMI
+13:00  IL EST UNE HEURE
+09:01  IL EST NEUF HEURES + 1 MINUTE
+09:02  IL EST NEUF HEURES + 2 MINUTES
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+····IL·EST······   ····IL·EST······   ····IL·EST······   ····IL·EST······
+················   ················   ·········DEUX···   ················
+················   ················   ················   ················
+················   ················   ················   ················
+··········NEUF··   ················   ················   ················
+················   ···DIX··········   ················   ················
+················   ················   ················   ········MINUIT··
+·····HEURES·····   ·····HEURES·····   ·····HEURES·····   ················
+················   ················   ················   ················
+················   ················   ·····MOINS······   ·····MOINS······
+················   ···VINGT-CINQ···   ················   ·········CINQ···
+················   ················   ·······LE·QUART·   ················
+················   ················   ················   ················
+················   ················   ·+··2···MINUTES·   ·+···3··MINUTES·
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  IL EST NEUF HEURES
+10:25  IL EST DIX HEURES VINGT-CINQ
+13:47  IL EST DEUX HEURES MOINS LE QUART + 2 MINUTES
+23:58  IL EST MINUIT MOINS CINQ + 3 MINUTES

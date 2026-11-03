@@ -1,0 +1,137 @@
+Wordclock_Multi v2.0 - Kiswahili (TZ)
+=====================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Dodoma  (-6.1630, 35.7516)
+Zeitzone / time zone:         Africa/Dar_es_Salaam  (POSIX EAT-3)
+Arduino: Hotspot / hotspot:   SaaManeno  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://saamaneno.local
+ESPHome: Gerät / device:      saamaneno (SaaManeno), Fallback-Hotspot "SaaManeno Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_TZ.h
+                              esphome/wordclock_multi/lang/lang_TZ.yaml (+ src/wc_lang_TZ.h)
+                              models/lang/lang_TZ.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_TZ.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_TZ.yaml
+                              OpenSCAD/FreeCAD: LANG = "TZ"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xxxxNIxSAAxxxx*
+   2 *xKUMIxNAxMOJAx*
+   3 *MBILIxTATUxNNE*
+   4 *TANOxSITAxSABA*
+   5 *NANExTISAxxxNA*
+   6 *KASOROxxDAKIKA*
+   7 *ROBOxNUSUxKUMI*
+   8 *xxISHIRINIxNAx*
+   9 *TANOxxxASUBUHI*
+  10 *MCHANAxxxJIONI*
+  11 *USIKUxALFAJIRI*
+  12 *xxxxxxxxxxxxxx*
+  13 *xHAKUNAxMATATA*
+  14 x+x1234xxDAKIKAx
+  15 xHEWAxxxxKENGELE
+  16 BETRIx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Besonderheit: Swahili-Zeit (saa za Kiswahili). Die Stunden zählen ab Sonnenaufgang bzw. -untergang,
+also ab 6 Uhr und ab 18 Uhr: 7 Uhr = SAA MOJA („erste Stunde“), 12 Uhr = SAA SITA, 18 Uhr = SAA KUMI NA MBILI.
+Swahili-Stunde = (Uhrzeit + 6) mod 12. Weil die Zählung zweimal am Tag gleich ist, steht die Tageszeit am Ende.
+Satzbau: NI SAA <Stunde> [NA <Minuten> | KASORO <Minuten>] <Tageszeit>
+(NI SAA = „es ist Stunde“, NA = „und“, KASORO = „weniger“). Ab :35 bezieht sich die Uhrzeit auf die nächste Stunde.
+:00 (nichts), :05 NA DAKIKA TANO, :10 NA DAKIKA KUMI, :15 NA ROBO, :20 NA DAKIKA ISHIRINI,
+:25 NA DAKIKA ISHIRINI NA TANO, :30 NA NUSU, :35 KASORO DAKIKA ISHIRINI NA TANO,
+:40 KASORO DAKIKA ISHIRINI, :45 KASORO ROBO, :50 KASORO DAKIKA KUMI, :55 KASORO DAKIKA TANO
+Stunden (Swahili-Zeit): 7/19 Uhr MOJA, 8/20 MBILI, 9/21 TATU, 10/22 NNE, 11/23 TANO, 12/0 SITA, 1/13 SABA,
+2/14 NANE, 3/15 TISA, 4/16 KUMI, 5/17 KUMI NA MOJA, 6/18 KUMI NA MBILI (KUMI, NA, MOJA in einer Zeile).
+TANO, KUMI und NA gibt es für Stunden und Minuten getrennt (NA dreimal: Stunde 11/12, „und“, :25/:35).
+Tageszeit am Satzende (nach der genannten Stunde): ALFAJIRI 4-5 Uhr, ASUBUHI 6-11 Uhr, MCHANA 12-15 Uhr,
+JIONI 16-18 Uhr, USIKU 19-3 Uhr; z. B. 7:00 NI SAA MOJA ASUBUHI, 13:47 NI SAA NANE KASORO ROBO MCHANA,
+0:00 NI SAA SITA USIKU, 5:30 NI SAA KUMI NA MOJA NA NUSU ALFAJIRI.
+Ohne gültige Uhrzeit leuchtet nur NI SAA.
+Minutenzeile: + 1..4 DAKIKA (Swahili hat keine Mehrzahlform, DAKIKA gilt für 1 und mehrere Minuten).
+Ersatzwörter: LÜFTEN = HEWA („Luft“), ALARM = KENGELE („Glocke/Klingel“), AKKU = BETRI („Batterie“).
+Zusatzwörter (Schalter „Onyesha HAKUNA MATATA“): HAKUNA MATATA („keine Sorgen“).
+
+GRAMMAR (English)
+-----------------
+Special: Swahili time (saa za Kiswahili). Hours are counted from sunrise or sunset, i.e. from 6 h and 18 h:
+7:00 = SAA MOJA ("first hour"), 12:00 = SAA SITA, 18:00 = SAA KUMI NA MBILI.
+Swahili hour = (clock hour + 6) mod 12. As the count repeats twice a day, the time of day is added at the end.
+Sentence: NI SAA <hour> [NA <minutes> | KASORO <minutes>] <time of day>
+(NI SAA = "it is hour", NA = "and", KASORO = "less"). From :35 on the time refers to the next hour.
+:00 (nothing), :05 NA DAKIKA TANO, :10 NA DAKIKA KUMI, :15 NA ROBO, :20 NA DAKIKA ISHIRINI,
+:25 NA DAKIKA ISHIRINI NA TANO, :30 NA NUSU, :35 KASORO DAKIKA ISHIRINI NA TANO,
+:40 KASORO DAKIKA ISHIRINI, :45 KASORO ROBO, :50 KASORO DAKIKA KUMI, :55 KASORO DAKIKA TANO
+Hours (Swahili time): 7/19 h MOJA, 8/20 MBILI, 9/21 TATU, 10/22 NNE, 11/23 TANO, 12/0 SITA, 1/13 SABA,
+2/14 NANE, 3/15 TISA, 4/16 KUMI, 5/17 KUMI NA MOJA, 6/18 KUMI NA MBILI (KUMI, NA, MOJA in one row).
+TANO, KUMI and NA exist separately for hours and minutes (NA three times: hour 11/12, "and", :25/:35).
+Time of day at the end (after the hour said): ALFAJIRI 4-5 h, ASUBUHI 6-11 h, MCHANA 12-15 h,
+JIONI 16-18 h, USIKU 19-3 h; e.g. 7:00 NI SAA MOJA ASUBUHI, 13:47 NI SAA NANE KASORO ROBO MCHANA,
+0:00 NI SAA SITA USIKU, 5:30 NI SAA KUMI NA MOJA NA NUSU ALFAJIRI.
+Without a valid time only NI SAA is lit.
+Minute row: + 1..4 DAKIKA (Swahili has no plural form, DAKIKA is used for one and several minutes).
+Substitute words: VENTILATE = HEWA ("air"), ALARM = KENGELE ("bell"), BATTERY = BETRI ("battery").
+Extra words (switch "Onyesha HAKUNA MATATA"): HAKUNA MATATA ("no worries").
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  NI SAA TATU ASUBUHI
+09:05  NI SAA TATU NA DAKIKA TANO ASUBUHI
+09:10  NI SAA TATU NA DAKIKA KUMI ASUBUHI
+09:15  NI SAA TATU NA ROBO ASUBUHI
+09:20  NI SAA TATU NA DAKIKA ISHIRINI ASUBUHI
+09:25  NI SAA TATU NA DAKIKA ISHIRINI NA TANO ASUBUHI
+09:30  NI SAA TATU NA NUSU ASUBUHI
+09:35  NI SAA NNE KASORO DAKIKA ISHIRINI NA TANO ASUBUHI
+09:40  NI SAA NNE KASORO DAKIKA ISHIRINI ASUBUHI
+09:45  NI SAA NNE KASORO ROBO ASUBUHI
+09:50  NI SAA NNE KASORO DAKIKA KUMI ASUBUHI
+09:55  NI SAA NNE KASORO DAKIKA TANO ASUBUHI
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  NI SAA
+00:00  NI SAA SITA USIKU
+00:30  NI SAA SITA NA NUSU USIKU
+00:35  NI SAA SABA KASORO DAKIKA ISHIRINI NA TANO USIKU
+01:00  NI SAA SABA USIKU
+01:05  NI SAA SABA NA DAKIKA TANO USIKU
+12:00  NI SAA SITA MCHANA
+12:30  NI SAA SITA NA NUSU MCHANA
+13:00  NI SAA SABA MCHANA
+09:01  NI SAA TATU ASUBUHI + 1 DAKIKA
+09:02  NI SAA TATU ASUBUHI + 2 DAKIKA
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+·····NI·SAA·····   ·····NI·SAA·····   ·····NI·SAA·····   ·····NI·SAA·····
+················   ················   ················   ················
+·······TATU·····   ············NNE·   ················   ················
+················   ················   ················   ······SITA······
+················   ·············NA·   ·NANE···········   ················
+················   ·········DAKIKA·   ·KASORO·········   ·KASORO··DAKIKA·
+················   ················   ·ROBO···········   ················
+················   ···ISHIRINI·NA··   ················   ················
+········ASUBUHI·   ·TANO···ASUBUHI·   ················   ·TANO···········
+················   ················   ·MCHANA·········   ················
+················   ················   ················   ·USIKU··········
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ·+··2····DAKIKA·   ·+···3···DAKIKA·
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  NI SAA TATU ASUBUHI
+10:25  NI SAA NNE NA DAKIKA ISHIRINI NA TANO ASUBUHI
+13:47  NI SAA NANE KASORO ROBO MCHANA + 2 DAKIKA
+23:58  NI SAA SITA KASORO DAKIKA TANO USIKU + 3 DAKIKA

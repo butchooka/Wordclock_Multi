@@ -1,0 +1,78 @@
+# lang_TR.yaml - Wordclock 16x16, ESPHome language package TR (Türkçe), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_TR.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: TR
+  name: kelimesaati
+  friendly_name: KelimeSaati
+  ap_ssid: KelimeSaati Fallback
+  timezone: Europe/Istanbul
+  latitude: "39.933°"           # Ankara
+  longitude: "32.860°"
+  extra_hidden: "false"         # language has extra words (VAKİT NAKİTTİR), switch shown
+
+  # entity names
+  t_br_day: Gündüz parlaklığı
+  t_br_night: Gece parlaklığı
+  t_cur_limit: Akım sınırı
+  t_night_start: Gece başlangıcı kayması
+  t_night_end: Gece bitişi kayması
+  t_night_mode: Gece modu
+  nm_mix: Karma
+  nm_sun: Güneşin konumu
+  nm_fixed: Sabit saatler
+  t_night_not_before: Gece en erken
+  t_night_not_after: Gece en geç
+  t_night_from: Gece başlangıcı
+  t_night_until: Gece bitişi
+  t_fx_dur: Efekt süresi
+  t_blink_cycle: Yanıp sönme döngüsü
+  t_tin_min: İç sıcaklık min
+  t_tin_max: İç sıcaklık maks
+  t_tout_min: Dış sıcaklık min
+  t_tout_max: Dış sıcaklık maks
+  t_col_time: Saat rengi
+  t_col_vent: HAVALANDIR rengi
+  t_col_alarm: ALARM rengi
+  t_col_battery: PİL rengi
+  t_col_tout: Dış sıcaklık rengi
+  t_col_tin: İç sıcaklık rengi
+  t_sw_temp: Sıcaklığı göster
+  t_sw_min: Tek dakikaları göster
+  t_sw_alarm: Alarmı göster
+  t_sw_vent: Havalandırı göster
+  t_sw_battery: Pili göster
+  t_sw_extra: VAKİT NAKİTTİR göster
+  t_fx: Efekt
+  t_fx_color: Efekt rengi
+  t_fx_start: Efekti başlat
+  t_fx_stop: Efekti durdur
+  t_text: Kayan yazı
+  t_text_start: Metni göster
+
+  # colour options (palette order, never change the order)
+  c_0: Sıcak beyaz
+  c_1: Beyaz
+  c_2: Kırmızı
+  c_3: Turuncu
+  c_4: Sarı
+  c_5: Yeşil
+  c_6: Mavi
+  c_7: Mor
+  c_random: Rastgele
+  c_temp: Sıcaklık
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: Gökkuşağı
+  fx_aurora: Kutup ışıkları
+  fx_matrix: Matrix
+  fx_fire: Ateş
+  fx_confetti: Konfeti
+  fx_stars: Yıldızlı gökyüzü
+  fx_blink: Yanıp sönme
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_TR.h

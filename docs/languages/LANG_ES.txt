@@ -1,0 +1,121 @@
+Wordclock_Multi v2.0 - Español (ES)
+===================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Madrid  (40.4168, -3.7038)
+Zeitzone / time zone:         Europe/Madrid  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   Reloj  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://reloj.local
+ESPHome: Gerät / device:      reloj (Reloj), Fallback-Hotspot "Reloj Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_ES.h
+                              esphome/wordclock_multi/lang/lang_ES.yaml (+ src/wc_lang_ES.h)
+                              models/lang/lang_ES.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_ES.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_ES.yaml
+                              OpenSCAD/FreeCAD: LANG = "ES"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xESxSONxLASxxx*
+   2 *xUNAxxxDOSxxxx*
+   3 *xTRESxxCUATROx*
+   4 *xCINCOxxSEISxx*
+   5 *xSIETExxxOCHOx*
+   6 *xNUEVExxxDIEZx*
+   7 *xONCExxxDOCExx*
+   8 *xxxYxxxMENOSxx*
+   9 *xVEINTICINCOxx*
+  10 *VEINTExxxDIEZx*
+  11 *xxxCUARTOxHOLA*
+  12 *xxxxxMEDIAxxxx*
+  13 *xxxENxPUNTOxxx*
+  14 x+x1234xMINUTOSx
+  15 xVENTILARxALARMA
+  16 xBATxx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau: ES LA UNA / SON LAS <Stunde> [Y|MENOS <Minuten>] [EN PUNTO]
+Ab :35 (MENOS) bezieht sich die Uhrzeit auf die nächste Stunde.
+:00 EN PUNTO, :05 Y CINCO, :10 Y DIEZ, :15 Y CUARTO, :20 Y VEINTE, :25 Y VEINTICINCO,
+:30 Y MEDIA, :35 MENOS VEINTICINCO, :40 MENOS VEINTE, :45 MENOS CUARTO, :50 MENOS DIEZ,
+:55 MENOS CINCO
+Einzahl nur bei 1 Uhr (ES LA UNA), sonst SON LAS (SON LAS DOS ...).
+12-Stunden-Anzeige: 0 und 12 Uhr = LAS DOCE (kein mediodía/medianoche).
+CINCO der Minuten ist das Ende von VEINTICINCO (gemeinsame Buchstaben).
+Minutenzeile: + 1 MINUTO (Einzahl), + 2..4 MINUTOS.
+Zusatzwörter (Schalter „Mostrar HOLA“): HOLA („Hallo“, Gruß).
+
+GRAMMAR (English)
+-----------------
+Sentence: ES LA UNA / SON LAS <hour> [Y|MENOS <minutes>] [EN PUNTO]
+From :35 (MENOS) on the time refers to the next hour.
+:00 EN PUNTO, :05 Y CINCO, :10 Y DIEZ, :15 Y CUARTO, :20 Y VEINTE, :25 Y VEINTICINCO,
+:30 Y MEDIA, :35 MENOS VEINTICINCO, :40 MENOS VEINTE, :45 MENOS CUARTO, :50 MENOS DIEZ,
+:55 MENOS CINCO
+Singular only for one o'clock (ES LA UNA), otherwise SON LAS (SON LAS DOS ...).
+12-hour display: 0 and 12 o'clock = LAS DOCE (no mediodía/medianoche).
+CINCO of the minutes is the end of VEINTICINCO (shared letters).
+Minute row: + 1 MINUTO (singular), + 2..4 MINUTOS.
+Extra words (switch "Mostrar HOLA"): HOLA ("hello", greeting).
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  SON LAS NUEVE EN PUNTO
+09:05  SON LAS NUEVE Y CINCO
+09:10  SON LAS NUEVE Y DIEZ
+09:15  SON LAS NUEVE Y CUARTO
+09:20  SON LAS NUEVE Y VEINTE
+09:25  SON LAS NUEVE Y VEINTICINCO
+09:30  SON LAS NUEVE Y MEDIA
+09:35  SON LAS DIEZ MENOS VEINTICINCO
+09:40  SON LAS DIEZ MENOS VEINTE
+09:45  SON LAS DIEZ MENOS CUARTO
+09:50  SON LAS DIEZ MENOS DIEZ
+09:55  SON LAS DIEZ MENOS CINCO
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  ES
+00:00  SON LAS DOCE EN PUNTO
+00:30  SON LAS DOCE Y MEDIA
+00:35  ES LA UNA MENOS VEINTICINCO
+01:00  ES LA UNA EN PUNTO
+01:05  ES LA UNA Y CINCO
+12:00  SON LAS DOCE EN PUNTO
+12:30  SON LAS DOCE Y MEDIA
+13:00  ES LA UNA EN PUNTO
+09:01  SON LAS NUEVE EN PUNTO + 1 MINUTO
+09:02  SON LAS NUEVE EN PUNTO + 2 MINUTOS
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+·····SON·LAS····   ·····SON·LAS····   ·····SON·LAS····   ·····SON·LAS····
+················   ················   ········DOS·····   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+··NUEVE·········   ··········DIEZ··   ················   ················
+················   ················   ················   ·········DOCE···
+················   ····Y···········   ········MENOS···   ········MENOS···
+················   ··VEINTICINCO···   ················   ········CINCO···
+················   ················   ················   ················
+················   ················   ····CUARTO······   ················
+················   ················   ················   ················
+····EN·PUNTO····   ················   ················   ················
+················   ················   ·+··2···MINUTOS·   ·+···3··MINUTOS·
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  SON LAS NUEVE EN PUNTO
+10:25  SON LAS DIEZ Y VEINTICINCO
+13:47  SON LAS DOS MENOS CUARTO + 2 MINUTOS
+23:58  SON LAS DOCE MENOS CINCO + 3 MINUTOS

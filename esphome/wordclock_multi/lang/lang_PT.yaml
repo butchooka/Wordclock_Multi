@@ -1,0 +1,78 @@
+# lang_PT.yaml - Wordclock 16x16, ESPHome language package PT (Português), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_PT.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: PT
+  name: relogio
+  friendly_name: Relogio
+  ap_ssid: Relogio Fallback
+  timezone: Europe/Lisbon
+  latitude: "38.722°"           # Lisboa
+  longitude: "-9.139°"
+  extra_hidden: "false"         # language has extra words (OLÁ), switch shown
+
+  # entity names
+  t_br_day: Brilho de dia
+  t_br_night: Brilho de noite
+  t_cur_limit: Limite de corrente
+  t_night_start: Desvio início da noite
+  t_night_end: Desvio fim da noite
+  t_night_mode: Modo noturno
+  nm_mix: Misto
+  nm_sun: Posição do sol
+  nm_fixed: Horas fixas
+  t_night_not_before: Noite não antes de
+  t_night_not_after: Noite não depois de
+  t_night_from: Noite das
+  t_night_until: Noite até às
+  t_fx_dur: Duração do efeito
+  t_blink_cycle: Ciclo de piscar
+  t_tin_min: Temperatura interior mín
+  t_tin_max: Temperatura interior máx
+  t_tout_min: Temperatura exterior mín
+  t_tout_max: Temperatura exterior máx
+  t_col_time: Cor hora
+  t_col_vent: Cor AREJAR
+  t_col_alarm: Cor ALARME
+  t_col_battery: Cor CARGA
+  t_col_tout: Cor temperatura exterior
+  t_col_tin: Cor temperatura interior
+  t_sw_temp: Mostrar temperatura
+  t_sw_min: Mostrar minutos individuais
+  t_sw_alarm: Mostrar alarme
+  t_sw_vent: Mostrar arejar
+  t_sw_battery: Mostrar bateria
+  t_sw_extra: Mostrar OLÁ
+  t_fx: Efeito
+  t_fx_color: Cor efeito
+  t_fx_start: Iniciar efeito
+  t_fx_stop: Parar efeito
+  t_text: Texto
+  t_text_start: Mostrar texto
+
+  # colour options (palette order, never change the order)
+  c_0: Branco quente
+  c_1: Branco
+  c_2: Vermelho
+  c_3: Laranja
+  c_4: Amarelo
+  c_5: Verde
+  c_6: Azul
+  c_7: Violeta
+  c_random: Aleatória
+  c_temp: Temperatura
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: Arco-íris
+  fx_aurora: Aurora
+  fx_matrix: Matrix
+  fx_fire: Fogo
+  fx_confetti: Confetes
+  fx_stars: Céu estrelado
+  fx_blink: Piscar
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_PT.h

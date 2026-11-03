@@ -1,0 +1,143 @@
+Wordclock_Multi v2.0 - Ελληνικά (GR)
+====================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Athína  (37.9838, 23.7275)
+Zeitzone / time zone:         Europe/Athens  (POSIX EET-2EEST,M3.5.0/3,M10.5.0/4)
+Arduino: Hotspot / hotspot:   RoloiLexeon  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://roloilexeon.local
+ESPHome: Gerät / device:      roloilexeon (RoloiLexeon), Fallback-Hotspot "RoloiLexeon Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_GR.h
+                              esphome/wordclock_multi/lang/lang_GR.yaml (+ src/wc_lang_GR.h)
+                              models/lang/lang_GR.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_GR.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_GR.yaml
+                              OpenSCAD/FreeCAD: LANG = "GR"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *ΗxΩΡΑxΕΙΝΑΙxxx*
+   2 *ΜΙΑxΔΥΟxΤΡΕΙΣx*
+   3 *ΤΕΣΣΕΡΙΣxΠΕΝΤΕ*
+   4 *ΕΞΙxΕΠΤΑxΟΚΤΩx*
+   5 *xΕΝΝΙΑxxΔΕΚΑxx*
+   6 *ΕΝΤΕΚΑxxΔΩΔΕΚΑ*
+   7 *xxΚΑΙxxxΠΑΡΑxx*
+   8 *ΕΙΚΟΣΙxxΠΕΝΤΕx*
+   9 *ΔΕΚΑxxΤΕΤΑΡΤΟx*
+  10 *xxxxxΜΙΣΗxxxxx*
+  11 *xxxxxxxxxxxxxx*
+  12 *xΤΑxΠΑΝΤΑxΡΕΙx*
+  13 *xxxxxxxxxxxxxx*
+  14 x+x1234xxΛΕΠΤΟΑx
+  15 ΑΕΡΑΣxΣΥΝΑΓΕΡΜΟΣ
+  16 xΜΠΑΤx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau (gängige Umgangsform, 12-Stunden-Zählung, ab :35 auf die nächste Stunde bezogen):
+Η ΩΡΑ ΕΙΝΑΙ <Stunde> [ΚΑΙ <Minuten> | ΠΑΡΑ <Minuten>]
+(„Η ώρα είναι …“ = „Die Uhrzeit ist …“; ΚΑΙ = „und“ = nach, ΠΑΡΑ = „vor“).
+Bis :30 zählt die aktuelle Stunde mit ΚΑΙ, ab :35 die nächste Stunde mit ΠΑΡΑ.
+:00 <Stunde>, :05 <Stunde> ΚΑΙ ΠΕΝΤΕ, :10 ΚΑΙ ΔΕΚΑ, :15 ΚΑΙ ΤΕΤΑΡΤΟ, :20 ΚΑΙ ΕΙΚΟΣΙ,
+:25 ΚΑΙ ΕΙΚΟΣΙ ΠΕΝΤΕ, :30 ΚΑΙ ΜΙΣΗ, :35 <nächste Stunde> ΠΑΡΑ ΕΙΚΟΣΙ ΠΕΝΤΕ, :40 ΠΑΡΑ ΕΙΚΟΣΙ,
+:45 ΠΑΡΑ ΤΕΤΑΡΤΟ, :50 ΠΑΡΑ ΔΕΚΑ, :55 ΠΑΡΑ ΠΕΝΤΕ
+Beispiele: 3:05 Η ΩΡΑ ΕΙΝΑΙ ΤΡΕΙΣ ΚΑΙ ΠΕΝΤΕ, 3:30 Η ΩΡΑ ΕΙΝΑΙ ΤΡΕΙΣ ΚΑΙ ΜΙΣΗ,
+3:45 Η ΩΡΑ ΕΙΝΑΙ ΤΕΣΣΕΡΙΣ ΠΑΡΑ ΤΕΤΑΡΤΟ, 3:55 Η ΩΡΑ ΕΙΝΑΙ ΤΕΣΣΕΡΙΣ ΠΑΡΑ ΠΕΝΤΕ.
+Stunden (weibliche Formen, weil „η ώρα“ weiblich ist): ΜΙΑ, ΔΥΟ, ΤΡΕΙΣ, ΤΕΣΣΕΡΙΣ, ΠΕΝΤΕ, ΕΞΙ, ΕΠΤΑ,
+ΟΚΤΩ, ΕΝΝΙΑ, ΔΕΚΑ, ΕΝΤΕΚΑ, ΔΩΔΕΚΑ. 0 und 12 Uhr = ΔΩΔΕΚΑ, keine Wörter für Mitternacht/Mittag.
+ΠΕΝΤΕ und ΔΕΚΑ gibt es je zweimal (Stunde und Minuten). ΚΑΙ ΜΙΣΗ statt der Kurzform „τρεισήμισι“.
+Großbuchstaben ohne Tonos (Akzent), wie in griechischer Versalschrift üblich.
+Ohne gültige Uhrzeit leuchtet nur Η ΩΡΑ ΕΙΝΑΙ.
+Minutenzeile: + 1 ΛΕΠΤΟ (Einzahl), + 2..4 ΛΕΠΤΑ (Mehrzahl); im Raster steht ΛΕΠΤΟΑ, ΛΕΠΤ + Ο bzw. ΛΕΠΤ + Α.
+Statuswörter: LÜFTEN = ΑΕΡΑΣ („Luft“; ΑΕΡΙΣΜΟΣ passt nicht neben ΣΥΝΑΓΕΡΜΟΣ), ALARM = ΣΥΝΑΓΕΡΜΟΣ,
+AKKU = ΜΠΑΤ (Abkürzung von ΜΠΑΤΑΡΙΑ, wie GB BATT).
+Zusatzwörter (Schalter „Εμφάνιση ΤΑ ΠΑΝΤΑ ΡΕΙ“): ΤΑ ΠΑΝΤΑ ΡΕΙ („alles fließt“, Heraklit).
+Sonderzeichen: griechische Großbuchstaben (U+0391..U+03A9, auch Α Ε Η Ι Κ Μ Ν Ο Ρ Τ Υ sind eigene Zeichen,
+keine lateinischen). Metriken in Wordclock_Model.scad vorhanden (Block Greek, alle 24 Großbuchstaben);
+Liberation Sans, Arial und DejaVu Sans enthalten Griechisch.
+
+GRAMMAR (English)
+-----------------
+Sentence (common spoken form, 12-hour counting, from :35 on the next hour counts):
+Η ΩΡΑ ΕΙΝΑΙ <hour> [ΚΑΙ <minutes> | ΠΑΡΑ <minutes>]
+("Η ώρα είναι ..." = "the time is ..."; ΚΑΙ = "and" = past, ΠΑΡΑ = "to").
+Up to :30 the current hour counts with ΚΑΙ, from :35 on the next hour with ΠΑΡΑ.
+:00 <hour>, :05 <hour> ΚΑΙ ΠΕΝΤΕ, :10 ΚΑΙ ΔΕΚΑ, :15 ΚΑΙ ΤΕΤΑΡΤΟ, :20 ΚΑΙ ΕΙΚΟΣΙ,
+:25 ΚΑΙ ΕΙΚΟΣΙ ΠΕΝΤΕ, :30 ΚΑΙ ΜΙΣΗ, :35 <next hour> ΠΑΡΑ ΕΙΚΟΣΙ ΠΕΝΤΕ, :40 ΠΑΡΑ ΕΙΚΟΣΙ,
+:45 ΠΑΡΑ ΤΕΤΑΡΤΟ, :50 ΠΑΡΑ ΔΕΚΑ, :55 ΠΑΡΑ ΠΕΝΤΕ
+Examples: 3:05 Η ΩΡΑ ΕΙΝΑΙ ΤΡΕΙΣ ΚΑΙ ΠΕΝΤΕ, 3:30 Η ΩΡΑ ΕΙΝΑΙ ΤΡΕΙΣ ΚΑΙ ΜΙΣΗ,
+3:45 Η ΩΡΑ ΕΙΝΑΙ ΤΕΣΣΕΡΙΣ ΠΑΡΑ ΤΕΤΑΡΤΟ, 3:55 Η ΩΡΑ ΕΙΝΑΙ ΤΕΣΣΕΡΙΣ ΠΑΡΑ ΠΕΝΤΕ.
+Hours (feminine forms, because "η ώρα" is feminine): ΜΙΑ, ΔΥΟ, ΤΡΕΙΣ, ΤΕΣΣΕΡΙΣ, ΠΕΝΤΕ, ΕΞΙ, ΕΠΤΑ,
+ΟΚΤΩ, ΕΝΝΙΑ, ΔΕΚΑ, ΕΝΤΕΚΑ, ΔΩΔΕΚΑ. 0 and 12 o'clock = ΔΩΔΕΚΑ, no words for midnight/noon.
+ΠΕΝΤΕ and ΔΕΚΑ exist twice (hour and minutes). ΚΑΙ ΜΙΣΗ instead of the short form "τρεισήμισι".
+Capitals without tonos (accent), as usual in Greek all-caps writing.
+Without a valid time only Η ΩΡΑ ΕΙΝΑΙ is lit.
+Minute row: + 1 ΛΕΠΤΟ (singular), + 2..4 ΛΕΠΤΑ (plural); the grid has ΛΕΠΤΟΑ, ΛΕΠΤ + Ο or ΛΕΠΤ + Α.
+Status words: VENTILATE = ΑΕΡΑΣ ("air"; ΑΕΡΙΣΜΟΣ does not fit next to ΣΥΝΑΓΕΡΜΟΣ), ALARM = ΣΥΝΑΓΕΡΜΟΣ,
+BATTERY = ΜΠΑΤ (abbreviation of ΜΠΑΤΑΡΙΑ, like GB BATT).
+Extra words (switch "Εμφάνιση ΤΑ ΠΑΝΤΑ ΡΕΙ"): ΤΑ ΠΑΝΤΑ ΡΕΙ ("everything flows", Heraclitus).
+Special letters: Greek capitals (U+0391..U+03A9, also Α Ε Η Ι Κ Μ Ν Ο Ρ Τ Υ are own characters, not Latin).
+Metrics are in Wordclock_Model.scad (block Greek, all 24 capitals);
+Liberation Sans, Arial and DejaVu Sans contain Greek.
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  Η ΩΡΑ ΕΙΝΑΙ ΕΝΝΙΑ
+09:05  Η ΩΡΑ ΕΙΝΑΙ ΕΝΝΙΑ ΚΑΙ ΠΕΝΤΕ
+09:10  Η ΩΡΑ ΕΙΝΑΙ ΕΝΝΙΑ ΚΑΙ ΔΕΚΑ
+09:15  Η ΩΡΑ ΕΙΝΑΙ ΕΝΝΙΑ ΚΑΙ ΤΕΤΑΡΤΟ
+09:20  Η ΩΡΑ ΕΙΝΑΙ ΕΝΝΙΑ ΚΑΙ ΕΙΚΟΣΙ
+09:25  Η ΩΡΑ ΕΙΝΑΙ ΕΝΝΙΑ ΚΑΙ ΕΙΚΟΣΙ ΠΕΝΤΕ
+09:30  Η ΩΡΑ ΕΙΝΑΙ ΕΝΝΙΑ ΚΑΙ ΜΙΣΗ
+09:35  Η ΩΡΑ ΕΙΝΑΙ ΔΕΚΑ ΠΑΡΑ ΕΙΚΟΣΙ ΠΕΝΤΕ
+09:40  Η ΩΡΑ ΕΙΝΑΙ ΔΕΚΑ ΠΑΡΑ ΕΙΚΟΣΙ
+09:45  Η ΩΡΑ ΕΙΝΑΙ ΔΕΚΑ ΠΑΡΑ ΤΕΤΑΡΤΟ
+09:50  Η ΩΡΑ ΕΙΝΑΙ ΔΕΚΑ ΠΑΡΑ ΔΕΚΑ
+09:55  Η ΩΡΑ ΕΙΝΑΙ ΔΕΚΑ ΠΑΡΑ ΠΕΝΤΕ
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  Η ΩΡΑ ΕΙΝΑΙ
+00:00  Η ΩΡΑ ΕΙΝΑΙ ΔΩΔΕΚΑ
+00:30  Η ΩΡΑ ΕΙΝΑΙ ΔΩΔΕΚΑ ΚΑΙ ΜΙΣΗ
+00:35  Η ΩΡΑ ΕΙΝΑΙ ΜΙΑ ΠΑΡΑ ΕΙΚΟΣΙ ΠΕΝΤΕ
+01:00  Η ΩΡΑ ΕΙΝΑΙ ΜΙΑ
+01:05  Η ΩΡΑ ΕΙΝΑΙ ΜΙΑ ΚΑΙ ΠΕΝΤΕ
+12:00  Η ΩΡΑ ΕΙΝΑΙ ΔΩΔΕΚΑ
+12:30  Η ΩΡΑ ΕΙΝΑΙ ΔΩΔΕΚΑ ΚΑΙ ΜΙΣΗ
+13:00  Η ΩΡΑ ΕΙΝΑΙ ΜΙΑ
+09:01  Η ΩΡΑ ΕΙΝΑΙ ΕΝΝΙΑ + 1 ΛΕΠΤΟ
+09:02  Η ΩΡΑ ΕΙΝΑΙ ΕΝΝΙΑ + 2 ΛΕΠΤΑ
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+·Η·ΩΡΑ·ΕΙΝΑΙ····   ·Η·ΩΡΑ·ΕΙΝΑΙ····   ·Η·ΩΡΑ·ΕΙΝΑΙ····   ·Η·ΩΡΑ·ΕΙΝΑΙ····
+················   ················   ·····ΔΥΟ········   ················
+················   ················   ················   ················
+················   ················   ················   ················
+··ΕΝΝΙΑ·········   ·········ΔΕΚΑ···   ················   ················
+················   ················   ················   ·········ΔΩΔΕΚΑ·
+················   ···ΚΑΙ··········   ·········ΠΑΡΑ···   ·········ΠΑΡΑ···
+················   ·ΕΙΚΟΣΙ··ΠΕΝΤΕ··   ················   ·········ΠΕΝΤΕ··
+················   ················   ·······ΤΕΤΑΡΤΟ··   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ·+··2····ΛΕΠΤ·Α·   ·+···3···ΛΕΠΤ·Α·
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  Η ΩΡΑ ΕΙΝΑΙ ΕΝΝΙΑ
+10:25  Η ΩΡΑ ΕΙΝΑΙ ΔΕΚΑ ΚΑΙ ΕΙΚΟΣΙ ΠΕΝΤΕ
+13:47  Η ΩΡΑ ΕΙΝΑΙ ΔΥΟ ΠΑΡΑ ΤΕΤΑΡΤΟ + 2 ΛΕΠΤΑ
+23:58  Η ΩΡΑ ΕΙΝΑΙ ΔΩΔΕΚΑ ΠΑΡΑ ΠΕΝΤΕ + 3 ΛΕΠΤΑ

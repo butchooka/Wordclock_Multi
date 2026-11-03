@@ -1,0 +1,78 @@
+# lang_GR.yaml - Wordclock 16x16, ESPHome language package GR (Ελληνικά), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_GR.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: GR
+  name: roloilexeon
+  friendly_name: RoloiLexeon
+  ap_ssid: RoloiLexeon Fallback
+  timezone: Europe/Athens
+  latitude: "37.984°"           # Athína
+  longitude: "23.728°"
+  extra_hidden: "false"         # language has extra words (ΤΑ ΠΑΝΤΑ ΡΕΙ), switch shown
+
+  # entity names
+  t_br_day: Φωτεινότητα ημέρας
+  t_br_night: Φωτεινότητα νύχτας
+  t_cur_limit: Όριο ρεύματος
+  t_night_start: Μετατόπιση αρχής νύχτας
+  t_night_end: Μετατόπιση τέλους νύχτας
+  t_night_mode: Λειτουργία νύχτας
+  nm_mix: Μικτή
+  nm_sun: Θέση ηλίου
+  nm_fixed: Σταθερές ώρες
+  t_night_not_before: Νύχτα όχι πριν από
+  t_night_not_after: Νύχτα όχι μετά από
+  t_night_from: Νύχτα από
+  t_night_until: Νύχτα έως
+  t_fx_dur: Διάρκεια εφέ
+  t_blink_cycle: Κύκλος αναβοσβήματος
+  t_tin_min: Εσωτερική θερμοκρασία ελάχ.
+  t_tin_max: Εσωτερική θερμοκρασία μέγ.
+  t_tout_min: Εξωτερική θερμοκρασία ελάχ.
+  t_tout_max: Εξωτερική θερμοκρασία μέγ.
+  t_col_time: Χρώμα ώρας
+  t_col_vent: Χρώμα ΑΕΡΑΣ
+  t_col_alarm: Χρώμα ΣΥΝΑΓΕΡΜΟΣ
+  t_col_battery: Χρώμα ΜΠΑΤ
+  t_col_tout: Χρώμα εξωτερικής θερμοκρασίας
+  t_col_tin: Χρώμα εσωτερικής θερμοκρασίας
+  t_sw_temp: Εμφάνιση θερμοκρασίας
+  t_sw_min: Εμφάνιση μεμονωμένων λεπτών
+  t_sw_alarm: Εμφάνιση συναγερμού
+  t_sw_vent: Εμφάνιση αερισμού
+  t_sw_battery: Εμφάνιση μπαταρίας
+  t_sw_extra: Εμφάνιση ΤΑ ΠΑΝΤΑ ΡΕΙ
+  t_fx: Εφέ
+  t_fx_color: Χρώμα εφέ
+  t_fx_start: Έναρξη εφέ
+  t_fx_stop: Διακοπή εφέ
+  t_text: Κυλιόμενο κείμενο
+  t_text_start: Εμφάνιση κειμένου
+
+  # colour options (palette order, never change the order)
+  c_0: Θερμό λευκό
+  c_1: Λευκό
+  c_2: Κόκκινο
+  c_3: Πορτοκαλί
+  c_4: Κίτρινο
+  c_5: Πράσινο
+  c_6: Μπλε
+  c_7: Βιολετί
+  c_random: Τυχαίο
+  c_temp: Θερμοκρασία
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: Ουράνιο τόξο
+  fx_aurora: Σέλας
+  fx_matrix: Matrix
+  fx_fire: Φωτιά
+  fx_confetti: Κομφετί
+  fx_stars: Έναστρος ουρανός
+  fx_blink: Αναβόσβημα
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_GR.h

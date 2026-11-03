@@ -1,0 +1,132 @@
+Wordclock_Multi v2.0 - Latina (VA)
+==================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Città del Vaticano  (41.9029, 12.4534)
+Zeitzone / time zone:         Europe/Rome  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   Horologium  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://horologium.local
+ESPHome: Gerät / device:      horologium (Horologium), Fallback-Hotspot "Horologium Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_VA.h
+                              esphome/wordclock_multi/lang/lang_VA.yaml (+ src/wc_lang_VA.h)
+                              models/lang/lang_VA.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_VA.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_VA.yaml
+                              OpenSCAD/FreeCAD: LANG = "VA"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *ESTxHORAxPRIMA*
+   2 *SECUNDAxTERTIA*
+   3 *QUARTAxQUINTAx*
+   4 *SEXTAxSEPTIMAx*
+   5 *OCTAVAxxxNONAx*
+   6 *xxxUNDECIMAxxx*
+   7 *MERIDIESxMEDIA*
+   8 *NOXxxETxxMINUS*
+   9 *VIGINTIQUINQUE*
+  10 *DECEMxxDIMIDIA*
+  11 *xxQUADRANTESxx*
+  12 *xxROMANIxITExx*
+  13 *xxxxxDOMUMxxxx*
+  14 x+x1234xMINUTAUM
+  15 xVENTILAxMONITUM
+  16 VIGORx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau: EST HORA <Stunde als Ordnungszahl> [ET|MINUS <Minuten>]
+Ab :35 (MINUS) bezieht sich die Uhrzeit auf die nächste Stunde.
+:00 (nichts), :05 ET QUINQUE, :10 ET DECEM, :15 ET QUADRANS, :20 ET VIGINTI,
+:25 ET VIGINTI QUINQUE, :30 ET DIMIDIA, :35 MINUS VIGINTI QUINQUE, :40 MINUS VIGINTI,
+:45 MINUS QUADRANTE (Ablativ), :50 MINUS DECEM, :55 MINUS QUINQUE
+Stunden (weiblich zu HORA): PRIMA, SECUNDA, TERTIA, QUARTA, QUINTA, SEXTA, SEPTIMA, OCTAVA,
+NONA, DECIMA, UNDECIMA (DECIMA ist das Ende von UNDECIMA).
+12 Uhr: EST MERIDIES, 0 Uhr: EST MEDIA NOX (über zwei Zeilen, jeweils ohne HORA). Volle Stunde ohne Zusatzwort.
+Moderne Zählung (HORA PRIMA = 1 Uhr), nicht die römische Tagesstunde ab Sonnenaufgang.
+Im Raster „QUADRANTES“: QUADRAN + S = QUADRANS, QUADRANTE.
+Minutenzeile: + 1 MINUTUM (Einzahl), + 2..4 MINUTA (im Raster „MINUTAUM“: Mehrzahl MINUTA,
+Einzahl MINUT + UM).
+Ersatzwörter: LÜFTEN = VENTILA („lüfte!“), ALARM = MONITUM („Warnung“), AKKU = VIGOR („Kraft“).
+Zusatzwörter (Schalter „Ostende ROMANI ITE DOMUM“): ROMANI ITE DOMUM („Römer, geht nach Hause!“) aus
+Monty Pythons „Das Leben des Brian“ - die vom Centurio korrigierte Fassung von ROMANES EUNT DOMUS.
+
+GRAMMAR (English)
+-----------------
+Sentence: EST HORA <hour as ordinal number> [ET|MINUS <minutes>]
+From :35 (MINUS) on the time refers to the next hour.
+:00 (nothing), :05 ET QUINQUE, :10 ET DECEM, :15 ET QUADRANS, :20 ET VIGINTI,
+:25 ET VIGINTI QUINQUE, :30 ET DIMIDIA, :35 MINUS VIGINTI QUINQUE, :40 MINUS VIGINTI,
+:45 MINUS QUADRANTE (ablative), :50 MINUS DECEM, :55 MINUS QUINQUE
+Hours (feminine, agreeing with HORA): PRIMA, SECUNDA, TERTIA, QUARTA, QUINTA, SEXTA, SEPTIMA,
+OCTAVA, NONA, DECIMA, UNDECIMA (DECIMA is the end of UNDECIMA).
+12 o'clock: EST MERIDIES, 0 o'clock: EST MEDIA NOX (over two rows, both without HORA). Full hour without extra word.
+Modern counting (HORA PRIMA = 1 o'clock), not the Roman day hour counted from sunrise.
+Grid "QUADRANTES": QUADRAN + S = QUADRANS, QUADRANTE.
+Minute row: + 1 MINUTUM (singular), + 2..4 MINUTA (grid "MINUTAUM": plural MINUTA,
+singular MINUT + UM).
+Substitute words: VENTILATE = VENTILA ("ventilate!"), ALARM = MONITUM ("warning"),
+BATTERY = VIGOR ("strength").
+Extra words (switch "Ostende ROMANI ITE DOMUM"): ROMANI ITE DOMUM ("Romans, go home!") from Monty Python's
+"Life of Brian" - the centurion's correction of ROMANES EUNT DOMUS.
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  EST HORA NONA
+09:05  EST HORA NONA ET QUINQUE
+09:10  EST HORA NONA ET DECEM
+09:15  EST HORA NONA ET QUADRANS
+09:20  EST HORA NONA ET VIGINTI
+09:25  EST HORA NONA ET VIGINTI QUINQUE
+09:30  EST HORA NONA ET DIMIDIA
+09:35  EST HORA DECIMA MINUS VIGINTI QUINQUE
+09:40  EST HORA DECIMA MINUS VIGINTI
+09:45  EST HORA DECIMA MINUS QUADRANTE
+09:50  EST HORA DECIMA MINUS DECEM
+09:55  EST HORA DECIMA MINUS QUINQUE
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  EST HORA
+00:00  EST MEDIA NOX
+00:30  EST MEDIA NOX ET DIMIDIA
+00:35  EST HORA PRIMA MINUS VIGINTI QUINQUE
+01:00  EST HORA PRIMA
+01:05  EST HORA PRIMA ET QUINQUE
+12:00  EST MERIDIES
+12:30  EST MERIDIES ET DIMIDIA
+13:00  EST HORA PRIMA
+09:01  EST HORA NONA + 1 MINUTUM
+09:02  EST HORA NONA + 2 MINUTA
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+·EST·HORA·······   ·EST·HORA·······   ·EST·HORA·······   ·EST············
+················   ················   ·SECUNDA········   ················
+················   ················   ················   ················
+················   ················   ················   ················
+··········NONA··   ················   ················   ················
+················   ······DECIMA····   ················   ················
+················   ················   ················   ··········MEDIA·
+················   ······ET········   ··········MINUS·   ·NOX······MINUS·
+················   ·VIGINTIQUINQUE·   ················   ········QUINQUE·
+················   ················   ················   ················
+················   ················   ···QUADRANTE····   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ·+··2···MINUTA··   ·+···3··MINUTA··
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  EST HORA NONA
+10:25  EST HORA DECIMA ET VIGINTI QUINQUE
+13:47  EST HORA SECUNDA MINUS QUADRANTE + 2 MINUTA
+23:58  EST MEDIA NOX MINUS QUINQUE + 3 MINUTA

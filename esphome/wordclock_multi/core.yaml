@@ -1,0 +1,694 @@
+# wordclock_multi/core.yaml - Wordclock 16x16, ESPHome core package, multi-language v2.0
+# Do not edit for a normal build: settings are in wordclock_multi.yaml, texts in wordclock_multi/lang/lang_XX.yaml.
+# No secrets in here (secrets.yaml is only searched next to the file that uses !secret).
+# Identical for all languages. The display logic is in the shared C++ files (${src_dir}):
+#   wc_core.h (clock, colours, output), wc_effects.h (effects), wc_text.h + wc_font16.h (text ticker),
+#   wc_lang_XX.h (grid and time words).
+# Entity names come from the language package (${t_...}), options as well (${c_...}, ${fx_...}).
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  comment: "Wordclock 16x16 ${lang_code} v2.0"
+  includes:
+    - ${src_dir}/wc_core.h
+    - ${src_dir}/wc_effects.h
+    - ${src_dir}/wc_font16.h
+    - ${src_dir}/wc_text.h
+  on_boot:
+    priority: -100
+    then:
+      - lambda: 'wc_seed(random_uint32());'
+      - light.turn_on:
+          id: matrix
+          brightness: 100%
+          effect: "Wordclock"
+
+logger:
+
+captive_portal:
+
+# action for Home Assistant automations: esphome.<name>_show_text (message = what to show), merged with api: of the main file
+api:
+  actions:
+    - action: show_text
+      variables:
+        message: string   # not "text": that name is reserved by the ESPHome text integration
+      then:
+        - text.set:
+            id: txt_val
+            value: !lambda 'return message;'
+        - script.stop: run_fx
+        - lambda: |-
+            id(fx_mode) = 0;
+            id(fx_sync).execute(0);
+            id(txt_start) = millis();
+            id(txt_on) = true;
+
+time:
+  - platform: sntp
+    id: sntp_time
+    timezone: ${timezone}
+
+sun:
+  id: sun_calc
+  latitude: ${latitude}
+  longitude: ${longitude}
+  time_id: sntp_time
+
+globals:
+  - id: fx_mode            # 0 = clock, 1..n = effect number (order of WC_FX in wc_effects.h)
+    type: int
+    initial_value: "0"
+  - id: fx_start
+    type: uint32_t
+    initial_value: "0"
+  - id: txt_on             # text ticker running
+    type: bool
+    initial_value: "false"
+  - id: txt_start
+    type: uint32_t
+    initial_value: "0"
+  - id: night_now
+    type: bool
+    initial_value: "false"
+  - id: rnd_hour           # hour in which the random colours changed last
+    type: int
+    initial_value: "-1"
+  - id: rnd_clock          # current random colour (0..7) per colour selection
+    type: int
+    initial_value: "-1"
+  - id: rnd_vent
+    type: int
+    initial_value: "-1"
+  - id: rnd_alarm
+    type: int
+    initial_value: "-1"
+  - id: rnd_battery
+    type: int
+    initial_value: "-1"
+
+# ---------------- Configuration (Home Assistant: device > configuration) ----------------
+number:
+  - platform: template
+    id: br_day
+    name: "${t_br_day}"
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: 60
+    min_value: 1
+    max_value: 100
+    step: 1
+    unit_of_measurement: "%"
+    mode: slider
+  - platform: template
+    id: br_night
+    name: "${t_br_night}"
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: 8
+    min_value: 1
+    max_value: 100
+    step: 1
+    unit_of_measurement: "%"
+    mode: slider
+  - platform: template
+    id: cur_limit
+    name: "${t_cur_limit}"
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: 500
+    min_value: 100
+    max_value: 3000
+    step: 10
+    unit_of_measurement: "mA"
+    mode: box
+  - platform: template
+    id: night_start_off
+    name: "${t_night_start}"         # minutes after (+) / before (-) sunset (night modes mixed and sun position)
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: 0
+    min_value: -240
+    max_value: 240
+    step: 5
+    unit_of_measurement: "min"
+    mode: box
+  - platform: template
+    id: night_end_off
+    name: "${t_night_end}"           # minutes after (+) / before (-) sunrise
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: 0
+    min_value: -240
+    max_value: 240
+    step: 5
+    unit_of_measurement: "min"
+    mode: box
+  - platform: template
+    id: fx_dur
+    name: "${t_fx_dur}"
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: 30
+    min_value: 5
+    max_value: 120
+    step: 1
+    unit_of_measurement: "s"
+    mode: slider
+  - platform: template
+    id: blink_cycle
+    name: "${t_blink_cycle}"
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: 1.5
+    min_value: 0.3
+    max_value: 3.0
+    step: 0.1
+    unit_of_measurement: "s"
+    mode: slider
+  - platform: template
+    id: t_in_min
+    name: "${t_tin_min}"             # lower end of the scale (dot at the bottom)
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: 20
+    min_value: -40
+    max_value: 60
+    step: 0.5
+    unit_of_measurement: "°C"
+    mode: box
+  - platform: template
+    id: t_in_max
+    name: "${t_tin_max}"             # upper end of the scale (dot at the top)
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: 25
+    min_value: -40
+    max_value: 60
+    step: 0.5
+    unit_of_measurement: "°C"
+    mode: box
+  - platform: template
+    id: t_out_min
+    name: "${t_tout_min}"
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: 5
+    min_value: -40
+    max_value: 60
+    step: 0.5
+    unit_of_measurement: "°C"
+    mode: box
+  - platform: template
+    id: t_out_max
+    name: "${t_tout_max}"
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: 30
+    min_value: -40
+    max_value: 60
+    step: 0.5
+    unit_of_measurement: "°C"
+    mode: box
+
+# Colour options: index 0..7 = palette (WC_PAL in wc_core.h), 8 = random or temperature. Only the index is used.
+select:
+  - platform: template
+    id: col_clock
+    name: "${t_col_time}"
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_option: "${c_0}"
+    options: ["${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_random}", "${c_pride}"]
+  - platform: template
+    id: col_vent
+    name: "${t_col_vent}"
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_option: "${c_3}"
+    options: ["${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_random}"]
+  - platform: template
+    id: col_alarm
+    name: "${t_col_alarm}"
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_option: "${c_2}"
+    options: ["${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_random}"]
+  - platform: template
+    id: col_battery
+    name: "${t_col_battery}"
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_option: "${c_1}"
+    options: ["${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_random}"]
+  - platform: template
+    id: col_tout
+    name: "${t_col_tout}"            # temperature = colour from value and scale (cold blue, yellow, green, orange, hot red)
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_option: "${c_temp}"
+    options: ["${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_temp}"]
+  - platform: template
+    id: col_tin
+    name: "${t_col_tin}"
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_option: "${c_temp}"
+    options: ["${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_temp}"]
+  # Night mode: 0 mixed (sun position, but night not before / not after a time), 1 sun position, 2 fixed times
+  - platform: template
+    id: night_mode
+    name: "${t_night_mode}"
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_option: "${nm_mix}"
+    options: ["${nm_mix}", "${nm_sun}", "${nm_fixed}"]
+  - platform: template
+    id: fx_col
+    name: "${t_fx_color}"            # colour for effects with colour (blink)
+    optimistic: true
+    restore_value: true
+    initial_option: "${c_6}"
+    options: ["${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}"]
+
+# Text ticker: every letter fills the whole matrix, always runs twice with a pause in between (WC_TXT_* in wc_text.h).
+# Colour = colour of the time ("random" = every letter in the next rainbow colour). Start: button "${t_text_start}".
+# Home Assistant automation: action esphome.<name>_show_text with "message" (sets the text and starts it), or
+# text.set_value on the text entity followed by button.press on the start button.
+text:
+  - platform: template
+    id: txt_val
+    name: "${t_text}"
+    mode: text
+    max_length: 64
+    optimistic: true
+    restore_value: true
+    initial_value: "${friendly_name}"
+
+# Times for the night mode (time of day, local time)
+datetime:
+  - platform: template
+    id: night_not_before            # mixed: night starts at sunset (+ offset), but not before this time
+    name: "${t_night_not_before}"
+    type: time
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: "20:00:00"
+  - platform: template
+    id: night_not_after             # mixed: night ends at sunrise (+ offset), but not after this time
+    name: "${t_night_not_after}"
+    type: time
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: "07:00:00"
+  - platform: template
+    id: night_from                  # fixed times: night from
+    name: "${t_night_from}"
+    type: time
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: "22:00:00"
+  - platform: template
+    id: night_until                 # fixed times: night until
+    name: "${t_night_until}"
+    type: time
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: "06:30:00"
+
+switch:
+  - platform: template
+    id: sw_temp
+    name: "${t_sw_temp}"
+    entity_category: config
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+  - platform: template
+    id: sw_min
+    name: "${t_sw_min}"
+    entity_category: config
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+  - platform: template
+    id: sw_alarm
+    name: "${t_sw_alarm}"
+    entity_category: config
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+  - platform: template
+    id: sw_vent
+    name: "${t_sw_vent}"
+    entity_category: config
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+  - platform: template
+    id: sw_battery
+    name: "${t_sw_battery}"
+    entity_category: config
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+  - platform: template
+    id: sw_extra                     # extra words of the language (hidden if the language has none)
+    name: "${t_sw_extra}"
+    entity_category: config
+    internal: ${extra_hidden}
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
+
+  # Effects: one switch per effect. On = effect runs for the effect duration, then the switch goes off by itself.
+  # Off = back to the clock. Only one effect at a time. Number = order of WC_FX in wc_effects.h.
+  # New effect: add a switch here (next number), a line in the script fx_sync below and the name in every lang_XX.yaml
+  - platform: template
+    id: sw_fx1
+    name: "${t_fx} ${fx_rainbow}"
+    optimistic: true
+    restore_mode: ALWAYS_OFF
+    turn_on_action:
+      - script.execute:
+          id: run_fx
+          mode: 1
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(fx_mode) == 1;'
+          then:
+            - script.stop: run_fx
+            - lambda: 'id(fx_mode) = 0;'
+  - platform: template
+    id: sw_fx2
+    name: "${t_fx} ${fx_aurora}"
+    optimistic: true
+    restore_mode: ALWAYS_OFF
+    turn_on_action:
+      - script.execute:
+          id: run_fx
+          mode: 2
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(fx_mode) == 2;'
+          then:
+            - script.stop: run_fx
+            - lambda: 'id(fx_mode) = 0;'
+  - platform: template
+    id: sw_fx3
+    name: "${t_fx} ${fx_matrix}"
+    optimistic: true
+    restore_mode: ALWAYS_OFF
+    turn_on_action:
+      - script.execute:
+          id: run_fx
+          mode: 3
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(fx_mode) == 3;'
+          then:
+            - script.stop: run_fx
+            - lambda: 'id(fx_mode) = 0;'
+  - platform: template
+    id: sw_fx4
+    name: "${t_fx} ${fx_fire}"
+    optimistic: true
+    restore_mode: ALWAYS_OFF
+    turn_on_action:
+      - script.execute:
+          id: run_fx
+          mode: 4
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(fx_mode) == 4;'
+          then:
+            - script.stop: run_fx
+            - lambda: 'id(fx_mode) = 0;'
+  - platform: template
+    id: sw_fx5
+    name: "${t_fx} ${fx_confetti}"
+    optimistic: true
+    restore_mode: ALWAYS_OFF
+    turn_on_action:
+      - script.execute:
+          id: run_fx
+          mode: 5
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(fx_mode) == 5;'
+          then:
+            - script.stop: run_fx
+            - lambda: 'id(fx_mode) = 0;'
+  - platform: template
+    id: sw_fx6
+    name: "${t_fx} ${fx_stars}"
+    optimistic: true
+    restore_mode: ALWAYS_OFF
+    turn_on_action:
+      - script.execute:
+          id: run_fx
+          mode: 6
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(fx_mode) == 6;'
+          then:
+            - script.stop: run_fx
+            - lambda: 'id(fx_mode) = 0;'
+  - platform: template
+    id: sw_fx7
+    name: "${t_fx} ${fx_blink}"
+    optimistic: true
+    restore_mode: ALWAYS_OFF
+    turn_on_action:
+      - script.execute:
+          id: run_fx
+          mode: 7
+    turn_off_action:
+      - if:
+          condition:
+            lambda: 'return id(fx_mode) == 7;'
+          then:
+            - script.stop: run_fx
+            - lambda: 'id(fx_mode) = 0;'
+
+# ---------------- Entities from Home Assistant (internal, read only) ----------------
+binary_sensor:
+  - platform: homeassistant
+    id: ha_vent
+    entity_id: ${vent_entity}
+    internal: true
+  - platform: homeassistant
+    id: ha_alarm
+    entity_id: ${alarm_entity}
+    internal: true
+
+sensor:
+  - platform: homeassistant
+    id: ha_battery
+    entity_id: ${battery_entity}
+    internal: true
+  - platform: homeassistant
+    id: ha_temp_out
+    entity_id: ${temp_out_entity}
+    internal: true
+  - platform: homeassistant
+    id: ha_temp_in
+    entity_id: ${temp_in_entity}
+    internal: true
+
+# ---------------- Control: effects ----------------
+script:
+  # shows the running effect on the effect switches (0 = all off), without triggering their actions
+  - id: fx_sync
+    mode: queued
+    parameters:
+      active: int
+    then:
+      - lambda: |-
+          if (id(sw_fx1).state != (active == 1)) id(sw_fx1).publish_state(active == 1);
+          if (id(sw_fx2).state != (active == 2)) id(sw_fx2).publish_state(active == 2);
+          if (id(sw_fx3).state != (active == 3)) id(sw_fx3).publish_state(active == 3);
+          if (id(sw_fx4).state != (active == 4)) id(sw_fx4).publish_state(active == 4);
+          if (id(sw_fx5).state != (active == 5)) id(sw_fx5).publish_state(active == 5);
+          if (id(sw_fx6).state != (active == 6)) id(sw_fx6).publish_state(active == 6);
+          if (id(sw_fx7).state != (active == 7)) id(sw_fx7).publish_state(active == 7);
+  - id: run_fx
+    mode: restart
+    parameters:
+      mode: int
+    then:
+      - lambda: |-
+          id(fx_mode) = mode;
+          id(fx_start) = millis();
+          id(txt_on) = false;
+          id(fx_sync).execute(mode);
+      - delay: !lambda 'return (uint32_t) (id(fx_dur).state * 1000.0f);'
+      - lambda: |-
+          id(fx_mode) = 0;
+          id(fx_sync).execute(0);
+
+button:
+  - platform: template
+    name: "${t_text_start}"
+    on_press:
+      - script.stop: run_fx
+      - lambda: |-
+          id(fx_mode) = 0;
+          id(txt_start) = millis();
+          id(txt_on) = true;
+          id(fx_sync).execute(0);
+
+# ---------------- Night detection (time of day only, local time) and random colours ----------------
+interval:
+  - interval: 5s
+    then:
+      - lambda: |-
+          auto now = id(sntp_time).now();
+          if (!now.is_valid()) {
+            id(night_now) = false;
+            return;
+          }
+
+          // random colours: every full hour a new colour (0..7) per selection, never the same twice in a row
+          if (id(rnd_hour) != now.hour) {
+            id(rnd_hour) = now.hour;
+            id(rnd_clock) = wc_pick_random(id(rnd_clock));
+            id(rnd_vent) = wc_pick_random(id(rnd_vent));
+            id(rnd_alarm) = wc_pick_random(id(rnd_alarm));
+            id(rnd_battery) = wc_pick_random(id(rnd_battery));
+          }
+
+          // night: only compare the time of day in minutes since midnight (local time), the date does not matter
+          // night mode: 0 mixed, 1 sun position, 2 fixed times (also the fallback if no sun times can be calculated)
+          auto wrap = [](int m) { return ((m % 1440) + 1440) % 1440; };
+          auto rel = [&](int m) { return (wrap(m) - 720 + 1440) % 1440; };   // minutes from 12:00 (across midnight)
+          const int nm = (int) id(night_mode).active_index().value_or(0);
+          const int nowm = now.hour * 60 + now.minute;
+          auto sr = id(sun_calc).sunrise(-0.833);
+          auto ss = id(sun_calc).sunset(-0.833);
+          int startm, endm;
+          if (nm == 2 || !sr.has_value() || !ss.has_value()) {
+            startm = id(night_from).hour * 60 + id(night_from).minute;
+            endm = id(night_until).hour * 60 + id(night_until).minute;
+          } else {
+            startm = wrap(ss->hour * 60 + ss->minute + (int) id(night_start_off).state);
+            endm = wrap(sr->hour * 60 + sr->minute + (int) id(night_end_off).state);
+            if (nm == 0) {  // mixed: start = later, end = earlier point in time
+              const int nb = id(night_not_before).hour * 60 + id(night_not_before).minute;
+              const int na = id(night_not_after).hour * 60 + id(night_not_after).minute;
+              if (rel(nb) > rel(startm)) startm = nb;
+              if (rel(na) < rel(endm)) endm = na;
+            }
+          }
+          startm = wrap(startm);
+          endm = wrap(endm);
+          id(night_now) = (startm > endm) ? (nowm >= startm || nowm < endm) : (nowm >= startm && nowm < endm);
+
+# ---------------- LED matrix (internal, not visible in Home Assistant) ----------------
+light:
+  - platform: esp32_rmt_led_strip
+    id: matrix
+    internal: true
+    pin: ${led_pin}
+    num_leds: 256
+    chipset: WS2812
+    rgb_order: GRB
+    gamma_correct: 1.0
+    default_transition_length: 0s
+    restore_mode: ALWAYS_ON
+    effects:
+      - addressable_lambda:
+          name: "Wordclock"
+          update_interval: 50ms
+          lambda: |-
+            static WcRgb frame[WC_N];
+            static WcText txt;
+            const uint32_t ms = millis();
+            const int mode = id(fx_mode);
+            bool txt_now = false;
+            if (id(txt_on)) {
+              wc_text_set(txt, id(txt_val).state.c_str());   // cheap, so the text can change while running
+              const float ts = (ms - id(txt_start)) / 1000.0f;
+              txt_now = wc_text_running(txt, ts);
+              if (!txt_now) id(txt_on) = false;
+              else {
+                const int sel = (int) id(col_clock).active_index().value_or(0);
+                wc_text_render(txt, ts, wc_pal_or_random(sel, id(rnd_clock)), sel >= 8, frame);
+              }
+            }
+            if (txt_now) {
+              // text ticker drawn above
+            } else if (mode > 0) {
+              WcFxCtx c;
+              c.ms = ms;
+              c.t = ms / 1000.0f;
+              c.ts = (ms - id(fx_start)) / 1000.0f;
+              c.cycle = id(blink_cycle).state;
+              const size_t ci = id(fx_col).active_index().value_or(6);
+              c.color = WC_PAL[ci < 8 ? ci : 6];
+              wc_fx_render(mode, frame, c);
+            } else {
+              auto t = id(sntp_time).now();
+              WcClockIn in;
+              memset(&in, 0, sizeof(in));
+              in.valid = t.is_valid();
+              in.hour = t.hour;
+              in.minute = t.minute;
+              in.show_minutes = id(sw_min).state;
+              in.show_temp = id(sw_temp).state;
+              in.show_vent = id(sw_vent).state;
+              in.show_alarm = id(sw_alarm).state;
+              in.show_battery = id(sw_battery).state;
+              in.show_extra = id(sw_extra).state;
+              in.vent = id(ha_vent).state;
+              in.alarm = id(ha_alarm).state;
+              in.battery = id(ha_battery).state;      // NaN = no value yet / unavailable
+              in.t_out = id(ha_temp_out).state;
+              in.t_in = id(ha_temp_in).state;
+              in.t_out_lo = id(t_out_min).state;
+              in.t_out_hi = id(t_out_max).state;
+              in.t_in_lo = id(t_in_min).state;
+              in.t_in_hi = id(t_in_max).state;
+              // colours: selection 0..7 = palette, 8 = random (changes every hour)
+              const int ctime_sel = (int) id(col_clock).active_index().value_or(0);
+              in.pride = (ctime_sel == 9) && in.valid;   // pride: one random colour per time word, re-rolled each minute
+              if (in.pride) in.pride_col = wc_pride_refresh((int32_t)(t.hour * 60 + t.minute));
+              in.c_time = wc_pal_or_random(ctime_sel, id(rnd_clock));
+              in.c_vent = wc_pal_or_random((int) id(col_vent).active_index().value_or(0), id(rnd_vent));
+              in.c_alarm = wc_pal_or_random((int) id(col_alarm).active_index().value_or(0), id(rnd_alarm));
+              in.c_battery = wc_pal_or_random((int) id(col_battery).active_index().value_or(0), id(rnd_battery));
+              const size_t ito = id(col_tout).active_index().value_or(8);
+              const size_t iti = id(col_tin).active_index().value_or(8);
+              in.tout_scale = ito >= 8;
+              in.tin_scale = iti >= 8;
+              in.c_tout = WC_PAL[ito < 8 ? ito : 0];
+              in.c_tin = WC_PAL[iti < 8 ? iti : 0];
+              wc_render_clock(WC_LANG, in, frame);
+            }
+            float bf = (id(night_now) ? id(br_night).state : id(br_day).state) / 100.0f;
+            if ((mode > 0 || txt_now) && bf < 0.10f) bf = 0.10f;  // effects and text always visible with at least 10 %
+            wc_output(frame, bf, id(cur_limit).state, ${ma_per_channel}, ${idle_ma_per_led}, ${mirror_x}, ${serpentine},
+                      [&](int i, uint8_t r, uint8_t g, uint8_t b) { it[i] = Color(r, g, b); });

@@ -1,0 +1,120 @@
+Wordclock_Multi v2.0 - Dansk (DK)
+=================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         København  (55.6761, 12.5683)
+Zeitzone / time zone:         Europe/Copenhagen  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   Ordur  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://ordur.local
+ESPHome: Gerät / device:      ordur (Ordur), Fallback-Hotspot "Ordur Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_DK.h
+                              esphome/wordclock_multi/lang/lang_DK.yaml (+ src/wc_lang_DK.h)
+                              models/lang/lang_DK.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_DK.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_DK.yaml
+                              OpenSCAD/FreeCAD: LANG = "DK"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *xKLOKKENxxERxx*
+   2 *xxFEMxxxxxTIxx*
+   3 *xKVARTxxHEJxxx*
+   4 *xxxxxxxxTYVExx*
+   5 *xxOVERxxxxxIxx*
+   6 *xxxxxHALVxxxxx*
+   7 *xxETxxxxxxTOxx*
+   8 *xTRExxxxFIRExx*
+   9 *xxFEMxxxSEKSxx*
+  10 *xSYVxxxxOTTExx*
+  11 *xxxNIxxxxxTIxx*
+  12 *xxxxELLEVExxxx*
+  13 *xxxxxTOLVxxxxx*
+  14 x+x1234xMINUTTER
+  15 xUDLUFTExxxALARM
+  16 xBATTx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau (Standard-Dänisch, „halv“-System): KLOKKEN ER [<Minuten> OVER|I] [HALV] <Stunde>
+Ab :25 bezieht sich die Uhrzeit auf die nächste Stunde (HALV TRE = 2:30, wie „halb drei“).
+:00 <Stunde>, :05 FEM OVER, :10 TI OVER, :15 KVART OVER, :20 TYVE OVER, :25 FEM I HALV,
+:30 HALV, :35 FEM OVER HALV, :40 TYVE I, :45 KVART I, :50 TI I, :55 FEM I
+Beispiel: 9:25 = KLOKKEN ER FEM I HALV TI.
+Kein Wort für „Uhr“ zur vollen Stunde (9:00 = KLOKKEN ER NI). 1 Uhr = ET. 12-Stunden-Anzeige:
+0 und 12 Uhr = TOLV. OVER = nach, I = vor. FEM und TI stehen je zweimal im Raster (Minuten oben,
+Stunden unten).
+Minutenzeile: + 1 MINUT (Einzahl, die ersten 5 Felder von MINUTTER), + 2..4 MINUTTER.
+Zusatzwörter (Schalter „Vis HEJ“): HEJ („Hallo“, Gruß).
+
+GRAMMAR (English)
+-----------------
+Sentence (standard Danish, "halv" system): KLOKKEN ER [<minutes> OVER|I] [HALV] <hour>
+From :25 on the time refers to the next hour (HALV TRE = 2:30, "half to three").
+:00 <hour>, :05 FEM OVER, :10 TI OVER, :15 KVART OVER, :20 TYVE OVER, :25 FEM I HALV,
+:30 HALV, :35 FEM OVER HALV, :40 TYVE I, :45 KVART I, :50 TI I, :55 FEM I
+Example: 9:25 = KLOKKEN ER FEM I HALV TI (five to half ten).
+No word for "o'clock" (9:00 = KLOKKEN ER NI). 1 o'clock = ET. 12-hour display: 0 and 12 o'clock
+= TOLV. OVER = past, I = to. FEM and TI are in the grid twice (minutes at the top, hours below).
+Minute row: + 1 MINUT (singular, the first 5 cells of MINUTTER), + 2..4 MINUTTER.
+Extra words (switch "Vis HEJ"): HEJ ("hello", greeting).
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  KLOKKEN ER NI
+09:05  KLOKKEN ER FEM OVER NI
+09:10  KLOKKEN ER TI OVER NI
+09:15  KLOKKEN ER KVART OVER NI
+09:20  KLOKKEN ER TYVE OVER NI
+09:25  KLOKKEN ER FEM I HALV TI
+09:30  KLOKKEN ER HALV TI
+09:35  KLOKKEN ER FEM OVER HALV TI
+09:40  KLOKKEN ER TYVE I TI
+09:45  KLOKKEN ER KVART I TI
+09:50  KLOKKEN ER TI I TI
+09:55  KLOKKEN ER FEM I TI
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  KLOKKEN ER
+00:00  KLOKKEN ER TOLV
+00:30  KLOKKEN ER HALV ET
+00:35  KLOKKEN ER FEM OVER HALV ET
+01:00  KLOKKEN ER ET
+01:05  KLOKKEN ER FEM OVER ET
+12:00  KLOKKEN ER TOLV
+12:30  KLOKKEN ER HALV ET
+13:00  KLOKKEN ER ET
+09:01  KLOKKEN ER NI + 1 MINUT
+09:02  KLOKKEN ER NI + 2 MINUTTER
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+··KLOKKEN··ER···   ··KLOKKEN··ER···   ··KLOKKEN··ER···   ··KLOKKEN··ER···
+················   ···FEM··········   ················   ···FEM··········
+················   ················   ··KVART·········   ················
+················   ················   ················   ················
+················   ············I···   ············I···   ············I···
+················   ······HALV······   ················   ················
+················   ················   ···········TO···   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+····NI··········   ················   ················   ················
+················   ·····ELLEVE·····   ················   ················
+················   ················   ················   ······TOLV······
+················   ················   ·+··2···MINUTTER   ·+···3··MINUTTER
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  KLOKKEN ER NI
+10:25  KLOKKEN ER FEM I HALV ELLEVE
+13:47  KLOKKEN ER KVART I TO + 2 MINUTTER
+23:58  KLOKKEN ER FEM I TOLV + 3 MINUTTER

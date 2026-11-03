@@ -1,0 +1,147 @@
+Wordclock_Multi v2.0 - Magyar (HU)
+==================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Budapest  (47.4979, 19.0402)
+Zeitzone / time zone:         Europe/Budapest  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   SzoOra  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://szoora.local
+ESPHome: Gerät / device:      szoora (SzoOra), Fallback-Hotspot "SzoOra Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_HU.h
+                              esphome/wordclock_multi/lang/lang_HU.yaml (+ src/wc_lang_HU.h)
+                              models/lang/lang_HU.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_HU.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_HU.yaml
+                              OpenSCAD/FreeCAD: LANG = "HU"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *MOSTxxxÖTxxTÍZ*
+   2 *PERCCELxxxMÚLT*
+   3 *xxMÚLVAxxxFÉLx*
+   4 *xxHÁROMNEGYEDx*
+   5 *xxTIZENKETTŐxx*
+   6 *xxxTIZENEGYxxx*
+   7 *HÁROMxxxxxNÉGY*
+   8 *xÖTxxHATxxHÉTx*
+   9 *NYOLCxxxKILENC*
+  10 *xxxxxxTÍZxxxxx*
+  11 *xxÓRAxxxxxVANx*
+  12 *xxxxxxxxxxxxxx*
+  13 *xAZxIDŐxPÉNZxx*
+  14 x+x1234xxPERCxxx
+  15 SZELLŐZÉSxxRIADÓ
+  16 xAKKUx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Satzbau (gängige Umgangsform, 12-Stunden-Zählung, Viertel auf die nächste Stunde bezogen):
+MOST [<Minuten> PERCCEL MÚLT | <Minuten> PERC MÚLVA] [NEGYED | FÉL | HÁROMNEGYED] <Stunde> [ÓRA] VAN
+(„most … van“ = „jetzt ist es …“; PERCCEL MÚLT = „Minuten nach“, PERC MÚLVA = „in … Minuten“).
+Ab :15 (NEGYED = „Viertel“) bezieht sich die Uhrzeit auf die nächste Stunde (wie „viertel vier“).
+ÓRA („Uhr“) steht nur bei vollen Stunden und vor/nach der vollen Stunde (:00, :05, :10, :50, :55).
+:00 <Stunde> ÓRA, :05 ÖT PERCCEL MÚLT <Stunde> ÓRA, :10 TÍZ PERCCEL MÚLT <Stunde> ÓRA,
+:15 NEGYED <nächste Stunde>, :20 ÖT PERCCEL MÚLT NEGYED, :25 ÖT PERC MÚLVA FÉL, :30 FÉL,
+:35 ÖT PERCCEL MÚLT FÉL, :40 ÖT PERC MÚLVA HÁROMNEGYED, :45 HÁROMNEGYED,
+:50 TÍZ PERC MÚLVA <nächste Stunde> ÓRA, :55 ÖT PERC MÚLVA <nächste Stunde> ÓRA
+Beispiele: 3:05 MOST ÖT PERCCEL MÚLT HÁROM ÓRA VAN, 3:30 MOST FÉL NÉGY VAN,
+3:45 MOST HÁROMNEGYED NÉGY VAN, 3:55 MOST ÖT PERC MÚLVA NÉGY ÓRA VAN.
+Stunden: EGY, KETTŐ, HÁROM, NÉGY, ÖT, HAT, HÉT, NYOLC, KILENC, TÍZ, TIZENEGY, TIZENKETTŐ
+(Stunde 2 und 12 immer als KETTŐ / TIZENKETTŐ: „fél kettő“ ist richtig, vor ÓRA ist „kettő óra“ umgangssprachlich
+üblich, standardsprachlich wäre „két óra“; das Raster hat nur KETTŐ).
+Im Raster stecken EGY in TIZENEGY, KETTŐ in TIZENKETTŐ, NEGYED in HÁROMNEGYED und PERC in PERCCEL.
+ÖT und TÍZ gibt es je zweimal (Minuten und Stunde).
+0 und 12 Uhr = TIZENKETTŐ. Keine Wörter für Mitternacht/Mittag (ÉJFÉL/DÉL).
+Ohne gültige Uhrzeit leuchtet nur MOST.
+Minutenzeile: + 1..4 PERC (im Ungarischen steht nach Zahlen immer die Einzahl).
+Statuswörter: LÜFTEN = SZELLŐZÉS („Lüftung“), ALARM = RIADÓ („Alarm“), AKKU = AKKU (ungarisch üblich).
+Zusatzwörter (Schalter „AZ IDŐ PÉNZ mutatása“): AZ IDŐ PÉNZ („Zeit ist Geld“).
+Sonderzeichen: Á, É, Í, Ó, Ö, Ú (Latin-1) und Ő (O mit Doppelakut, nicht Latin-1; Metriken in
+Wordclock_Model.scad vorhanden). Ű kommt im Raster nicht vor.
+
+GRAMMAR (English)
+-----------------
+Sentence (common spoken form, 12-hour counting, quarters refer to the next hour):
+MOST [<minutes> PERCCEL MÚLT | <minutes> PERC MÚLVA] [NEGYED | FÉL | HÁROMNEGYED] <hour> [ÓRA] VAN
+("most ... van" = "now it is ..."; PERCCEL MÚLT = "minutes past", PERC MÚLVA = "in ... minutes").
+From :15 on (NEGYED = "quarter") the time refers to the next hour (like German "viertel vier").
+ÓRA ("o'clock") is only used at the full hour and right before/after it (:00, :05, :10, :50, :55).
+:00 <hour> ÓRA, :05 ÖT PERCCEL MÚLT <hour> ÓRA, :10 TÍZ PERCCEL MÚLT <hour> ÓRA,
+:15 NEGYED <next hour>, :20 ÖT PERCCEL MÚLT NEGYED, :25 ÖT PERC MÚLVA FÉL, :30 FÉL,
+:35 ÖT PERCCEL MÚLT FÉL, :40 ÖT PERC MÚLVA HÁROMNEGYED, :45 HÁROMNEGYED,
+:50 TÍZ PERC MÚLVA <next hour> ÓRA, :55 ÖT PERC MÚLVA <next hour> ÓRA
+Examples: 3:05 MOST ÖT PERCCEL MÚLT HÁROM ÓRA VAN, 3:30 MOST FÉL NÉGY VAN,
+3:45 MOST HÁROMNEGYED NÉGY VAN, 3:55 MOST ÖT PERC MÚLVA NÉGY ÓRA VAN.
+Hours: EGY, KETTŐ, HÁROM, NÉGY, ÖT, HAT, HÉT, NYOLC, KILENC, TÍZ, TIZENEGY, TIZENKETTŐ
+(hour 2 and 12 always as KETTŐ / TIZENKETTŐ: "fél kettő" is correct, before ÓRA "kettő óra" is common speech,
+standard language would be "két óra"; the grid only has KETTŐ).
+In the grid EGY is part of TIZENEGY, KETTŐ of TIZENKETTŐ, NEGYED of HÁROMNEGYED and PERC of PERCCEL.
+ÖT and TÍZ exist twice (minutes and hour).
+0 and 12 o'clock = TIZENKETTŐ. No words for midnight/noon (ÉJFÉL/DÉL).
+Without a valid time only MOST is lit.
+Minute row: + 1..4 PERC (Hungarian always uses the singular after numbers).
+Status words: VENTILATE = SZELLŐZÉS ("ventilation"), ALARM = RIADÓ ("alarm"), BATTERY = AKKU (common in Hungarian).
+Extra words (switch "AZ IDŐ PÉNZ mutatása"): AZ IDŐ PÉNZ ("time is money").
+Special letters: Á, É, Í, Ó, Ö, Ú (Latin-1) and Ő (O with double acute, not Latin-1; metrics are in
+Wordclock_Model.scad). Ű does not occur in the grid.
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  MOST KILENC ÓRA VAN
+09:05  MOST ÖT PERCCEL MÚLT KILENC ÓRA VAN
+09:10  MOST TÍZ PERCCEL MÚLT KILENC ÓRA VAN
+09:15  MOST NEGYED TÍZ VAN
+09:20  MOST ÖT PERCCEL MÚLT NEGYED TÍZ VAN
+09:25  MOST ÖT PERC MÚLVA FÉL TÍZ VAN
+09:30  MOST FÉL TÍZ VAN
+09:35  MOST ÖT PERCCEL MÚLT FÉL TÍZ VAN
+09:40  MOST ÖT PERC MÚLVA HÁROMNEGYED TÍZ VAN
+09:45  MOST HÁROMNEGYED TÍZ VAN
+09:50  MOST TÍZ PERC MÚLVA TÍZ ÓRA VAN
+09:55  MOST ÖT PERC MÚLVA TÍZ ÓRA VAN
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  MOST
+00:00  MOST TIZENKETTŐ ÓRA VAN
+00:30  MOST FÉL EGY VAN
+00:35  MOST ÖT PERCCEL MÚLT FÉL EGY VAN
+01:00  MOST EGY ÓRA VAN
+01:05  MOST ÖT PERCCEL MÚLT EGY ÓRA VAN
+12:00  MOST TIZENKETTŐ ÓRA VAN
+12:30  MOST FÉL EGY VAN
+13:00  MOST EGY ÓRA VAN
+09:01  MOST KILENC ÓRA VAN + 1 PERC
+09:02  MOST KILENC ÓRA VAN + 2 PERC
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+·MOST···········   ·MOST···ÖT······   ·MOST···········   ·MOST···ÖT······
+················   ·PERC···········   ················   ·PERC···········
+················   ···MÚLVA···FÉL··   ················   ···MÚLVA········
+················   ················   ···HÁROMNEGYED··   ················
+················   ················   ········KETTŐ···   ···TIZENKETTŐ···
+················   ····TIZENEGY····   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+·········KILENC·   ················   ················   ················
+················   ················   ················   ················
+···ÓRA·····VAN··   ···········VAN··   ···········VAN··   ···ÓRA·····VAN··
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ·+··2····PERC···   ·+···3···PERC···
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  MOST KILENC ÓRA VAN
+10:25  MOST ÖT PERC MÚLVA FÉL TIZENEGY VAN
+13:47  MOST HÁROMNEGYED KETTŐ VAN + 2 PERC
+23:58  MOST ÖT PERC MÚLVA TIZENKETTŐ ÓRA VAN + 3 PERC

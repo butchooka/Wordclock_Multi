@@ -1,0 +1,78 @@
+# lang_HU.yaml - Wordclock 16x16, ESPHome language package HU (Magyar), v0.9
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_HU.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: HU
+  name: szoora
+  friendly_name: SzoOra
+  ap_ssid: SzoOra Fallback
+  timezone: Europe/Budapest
+  latitude: "47.498°"           # Budapest
+  longitude: "19.040°"
+  extra_hidden: "false"         # language has extra words (AZ IDŐ PÉNZ), switch shown
+
+  # entity names
+  t_br_day: Fényerő nappal
+  t_br_night: Fényerő éjjel
+  t_cur_limit: Áramkorlát
+  t_night_start: Éjszaka kezdetének eltolása
+  t_night_end: Éjszaka végének eltolása
+  t_night_mode: Éjszakai mód
+  nm_mix: Vegyes
+  nm_sun: Napállás
+  nm_fixed: Fix időpontok
+  t_night_not_before: Éjszaka legkorábban
+  t_night_not_after: Éjszaka legkésőbb
+  t_night_from: Éjszaka ettől
+  t_night_until: Éjszaka eddig
+  t_fx_dur: Effekt időtartama
+  t_blink_cycle: Villogási ciklus
+  t_tin_min: Belső hőmérséklet min
+  t_tin_max: Belső hőmérséklet max
+  t_tout_min: Külső hőmérséklet min
+  t_tout_max: Külső hőmérséklet max
+  t_col_time: Idő színe
+  t_col_vent: SZELLŐZÉS színe
+  t_col_alarm: RIADÓ színe
+  t_col_battery: AKKU színe
+  t_col_tout: Külső hőmérséklet színe
+  t_col_tin: Belső hőmérséklet színe
+  t_sw_temp: Hőmérséklet mutatása
+  t_sw_min: Egyes percek mutatása
+  t_sw_alarm: Riadó mutatása
+  t_sw_vent: Szellőzés mutatása
+  t_sw_battery: Akku mutatása
+  t_sw_extra: AZ IDŐ PÉNZ mutatása
+  t_fx: Effekt
+  t_fx_color: Effekt színe
+  t_fx_start: Effekt indítása
+  t_fx_stop: Effekt leállítása
+  t_text: Futószöveg
+  t_text_start: Szöveg indítása
+
+  # colour options (palette order, never change the order)
+  c_0: Meleg fehér
+  c_1: Fehér
+  c_2: Piros
+  c_3: Narancs
+  c_4: Sárga
+  c_5: Zöld
+  c_6: Kék
+  c_7: Lila
+  c_random: Véletlen
+  c_temp: Hőmérséklet
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: Szivárvány
+  fx_aurora: Sarki fény
+  fx_matrix: Matrix
+  fx_fire: Tűz
+  fx_confetti: Konfetti
+  fx_stars: Csillagos ég
+  fx_blink: Villogás
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_HU.h

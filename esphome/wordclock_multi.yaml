@@ -1,0 +1,98 @@
+# wordclock_multi.yaml - Wordclock 16x16, ESPHome, multi-language v2.0
+# The only file you normally edit. Structure (copy the content of the folder esphome/ 1:1 to /config/esphome/):
+#   wordclock_multi.yaml               <- this file: language, board, pins, Wi-Fi/API/OTA, Home Assistant entities
+#   wordclock_multi/core.yaml          logic and entities (identical for all languages)
+#   wordclock_multi/lang/lang_XX.yaml  names, options, location, time zone of a language
+#   wordclock_multi/src/*.h            shared C++ (display, effects, grid + time words); copy of arduino/Wordclock/src,
+#                                      kept identical with tools/sync_src.py
+# Secrets in secrets.yaml next to this file: wifi_ssid, wifi_password, ap_password, api_key, ota_password
+# The subfolder keeps the packages out of the ESPHome dashboard (it lists every .yaml of the main folder as a device).
+
+# LANGUAGE: replace the line "lang: ..." under packages: by one line of this list (v2.0 = tested, v0.9 = in test)
+# LANGUAGES BEGIN (list written by tools/make_info.py)
+#   Countries / Länder:
+#     lang: !include wordclock_multi/lang/lang_DE.yaml  Deutsch (v2.0)
+#     lang: !include wordclock_multi/lang/lang_GB.yaml  English (v2.0)
+#     lang: !include wordclock_multi/lang/lang_CN.yaml  中文 (v0.9)
+#     lang: !include wordclock_multi/lang/lang_CZ.yaml  Čeština (v0.9)
+#     lang: !include wordclock_multi/lang/lang_DK.yaml  Dansk (v0.9)
+#     lang: !include wordclock_multi/lang/lang_ES.yaml  Español (v0.9)
+#     lang: !include wordclock_multi/lang/lang_FR.yaml  Français (v0.9)
+#     lang: !include wordclock_multi/lang/lang_GR.yaml  Ελληνικά (v0.9)
+#     lang: !include wordclock_multi/lang/lang_HU.yaml  Magyar (v0.9)
+#     lang: !include wordclock_multi/lang/lang_ID.yaml  Bahasa Indonesia (v0.9)
+#     lang: !include wordclock_multi/lang/lang_IT.yaml  Italiano (v0.9)
+#     lang: !include wordclock_multi/lang/lang_JP.yaml  日本語 (v0.9)
+#     lang: !include wordclock_multi/lang/lang_KR.yaml  한국어 (v0.9)
+#     lang: !include wordclock_multi/lang/lang_NL.yaml  Nederlands (v0.9)
+#     lang: !include wordclock_multi/lang/lang_NO.yaml  Norsk (v0.9)
+#     lang: !include wordclock_multi/lang/lang_PL.yaml  Polski (v0.9)
+#     lang: !include wordclock_multi/lang/lang_PT.yaml  Português (v0.9)
+#     lang: !include wordclock_multi/lang/lang_RO.yaml  Română (v0.9)
+#     lang: !include wordclock_multi/lang/lang_SE.yaml  Svenska (v0.9)
+#     lang: !include wordclock_multi/lang/lang_TR.yaml  Türkçe (v0.9)
+#     lang: !include wordclock_multi/lang/lang_TZ.yaml  Kiswahili (v0.9)
+#     lang: !include wordclock_multi/lang/lang_UA.yaml  Українська (v0.9)
+#   Dialects / Dialekte:
+#     lang: !include wordclock_multi/lang/lang_dialect_BAD.yaml  Badisch (v2.0)
+#     lang: !include wordclock_multi/lang/lang_dialect_CH.yaml   Schwizerdütsch (v2.0)
+#     lang: !include wordclock_multi/lang/lang_dialect_SWG.yaml  Schwäbisch (v2.0)
+#   Other languages / andere Sprachen:
+#     lang: !include wordclock_multi/lang/lang_EO.yaml         Esperanto (v0.9)
+#     lang: !include wordclock_multi/lang/lang_VA.yaml         Latina (v0.9)
+#     lang: !include wordclock_multi/lang/lang_scifi_HVA.yaml  Valyrio (v0.9)
+#     lang: !include wordclock_multi/lang/lang_scifi_NAV.yaml  Na'vi (v0.9)
+#     lang: !include wordclock_multi/lang/lang_scifi_QYA.yaml  Quenya (v0.9)
+#     lang: !include wordclock_multi/lang/lang_scifi_TLH.yaml  tlhIngan Hol (v0.9)
+# LANGUAGES END
+packages:
+  lang: !include wordclock_multi/lang/lang_DE.yaml   # <- LANGUAGE (list above)
+  core: !include wordclock_multi/core.yaml
+
+substitutions:
+  src_dir: wordclock_multi/src         # folder with wc_core.h, wc_effects.h, wc_lang_XX.h (relative to this file)
+  led_pin: GPIO32             # data pin of the matrix (best via level shifter 74AHCT125 to 5 V); ESP32-C6: GPIO2
+  serpentine: "true"          # "true" = matrix wired in zigzag, "false" = every row starts on the same side
+  mirror_x: "true"            # "true" = mirror left/right (LED 0 sits at the top right as seen from the front)
+  ma_per_channel: "18"        # mA per colour channel at full scale (WS2812: 15-20)
+  idle_ma_per_led: "1"        # idle current per LED (256 LEDs = approx. 256 mA, counts towards the current limit)
+
+  # --- Entities from Home Assistant (just enter the entity ID here, no automation needed) ---
+  # ALARM lights up as long as the entity is "on". Suitable: binary_sensor.*, input_boolean.*, switch.*
+  alarm_entity: binary_sensor.smoke_detector_alarm
+  # VENT (LÜFTEN / VENTILATE) lights up as long as the entity is "on". Suitable: binary_sensor.*, input_boolean.*, switch.*
+  vent_entity: binary_sensor.ventilation_recommended
+  # Battery level in percent (number 0-100). Suitable: sensor.* with a percentage
+  # Bars: below 33 % red, from 66 % green, in between blue; at 10 % or less off
+  battery_entity: sensor.power_station_battery_level
+  # Temperature in degC (number). Suitable: sensor.* with a temperature. Left = outside, right = inside
+  temp_out_entity: sensor.outdoor_temperature
+  temp_in_entity: sensor.living_room_temperature
+
+  # --- Optional: overwrite defaults of the language package ---
+  # name: wortuhr-kueche
+  # friendly_name: Wortuhr Küche
+  # latitude: "47.999°"
+  # longitude: "7.842°"
+  # timezone: Europe/Berlin
+
+api:
+  encryption:
+    key: !secret api_key
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:                           # fallback hotspot if the Wi-Fi cannot be reached (name from the language)
+    ssid: "${ap_ssid}"
+    password: !secret ap_password
+
+esp32:
+  board: wemos_d1_mini32        # Wemos D1 mini ESP32 (default)
+  framework:
+    type: esp-idf
+  # ESP32-C6 (SuperMini / XIAO): board: esp32-c6-devkitc-1, add the line "variant: esp32c6", led_pin: GPIO2

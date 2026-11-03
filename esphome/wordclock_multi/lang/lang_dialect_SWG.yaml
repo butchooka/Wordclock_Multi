@@ -1,0 +1,78 @@
+# lang_dialect_SWG.yaml - Wordclock 16x16, ESPHome language package dialect_SWG (Schwäbisch), v2.0
+# Device name, hotspot, location (capital), time zone, entity names and options.
+# Grid and time words: ${src_dir}/wc_lang_dialect_SWG.h (shared with the Arduino variant).
+# Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
+substitutions:
+  lang_code: dialect_SWG
+  name: wortuehrle
+  friendly_name: Wortuehrle
+  ap_ssid: Wortuehrle Fallback
+  timezone: Europe/Berlin
+  latitude: "48.776°"           # Stuttgart
+  longitude: "9.183°"
+  extra_hidden: "false"         # SCHAFFE HÄUSLE BAUE (extra words)
+
+  # entity names
+  t_br_day: Helligkeit Tag
+  t_br_night: Helligkeit Nacht
+  t_cur_limit: Strombegrenzung
+  t_night_start: Nacht Beginn Versatz
+  t_night_end: Nacht Ende Versatz
+  t_night_mode: Nachtmodus
+  nm_mix: Mischform
+  nm_sun: Sonnenstand
+  nm_fixed: feste Uhrzeiten
+  t_night_not_before: Nacht frühestens ab
+  t_night_not_after: Nacht spätestens bis
+  t_night_from: Nacht von
+  t_night_until: Nacht bis
+  t_fx_dur: Effekt Dauer
+  t_blink_cycle: Blinken Zyklus
+  t_tin_min: Temperatur Innen Min
+  t_tin_max: Temperatur Innen Max
+  t_tout_min: Temperatur Außen Min
+  t_tout_max: Temperatur Außen Max
+  t_col_time: Farbe Uhrzeit
+  t_col_vent: Farbe LÜFTA
+  t_col_alarm: Farbe ALARM
+  t_col_battery: Farbe AKKU
+  t_col_tout: Farbe Temperatur Außen
+  t_col_tin: Farbe Temperatur Innen
+  t_sw_temp: Anzeige Temperatur
+  t_sw_min: Anzeige Einzelminuten
+  t_sw_alarm: Anzeige Alarm
+  t_sw_vent: Anzeige Lüften
+  t_sw_battery: Anzeige Akku
+  t_sw_extra: Anzeige SCHAFFE HÄUSLE BAUE
+  t_fx: Effekt
+  t_fx_color: Effekt Farbe
+  t_fx_start: Effekt starten
+  t_fx_stop: Effekt stoppen
+  t_text: Lauftext
+  t_text_start: Lauftext starten
+
+  # colour options (palette order, never change the order)
+  c_0: Warmweiß
+  c_1: Weiß
+  c_2: Rot
+  c_3: Orange
+  c_4: Gelb
+  c_5: Grün
+  c_6: Blau
+  c_7: Violett
+  c_random: Zufall
+  c_temp: Temperatur
+  c_pride: Pride
+
+  # effect names (order of WC_FX in wc_effects.h)
+  fx_rainbow: Rainbow
+  fx_aurora: Aurora
+  fx_matrix: Matrix
+  fx_fire: Feuer
+  fx_confetti: Konfetti
+  fx_stars: Sternenhimmel
+  fx_blink: Blinken
+
+esphome:
+  includes:
+    - ${src_dir}/wc_lang_dialect_SWG.h

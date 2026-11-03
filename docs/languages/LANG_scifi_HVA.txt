@@ -1,0 +1,131 @@
+Wordclock_Multi v2.0 - Valyrio (scifi_HVA)
+==========================================
+Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
+
+Status:                       v0.9 (im Test / in test)
+Hauptstadt / capital:         Roma  (41.9028, 12.4964)
+Zeitzone / time zone:         Europe/Rome  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
+Arduino: Hotspot / hotspot:   Valyrio  ->  http://192.168.4.1
+Arduino: Adresse / address:   http://valyrio.local
+ESPHome: Gerät / device:      valyrio (Valyrio), Fallback-Hotspot "Valyrio Fallback"
+Dateien / files:              arduino/Wordclock/src/wc_lang_scifi_HVA.h
+                              esphome/wordclock_multi/lang/lang_scifi_HVA.yaml (+ src/wc_lang_scifi_HVA.h)
+                              models/lang/lang_scifi_HVA.scad
+Auswahl / selection:          config.h: #define WC_LANG_FILE "src/wc_lang_scifi_HVA.h"
+                              wordclock_multi.yaml: lang: !include wordclock_multi/lang/lang_scifi_HVA.yaml
+                              OpenSCAD/FreeCAD: LANG = "scifi_HVA"
+
+RASTER / GRID (Zeile 1 = oben / row 1 = top)
+--------------------------------------------
+     1234567890123456
+   1 *SĪRxMĒRExLANTA*
+   2 *HĀRExTŌMAxBȲRE*
+   3 *IZULAxSĪKUDAxx*
+   4 *xJĒNQAxxxVŌREx*
+   5 *AMPAxAMPĀxTŌMA*
+   6 *AMPAxLANTĒPSAx*
+   7 *AMPĀxLANTEPSĀx*
+   8 *HĀRĒPSAxRYTSAS*
+   9 *xxxxxxxHĀREPSĀ*
+  10 *IZULĒPSAxxxxxx*
+  11 *xxxxxxIZULEPSĀ*
+  12 *xTŌMĒPSAxxxxxx*
+  13 *xxxxxxxTŌMEPSĀ*
+  14 xxxxx+x1234xxxxx
+  15 xJELMĀZMAxPERZYS
+  16 xĀEKSx||||||||||
+
+  *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
+  |  Akkubalken / battery bar
+  x  Füllfeld, leuchtet nie; im 3D-Modell als FILLER gedruckt (auto = Vorgabe der Sprache, sonst X)
+     filler, never lit; printed as FILLER in the 3D models (auto = language default, else X)
+
+GRAMMATIK (Deutsch)
+-------------------
+Kürzel scifi_HVA (Fantasiesprache Hochvalyrisch, eigener Name Valyrio). Standort Roma (vorhandener Eintrag, Europe/Rome).
+Satzbau wie eine Digitaluhr: SĪR <Stunde> <Minuten> (SĪR = „jetzt“), 12-Stunden-Zählung, keine Wörter für
+„nach“, „vor“, „Viertel“ oder „halb“. Zusammengesetzte Zahlen: Einer vor Zehner, der Zehner bekommt einen langen
+Endvokal (AMPA -> AMPĀ, LANTĒPSA -> LANTEPSĀ).
+:00 SĪR <Stunde>, :05 TŌMA, :10 AMPA, :15 TŌMA AMPĀ, :20 LANTĒPSA, :25 TŌMA LANTEPSĀ, :30 HĀRĒPSA,
+:35 TŌMA HĀREPSĀ, :40 IZULĒPSA, :45 TŌMA IZULEPSĀ, :50 TŌMĒPSA, :55 TŌMA TŌMEPSĀ;
+z. B. 3:25 SĪR HĀRE TŌMA LANTEPSĀ, 11:45 SĪR MĒRE AMPĀ TŌMA IZULEPSĀ.
+Stunden: MĒRE, LANTA, HĀRE, IZULA, TŌMA, BȲRE, SĪKUDA, JĒNQA, VŌRE, AMPA, MĒRE AMPĀ (11),
+LANTA AMPĀ (12 und 0 Uhr). Ohne gültige Uhrzeit leuchtet nur SĪR.
+Minutenzeile: nur + 1..4 ohne Wort, daher keine Einzahl/Mehrzahl.
+Ersatzwörter: LÜFTEN = JELMĀZMA („Wind“), ALARM = PERZYS („Feuer“), AKKU = ĀEKS (Neo-Valyrio, gekürzt
+von āeksior „Macht, Einfluss“). Zusatzwort (Schalter „Show RYTSAS“, aus = Standard): RYTSAS („Hallo“).
+Sonderzeichen: Ā Ē Ī Ō Ȳ sind je eine Zelle (Metriken vorhanden; Ȳ fehlt in manchen Arial-Versionen).
+Die zusammengesetzten Zehnerformen (LANTEPSĀ usw.) folgen der Regel oben und sind noch zu bestätigen.
+Webinterface auf Englisch, Uhrwörter auf Valyrio.
+
+GRAMMAR (English)
+-----------------
+Code scifi_HVA (fictional language High Valyrian, own name Valyrio). Location Roma (existing entry, Europe/Rome).
+Sentence like a digital clock: SĪR <hour> <minutes> (SĪR = "now"), 12-hour count, no words for "past",
+"to", "quarter" or "half". Compound numbers: unit before ten, the ten gets a long final vowel
+(AMPA -> AMPĀ, LANTĒPSA -> LANTEPSĀ).
+:00 SĪR <hour>, :05 TŌMA, :10 AMPA, :15 TŌMA AMPĀ, :20 LANTĒPSA, :25 TŌMA LANTEPSĀ, :30 HĀRĒPSA,
+:35 TŌMA HĀREPSĀ, :40 IZULĒPSA, :45 TŌMA IZULEPSĀ, :50 TŌMĒPSA, :55 TŌMA TŌMEPSĀ;
+e.g. 3:25 SĪR HĀRE TŌMA LANTEPSĀ, 11:45 SĪR MĒRE AMPĀ TŌMA IZULEPSĀ.
+Hours: MĒRE, LANTA, HĀRE, IZULA, TŌMA, BȲRE, SĪKUDA, JĒNQA, VŌRE, AMPA, MĒRE AMPĀ (11),
+LANTA AMPĀ (12:00 and 0:00). Without a valid time only SĪR is lit.
+Minute row: only + 1..4 without a word, so no singular/plural.
+Substitute words: VENTILATE = JELMĀZMA ("wind"), ALARM = PERZYS ("fire"), BATTERY = ĀEKS (Neo-Valyrio,
+shortened from āeksior "power, influence"). Extra word (switch "Show RYTSAS", off by default): RYTSAS ("hello").
+Special characters: Ā Ē Ī Ō Ȳ are one cell each (metrics present; Ȳ is missing in some Arial versions).
+The compound tens (LANTEPSĀ etc.) follow the rule above and still need confirmation.
+Web interface in English, clock words in Valyrio.
+
+ALLE 5-MINUTEN-SCHRITTE / ALL 5-MINUTE STEPS (9:00 - 9:55)
+------------------------------------------------------------
+09:00  SĪR VŌRE
+09:05  SĪR VŌRE TŌMA
+09:10  SĪR VŌRE AMPA
+09:15  SĪR VŌRE TŌMA AMPĀ
+09:20  SĪR VŌRE LANTĒPSA
+09:25  SĪR VŌRE TŌMA LANTEPSĀ
+09:30  SĪR VŌRE HĀRĒPSA
+09:35  SĪR VŌRE TŌMA HĀREPSĀ
+09:40  SĪR VŌRE IZULĒPSA
+09:45  SĪR VŌRE TŌMA IZULEPSĀ
+09:50  SĪR VŌRE TŌMĒPSA
+09:55  SĪR VŌRE TŌMA TŌMEPSĀ
+
+SONDERFÄLLE / SPECIAL TIMES
+---------------------------
+ohne Uhrzeit / no time  SĪR
+00:00  SĪR LANTA AMPĀ
+00:30  SĪR LANTA AMPĀ HĀRĒPSA
+00:35  SĪR LANTA AMPĀ TŌMA HĀREPSĀ
+01:00  SĪR MĒRE
+01:05  SĪR MĒRE TŌMA
+12:00  SĪR LANTA AMPĀ
+12:30  SĪR LANTA AMPĀ HĀRĒPSA
+13:00  SĪR MĒRE
+09:01  SĪR VŌRE + 1
+09:02  SĪR VŌRE + 2
+
+BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
+----------------------------------------------------------------
+09:00              10:25              13:47              23:58
+·SĪR············   ·SĪR············   ·SĪR·MĒRE·······   ·SĪR·MĒRE·······
+················   ················   ················   ················
+················   ················   ················   ················
+··········VŌRE··   ················   ················   ················
+················   ·AMPA······TŌMA·   ···········TŌMA·   ······AMPĀ·TŌMA·
+················   ················   ················   ················
+················   ······LANTEPSĀ··   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ················   ················
+················   ················   ·······IZULEPSĀ·   ················
+················   ················   ················   ················
+················   ················   ················   ········TŌMEPSĀ·
+················   ················   ·····+··2·······   ·····+···3······
+················   ················   ················   ················
+················   ················   ················   ················
+
+09:00  SĪR VŌRE
+10:25  SĪR AMPA TŌMA LANTEPSĀ
+13:47  SĪR MĒRE TŌMA IZULEPSĀ + 2
+23:58  SĪR MĒRE AMPĀ TŌMA TŌMEPSĀ + 3
