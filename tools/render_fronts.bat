@@ -3,7 +3,8 @@ rem tools\render_fronts.bat - Wordclock_Multi v2.0: preview images of the fronts
 rem Needs only Python 3 (python.org, option "Add python.exe to PATH"); Pillow is installed automatically.
 rem Without g++ the lit words come from tools\render_masks.json.xz (kept up to date by tools\make_masks.py).
 rem Result: docs\render\ (light front) and docs\render\dark\ (dark front), one image per
-rem language plus an overview Wordclock_Render_v2.0_ALL_1022.png.
+rem language plus an overview Wordclock_Render_v2.0_ALL_1022.png and an animated GIF
+rem Wordclock_Render_v2.0_ALL_1022.gif (all fronts one after another, 1 second each).
 rem Other time/colour: change the line "set OPTS=" below, e.g. set OPTS=--time 13:47 --color green --features
 chcp 65001 >nul
 setlocal
@@ -22,7 +23,7 @@ echo.
 echo Dark fronts ...
 %PY% tools\render_fronts.py --style dark --out docs\render\dark %OPTS%
 echo.
-echo Images in docs\render\ and docs\render\dark\
+echo Images and GIFs in docs\render\ and docs\render\dark\
 pause
 exit /b 0
 

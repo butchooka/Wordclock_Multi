@@ -17,7 +17,6 @@ rem extra options, e.g. --backend=Manifold (OpenSCAD 2024/2025, much faster)
 set OPTS=
 rem ------------------
 
-set VERSION=v2.0
 set LIST=%PARTS%
 if /i "%PARTS%"=="Both" set LIST=Front PictureFrame
 set FONTTAG=LiberationSansBold
@@ -36,7 +35,7 @@ for %%p in (%LIST%) do (
     set N=%%~nf
     set L=!N:lang_=!
     if /i not "!L!"=="all" (
-      set OUT=export\Wordclock_%%p_%VERSION%_!L!_%FONTTAG%.stl
+      set OUT=export\Wordclock_%%p_!L!_%FONTTAG%.stl
       echo !L!  -^>  !OUT!
       if /i "%%p"=="PictureFrame" (
         "%OPENSCAD%" %OPTS% -o "!OUT!" -D "LANG=\"!L!\"" -D "FONT=\"%FONT%\"" -D "QUALITY=\"%QUALITY%\"" -D "PRINT_ORIENT=true" Wordclock_Model_PictureFrame.scad

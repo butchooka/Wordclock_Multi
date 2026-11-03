@@ -30,7 +30,10 @@ Options:
                       font: own font of the language (lang_XX.scad), LANG_FONTS, FALLBACKS, then any installed font
                       (same idea as FONT_AUTO in the FreeCAD macro). The font used is printed per language.
     --out DIR         output folder (default docs/render)
-Output: Wordclock_Render_v2.0_<LANG>_<hhmm>.png and Wordclock_Render_v2.0_ALL_<hhmm>.png
+    --gif-size N      edge length of the animated GIF with all fronts one after another (default 480, 0 = no GIF)
+    --gif-ms N        display time per front in the GIF in milliseconds (default 1000)
+Output: Wordclock_Render_v2.0_<LANG>_<hhmm>.png, Wordclock_Render_v2.0_ALL_<hhmm>.png (overview) and
+        Wordclock_Render_v2.0_ALL_<hhmm>.gif (animation, endless loop)
 """
 import argparse
 import bisect
@@ -471,6 +474,21 @@ def overview(images, cols_n, bg, tile, labels, fonts):
     return out
 
 
+def animation(images, bg, size, labels, fonts):
+    """One GIF frame per front (same crop as the overview), language name below, own 256-colour palette each."""
+    lab = size // 10
+    frames = []
+    for i, im in enumerate(images):
+        m = int(im.size[0] * 0.055)
+        im = im.crop((m, m, im.size[0] - m, im.size[1] - m)).resize((size, size), Image.LANCZOS)
+        fr = Image.new("RGB", (size, size + lab), bg)
+        fr.paste(im, (0, 0))
+        f = ImageFont.truetype(fonts[i][0], max(10, lab // 2), index=fonts[i][1])
+        ImageDraw.Draw(fr).text((size / 2, size + lab * 0.45), labels[i], font=f, fill=(200, 200, 205), anchor="mm")
+        frames.append(fr.quantize(colors=256, method=Image.MEDIANCUT, dither=Image.FLOYDSTEINBERG))
+    return frames
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("langs", nargs="*")
@@ -483,6 +501,8 @@ def main():
     ap.add_argument("--filler", default="auto")
     ap.add_argument("--font", default="")
     ap.add_argument("--out", default=os.path.join(ROOT, "docs", "render"))
+    ap.add_argument("--gif-size", type=int, default=480)
+    ap.add_argument("--gif-ms", type=int, default=1000)
     a = ap.parse_args()
 
     cxx = shutil.which("g++") or shutil.which("clang++")
@@ -531,6 +551,12 @@ def main():
         fn = os.path.join(a.out, "Wordclock_Render_%s_ALL_%02d%02d.png" % (VERSION, h, m))
         ov.save(fn, optimize=True)
         print("overview  ->  " + os.path.relpath(fn, ROOT))
+        if a.gif_size > 0:
+            frames = animation(imgs, hex_rgb(a.bg), a.gif_size, labels, fonts)
+            fn = os.path.join(a.out, "Wordclock_Render_%s_ALL_%02d%02d.gif" % (VERSION, h, m))
+            frames[0].save(fn, save_all=True, append_images=frames[1:], duration=a.gif_ms, loop=0,
+                           optimize=True, disposal=1)
+            print("animation ->  %s  (%d fronts, %d ms each)" % (os.path.relpath(fn, ROOT), len(frames), a.gif_ms))
 
 
 if __name__ == "__main__":

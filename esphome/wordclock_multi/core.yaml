@@ -96,7 +96,7 @@ number:
     entity_category: config
     optimistic: true
     restore_value: true
-    initial_value: 60
+    initial_value: 40
     min_value: 1
     max_value: 100
     step: 1
@@ -108,7 +108,7 @@ number:
     entity_category: config
     optimistic: true
     restore_value: true
-    initial_value: 8
+    initial_value: 1
     min_value: 1
     max_value: 100
     step: 1
@@ -337,7 +337,7 @@ datetime:
     entity_category: config
     optimistic: true
     restore_value: true
-    initial_value: "06:30:00"
+    initial_value: "07:00:00"
 
 switch:
   - platform: template

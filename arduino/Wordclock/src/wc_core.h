@@ -284,7 +284,7 @@ static inline void wc_render_clock(const WcLangDef &L, const WcClockIn &in, WcRg
   gc[1] = in.c_vent;
   gc[2] = in.c_alarm;
   gc[3] = in.c_battery;
-  gc[4] = (lvl < 33.0f) ? wc_rgb(255, 0, 0) : (lvl >= 66.0f) ? wc_rgb(0, 255, 0) : wc_rgb(0, 0, 255);
+  gc[4] = in.c_battery;                  // bars in the same colour as the BATTERY word
   gc[5] = in.tout_scale ? wc_temp_color(in.t_out, in.t_out_lo, in.t_out_hi) : in.c_tout;
   gc[6] = in.tin_scale ? wc_temp_color(in.t_in, in.t_in_lo, in.t_in_hi) : in.c_tin;
   for (int i = 0; i < WC_N; i++) {

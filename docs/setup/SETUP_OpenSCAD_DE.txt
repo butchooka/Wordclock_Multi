@@ -69,8 +69,8 @@ Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern (Quelle: too
    Ohne installierte Schrift meldet OpenSCAD einen Fehler, wenn die entsprechende Sprache gewählt wird.
 
 4. EXPORTIEREN
-   F6 (Rendern), F7 (STL). Der Exportname steht in der Konsole: Front/Buchstaben Wordclock_<Teil>_v2.0_<LANG>_<Schrift>,
-   alle anderen Teile Wordclock_<Teil>_v2.0. Tipp: OpenSCAD 2024/2025 mit Backend "Manifold" rendert in Sekunden.
+   F6 (Rendern), F7 (STL). Der Exportname steht in der Konsole: Front/Buchstaben Wordclock_<Teil>_<LANG>_<Schrift>,
+   alle anderen Teile Wordclock_<Teil>. Tipp: OpenSCAD 2024/2025 mit Backend "Manifold" rendert in Sekunden.
 
 5. NEUE SPRACHE IM MODELL
    models/lang/lang_XX.scad anlegen, in lang/lang_all.scad die include-Zeile und den Eintrag in LANGS

@@ -565,9 +565,9 @@ def setup_freecad(langs, de):
    Die Füllfelder bleiben offen (Lichtkammer), damit Effekte über die ganze Fläche laufen.
 
 4. AUSFÜHREN UND EXPORTIEREN
-   Makro > Makros... > Wordclock_Model.FCMacro > Ausführen. Mit EXPORT = "step" (Standard, "stl" geht auch) landen alle Teile in
-   Drucklage im Ordner export/ neben dem Makro. Dateinamen: Front/Buchstaben Wordclock_<Teil>_%s_<LANG>_<Schrift>,
-   alle anderen Teile Wordclock_<Teil>_%s (für alle Sprachen gleich).
+   Makro > Makros... > Wordclock_Model.FCMacro > Ausführen. Mit EXPORT = "stl" (Standard, "step" geht auch) landen alle Teile in
+   Drucklage im Ordner export/ neben dem Makro. Dateinamen: Front/Buchstaben Wordclock_<Teil>_<LANG>_<Schrift>,
+   alle anderen Teile Wordclock_<Teil> (für alle Sprachen gleich).
 
 5. SONDERMODELL PICTUREFRAME
    Der PictureFrame (Frontplatte für einen tiefen Bilderrahmen) ist aus dem Makro ausgelagert und steht derzeit
@@ -575,7 +575,7 @@ def setup_freecad(langs, de):
    FreeCAD-Makro dafür folgt.
 
 Raster und Grammatik je Sprache: docs/languages/LANG_<Code>.txt
-""" % (tab, VERSION, VERSION)
+""" % tab
     return head("Setup FreeCAD", False) + """
 1. WHAT GOES WHERE
    Copy Wordclock_Model.FCMacro together with the folder lang/ (all lang_XX.scad) into one folder,
@@ -596,9 +596,9 @@ Raster und Grammatik je Sprache: docs/languages/LANG_<Code>.txt
    Filler cells stay open (light chamber), so effects run over the whole face.
 
 4. RUN AND EXPORT
-   Macro > Macros... > Wordclock_Model.FCMacro > Execute. With EXPORT = "step" (default, "stl" also works) every part is written in
+   Macro > Macros... > Wordclock_Model.FCMacro > Execute. With EXPORT = "stl" (default, "step" also works) every part is written in
    print orientation into the folder export/ next to the macro. File names: front/letters
-   Wordclock_<part>_%s_<LANG>_<font>, all other parts Wordclock_<part>_%s (the same for all languages).
+   Wordclock_<part>_<LANG>_<font>, all other parts Wordclock_<part> (the same for all languages).
 
 5. SPECIAL MODEL PICTUREFRAME
    The PictureFrame (front plate for a deep picture frame) has been moved out of the macro and is currently
@@ -606,7 +606,7 @@ Raster und Grammatik je Sprache: docs/languages/LANG_<Code>.txt
    own will follow.
 
 Grid and grammar per language: docs/languages/LANG_<code>.txt
-""" % (tab, VERSION, VERSION)
+""" % tab
 
 
 def setup_openscad(langs, de):
@@ -647,8 +647,8 @@ def setup_openscad(langs, de):
    Ohne installierte Schrift meldet OpenSCAD einen Fehler, wenn die entsprechende Sprache gewählt wird.
 
 4. EXPORTIEREN
-   F6 (Rendern), F7 (STL). Der Exportname steht in der Konsole: Front/Buchstaben Wordclock_<Teil>_%s_<LANG>_<Schrift>,
-   alle anderen Teile Wordclock_<Teil>_%s. Tipp: OpenSCAD 2024/2025 mit Backend "Manifold" rendert in Sekunden.
+   F6 (Rendern), F7 (STL). Der Exportname steht in der Konsole: Front/Buchstaben Wordclock_<Teil>_<LANG>_<Schrift>,
+   alle anderen Teile Wordclock_<Teil>. Tipp: OpenSCAD 2024/2025 mit Backend "Manifold" rendert in Sekunden.
 
 5. NEUE SPRACHE IM MODELL
    models/lang/lang_XX.scad anlegen, in lang/lang_all.scad die include-Zeile und den Eintrag in LANGS
@@ -666,7 +666,7 @@ def setup_openscad(langs, de):
    (tools\\export_fronts.bat: PARTS=PictureFrame oder Both). FreeCAD-Makro für den PictureFrame folgt.
 
 Raster und Grammatik je Sprache: docs/languages/LANG_<Code>.txt
-""" % (tab, VERSION, VERSION)
+""" % tab
     return head("Setup OpenSCAD", False) + """
 1. WHAT GOES WHERE
    Keep Wordclock_Model.scad (case + holders), Wordclock_Model_PictureFrame.scad (special model picture frame)
@@ -701,8 +701,8 @@ Raster und Grammatik je Sprache: docs/languages/LANG_<Code>.txt
    Without the installed font, OpenSCAD reports an error when the corresponding language is selected.
 
 4. EXPORT
-   F6 (render), F7 (STL). The export name is shown in the console: front/letters Wordclock_<part>_%s_<LANG>_<font>,
-   all other parts Wordclock_<part>_%s. Tip: OpenSCAD 2024/2025 with the backend "Manifold" renders in seconds.
+   F6 (render), F7 (STL). The export name is shown in the console: front/letters Wordclock_<part>_<LANG>_<font>,
+   all other parts Wordclock_<part>. Tip: OpenSCAD 2024/2025 with the backend "Manifold" renders in seconds.
 
 5. NEW LANGUAGE IN THE MODEL
    Create models/lang/lang_XX.scad, add the include line and the entry in LANGS to lang/lang_all.scad and the
@@ -720,7 +720,7 @@ Raster und Grammatik je Sprache: docs/languages/LANG_<Code>.txt
    (tools\\export_fronts.bat: PARTS=PictureFrame or Both). A FreeCAD macro for the PictureFrame will follow.
 
 Grid and grammar per language: docs/languages/LANG_<code>.txt
-""" % (tab, VERSION, VERSION)
+""" % tab
 
 
 # ------------------------------------------------------------------ language list in the base files

@@ -80,7 +80,8 @@ Reihenfolge: Landessprachen, Dialekte, andere Sprachen. Raster, Grammatik und Be
 | `scifi_RUNE_GB` | Runes (English) | Schrift-Variante von `GB` (nur Front) | Firmware von `GB` | London |
 <!-- LANGUAGES END -->
 
-<p align="center"><img src="docs/img/all_fronts.jpg" width="760" alt="Alle Fronten"></p>
+<p align="center"><img src="docs/render/Wordclock_Render_v2.0_ALL_1022.gif" width="360" alt="Alle Fronten (hell)"> <img src="docs/render/dark/Wordclock_Render_v2.0_ALL_1022.gif" width="360" alt="Alle Fronten (dunkel)"></p>
+<p align="center">Alle Fronten auf einen Blick: <a href="docs/render/Wordclock_Render_v2.0_ALL_1022.png">hell</a> | <a href="docs/render/dark/Wordclock_Render_v2.0_ALL_1022.png">dunkel</a></p>
 
 ## Schnellstart
 
@@ -141,7 +142,7 @@ esphome/
 models/lang/lang_XX.scad   Raster jeder Sprache für die 3D-Modelle (die Modelle selbst: MakerWorld)
 docs/languages/            erzeugt von tools/make_info.py: je Sprache eine Datei + Übersicht LANGUAGES.txt
 docs/setup/                erzeugt von tools/make_info.py: Anleitungen (DE/EN)
-docs/render/               Vorschaubilder aller Fronten (tools/render_fronts.bat), dark/ = dunkle Front
+docs/render/               Vorschaubilder und animiertes GIF aller Fronten (tools/render_fronts.bat), dark/ = dunkle Front
 docs/img/                  Bilder dieser README
 docs/LANG_SPEC.md          neue Sprache anlegen
 tools/                     Python-Werkzeuge (check_lang, make_info, make_font, render_fronts, sync_src, ...) und
@@ -166,7 +167,7 @@ für dieses Konto bearbeiten).
 ```
 python3 tools/check_lang.py [XX] [--words]   Raster, Wortpositionen, Texte, YAML-Schlüssel prüfen
 python3 tools/make_info.py                   docs/languages + docs/setup, Sprachlisten in config.h, YAML und README schreiben
-python3 tools/render_fronts.py [XX ...]      PNG-Bilder der Fronten (Pillow), z. B. --style dark --time 13:47
+python3 tools/render_fronts.py [XX ...]      PNG-Bilder der Fronten plus GIF (Pillow), z. B. --style dark --time 13:47
                                              (Windows: Doppelklick auf tools/render_fronts.bat; kein Compiler nötig, die
                                              leuchtenden Wörter kommen aus tools/render_masks.json.xz)
 python3 tools/make_masks.py                  diesen Masken-Cache nach Sprachänderungen neu bauen (braucht g++)

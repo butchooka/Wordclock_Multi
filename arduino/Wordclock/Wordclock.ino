@@ -194,8 +194,8 @@ void setDefaults() {
   S.ssid = ""; S.pass = ""; S.host = WC_LANG.host;
   S.ntpDhcp = true; S.ntp = "pool.ntp.org"; S.tz = WC_LANG.posix_tz;
   S.lat = WC_LANG.lat; S.lon = WC_LANG.lon; S.nso = 0; S.neo = 0;
-  S.nmode = 2; S.nfs = 22 * 60; S.nfe = 6 * 60 + 30; S.nme = 20 * 60; S.nml = 7 * 60;
-  S.brD = 60; S.brN = 8; S.cur = 500;
+  S.nmode = 2; S.nfs = 22 * 60; S.nfe = 7 * 60; S.nme = 20 * 60; S.nml = 7 * 60;
+  S.brD = 40; S.brN = 1; S.cur = 500;
   const uint8_t dc[6] = {8, 3, 2, 1, 8, 8};  // time: random
   for (int i = 0; i < 6; i++) { S.col[i] = dc[i]; S.cus[i] = 0xFF8C28; }
   S.on = true; S.swMin = true; S.swExtra = false;

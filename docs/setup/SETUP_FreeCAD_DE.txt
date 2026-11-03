@@ -55,9 +55,9 @@ Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern (Quelle: too
    Die Füllfelder bleiben offen (Lichtkammer), damit Effekte über die ganze Fläche laufen.
 
 4. AUSFÜHREN UND EXPORTIEREN
-   Makro > Makros... > Wordclock_Model.FCMacro > Ausführen. Mit EXPORT = "step" (Standard, "stl" geht auch) landen alle Teile in
-   Drucklage im Ordner export/ neben dem Makro. Dateinamen: Front/Buchstaben Wordclock_<Teil>_v2.0_<LANG>_<Schrift>,
-   alle anderen Teile Wordclock_<Teil>_v2.0 (für alle Sprachen gleich).
+   Makro > Makros... > Wordclock_Model.FCMacro > Ausführen. Mit EXPORT = "stl" (Standard, "step" geht auch) landen alle Teile in
+   Drucklage im Ordner export/ neben dem Makro. Dateinamen: Front/Buchstaben Wordclock_<Teil>_<LANG>_<Schrift>,
+   alle anderen Teile Wordclock_<Teil> (für alle Sprachen gleich).
 
 5. SONDERMODELL PICTUREFRAME
    Der PictureFrame (Frontplatte für einen tiefen Bilderrahmen) ist aus dem Makro ausgelagert und steht derzeit
