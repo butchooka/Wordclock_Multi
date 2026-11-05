@@ -10,7 +10,7 @@ Usage (from the repository root):
 Checks per language XX:
   - arduino/Wordclock/src/wc_lang_XX.h: 16 rows of 16 characters, layout contract (temperature dots, 10 bars)
   - the grid is identical in wc_lang_XX.h and models/lang/lang_XX.scad
-  - every grid character has metrics in Wordclock_Model.scad (else OpenSCAD only centres it roughly),
+  - every grid character has metrics in Wordclock_Common.scad (else OpenSCAD only centres it roughly),
     not checked for a language with its own font
   - every word {row, col, len} lies inside the grid (with --words: its text)
   - fillers: every cell that is never lit is "x" and every "x" is never lit (needs g++)
@@ -151,13 +151,13 @@ def check_variant(code):
 
 
 def metric_chars():
-    """Characters with metrics in both tables of Wordclock_Model.scad."""
-    mp = os.path.join(ROOT, "models", "Wordclock_Model.scad")
+    """Characters with metrics in both tables of Wordclock_Common.scad (shared part of the models)."""
+    mp = os.path.join(ROOT, "models", "Wordclock_Common.scad")
     if not os.path.isfile(mp):          # software-only checkout (GitHub): no model, no metric check
         return None
     t = read(mp)
     out = None
-    for name in ("METRIK_LIBERATION_BOLD", "METRIK_DEJAVU_BOLD"):
+    for name in ("METRICS_LIBERATION_BOLD", "METRICS_DEJAVU_BOLD"):
         m = re.search(name + r"\s*=\s*\[(.*?)\n\];", t, re.S)
         chars = set(re.findall(r'\["((?:[^"\\]|\\.))",\s*\[', m.group(1))) if m else set()
         out = chars if out is None else out & chars
@@ -241,7 +241,7 @@ def check(code, words, ref_ui, ref_yaml):
         known = metric_chars() | set("*| .x")
         miss = sorted({ch for row in g for ch in row} - known)
         if miss:
-            err.append("characters without metrics in Wordclock_Model.scad (OpenSCAD places them only roughly): %s"
+            err.append("characters without metrics in Wordclock_Common.scad (OpenSCAD places them only roughly): %s"
                        % " ".join(miss))
     if not re.search(r"^\s*INFO_DE\b.*?^\s*INFO_EN\s*$.*?^\s*INFO_END\s*$", h, re.S | re.M):
         err.append("wc_lang_%s.h: INFO_DE / INFO_EN / INFO_END block missing in the header (see docs/LANG_SPEC.md)" % code)

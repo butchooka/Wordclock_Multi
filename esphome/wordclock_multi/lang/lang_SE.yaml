@@ -1,5 +1,5 @@
 # lang_SE.yaml - Wordclock 16x16, ESPHome language package SE (Svenska), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_SE.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: ordklocka
   friendly_name: Ordklocka
   ap_ssid: Ordklocka Fallback
-  timezone: Europe/Stockholm
   latitude: "59.329°"      # Stockholm
   longitude: "18.069°"
   extra_hidden: "false"         # language has extra words (HEJ), switch shown
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: Temperatur ute min
   t_tout_max: Temperatur ute max
   t_col_time: Färg tid
-  t_col_vent: Färg VÄDRA
-  t_col_alarm: Färg LARM
-  t_col_battery: Färg BATT
-  t_col_tout: Färg temperatur ute
-  t_col_tin: Färg temperatur inne
-  t_sw_temp: Visa temperatur
+  t_col_vent: Visa VÄDRA
+  t_col_alarm: Visa LARM
+  t_col_battery: Visa BATT
+  t_col_tout: Visa temperatur ute
+  t_col_tin: Visa temperatur inne
   t_sw_min: Visa enstaka minuter
-  t_sw_alarm: Visa larm
-  t_sw_vent: Visa vädra
-  t_sw_battery: Visa batteri
   t_sw_extra: Visa HEJ
   t_fx: Effekt
   t_fx_color: Effektfärg
@@ -51,7 +46,8 @@ substitutions:
   t_text: Rulltext
   t_text_start: Visa text
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "Av"
   c_0: Varmvit
   c_1: Vit
   c_2: Röd

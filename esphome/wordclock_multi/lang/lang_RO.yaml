@@ -1,5 +1,5 @@
 # lang_RO.yaml - Wordclock 16x16, ESPHome language package RO (Română), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_RO.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: ceascucuvinte
   friendly_name: CeasCuCuvinte
   ap_ssid: CeasCuCuvinte Fallback
-  timezone: Europe/Bucharest
   latitude: "44.427°"           # București
   longitude: "26.103°"
   extra_hidden: "false"         # language has extra words (TIMPUL ZBOARĂ), switch shown
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: Temperatură exterioară min
   t_tout_max: Temperatură exterioară max
   t_col_time: Culoare oră
-  t_col_vent: Culoare AERISIRE
-  t_col_alarm: Culoare ALARMĂ
-  t_col_battery: Culoare BAT
-  t_col_tout: Culoare temperatură exterioară
-  t_col_tin: Culoare temperatură interioară
-  t_sw_temp: Afișează temperatura
+  t_col_vent: Afișează AERISIRE
+  t_col_alarm: Afișează ALARMĂ
+  t_col_battery: Afișează BAT
+  t_col_tout: Afișează temperatura exterioară
+  t_col_tin: Afișează temperatura interioară
   t_sw_min: Afișează minutele individuale
-  t_sw_alarm: Afișează alarma
-  t_sw_vent: Afișează aerisirea
-  t_sw_battery: Afișează bateria
   t_sw_extra: Afișează TIMPUL ZBOARĂ
   t_fx: Efect
   t_fx_color: Culoare efect
@@ -51,7 +46,8 @@ substitutions:
   t_text: Text defilant
   t_text_start: Afișează textul
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "Oprit"
   c_0: Alb cald
   c_1: Alb
   c_2: Roșu

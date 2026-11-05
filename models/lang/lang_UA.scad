@@ -5,7 +5,7 @@
 // Format (keep it, FreeCAD parses it): [code, own name, [16 rows], OpenSCAD font, FreeCAD font file]
 //   OpenSCAD font: "" = setting SCHRIFT, otherwise e.g. "Noto Sans KR:style=Bold"
 //   FreeCAD font file: "" = font dialog, otherwise e.g. "NotoSansKR-Bold.otf" (searched in the system fonts)
-// Cyrillic: the metrics are in METRIK_LIBERATION_BOLD / METRIK_DEJAVU_BOLD of Wordclock_Model.scad (block Cyrillic),
+// Cyrillic: the metrics are in METRICS_LIBERATION_BOLD / METRICS_DEJAVU_BOLD of Wordclock_Model.scad (block Cyrillic),
 // so the font stays "" (setting SCHRIFT: Liberation Sans Bold, Arial Bold and DejaVu Sans Bold contain Cyrillic).
 // Д and Ц (short descender) are reduced and pushed up like Ç. FreeCAD: choose a font with Cyrillic (e.g. Arial Bold).
 // The filler is the Latin "x"; the Cyrillic "Х" of ХВИЛИНА is a letter. Filler default "dot" (FILLER = "auto"),

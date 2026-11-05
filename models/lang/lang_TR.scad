@@ -5,7 +5,7 @@
 // Format (keep it, FreeCAD parses it): [code, own name, [16 rows], OpenSCAD font, FreeCAD font file]
 //   OpenSCAD font: "" = setting SCHRIFT, otherwise e.g. "Noto Sans KR:style=Bold"
 //   FreeCAD font file: "" = font dialog, otherwise e.g. "NotoSansKR-Bold.otf" (searched in the system fonts)
-// Note: İ and Ş have metrics in METRIK_LIBERATION_BOLD / METRIK_DEJAVU_BOLD of Wordclock_Model.scad (exact placement).
+// Note: İ and Ş have metrics in METRICS_LIBERATION_BOLD / METRICS_DEJAVU_BOLD of Wordclock_Model.scad (exact placement).
 LANG_TR = ["TR", "Türkçe", [
     "*SAATxONUAxÜÇÜE*",
     "*xBİRİExİKİYİEx*",

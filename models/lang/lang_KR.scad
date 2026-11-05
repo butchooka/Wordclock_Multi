@@ -8,7 +8,7 @@
 //   filler: default of FILLER for this language, used with FILLER = "auto" in the models ("" = X); here "dot"
 // Note: Hangul needs its own font. Noto Sans KR (Google Fonts, SIL Open Font License) must be installed:
 //   https://fonts.google.com/noto/specimen/Noto+Sans+KR - the static file static/NotoSansKR-Bold.ttf.
-// Without metrics the syllables are only roughly centred (adjust FREI_GROESSE if needed). Fillers: dot (field 6).
+// Without metrics the syllables are only roughly centred (adjust FONT_CUSTOM_SCALE if needed). Fillers: dot (field 6).
 LANG_KR = ["KR", "한국어", [
     "*xx지금은xxx오전x오후x*",
     "*xx자정xxxxxx정오xx*",

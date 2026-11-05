@@ -1,5 +1,5 @@
 # lang_TR.yaml - Wordclock 16x16, ESPHome language package TR (Türkçe), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_TR.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: kelimesaati
   friendly_name: KelimeSaati
   ap_ssid: KelimeSaati Fallback
-  timezone: Europe/Istanbul
   latitude: "39.933°"           # Ankara
   longitude: "32.860°"
   extra_hidden: "false"         # language has extra words (VAKİT NAKİTTİR), switch shown
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: Dış sıcaklık min
   t_tout_max: Dış sıcaklık maks
   t_col_time: Saat rengi
-  t_col_vent: HAVALANDIR rengi
-  t_col_alarm: ALARM rengi
-  t_col_battery: PİL rengi
-  t_col_tout: Dış sıcaklık rengi
-  t_col_tin: İç sıcaklık rengi
-  t_sw_temp: Sıcaklığı göster
+  t_col_vent: HAVALANDIR göster
+  t_col_alarm: ALARM göster
+  t_col_battery: PİL göster
+  t_col_tout: Dış sıcaklığı göster
+  t_col_tin: İç sıcaklığı göster
   t_sw_min: Tek dakikaları göster
-  t_sw_alarm: Alarmı göster
-  t_sw_vent: Havalandırı göster
-  t_sw_battery: Pili göster
   t_sw_extra: VAKİT NAKİTTİR göster
   t_fx: Efekt
   t_fx_color: Efekt rengi
@@ -51,7 +46,8 @@ substitutions:
   t_text: Kayan yazı
   t_text_start: Metni göster
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "Kapalı"
   c_0: Sıcak beyaz
   c_1: Beyaz
   c_2: Kırmızı

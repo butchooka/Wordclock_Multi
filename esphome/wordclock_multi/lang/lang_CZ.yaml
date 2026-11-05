@@ -1,5 +1,5 @@
 # lang_CZ.yaml - Wordclock 16x16, ESPHome language package CZ (Čeština), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_CZ.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: slovnihodiny
   friendly_name: SlovniHodiny
   ap_ssid: SlovniHodiny Fallback
-  timezone: Europe/Prague
   latitude: "50.076°"           # Praha
   longitude: "14.438°"
   extra_hidden: "false"         # language has extra words (ČAS LETÍ), switch shown
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: Venkovní teplota min
   t_tout_max: Venkovní teplota max
   t_col_time: Barva času
-  t_col_vent: Barva VĚTRAT
-  t_col_alarm: Barva ALARM
-  t_col_battery: Barva AKU
-  t_col_tout: Barva venkovní teploty
-  t_col_tin: Barva vnitřní teploty
-  t_sw_temp: Zobrazit teplotu
+  t_col_vent: Zobrazit VĚTRAT
+  t_col_alarm: Zobrazit ALARM
+  t_col_battery: Zobrazit AKU
+  t_col_tout: Zobrazit venkovní teplotu
+  t_col_tin: Zobrazit vnitřní teplotu
   t_sw_min: Zobrazit jednotlivé minuty
-  t_sw_alarm: Zobrazit alarm
-  t_sw_vent: Zobrazit větrání
-  t_sw_battery: Zobrazit baterii
   t_sw_extra: Zobrazit ČAS LETÍ
   t_fx: Efekt
   t_fx_color: Barva efektu
@@ -51,7 +46,8 @@ substitutions:
   t_text: Běžící text
   t_text_start: Zobrazit text
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "Vyp."
   c_0: Teplá bílá
   c_1: Bílá
   c_2: Červená

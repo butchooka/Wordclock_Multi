@@ -1,5 +1,5 @@
 # lang_HU.yaml - Wordclock 16x16, ESPHome language package HU (Magyar), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_HU.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: szoora
   friendly_name: SzoOra
   ap_ssid: SzoOra Fallback
-  timezone: Europe/Budapest
   latitude: "47.498°"           # Budapest
   longitude: "19.040°"
   extra_hidden: "false"         # language has extra words (AZ IDŐ PÉNZ), switch shown
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: Külső hőmérséklet min
   t_tout_max: Külső hőmérséklet max
   t_col_time: Idő színe
-  t_col_vent: SZELLŐZÉS színe
-  t_col_alarm: RIADÓ színe
-  t_col_battery: AKKU színe
-  t_col_tout: Külső hőmérséklet színe
-  t_col_tin: Belső hőmérséklet színe
-  t_sw_temp: Hőmérséklet mutatása
+  t_col_vent: SZELLŐZÉS mutatása
+  t_col_alarm: RIADÓ mutatása
+  t_col_battery: AKKU mutatása
+  t_col_tout: Külső hőmérséklet mutatása
+  t_col_tin: Belső hőmérséklet mutatása
   t_sw_min: Egyes percek mutatása
-  t_sw_alarm: Riadó mutatása
-  t_sw_vent: Szellőzés mutatása
-  t_sw_battery: Akku mutatása
   t_sw_extra: AZ IDŐ PÉNZ mutatása
   t_fx: Effekt
   t_fx_color: Effekt színe
@@ -51,7 +46,8 @@ substitutions:
   t_text: Futószöveg
   t_text_start: Szöveg indítása
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "Ki"
   c_0: Meleg fehér
   c_1: Fehér
   c_2: Piros

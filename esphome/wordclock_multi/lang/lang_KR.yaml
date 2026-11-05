@@ -1,5 +1,5 @@
 # lang_KR.yaml - Wordclock 16x16, ESPHome language package KR (한국어 / Korean), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_KR.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: geuljasigye
   friendly_name: GeuljaSigye
   ap_ssid: GeuljaSigye Fallback
-  timezone: Asia/Seoul
   latitude: "37.567°"           # Seoul
   longitude: "126.978°"
   extra_hidden: "false"         # language has extra words (시간은 금이다), switch shown
@@ -33,17 +32,13 @@ substitutions:
   t_tout_min: 실외 온도 최소
   t_tout_max: 실외 온도 최대
   t_col_time: 시간 색상
-  t_col_vent: 환기 색상
-  t_col_alarm: 알람 색상
-  t_col_battery: 배터리 색상
-  t_col_tout: 실외 온도 색상
-  t_col_tin: 실내 온도 색상
-  t_sw_temp: 온도 표시
+  t_col_vent: 환기 표시
+  t_col_alarm: 알람 표시
+  t_col_battery: 배터리 표시
+  t_col_tout: 실외 온도 표시
+  t_col_tin: 실내 온도 표시
   t_sw_min: 개별 분 표시
-  t_sw_alarm: 알람 표시
-  t_sw_vent: 환기 표시
-  t_sw_battery: 배터리 표시
-  t_sw_extra: '시간은 금이다' 표시
+  t_sw_extra: "'시간은 금이다' 표시"
   t_fx: 효과
   t_fx_color: 효과 색상
   t_fx_start: 효과 시작
@@ -51,7 +46,8 @@ substitutions:
   t_text: 텍스트 표시
   t_text_start: 텍스트 시작
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "꺼짐"
   c_0: 따뜻한 흰색
   c_1: 흰색
   c_2: 빨강

@@ -225,7 +225,7 @@ static inline int wc_pick_random(int old) {
 struct WcClockIn {
   bool valid;                  // time known
   int hour, minute;            // local time
-  bool show_minutes, show_temp, show_vent, show_alarm, show_battery, show_extra;
+  bool show_minutes, show_tout, show_tin, show_vent, show_alarm, show_battery, show_extra;
   bool vent, alarm;
   float battery;               // percent, NAN = unknown
   float t_out, t_in;           // degC, NAN = unknown
@@ -274,10 +274,9 @@ static inline void wc_render_clock(const WcLangDef &L, const WcClockIn &in, WcRg
     if (n > L.bars.n) n = L.bars.n;
     for (int i = 0; i < n; i++) cell[L.bars.r * WC_COLS + L.bars.c + i] = 4;
   }
-  if (in.show_temp) {                    // column 0 = outside, column 15 = inside
-    if (!isnan(in.t_out)) cell[wc_temp_row(in.t_out, in.t_out_lo, in.t_out_hi) * WC_COLS + 0] = 5;
-    if (!isnan(in.t_in)) cell[wc_temp_row(in.t_in, in.t_in_lo, in.t_in_hi) * WC_COLS + 15] = 6;
-  }
+  // column 0 = outside, column 15 = inside
+  if (in.show_tout && !isnan(in.t_out)) cell[wc_temp_row(in.t_out, in.t_out_lo, in.t_out_hi) * WC_COLS + 0] = 5;
+  if (in.show_tin && !isnan(in.t_in)) cell[wc_temp_row(in.t_in, in.t_in_lo, in.t_in_hi) * WC_COLS + 15] = 6;
 
   WcRgb gc[7];
   gc[0] = in.c_time;

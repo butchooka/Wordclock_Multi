@@ -1,5 +1,5 @@
 # lang_UA.yaml - Wordclock 16x16, ESPHome language package UA (Українська), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_UA.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: slovohodynnyk
   friendly_name: SlovoHodynnyk
   ap_ssid: SlovoHodynnyk Fallback
-  timezone: Europe/Kyiv         # older ESPHome/tzdata: Europe/Kiev
   latitude: "50.450°"           # Київ (Kyiv)
   longitude: "30.523°"
   extra_hidden: "false"         # language has extra words (СЛАВА УКРАЇНІ - ГЕРОЯМ СЛАВА), switch shown
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: Температура надворі мін
   t_tout_max: Температура надворі макс
   t_col_time: Колір часу
-  t_col_vent: Колір ПРОВІТРИ
-  t_col_alarm: Колір ТРИВОГА
-  t_col_battery: Колір ЗАРЯД
-  t_col_tout: Колір температури надворі
-  t_col_tin: Колір температури в приміщенні
-  t_sw_temp: Показувати температуру
+  t_col_vent: Показувати ПРОВІТРИ
+  t_col_alarm: Показувати ТРИВОГА
+  t_col_battery: Показувати ЗАРЯД
+  t_col_tout: Показувати температуру надворі
+  t_col_tin: Показувати температуру в приміщенні
   t_sw_min: Показувати окремі хвилини
-  t_sw_alarm: Показувати тривогу
-  t_sw_vent: Показувати провітрювання
-  t_sw_battery: Показувати заряд
   t_sw_extra: Показувати СЛАВА УКРАЇНІ
   t_fx: Ефект
   t_fx_color: Колір ефекту
@@ -51,7 +46,8 @@ substitutions:
   t_text: Біжучий рядок
   t_text_start: Показати текст
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "Вимк."
   c_0: Теплий білий
   c_1: Білий
   c_2: Червоний

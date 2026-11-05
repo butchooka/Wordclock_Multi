@@ -6,7 +6,7 @@ Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern (Quelle: too
    Den INHALT des Ordners  esphome/  1:1 nach /config/esphome/ (Home-Assistant-Add-on ESPHome):
      /config/esphome/wordclock_multi.yaml               <- die einzige Datei, die normalerweise geändert wird
      /config/esphome/wordclock_multi/core.yaml          Logik und Entitäten (für alle Sprachen gleich)
-     /config/esphome/wordclock_multi/lang/lang_XX.yaml  Namen, Optionen, Standort, Zeitzone je Sprache
+     /config/esphome/wordclock_multi/lang/lang_XX.yaml  Namen, Optionen, Standort je Sprache
      /config/esphome/wordclock_multi/src/*.h            C++ (Anzeige, Effekte, Raster + Uhrzeitwörter)
    Der Unterordner sorgt dafür, dass das ESPHome-Dashboard die Pakete nicht als eigene Geräte anzeigt.
 
@@ -51,14 +51,18 @@ Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern (Quelle: too
    Schrift-Varianten (nur Front, gleiche Firmware wie die Basissprache - diese hier wählen):
    scifi_RUNE_DE = DE, scifi_RUNE_GB = GB
 
-   Gerätename, Hotspot, Standort und Zeitzone kommen aus der Sprache. Wer die Sprache später wechselt und
+   Gerätename, Hotspot und Standort kommen aus der Sprache, Uhrzeit und Zeitzone aus Home Assistant
+   (Zeitzone wird gespeichert, ohne Home Assistant läuft die Uhr über NTP weiter).
+   Wer die Sprache später wechselt und
    das Gerät in Home Assistant behalten will, setzt unter substitutions: einen festen name: (z. B. name: wortuhr).
 
 4. ANPASSEN in wordclock_multi.yaml (substitutions:)
    led_pin (Standard GPIO32; ESP32-C6: GPIO2), serpentine (Zickzack-Verdrahtung, Standard "true"),
    mirror_x (Standard "true"), ma_per_channel, idle_ma_per_led,
    Entitäten aus Home Assistant: alarm_entity, vent_entity, battery_entity, temp_out_entity, temp_in_entity,
-   optional name, friendly_name, latitude, longitude, timezone (überschreiben die Werte der Sprache).
+   ha_timeout_min (Standard 5: so viele Minuten ohne Verbindung zu Home Assistant -> ALARM, LÜFTEN, AKKU und
+   Temperatur aus),
+   optional name, friendly_name, latitude, longitude (überschreiben die Werte der Sprache).
    Board: wemos_d1_mini32; ESP32-C6 (SuperMini/XIAO) siehe Kommentar am Ende der Datei.
 
 5. INSTALLIEREN

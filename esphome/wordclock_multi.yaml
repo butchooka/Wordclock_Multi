@@ -2,11 +2,14 @@
 # The only file you normally edit. Structure (copy the content of the folder esphome/ 1:1 to /config/esphome/):
 #   wordclock_multi.yaml               <- this file: language, board, pins, Wi-Fi/API/OTA, Home Assistant entities
 #   wordclock_multi/core.yaml          logic and entities (identical for all languages)
-#   wordclock_multi/lang/lang_XX.yaml  names, options, location, time zone of a language
+#   wordclock_multi/lang/lang_XX.yaml  names, options, location of a language
 #   wordclock_multi/src/*.h            shared C++ (display, effects, grid + time words); copy of arduino/Wordclock/src,
 #                                      kept identical with tools/sync_src.py
 # Secrets in secrets.yaml next to this file: wifi_ssid, wifi_password, ap_password, api_key, ota_password
 # The subfolder keeps the packages out of the ESPHome dashboard (it lists every .yaml of the main folder as a device).
+# SEVERAL CLOCKS: one copy of this file per clock (e.g. wortuhr-kueche.yaml, wortuhr-buero.yaml), all share the folder
+# wordclock_multi/. Each copy needs its own name: below. Renaming in the ESPHome dashboard (... > Rename) works,
+# because name is defined here as a substitution (ESPHome only renames a name defined in the main file).
 
 # LANGUAGE: replace the line "lang: ..." under packages: by one line of this list (v2.0 = tested, v0.9 = in test)
 # LANGUAGES BEGIN (list written by tools/make_info.py)
@@ -50,6 +53,10 @@ packages:
   core: !include wordclock_multi/core.yaml
 
 substitutions:
+  # Device name (host name, Home Assistant device) - must be unique per clock: lowercase, digits and "-" only.
+  # Can also be changed in the ESPHome dashboard (Rename). friendly_name = name shown in Home Assistant.
+  name: wortuhr
+  friendly_name: Wortuhr
   src_dir: wordclock_multi/src         # folder with wc_core.h, wc_effects.h, wc_lang_XX.h (relative to this file)
   led_pin: GPIO32             # data pin of the matrix (best via level shifter 74AHCT125 to 5 V); ESP32-C6: GPIO2
   serpentine: "true"          # "true" = matrix wired in zigzag, "false" = every row starts on the same side
@@ -68,13 +75,17 @@ substitutions:
   # Temperature in degC (number). Suitable: sensor.* with a temperature. Left = outside, right = inside
   temp_out_entity: sensor.outdoor_temperature
   temp_in_entity: sensor.living_room_temperature
+  # Without connection to Home Assistant for this many minutes: ALARM, VENT, BATTERY and temperature off
+  # (values would be outdated). They come back as soon as Home Assistant is connected again.
+  ha_timeout_min: "5"
 
   # --- Optional: overwrite defaults of the language package ---
-  # name: wortuhr-kueche
-  # friendly_name: Wortuhr Küche
   # latitude: "47.999°"
   # longitude: "7.842°"
-  # timezone: Europe/Berlin
+
+esphome:                        # name here (not only in core.yaml), so that the dashboard can rename the device
+  name: ${name}
+  friendly_name: ${friendly_name}
 
 api:
   encryption:

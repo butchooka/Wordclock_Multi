@@ -8,7 +8,7 @@
 //   filler: default of FILLER for this language, used with FILLER = "auto" in the models ("" = X); here "dot"
 // Note: Chinese characters need their own font. Noto Sans SC (Google Fonts, SIL Open Font License) must be installed:
 //   https://fonts.google.com/noto/specimen/Noto+Sans+SC - the static file static/NotoSansSC-Bold.ttf.
-// Without metrics the characters are only roughly centred (adjust FREI_GROESSE if needed). Fillers: dot (field 6).
+// Without metrics the characters are only roughly centred (adjust FONT_CUSTOM_SCALE if needed). Fillers: dot (field 6).
 // Closed counters (e.g. in 晨, 阴, 电, 四) need the same front construction as KR/JP (characters with inner islands).
 LANG_CN = ["CN", "中文", [
     "*xx现在是x凌晨xxxxxx*",

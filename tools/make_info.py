@@ -105,7 +105,7 @@ def lang_data(code):
     m = re.search(r"^\s*INFO_DE\b[^\n]*\n(.*?)^\s*INFO_EN\s*\n(.*?)^\s*INFO_END", h, re.S | re.M)
     strip = lambda t: "\n".join(l[2:] if l.startswith("  ") else l for l in t.rstrip().split("\n"))
     d["info_de"], d["info_en"] = (strip(m.group(1)), strip(m.group(2))) if m else ("(INFO_DE fehlt)", "(INFO_EN missing)")
-    for k in ("name", "friendly_name", "ap_ssid", "timezone"):
+    for k in ("name", "friendly_name", "ap_ssid"):
         m = re.search(r"^  %s:\s*(.+?)\s*$" % k, y, re.M)
         d["y_" + k] = m.group(1) if m else ""
     d["tested"] = d["version"] not in ("v0.9", "?") and not d["version"].startswith("v0.")
@@ -468,7 +468,7 @@ def setup_esphome(langs, de):
    Den INHALT des Ordners  esphome/  1:1 nach /config/esphome/ (Home-Assistant-Add-on ESPHome):
      /config/esphome/wordclock_multi.yaml               <- die einzige Datei, die normalerweise geändert wird
      /config/esphome/wordclock_multi/core.yaml          Logik und Entitäten (für alle Sprachen gleich)
-     /config/esphome/wordclock_multi/lang/lang_XX.yaml  Namen, Optionen, Standort, Zeitzone je Sprache
+     /config/esphome/wordclock_multi/lang/lang_XX.yaml  Namen, Optionen, Standort je Sprache
      /config/esphome/wordclock_multi/src/*.h            C++ (Anzeige, Effekte, Raster + Uhrzeitwörter)
    Der Unterordner sorgt dafür, dass das ESPHome-Dashboard die Pakete nicht als eigene Geräte anzeigt.
 
@@ -478,14 +478,20 @@ def setup_esphome(langs, de):
 3. SPRACHE WÄHLEN - in wordclock_multi.yaml unter packages:, eine Zeile (Liste auch als Kommentar in der Datei):
 %s
 
-   Gerätename, Hotspot, Standort und Zeitzone kommen aus der Sprache. Wer die Sprache später wechselt und
-   das Gerät in Home Assistant behalten will, setzt unter substitutions: einen festen name: (z. B. name: wortuhr).
+   Hotspot und Standort kommen aus der Sprache, Uhrzeit und Zeitzone aus Home Assistant
+   (Zeitzone wird gespeichert, ohne Home Assistant läuft die Uhr über NTP weiter).
+   Der Gerätename steht fest in wordclock_multi.yaml (name, friendly_name), ein Sprachwechsel ändert ihn nicht.
+   MEHRERE UHREN: je Uhr eine Kopie von wordclock_multi.yaml (z. B. wortuhr-kueche.yaml) mit eigenem name:,
+   alle nutzen den Ordner wordclock_multi/. Umbenennen geht auch im ESPHome-Dashboard (... > Rename).
 
 4. ANPASSEN in wordclock_multi.yaml (substitutions:)
    led_pin (Standard GPIO32; ESP32-C6: GPIO2), serpentine (Zickzack-Verdrahtung, Standard "true"),
    mirror_x (Standard "true"), ma_per_channel, idle_ma_per_led,
    Entitäten aus Home Assistant: alarm_entity, vent_entity, battery_entity, temp_out_entity, temp_in_entity,
-   optional name, friendly_name, latitude, longitude, timezone (überschreiben die Werte der Sprache).
+   ha_timeout_min (Standard 5: so viele Minuten ohne Verbindung zu Home Assistant -> ALARM, LÜFTEN, AKKU und
+   Temperatur aus),
+   name, friendly_name (Gerätename, je Uhr eindeutig),
+   optional latitude, longitude (überschreiben die Werte der Sprache).
    Board: wemos_d1_mini32; ESP32-C6 (SuperMini/XIAO) siehe Kommentar am Ende der Datei.
 
 5. INSTALLIEREN
@@ -506,7 +512,7 @@ Alle Sprachen im Detail: docs/languages/LANG_<Code>.txt, Übersicht: docs/langua
    Copy the CONTENT of the folder  esphome/  1:1 to /config/esphome/ (Home Assistant add-on ESPHome):
      /config/esphome/wordclock_multi.yaml               <- the only file you normally edit
      /config/esphome/wordclock_multi/core.yaml          logic and entities (the same for all languages)
-     /config/esphome/wordclock_multi/lang/lang_XX.yaml  names, options, location, time zone per language
+     /config/esphome/wordclock_multi/lang/lang_XX.yaml  names, options, location per language
      /config/esphome/wordclock_multi/src/*.h            C++ (display, effects, grid + time words)
    The subfolder keeps the packages out of the ESPHome dashboard (it would list them as devices).
 
@@ -516,14 +522,20 @@ Alle Sprachen im Detail: docs/languages/LANG_<Code>.txt, Übersicht: docs/langua
 3. CHOOSE THE LANGUAGE - in wordclock_multi.yaml under packages:, one line (list also as a comment in the file):
 %s
 
-   Device name, hotspot, location and time zone come from the language. To change the language later and keep
-   the device in Home Assistant, set a fixed name: under substitutions: (e.g. name: wordclock).
+   Hotspot and location come from the language, time and time zone from Home Assistant
+   (time zone is saved, without Home Assistant the clock keeps running via NTP).
+   The device name is fixed in wordclock_multi.yaml (name, friendly_name), changing the language keeps it.
+   SEVERAL CLOCKS: one copy of wordclock_multi.yaml per clock (e.g. wordclock-kitchen.yaml) with its own name:,
+   all use the folder wordclock_multi/. Renaming also works in the ESPHome dashboard (... > Rename).
 
 4. ADJUST in wordclock_multi.yaml (substitutions:)
    led_pin (default GPIO32; ESP32-C6: GPIO2), serpentine (zigzag wiring, default "true"),
    mirror_x (default "true"), ma_per_channel, idle_ma_per_led,
    entities from Home Assistant: alarm_entity, vent_entity, battery_entity, temp_out_entity, temp_in_entity,
-   optional name, friendly_name, latitude, longitude, timezone (overwrite the values of the language).
+   ha_timeout_min (default 5: minutes without connection to Home Assistant -> ALARM, VENT, BATTERY and
+   temperature off),
+   name, friendly_name (device name, unique per clock),
+   optional latitude, longitude (overwrite the values of the language).
    Board: wemos_d1_mini32; ESP32-C6 (SuperMini/XIAO) see the comment at the end of the file.
 
 5. INSTALL
@@ -547,7 +559,8 @@ def setup_freecad(langs, de):
     if de:
         return head("Einrichtung FreeCAD", True) + """
 1. WAS WOHIN KOPIEREN
-   Wordclock_Model.FCMacro und den Ordner lang/ (mit allen lang_XX.scad) zusammen in einen Ordner kopieren,
+   Wordclock_Model.FCMacro, Wordclock_Common.py (gemeinsamer Teil beider Makros) und den Ordner lang/
+   (mit allen lang_XX.scad) zusammen in einen Ordner kopieren,
    z. B. in den FreeCAD-Makroordner (Makro > Makros... zeigt den Pfad) oder einfach den Ordner models/ benutzen.
    Das Makro liest die Raster aus lang/lang_XX.scad neben sich (anderer Ort: LANG_DIR oben im Makro).
 
@@ -566,19 +579,21 @@ def setup_freecad(langs, de):
 
 4. AUSFÜHREN UND EXPORTIEREN
    Makro > Makros... > Wordclock_Model.FCMacro > Ausführen. Mit EXPORT = "stl" (Standard, "step" geht auch) landen alle Teile in
-   Drucklage im Ordner export/ neben dem Makro. Dateinamen: Front/Buchstaben Wordclock_<Teil>_<LANG>_<Schrift>,
-   alle anderen Teile Wordclock_<Teil> (für alle Sprachen gleich).
+   Drucklage im Ordner export/ neben dem Makro. Dateinamen wie in OpenSCAD, mit Zusatz _freecad:
+   Frame_<LANG>_<Schrift>_freecad (Buchstaben: ..._Letters_freecad), Holder_Rear_freecad, Holder_<Name>_freecad.
 
 5. SONDERMODELL PICTUREFRAME
-   Der PictureFrame (Frontplatte für einen tiefen Bilderrahmen) ist aus dem Makro ausgelagert und steht derzeit
-   nur in OpenSCAD zur Verfügung (Wordclock_Model_PictureFrame.scad, siehe SETUP_OpenSCAD). Ein eigenes
-   FreeCAD-Makro dafür folgt.
+   Der PictureFrame (Frontplatte für einen tiefen Bilderrahmen) hat ein eigenes Makro:
+   Wordclock_Model_PictureFrame.FCMacro (gleiche Parameter PICTUREFRAME_* wie in OpenSCAD, Befestigung
+   PICTUREFRAME_OWN_MOUNT = "SCREW" / "THIMBLES" / "NONE", siehe SETUP_OpenSCAD).
+   Dateiname: <LANG>_Pictureframe_<PICTUREFRAME_SIZE>_<Schrift>_freecad.
 
 Raster und Grammatik je Sprache: docs/languages/LANG_<Code>.txt
 """ % tab
     return head("Setup FreeCAD", False) + """
 1. WHAT GOES WHERE
-   Copy Wordclock_Model.FCMacro together with the folder lang/ (all lang_XX.scad) into one folder,
+   Copy Wordclock_Model.FCMacro, Wordclock_Common.py (shared part of both macros) and the folder lang/
+   (all lang_XX.scad) into one folder,
    e.g. the FreeCAD macro folder (Macro > Macros... shows the path) or simply use the folder models/.
    The macro reads the grids from lang/lang_XX.scad next to it (other place: LANG_DIR at the top of the macro).
 
@@ -597,13 +612,14 @@ Raster und Grammatik je Sprache: docs/languages/LANG_<Code>.txt
 
 4. RUN AND EXPORT
    Macro > Macros... > Wordclock_Model.FCMacro > Execute. With EXPORT = "stl" (default, "step" also works) every part is written in
-   print orientation into the folder export/ next to the macro. File names: front/letters
-   Wordclock_<part>_<LANG>_<font>, all other parts Wordclock_<part> (the same for all languages).
+   print orientation into the folder export/ next to the macro. File names as in OpenSCAD plus _freecad:
+   Frame_<LANG>_<font>_freecad (letters: ..._Letters_freecad), Holder_Rear_freecad, Holder_<name>_freecad.
 
 5. SPECIAL MODEL PICTUREFRAME
-   The PictureFrame (front plate for a deep picture frame) has been moved out of the macro and is currently
-   available in OpenSCAD only (Wordclock_Model_PictureFrame.scad, see SETUP_OpenSCAD). A FreeCAD macro of its
-   own will follow.
+   The PictureFrame (front plate for a deep picture frame) has a macro of its own:
+   Wordclock_Model_PictureFrame.FCMacro (same parameters PICTUREFRAME_* as in OpenSCAD, fastening
+   PICTUREFRAME_OWN_MOUNT = "SCREW" / "THIMBLES" / "NONE", see SETUP_OpenSCAD).
+   File name: <LANG>_Pictureframe_<PICTUREFRAME_SIZE>_<font>_freecad.
 
 Grid and grammar per language: docs/languages/LANG_<code>.txt
 """ % tab
@@ -615,8 +631,8 @@ def setup_openscad(langs, de):
     if de:
         return head("Einrichtung OpenSCAD", True) + """
 1. WAS WOHIN KOPIEREN
-   Wordclock_Model.scad (Gehäuse + Halter), Wordclock_Model_PictureFrame.scad (Sondermodell Bilderrahmen) und
-   den Ordner lang/ (lang_all.scad + alle lang_XX.scad) zusammen lassen (am einfachsten den Ordner models/
+   Wordclock_Model.scad (Gehäuse + Halter), Wordclock_Model_PictureFrame.scad (Sondermodell Bilderrahmen),
+   Wordclock_Common.scad (gemeinsamer Teil beider Modelle) und den Ordner lang/ (lang_all.scad + alle lang_XX.scad) zusammen lassen (am einfachsten den Ordner models/
    benutzen). Optional tools\\export_fronts.bat (Windows, alle Fronten auf einmal).
 
 2. SPRACHE WÄHLEN - Customizer (Fenster > Customizer), Gruppe "Basis Settings", Auswahl LANG:
@@ -647,8 +663,8 @@ def setup_openscad(langs, de):
    Ohne installierte Schrift meldet OpenSCAD einen Fehler, wenn die entsprechende Sprache gewählt wird.
 
 4. EXPORTIEREN
-   F6 (Rendern), F7 (STL). Der Exportname steht in der Konsole: Front/Buchstaben Wordclock_<Teil>_<LANG>_<Schrift>,
-   alle anderen Teile Wordclock_<Teil>. Tipp: OpenSCAD 2024/2025 mit Backend "Manifold" rendert in Sekunden.
+   F6 (Rendern), F7 (STL). Der Exportname steht in der Konsole: Front Frame_<LANG>_<Schrift>
+   (Buchstaben ..._Letters), Rückwand Holder_Rear, Halter Holder_<Name>, PictureFrame <LANG>_Pictureframe_<Größe>_<Schrift>. Tipp: OpenSCAD 2024/2025 mit Backend "Manifold" rendert in Sekunden.
 
 5. NEUE SPRACHE IM MODELL
    models/lang/lang_XX.scad anlegen, in lang/lang_all.scad die include-Zeile und den Eintrag in LANGS
@@ -663,14 +679,14 @@ def setup_openscad(langs, de):
      THIMBLES = 4 Blöcke für je eine Reißzwecke in die Rahmenwand (z. B. Spanplattenrahmen) + Schlüsselloch-Aufhänger
      NONE     = nur die Platte, gehalten von Rückwand / Abstandsrahmen und Aufhänger des Bilderrahmens
    Kommandozeile: openscad -o pf.stl -D 'LANG="DE"' -D 'PRINT_ORIENT=true' Wordclock_Model_PictureFrame.scad
-   (tools\\export_fronts.bat: PARTS=PictureFrame oder Both). FreeCAD-Makro für den PictureFrame folgt.
+   (tools\\export_fronts.bat: PARTS=PictureFrame oder Both). FreeCAD: Wordclock_Model_PictureFrame.FCMacro.
 
 Raster und Grammatik je Sprache: docs/languages/LANG_<Code>.txt
 """ % tab
     return head("Setup OpenSCAD", False) + """
 1. WHAT GOES WHERE
-   Keep Wordclock_Model.scad (case + holders), Wordclock_Model_PictureFrame.scad (special model picture frame)
-   and the folder lang/ (lang_all.scad + all lang_XX.scad) together (easiest: use the folder models/).
+   Keep Wordclock_Model.scad (case + holders), Wordclock_Model_PictureFrame.scad (special model picture frame),
+   Wordclock_Common.scad (shared part of both models) and the folder lang/ (lang_all.scad + all lang_XX.scad) together (easiest: use the folder models/).
    Optional tools\\export_fronts.bat (Windows, all fronts at once).
 
 2. CHOOSE THE LANGUAGE - Customizer (Window > Customizer), group "Basis Settings", option LANG:
@@ -701,8 +717,8 @@ Raster und Grammatik je Sprache: docs/languages/LANG_<Code>.txt
    Without the installed font, OpenSCAD reports an error when the corresponding language is selected.
 
 4. EXPORT
-   F6 (render), F7 (STL). The export name is shown in the console: front/letters Wordclock_<part>_<LANG>_<font>,
-   all other parts Wordclock_<part>. Tip: OpenSCAD 2024/2025 with the backend "Manifold" renders in seconds.
+   F6 (render), F7 (STL). The export name is shown in the console: front Frame_<LANG>_<font>
+   (letters ..._Letters), back Holder_Rear, holders Holder_<name>, PictureFrame <LANG>_Pictureframe_<size>_<font>. Tip: OpenSCAD 2024/2025 with the backend "Manifold" renders in seconds.
 
 5. NEW LANGUAGE IN THE MODEL
    Create models/lang/lang_XX.scad, add the include line and the entry in LANGS to lang/lang_all.scad and the
@@ -717,7 +733,7 @@ Raster und Grammatik je Sprache: docs/languages/LANG_<Code>.txt
      THIMBLES = 4 blocks for one thumbtack each into the frame wall (e.g. chipboard frames) + keyhole hanger
      NONE     = plate only, held by the back board / spacer frame and hanger of the picture frame
    Command line: openscad -o pf.stl -D 'LANG="GB"' -D 'PRINT_ORIENT=true' Wordclock_Model_PictureFrame.scad
-   (tools\\export_fronts.bat: PARTS=PictureFrame or Both). A FreeCAD macro for the PictureFrame will follow.
+   (tools\\export_fronts.bat: PARTS=PictureFrame or Both). FreeCAD: Wordclock_Model_PictureFrame.FCMacro.
 
 Grid and grammar per language: docs/languages/LANG_<code>.txt
 """ % tab

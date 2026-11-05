@@ -1,5 +1,5 @@
 # lang_FR.yaml - Wordclock 16x16, ESPHome language package FR (Français), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_FR.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: horloge
   friendly_name: Horloge
   ap_ssid: Horloge Fallback
-  timezone: Europe/Paris
   latitude: "48.857°"           # Paris
   longitude: "2.352°"
   extra_hidden: "false"         # language has extra words (BONJOUR), switch shown
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: Température extérieure min
   t_tout_max: Température extérieure max
   t_col_time: Couleur heure
-  t_col_vent: Couleur AÉRER
-  t_col_alarm: Couleur ALARME
-  t_col_battery: Couleur BATT
-  t_col_tout: Couleur température extérieure
-  t_col_tin: Couleur température intérieure
-  t_sw_temp: Afficher température
+  t_col_vent: Afficher AÉRER
+  t_col_alarm: Afficher ALARME
+  t_col_battery: Afficher BATT
+  t_col_tout: Afficher température extérieure
+  t_col_tin: Afficher température intérieure
   t_sw_min: Afficher minutes isolées
-  t_sw_alarm: Afficher alarme
-  t_sw_vent: Afficher aérer
-  t_sw_battery: Afficher batterie
   t_sw_extra: Afficher BONJOUR
   t_fx: Effet
   t_fx_color: Couleur effet
@@ -51,7 +46,8 @@ substitutions:
   t_text: Texte défilant
   t_text_start: Afficher le texte
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "Arrêt"
   c_0: Blanc chaud
   c_1: Blanc
   c_2: Rouge

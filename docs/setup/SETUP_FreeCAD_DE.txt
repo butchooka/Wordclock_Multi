@@ -56,12 +56,13 @@ Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern (Quelle: too
 
 4. AUSFÜHREN UND EXPORTIEREN
    Makro > Makros... > Wordclock_Model.FCMacro > Ausführen. Mit EXPORT = "stl" (Standard, "step" geht auch) landen alle Teile in
-   Drucklage im Ordner export/ neben dem Makro. Dateinamen: Front/Buchstaben Wordclock_<Teil>_<LANG>_<Schrift>,
-   alle anderen Teile Wordclock_<Teil> (für alle Sprachen gleich).
+   Drucklage im Ordner export/ neben dem Makro. Dateinamen wie in OpenSCAD, mit Zusatz _freecad:
+   Frame_<LANG>_<Schrift>_freecad (Buchstaben: ..._Letters_freecad), Holder_Rear_freecad, Holder_<Name>_freecad.
 
 5. SONDERMODELL PICTUREFRAME
-   Der PictureFrame (Frontplatte für einen tiefen Bilderrahmen) ist aus dem Makro ausgelagert und steht derzeit
-   nur in OpenSCAD zur Verfügung (Wordclock_Model_PictureFrame.scad, siehe SETUP_OpenSCAD). Ein eigenes
-   FreeCAD-Makro dafür folgt.
+   Der PictureFrame (Frontplatte für einen tiefen Bilderrahmen) hat ein eigenes Makro:
+   Wordclock_Model_PictureFrame.FCMacro (gleiche Parameter PICTUREFRAME_* wie in OpenSCAD, Befestigung
+   PICTUREFRAME_OWN_MOUNT = "SCREW" / "THIMBLES" / "NONE", siehe SETUP_OpenSCAD).
+   Dateiname: <LANG>_Pictureframe_<PICTUREFRAME_SIZE>_<Schrift>_freecad.
 
 Raster und Grammatik je Sprache: docs/languages/LANG_<Code>.txt

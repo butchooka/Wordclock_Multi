@@ -55,7 +55,9 @@
         col_time, col_vent, col_alarm, col_battery = warmwhite|white|red|orange|yellow|green|blue|violet|random|rrggbb
                                                        (col_time also "pride": one random colour per word)
         col_tempout, col_tempin = as above, but temp instead of random
-        show_minutes, show_temp, show_vent, show_alarm, show_battery, show_extra (0/1),
+        col_vent, col_alarm, col_battery, col_tempout, col_tempin also "off" = display switched off
+        show_minutes, show_extra (0/1),
+        show_temp, show_vent, show_alarm, show_battery (0/1, compatibility: 0 = colour "off", 1 = default colour if off)
         fxdur (0-120 s), fxcycle (0.3-3.0 s)
       Only for the effect duration:
         fx = rainbow|aurora|matrix|fire|confetti|stars|blink|stop (list: WC_FX in src/wc_effects.h)
@@ -167,7 +169,8 @@ Preferences prefs;
 
 // ============================ SETTINGS ============================
 // Colour selection per group: 0..7 palette, 8 = random (groups 0-3) or temperature (groups 4-5), 9 = custom colour,
-// 10 = pride (group 0 only: one random colour per time word, re-rolled every minute)
+// 10 = pride (group 0 only: one random colour per time word, re-rolled every minute),
+// 11 = off (groups 1-5: the additional display is switched off, replaces the former switches)
 // Groups: 0 time/minutes, 1 VENT, 2 ALARM, 3 BATTERY, 4 temperature outside, 5 temperature inside
 struct Settings {
   String ssid, pass, host;
@@ -182,7 +185,7 @@ struct Settings {
   uint16_t cur;                 // current limit mA
   uint8_t col[6];
   uint32_t cus[6];              // custom colours 0xRRGGBB
-  bool on, swMin, swTemp, swLuft, swAlarm, swAkku, swExtra, tOnl, mir, srp;
+  bool on, swMin, swExtra, tOnl, mir, srp;
   float tiMin, tiMax, toMin, toMax;
   uint8_t fxd;                  // effect duration s (0 = until stopped)
   float blk;                    // blink cycle s
@@ -190,16 +193,18 @@ struct Settings {
   String txt;                   // text of the text ticker
 } S;
 
+#define COL_OFF 11
+static const uint8_t COL_DEF[6] = {8, 3, 2, 1, 8, 8};  // colour when an additional display is switched on via show_*
+
 void setDefaults() {
   S.ssid = ""; S.pass = ""; S.host = WC_LANG.host;
   S.ntpDhcp = true; S.ntp = "pool.ntp.org"; S.tz = WC_LANG.posix_tz;
   S.lat = WC_LANG.lat; S.lon = WC_LANG.lon; S.nso = 0; S.neo = 0;
   S.nmode = 2; S.nfs = 22 * 60; S.nfe = 7 * 60; S.nme = 20 * 60; S.nml = 7 * 60;
   S.brD = 40; S.brN = 1; S.cur = 500;
-  const uint8_t dc[6] = {8, 3, 2, 1, 8, 8};  // time: random
-  for (int i = 0; i < 6; i++) { S.col[i] = dc[i]; S.cus[i] = 0xFF8C28; }
+  // time: random, additional displays (groups 1-5) off by default
+  for (int i = 0; i < 6; i++) { S.col[i] = i ? COL_OFF : COL_DEF[0]; S.cus[i] = 0xFF8C28; }
   S.on = true; S.swMin = true; S.swExtra = false;
-  S.swTemp = false; S.swLuft = false; S.swAlarm = false; S.swAkku = false;  // additional displays off by default
   S.tOnl = true; S.mir = true; S.srp = true;   // zigzag wiring as default
   S.tiMin = 20; S.tiMax = 25; S.toMin = 5; S.toMax = 30;
   S.fxd = 30; S.blk = 1.5f; S.apiTo = 30;
@@ -235,10 +240,21 @@ void loadSettings() {
   }
   S.on = prefs.getBool("on", S.on);
   S.swMin = prefs.getBool("swMin", S.swMin);
-  S.swTemp = prefs.getBool("swTemp", S.swTemp);
-  S.swLuft = prefs.getBool("swLuft", S.swLuft);
-  S.swAlarm = prefs.getBool("swAlarm", S.swAlarm);
-  S.swAkku = prefs.getBool("swAkku", S.swAkku);
+  {  // migration from the former switches (up to v2.0): switch off = colour "off", then the key is removed
+    const char *oldk[4] = {"swLuft", "swAlarm", "swAkku", "swTemp"};
+    bool mig = false;
+    for (int i = 0; i < 4; i++) {
+      if (!prefs.isKey(oldk[i])) continue;
+      if (!prefs.getBool(oldk[i], false)) {
+        if (i < 3) S.col[i + 1] = COL_OFF;
+        else { S.col[4] = COL_OFF; S.col[5] = COL_OFF; }
+      }
+      prefs.remove(oldk[i]);
+      mig = true;
+    }
+    if (mig)
+      for (int i = 1; i < 6; i++) { snprintf(k, sizeof(k), "c%d", i); prefs.putUChar(k, S.col[i]); }
+  }
   S.swExtra = prefs.getBool("swEx", S.swExtra);
   S.tOnl = prefs.getBool("tOnl", S.tOnl);
   S.mir = prefs.getBool("mir", S.mir);
@@ -281,10 +297,6 @@ void saveSettings() {
   }
   prefs.putBool("on", S.on);
   prefs.putBool("swMin", S.swMin);
-  prefs.putBool("swTemp", S.swTemp);
-  prefs.putBool("swLuft", S.swLuft);
-  prefs.putBool("swAlarm", S.swAlarm);
-  prefs.putBool("swAkku", S.swAkku);
   prefs.putBool("swEx", S.swExtra);
   prefs.putBool("tOnl", S.tOnl);
   prefs.putBool("mir", S.mir);
@@ -441,8 +453,9 @@ void renderClock() {
     in.minute = t.tm_min;
     mod = t.tm_hour * 60 + t.tm_min;
   }
-  in.show_minutes = S.swMin; in.show_temp = S.swTemp; in.show_vent = S.swLuft;
-  in.show_alarm = S.swAlarm; in.show_battery = S.swAkku; in.show_extra = S.swExtra;
+  in.show_minutes = S.swMin; in.show_extra = S.swExtra;
+  in.show_vent = S.col[1] != COL_OFF; in.show_alarm = S.col[2] != COL_OFF; in.show_battery = S.col[3] != COL_OFF;
+  in.show_tout = S.col[4] != COL_OFF; in.show_tin = S.col[5] != COL_OFF;
   in.vent = curLuft(); in.alarm = curAlarm(); in.battery = curAkku();
   in.t_out = curTout(); in.t_in = curTin();
   in.t_out_lo = S.toMin; in.t_out_hi = S.toMax; in.t_in_lo = S.tiMin; in.t_in_hi = S.tiMax;
@@ -778,8 +791,7 @@ void handleConfig() {
   auto b = [&](const char *k, bool v) { j += "\""; j += k; j += "\":"; j += v ? "1" : "0"; j += ","; };
   auto n = [&](const char *k, const String &v) { j += "\""; j += k; j += "\":"; j += v; j += ","; };
   auto s = [&](const char *k, const String &v) { j += "\""; j += k; j += "\":\""; j += jsonEsc(v); j += "\","; };
-  b("on", S.on); b("swMin", S.swMin); b("swTemp", S.swTemp); b("swLuft", S.swLuft); b("swAlarm", S.swAlarm);
-  b("swAkku", S.swAkku); b("swExtra", S.swExtra); b("tOnl", S.tOnl); b("mir", S.mir); b("srp", S.srp);
+  b("on", S.on); b("swMin", S.swMin); b("swExtra", S.swExtra); b("tOnl", S.tOnl); b("mir", S.mir); b("srp", S.srp);
   n("brD", String(S.brD)); n("brN", String(S.brN)); n("cur", String(S.cur));
   n("lat", String(S.lat, 4)); n("lon", String(S.lon, 4)); n("nso", String(S.nso)); n("neo", String(S.neo));
   n("nmode", String(S.nmode)); s("nfs", hm(S.nfs)); s("nfe", hm(S.nfe)); s("nme", hm(S.nme)); s("nml", hm(S.nml));
@@ -806,10 +818,6 @@ void handleSave() {
 
   if (has("on")) S.on = gi("on");
   if (has("swMin")) S.swMin = gi("swMin");
-  if (has("swTemp")) S.swTemp = gi("swTemp");
-  if (has("swLuft")) S.swLuft = gi("swLuft");
-  if (has("swAlarm")) S.swAlarm = gi("swAlarm");
-  if (has("swAkku")) S.swAkku = gi("swAkku");
   if (has("swExtra")) S.swExtra = gi("swExtra");
   if (has("tOnl")) { S.tOnl = gi("tOnl"); lastWeather = 0; weatherDone = false; }
   if (has("mir")) S.mir = gi("mir");
@@ -831,7 +839,7 @@ void handleSave() {
   char k[4];
   for (int i = 0; i < 6; i++) {
     snprintf(k, sizeof(k), "c%d", i);
-    if (has(k)) S.col[i] = cl(gi(k), 0, 10);
+    if (has(k)) { S.col[i] = cl(gi(k), 0, i ? COL_OFF : 10); if (i == 0 && S.col[0] == COL_OFF) S.col[0] = COL_DEF[0]; }
     snprintf(k, sizeof(k), "x%d", i);
     if (has(k)) { String v = server.arg(k); v.replace("#", ""); S.cus[i] = strtoul(v.c_str(), nullptr, 16) & 0xFFFFFF; }
   }
@@ -948,9 +956,10 @@ bool parseHex(String v, uint32_t &out) {
   return true;
 }
 
-// colour name/hex to selection (0-7 palette, 8 random or temperature, 9 custom colour)
+// colour name/hex to selection (0-7 palette, 8 random or temperature, 9 custom colour, 10 pride, 11 off)
 bool parseColorSel(String v, int g, uint8_t &sel, uint32_t &cus) {
   v.trim(); v.toLowerCase();
+  if (g > 0 && v == "off") { sel = COL_OFF; return true; }
   for (int i = 0; i < 8; i++) if (v == WC_PAL_KEYS[i]) { sel = i; return true; }
   if (g == 0 && v == "pride") { sel = 10; return true; }
   if ((g < 4 && v == "random") || (g >= 4 && v == "temp")) { sel = 8; return true; }
@@ -963,8 +972,15 @@ String colorName(int g) {
   const uint8_t sel = S.col[g];
   if (sel < 8) return WC_PAL_KEYS[sel];
   if (sel == 10) return "pride";
+  if (sel == COL_OFF) return "off";
   if (sel == 8) return g < 4 ? "random" : "temp";
   return hexCol(S.cus[g]);
+}
+
+// compatibility of show_* (former switches): off = colour "off", on = default colour (only if it was off)
+void showGroup(int g, bool on) {
+  if (!on) S.col[g] = COL_OFF;
+  else if (S.col[g] == COL_OFF) S.col[g] = COL_DEF[g];
 }
 
 void handleApiSet() {
@@ -993,10 +1009,10 @@ void handleApiSet() {
     else if (k == "brday") { if (num) { S.brD = constrain((int)lroundf(f), 1, 100); ok = persist = true; } }
     else if (k == "brnight") { if (num) { S.brN = constrain((int)lroundf(f), 0, 100); ok = persist = true; } }
     else if (k == "show_minutes") { if (num) { S.swMin = f != 0; ok = persist = true; } }
-    else if (k == "show_temp") { if (num) { S.swTemp = f != 0; ok = persist = true; } }
-    else if (k == "show_vent") { if (num) { S.swLuft = f != 0; ok = persist = true; } }
-    else if (k == "show_alarm") { if (num) { S.swAlarm = f != 0; ok = persist = true; } }
-    else if (k == "show_battery") { if (num) { S.swAkku = f != 0; ok = persist = true; } }
+    else if (k == "show_temp") { if (num) { showGroup(4, f != 0); showGroup(5, f != 0); ok = persist = true; } }
+    else if (k == "show_vent") { if (num) { showGroup(1, f != 0); ok = persist = true; } }
+    else if (k == "show_alarm") { if (num) { showGroup(2, f != 0); ok = persist = true; } }
+    else if (k == "show_battery") { if (num) { showGroup(3, f != 0); ok = persist = true; } }
     else if (k == "show_extra") { if (num) { S.swExtra = f != 0; ok = persist = true; } }
     else if (k == "fxdur") { if (num) { S.fxd = constrain((int)lroundf(f), 0, 120); ok = persist = true; } }
     else if (k == "fxcycle") { if (num) { S.blk = constrain(f, 0.3f, 3.0f); ok = persist = true; } }
@@ -1081,10 +1097,10 @@ void handleApiGet() {
   j += ",\"brday\":" + String(S.brD) + ",\"brnight\":" + String(S.brN);
   for (int g = 0; g < 6; g++) { j += ",\""; j += COL_KEYS[g]; j += "\":\"" + colorName(g) + "\""; }
   j += ",\"show_minutes\":" + String(S.swMin ? 1 : 0);
-  j += ",\"show_temp\":" + String(S.swTemp ? 1 : 0);
-  j += ",\"show_vent\":" + String(S.swLuft ? 1 : 0);
-  j += ",\"show_alarm\":" + String(S.swAlarm ? 1 : 0);
-  j += ",\"show_battery\":" + String(S.swAkku ? 1 : 0);
+  j += ",\"show_temp\":" + String((S.col[4] != COL_OFF || S.col[5] != COL_OFF) ? 1 : 0);
+  j += ",\"show_vent\":" + String(S.col[1] != COL_OFF ? 1 : 0);
+  j += ",\"show_alarm\":" + String(S.col[2] != COL_OFF ? 1 : 0);
+  j += ",\"show_battery\":" + String(S.col[3] != COL_OFF ? 1 : 0);
   j += ",\"show_extra\":" + String(S.swExtra ? 1 : 0);
   j += ",\"fxdur\":" + String(S.fxd) + ",\"fxcycle\":" + String(S.blk, 1);
   j += ",\"fx\":\"" + String(wc_fx_key(fxMode)) + "\"";

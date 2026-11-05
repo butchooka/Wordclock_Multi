@@ -1,5 +1,5 @@
 # lang_GB.yaml - Wordclock 16x16, ESPHome language package GB (English), v2.0
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_GB.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: wordclock
   friendly_name: Wordclock
   ap_ssid: Wordclock Fallback
-  timezone: Europe/London
   latitude: "51.507°"           # London
   longitude: "-0.128°"
   extra_hidden: "false"         # language has extra words (HELLO), switch shown
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: Temperature outside min
   t_tout_max: Temperature outside max
   t_col_time: Colour time
-  t_col_vent: Colour VENTILATE
-  t_col_alarm: Colour ALARM
-  t_col_battery: Colour BATT
-  t_col_tout: Colour temperature outside
-  t_col_tin: Colour temperature inside
-  t_sw_temp: Show temperature
+  t_col_vent: Show VENTILATE
+  t_col_alarm: Show ALARM
+  t_col_battery: Show BATT
+  t_col_tout: Show temperature outside
+  t_col_tin: Show temperature inside
   t_sw_min: Show single minutes
-  t_sw_alarm: Show alarm
-  t_sw_vent: Show ventilate
-  t_sw_battery: Show battery
   t_sw_extra: Show HELLO
   t_fx: Effect
   t_fx_color: Effect colour
@@ -51,7 +46,8 @@ substitutions:
   t_text: Text ticker
   t_text_start: Start text
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "Off"
   c_0: Warm white
   c_1: White
   c_2: Red

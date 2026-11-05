@@ -8,7 +8,7 @@
 //   filler: default of FILLER for this language, used with FILLER = "auto" in the models ("" = X); here "dot"
 // Note: kanji/kana need their own font. Noto Sans JP (Google Fonts, SIL Open Font License) must be installed:
 //   https://fonts.google.com/noto/specimen/Noto+Sans+JP - the static file static/NotoSansJP-Bold.ttf.
-// Without metrics the characters are only roughly centred (adjust FREI_GROESSE if needed). Fillers: dot (field 6).
+// Without metrics the characters are only roughly centred (adjust FONT_CUSTOM_SCALE if needed). Fillers: dot (field 6).
 // Closed counters (e.g. in 時, 電, 金) need the same front construction as KR (characters with inner islands).
 LANG_JP = ["JP", "日本語", [
     "*xx今はxx正午前x午後xx*",

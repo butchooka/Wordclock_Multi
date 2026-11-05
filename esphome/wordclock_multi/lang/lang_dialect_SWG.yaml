@@ -1,5 +1,5 @@
 # lang_dialect_SWG.yaml - Wordclock 16x16, ESPHome language package dialect_SWG (Schwäbisch), v2.0
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_dialect_SWG.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: wortuehrle
   friendly_name: Wortuehrle
   ap_ssid: Wortuehrle Fallback
-  timezone: Europe/Berlin
   latitude: "48.776°"           # Stuttgart
   longitude: "9.183°"
   extra_hidden: "false"         # SCHAFFE HÄUSLE BAUE (extra words)
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: Temperatur Außen Min
   t_tout_max: Temperatur Außen Max
   t_col_time: Farbe Uhrzeit
-  t_col_vent: Farbe LÜFTA
-  t_col_alarm: Farbe ALARM
-  t_col_battery: Farbe AKKU
-  t_col_tout: Farbe Temperatur Außen
-  t_col_tin: Farbe Temperatur Innen
-  t_sw_temp: Anzeige Temperatur
+  t_col_vent: Anzeige LÜFTA
+  t_col_alarm: Anzeige ALARM
+  t_col_battery: Anzeige AKKU
+  t_col_tout: Anzeige Temperatur Außen
+  t_col_tin: Anzeige Temperatur Innen
   t_sw_min: Anzeige Einzelminuten
-  t_sw_alarm: Anzeige Alarm
-  t_sw_vent: Anzeige Lüften
-  t_sw_battery: Anzeige Akku
   t_sw_extra: Anzeige SCHAFFE HÄUSLE BAUE
   t_fx: Effekt
   t_fx_color: Effekt Farbe
@@ -51,7 +46,8 @@ substitutions:
   t_text: Lauftext
   t_text_start: Lauftext starten
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "Aus"
   c_0: Warmweiß
   c_1: Weiß
   c_2: Rot

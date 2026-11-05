@@ -1,5 +1,5 @@
 # lang_scifi_TLH.yaml - Wordclock 16x16, ESPHome language package scifi_TLH (tlhIngan Hol), v0.9
-# Device name, hotspot, location, time zone, entity names and options.
+# Device name, hotspot, location, entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_scifi_TLH.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 # Constructed language without a country: location Berlin (existing entry). Entity names in English,
@@ -9,7 +9,6 @@ substitutions:
   name: mutlhaq
   friendly_name: Mutlhaq
   ap_ssid: Mutlhaq Fallback
-  timezone: Europe/Berlin
   latitude: "52.520°"           # Berlin
   longitude: "13.405°"
   extra_hidden: "false"         # language has extra words (Heghlu'meH QaQ jajvam), switch shown
@@ -35,16 +34,12 @@ substitutions:
   t_tout_min: Temperature outside min
   t_tout_max: Temperature outside max
   t_col_time: Colour time
-  t_col_vent: Colour SuS
-  t_col_alarm: Colour ghuHmoH
-  t_col_battery: Colour HoS
-  t_col_tout: Colour temperature outside
-  t_col_tin: Colour temperature inside
-  t_sw_temp: Show temperature
+  t_col_vent: Show SuS
+  t_col_alarm: Show ghuHmoH
+  t_col_battery: Show HoS
+  t_col_tout: Show temperature outside
+  t_col_tin: Show temperature inside
   t_sw_min: Show single minutes
-  t_sw_alarm: Show ghuHmoH
-  t_sw_vent: Show SuS
-  t_sw_battery: Show HoS
   t_sw_extra: Show Heghlu'meH QaQ jajvam
   t_fx: Effect
   t_fx_color: Effect colour
@@ -53,7 +48,8 @@ substitutions:
   t_text: Text ticker
   t_text_start: Start text
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "Off"
   c_0: Warm white
   c_1: White
   c_2: Red

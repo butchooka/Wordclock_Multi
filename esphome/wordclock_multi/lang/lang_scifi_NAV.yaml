@@ -1,5 +1,5 @@
 # lang_scifi_NAV.yaml - Wordclock 16x16, ESPHome language package scifi_NAV (Na'vi), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_scifi_NAV.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 # Na'vi has no country: location Berlin (existing entry), entity names in English (no technical vocabulary
@@ -9,7 +9,6 @@ substitutions:
   name: liukrr
   friendly_name: LiuKrr
   ap_ssid: LiuKrr Fallback
-  timezone: Europe/Berlin
   latitude: "52.520°"           # Berlin
   longitude: "13.405°"
   extra_hidden: "false"         # language has extra words (OEL NGATI KAMEIE), switch shown
@@ -35,16 +34,12 @@ substitutions:
   t_tout_min: Temperature outside min
   t_tout_max: Temperature outside max
   t_col_time: Colour time
-  t_col_vent: Colour HUFWE
-  t_col_alarm: Colour HRRAP
-  t_col_battery: Colour TSWAL
-  t_col_tout: Colour temperature outside
-  t_col_tin: Colour temperature inside
-  t_sw_temp: Show temperature
+  t_col_vent: Show HUFWE
+  t_col_alarm: Show HRRAP
+  t_col_battery: Show TSWAL
+  t_col_tout: Show temperature outside
+  t_col_tin: Show temperature inside
   t_sw_min: Show single minutes
-  t_sw_alarm: Show HRRAP
-  t_sw_vent: Show HUFWE
-  t_sw_battery: Show TSWAL
   t_sw_extra: Show OEL NGATI KAMEIE
   t_fx: Effect
   t_fx_color: Effect colour
@@ -53,7 +48,8 @@ substitutions:
   t_text: Text ticker
   t_text_start: Start text
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "Off"
   c_0: Warm white
   c_1: White
   c_2: Red

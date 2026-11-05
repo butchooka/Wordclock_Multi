@@ -5,7 +5,7 @@ A language consists of exactly three files plus two list entries. Nothing else i
 | File | Content |
 |---|---|
 | `arduino/Wordclock/src/wc_lang_XX.h` | grid, word positions, time grammar `time_words()`, `INFO_DE`/`INFO_EN` block, web texts `UI_JSON`, defaults (host = word for wordclock in lower case, hotspot = same in CamelCase, capital, POSIX time zone, date format) |
-| `esphome/wordclock_multi/lang/lang_XX.yaml` | device name, hotspot, capital, time zone, entity names, colour and effect names |
+| `esphome/wordclock_multi/lang/lang_XX.yaml` | device name, hotspot, capital, entity names, colour and effect names |
 | `models/lang/lang_XX.scad` | the same grid for the 3D models (+ optional font for other scripts, optional filler default) |
 | `models/lang/lang_all.scad` | `include <lang_XX.scad>` and entry in `LANGS` |
 | `models/Wordclock_Model.scad` | option `XX:Name` in the `LANG` line |
@@ -58,8 +58,8 @@ After a change of the base grid run `python3 tools/make_variants.py` again.
   letters). The lower case `x` stays the filler in every language, a language with a letter x writes it as `X`.
   Lower case descenders (g j p q y) are reduced and pushed up like Ç (not cut), so they stay readable.
 - Characters must print well at 7 mm cap height in a 8.4 mm cell (no stacked accents, no connected scripts).
-- The OpenSCAD model places a character exactly only if it has metrics in `METRIK_LIBERATION_BOLD` /
-  `METRIK_DEJAVU_BOLD` of `Wordclock_Model.scad` (A-Z, 0-9, + - ', the Latin-1 capitals with accents, from
+- The OpenSCAD model places a character exactly only if it has metrics in `METRICS_LIBERATION_BOLD` /
+  `METRICS_DEJAVU_BOLD` of `Wordclock_Model.scad` (A-Z, 0-9, + - ', the Latin-1 capitals with accents, from
   Latin Extended-A/B: Ą Ć Ę Ł Ń Ś Ź Ż, Ğ İ Ş, Ă Ș Ț, Č Ď Ě Ň Ř Š Ť Ů Ž, Ő Ű, Ĉ Ĝ Ĥ Ĵ Ŝ Ŭ, Ā Ē Ī Ō Ū Ȳ;
   Greek capitals Α-Ω, Cyrillic capitals А-Я Ё Є І Ї Ґ and the lower case letters a-z);
   other characters are only roughly centred. A new special character needs a core change (metrics from the TTF files).

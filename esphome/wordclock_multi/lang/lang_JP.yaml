@@ -1,5 +1,5 @@
 # lang_JP.yaml - Wordclock 16x16, ESPHome language package JP (日本語 / Japanese), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_JP.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: mojidokei
   friendly_name: MojiDokei
   ap_ssid: MojiDokei Fallback
-  timezone: Asia/Tokyo
   latitude: "35.676°"           # Tokyo
   longitude: "139.650°"
   extra_hidden: "false"         # language has extra words (時は金なり), switch shown
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: 外気温 最小
   t_tout_max: 外気温 最大
   t_col_time: 時刻の色
-  t_col_vent: 換気の色
-  t_col_alarm: アラームの色
-  t_col_battery: 電池の色
-  t_col_tout: 外気温の色
-  t_col_tin: 室温の色
-  t_sw_temp: 温度表示
+  t_col_vent: 換気表示
+  t_col_alarm: アラーム表示
+  t_col_battery: 電池表示
+  t_col_tout: 外気温表示
+  t_col_tin: 室温表示
   t_sw_min: 1分単位の表示
-  t_sw_alarm: アラーム表示
-  t_sw_vent: 換気表示
-  t_sw_battery: 電池表示
   t_sw_extra: 「時は金なり」表示
   t_fx: エフェクト
   t_fx_color: エフェクトの色
@@ -51,7 +46,8 @@ substitutions:
   t_text: スクロール文字
   t_text_start: 文字を表示
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "オフ"
   c_0: 温白色
   c_1: 白
   c_2: 赤

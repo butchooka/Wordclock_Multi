@@ -1,5 +1,5 @@
 # lang_PL.yaml - Wordclock 16x16, ESPHome language package PL (Polski), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_PL.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: zegarslowny
   friendly_name: ZegarSlowny
   ap_ssid: ZegarSlowny Fallback
-  timezone: Europe/Warsaw
   latitude: "52.230°"           # Warszawa
   longitude: "21.012°"
   extra_hidden: "false"         # language has extra words (CZAS LECI), switch shown
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: Temperatura na zewnątrz min
   t_tout_max: Temperatura na zewnątrz maks
   t_col_time: Kolor godziny
-  t_col_vent: Kolor WIETRZ
-  t_col_alarm: Kolor ALARM
-  t_col_battery: Kolor AKU
-  t_col_tout: Kolor temperatury na zewnątrz
-  t_col_tin: Kolor temperatury wewnątrz
-  t_sw_temp: Pokaż temperaturę
+  t_col_vent: Pokaż WIETRZ
+  t_col_alarm: Pokaż ALARM
+  t_col_battery: Pokaż AKU
+  t_col_tout: Pokaż temperaturę na zewnątrz
+  t_col_tin: Pokaż temperaturę wewnątrz
   t_sw_min: Pokaż pojedyncze minuty
-  t_sw_alarm: Pokaż alarm
-  t_sw_vent: Pokaż wietrzenie
-  t_sw_battery: Pokaż akumulator
   t_sw_extra: Pokaż CZAS LECI
   t_fx: Efekt
   t_fx_color: Kolor efektu
@@ -51,7 +46,8 @@ substitutions:
   t_text: Tekst
   t_text_start: Pokaż tekst
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "Wył."
   c_0: Ciepła biel
   c_1: Biały
   c_2: Czerwony

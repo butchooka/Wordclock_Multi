@@ -1,5 +1,5 @@
 # lang_ES.yaml - Wordclock 16x16, ESPHome language package ES (Español), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_ES.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: reloj
   friendly_name: Reloj
   ap_ssid: Reloj Fallback
-  timezone: Europe/Madrid
   latitude: "40.417°"           # Madrid
   longitude: "-3.704°"
   extra_hidden: "false"         # language has extra words (HOLA), switch shown
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: Temperatura exterior mín
   t_tout_max: Temperatura exterior máx
   t_col_time: Color hora
-  t_col_vent: Color VENTILAR
-  t_col_alarm: Color ALARMA
-  t_col_battery: Color BAT
-  t_col_tout: Color temperatura exterior
-  t_col_tin: Color temperatura interior
-  t_sw_temp: Mostrar temperatura
+  t_col_vent: Mostrar VENTILAR
+  t_col_alarm: Mostrar ALARMA
+  t_col_battery: Mostrar BAT
+  t_col_tout: Mostrar temperatura exterior
+  t_col_tin: Mostrar temperatura interior
   t_sw_min: Mostrar minutos sueltos
-  t_sw_alarm: Mostrar alarma
-  t_sw_vent: Mostrar ventilar
-  t_sw_battery: Mostrar batería
   t_sw_extra: Mostrar HOLA
   t_fx: Efecto
   t_fx_color: Color del efecto
@@ -51,7 +46,8 @@ substitutions:
   t_text: Texto
   t_text_start: Mostrar texto
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "No"
   c_0: Blanco cálido
   c_1: Blanco
   c_2: Rojo

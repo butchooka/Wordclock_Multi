@@ -18,7 +18,10 @@ esphome:
   on_boot:
     priority: -100
     then:
-      - lambda: 'wc_seed(random_uint32());'
+      - lambda: |-
+          wc_seed(random_uint32());
+          // time zone of the last Home Assistant sync (kept over a restart, until Home Assistant is connected)
+          if (id(tz_saved_ok)) esphome::time::set_global_tz(id(tz_saved));
       - light.turn_on:
           id: matrix
           brightness: 100%
@@ -45,18 +48,40 @@ api:
             id(txt_start) = millis();
             id(txt_on) = true;
 
+# Time: Home Assistant delivers time AND time zone (no timezone: here, otherwise Home Assistant cannot update it).
+# The time zone is saved after every sync (tz_saved) and set again at boot. SNTP is the fallback for the time
+# without Home Assistant: it only sets the UTC time and does not change the time zone. Before the very first
+# Home Assistant sync the time zone of the build host applies. Needs a current ESPHome (posix_tz).
 time:
+  - platform: homeassistant
+    id: ha_time
+    on_time_sync:
+      - lambda: |-
+          id(tz_saved) = esphome::time::get_global_tz();   // written to flash only when it changed
+          id(tz_saved_ok) = true;
   - platform: sntp
     id: sntp_time
-    timezone: ${timezone}
 
 sun:
   id: sun_calc
   latitude: ${latitude}
   longitude: ${longitude}
-  time_id: sntp_time
+  time_id: ha_time
 
 globals:
+  - id: tz_saved           # time zone of the last Home Assistant sync (offsets + DST rules)
+    type: esphome::time::ParsedTimezone
+    restore_value: true
+  - id: tz_saved_ok
+    type: bool
+    restore_value: true
+    initial_value: "false"
+  - id: ha_lost_since      # millis() since when Home Assistant is not connected, 0 = connected
+    type: uint32_t
+    initial_value: "0"
+  - id: ha_stale           # no connection for longer than ha_timeout_min: values from Home Assistant are ignored
+    type: bool
+    initial_value: "false"
   - id: fx_mode            # 0 = clock, 1..n = effect number (order of WC_FX in wc_effects.h)
     type: int
     initial_value: "0"
@@ -224,6 +249,8 @@ number:
     mode: box
 
 # Colour options: index 0..7 = palette (WC_PAL in wc_core.h), 8 = random or temperature. Only the index is used.
+# Additional displays (VENT, ALARM, BATTERY, temperature outside / inside): option 0 = "${c_off}" switches the display
+# off (replaces the former switches), the colours follow from index 1 (index - 1 = palette index as above).
 select:
   - platform: template
     id: col_clock
@@ -240,7 +267,7 @@ select:
     optimistic: true
     restore_value: true
     initial_option: "${c_3}"
-    options: ["${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_random}"]
+    options: ["${c_off}", "${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_random}"]
   - platform: template
     id: col_alarm
     name: "${t_col_alarm}"
@@ -248,7 +275,7 @@ select:
     optimistic: true
     restore_value: true
     initial_option: "${c_2}"
-    options: ["${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_random}"]
+    options: ["${c_off}", "${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_random}"]
   - platform: template
     id: col_battery
     name: "${t_col_battery}"
@@ -256,7 +283,7 @@ select:
     optimistic: true
     restore_value: true
     initial_option: "${c_1}"
-    options: ["${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_random}"]
+    options: ["${c_off}", "${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_random}"]
   - platform: template
     id: col_tout
     name: "${t_col_tout}"            # temperature = colour from value and scale (cold blue, yellow, green, orange, hot red)
@@ -264,7 +291,7 @@ select:
     optimistic: true
     restore_value: true
     initial_option: "${c_temp}"
-    options: ["${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_temp}"]
+    options: ["${c_off}", "${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_temp}"]
   - platform: template
     id: col_tin
     name: "${t_col_tin}"
@@ -272,7 +299,7 @@ select:
     optimistic: true
     restore_value: true
     initial_option: "${c_temp}"
-    options: ["${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_temp}"]
+    options: ["${c_off}", "${c_0}", "${c_1}", "${c_2}", "${c_3}", "${c_4}", "${c_5}", "${c_6}", "${c_7}", "${c_temp}"]
   # Night mode: 0 mixed (sun position, but night not before / not after a time), 1 sun position, 2 fixed times
   - platform: template
     id: night_mode
@@ -341,32 +368,8 @@ datetime:
 
 switch:
   - platform: template
-    id: sw_temp
-    name: "${t_sw_temp}"
-    entity_category: config
-    optimistic: true
-    restore_mode: RESTORE_DEFAULT_ON
-  - platform: template
     id: sw_min
     name: "${t_sw_min}"
-    entity_category: config
-    optimistic: true
-    restore_mode: RESTORE_DEFAULT_ON
-  - platform: template
-    id: sw_alarm
-    name: "${t_sw_alarm}"
-    entity_category: config
-    optimistic: true
-    restore_mode: RESTORE_DEFAULT_ON
-  - platform: template
-    id: sw_vent
-    name: "${t_sw_vent}"
-    entity_category: config
-    optimistic: true
-    restore_mode: RESTORE_DEFAULT_ON
-  - platform: template
-    id: sw_battery
-    name: "${t_sw_battery}"
     entity_category: config
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
@@ -563,10 +566,22 @@ button:
 
 # ---------------- Night detection (time of day only, local time) and random colours ----------------
 interval:
+  # connection to Home Assistant: after ${ha_timeout_min} min without connection the HA values count as unknown
   - interval: 5s
     then:
       - lambda: |-
-          auto now = id(sntp_time).now();
+          if (api::global_api_server != nullptr && api::global_api_server->is_connected()) {
+            id(ha_lost_since) = 0;
+            id(ha_stale) = false;
+            return;
+          }
+          const uint32_t ms = millis();
+          if (id(ha_lost_since) == 0) id(ha_lost_since) = ms ? ms : 1;   // never 0 while lost
+          if (ms - id(ha_lost_since) >= (uint32_t) ${ha_timeout_min} * 60000UL) id(ha_stale) = true;
+  - interval: 5s
+    then:
+      - lambda: |-
+          auto now = id(ha_time).now();
           if (!now.is_valid()) {
             id(night_now) = false;
             return;
@@ -651,23 +666,32 @@ light:
               c.color = WC_PAL[ci < 8 ? ci : 6];
               wc_fx_render(mode, frame, c);
             } else {
-              auto t = id(sntp_time).now();
+              auto t = id(ha_time).now();
               WcClockIn in;
               memset(&in, 0, sizeof(in));
               in.valid = t.is_valid();
               in.hour = t.hour;
               in.minute = t.minute;
               in.show_minutes = id(sw_min).state;
-              in.show_temp = id(sw_temp).state;
-              in.show_vent = id(sw_vent).state;
-              in.show_alarm = id(sw_alarm).state;
-              in.show_battery = id(sw_battery).state;
               in.show_extra = id(sw_extra).state;
-              in.vent = id(ha_vent).state;
-              in.alarm = id(ha_alarm).state;
-              in.battery = id(ha_battery).state;      // NaN = no value yet / unavailable
-              in.t_out = id(ha_temp_out).state;
-              in.t_in = id(ha_temp_in).state;
+              // additional displays: option 0 = off, from index 1 the colours (index - 1 = 0..7 palette, 8 = random / temperature)
+              const int sv = (int) id(col_vent).active_index().value_or(0) - 1;
+              const int sa = (int) id(col_alarm).active_index().value_or(0) - 1;
+              const int sb = (int) id(col_battery).active_index().value_or(0) - 1;
+              const int ito = (int) id(col_tout).active_index().value_or(0) - 1;
+              const int iti = (int) id(col_tin).active_index().value_or(0) - 1;
+              in.show_vent = sv >= 0;
+              in.show_alarm = sa >= 0;
+              in.show_battery = sb >= 0;
+              in.show_tout = ito >= 0;
+              in.show_tin = iti >= 0;
+              // values from Home Assistant: only if valid and the connection is not lost for too long
+              const bool ha_ok = !id(ha_stale);
+              in.vent = ha_ok && id(ha_vent).has_state() && id(ha_vent).state;
+              in.alarm = ha_ok && id(ha_alarm).has_state() && id(ha_alarm).state;
+              in.battery = ha_ok ? id(ha_battery).state : NAN;   // NaN = no value yet / unavailable
+              in.t_out = ha_ok ? id(ha_temp_out).state : NAN;
+              in.t_in = ha_ok ? id(ha_temp_in).state : NAN;
               in.t_out_lo = id(t_out_min).state;
               in.t_out_hi = id(t_out_max).state;
               in.t_in_lo = id(t_in_min).state;
@@ -677,15 +701,13 @@ light:
               in.pride = (ctime_sel == 9) && in.valid;   // pride: one random colour per time word, re-rolled each minute
               if (in.pride) in.pride_col = wc_pride_refresh((int32_t)(t.hour * 60 + t.minute));
               in.c_time = wc_pal_or_random(ctime_sel, id(rnd_clock));
-              in.c_vent = wc_pal_or_random((int) id(col_vent).active_index().value_or(0), id(rnd_vent));
-              in.c_alarm = wc_pal_or_random((int) id(col_alarm).active_index().value_or(0), id(rnd_alarm));
-              in.c_battery = wc_pal_or_random((int) id(col_battery).active_index().value_or(0), id(rnd_battery));
-              const size_t ito = id(col_tout).active_index().value_or(8);
-              const size_t iti = id(col_tin).active_index().value_or(8);
+              in.c_vent = wc_pal_or_random(sv < 0 ? 0 : sv, id(rnd_vent));
+              in.c_alarm = wc_pal_or_random(sa < 0 ? 0 : sa, id(rnd_alarm));
+              in.c_battery = wc_pal_or_random(sb < 0 ? 0 : sb, id(rnd_battery));
               in.tout_scale = ito >= 8;
               in.tin_scale = iti >= 8;
-              in.c_tout = WC_PAL[ito < 8 ? ito : 0];
-              in.c_tin = WC_PAL[iti < 8 ? iti : 0];
+              in.c_tout = WC_PAL[(ito >= 0 && ito < 8) ? ito : 0];
+              in.c_tin = WC_PAL[(iti >= 0 && iti < 8) ? iti : 0];
               wc_render_clock(WC_LANG, in, frame);
             }
             float bf = (id(night_now) ? id(br_night).state : id(br_day).state) / 100.0f;

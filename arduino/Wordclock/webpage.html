@@ -133,13 +133,9 @@ progress{width:100%;margin-top:8px;accent-color:var(--ac)}
 
 <section class="card live" id="secExtra">
   <h2 data-t="sec_extra">Additional displays</h2>
-  <div class="row"><label for="swTemp" data-t="swTemp">Temperature dots</label><label class="sw"><input type="checkbox" id="swTemp" name="swTemp"><span></span></label></div>
   <div class="row"><label for="tOnl" data-t="tOnl">Outdoor temperature from Open-Meteo</label><label class="sw"><input type="checkbox" id="tOnl" name="tOnl"><span></span></label></div>
   <div class="row"><span data-t="scale_out">Scale outside (°C)</span><span><input type="number" name="toMin" step="0.5" min="-40" max="60"> – <input type="number" name="toMax" step="0.5" min="-40" max="60"></span></div>
   <div class="row"><span data-t="scale_in">Scale inside (°C)</span><span><input type="number" name="tiMin" step="0.5" min="-40" max="60"> – <input type="number" name="tiMax" step="0.5" min="-40" max="60"></span></div>
-  <div class="row"><label for="swLuft" data-t="swLuft">Show VENTILATE</label><label class="sw"><input type="checkbox" id="swLuft" name="swLuft"><span></span></label></div>
-  <div class="row"><label for="swAlarm" data-t="swAlarm">Show ALARM</label><label class="sw"><input type="checkbox" id="swAlarm" name="swAlarm"><span></span></label></div>
-  <div class="row"><label for="swAkku" data-t="swAkku">Show BATTERY</label><label class="sw"><input type="checkbox" id="swAkku" name="swAkku"><span></span></label></div>
   <div class="row hide" id="rowExtra"><label for="swExtra" data-t="swExtra">Show extra words</label><label class="sw"><input type="checkbox" id="swExtra" name="swExtra"><span></span></label></div>
   <div class="row"><label for="apiTo" data-t="apiTo">Values valid for (min, 0 = always)</label><input type="number" id="apiTo" name="apiTo" min="0" max="1440"></div>
   <div class="kv" style="margin-top:8px"><span data-t="v_out">Outside</span><span id="vOut">–</span><span data-t="v_in">Inside</span><span id="vIn">–</span><span data-t="v_batt">Battery</span><span id="vAkku">–</span><span data-t="v_la">Ventilate / alarm</span><span id="vLA">–</span></div>
@@ -261,7 +257,8 @@ async function send(el){
 function buildColors(){
   let h='';
   GROUPS.forEach(([n,tm],i)=>{
-    let o=PALK.map((p,j)=>'<option value="'+j+'">'+t('pal_'+j)+'</option>').join('');
+    let o=i?'<option value="11">'+t('off_')+'</option>':'';   // 11 = additional display off (first in the list)
+    o+=PALK.map((p,j)=>'<option value="'+j+'">'+t('pal_'+j)+'</option>').join('');
     o+='<option value="8">'+t(tm?'c_temp':'c_random')+'</option>';
     if(i===0)o+='<option value="10">'+t('c_pride')+'</option>';
     o+='<option value="9">'+t('c_custom')+'</option>';

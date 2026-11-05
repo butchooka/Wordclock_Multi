@@ -1,5 +1,5 @@
 # lang_IT.yaml - Wordclock 16x16, ESPHome language package IT (Italiano), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_IT.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: orologio
   friendly_name: Orologio
   ap_ssid: Orologio Fallback
-  timezone: Europe/Rome
   latitude: "41.903°"           # Roma
   longitude: "12.496°"
   extra_hidden: "false"         # language has extra words (CIAO), switch shown
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: Temperatura esterna min
   t_tout_max: Temperatura esterna max
   t_col_time: Colore ora
-  t_col_vent: Colore AERARE
-  t_col_alarm: Colore ALLARME
-  t_col_battery: Colore BATT
-  t_col_tout: Colore temperatura esterna
-  t_col_tin: Colore temperatura interna
-  t_sw_temp: Mostra temperatura
+  t_col_vent: Mostra AERARE
+  t_col_alarm: Mostra ALLARME
+  t_col_battery: Mostra BATT
+  t_col_tout: Mostra temperatura esterna
+  t_col_tin: Mostra temperatura interna
   t_sw_min: Mostra minuti singoli
-  t_sw_alarm: Mostra allarme
-  t_sw_vent: Mostra aerare
-  t_sw_battery: Mostra batteria
   t_sw_extra: Mostra CIAO
   t_fx: Effetto
   t_fx_color: Colore effetto
@@ -51,7 +46,8 @@ substitutions:
   t_text: Testo scorrevole
   t_text_start: Mostra testo
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "Spento"
   c_0: Bianco caldo
   c_1: Bianco
   c_2: Rosso

@@ -39,7 +39,7 @@ RUNE_NOTE = ("Runes: Anglo-Saxon futhorc (Unicode block Runic U+16A0-16FF). Font
              "// or FreeMono/FreeSerif (GNU FreeFont); FreeCAD finds one automatically (FONT_AUTO), in OpenSCAD set the\n"
              "// font name in the entry below. Segoe UI Historic has only a regular weight: the runes are thinner than\n"
              "// the bold Latin letters, fine with a front skin (FRONT_SKIN). OpenSCAD has no metrics for runes and\n"
-             "// centres them roughly (size via FREI_GROESSE); FreeCAD measures every glyph.")
+             "// centres them roughly (size via FONT_CUSTOM_SCALE); FreeCAD measures every glyph.")
 
 # code, own name, base, OpenSCAD font, FreeCAD font file, filler default, table, note
 VARIANTS = [

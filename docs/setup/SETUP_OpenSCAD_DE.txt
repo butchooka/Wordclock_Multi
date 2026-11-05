@@ -69,8 +69,8 @@ Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern (Quelle: too
    Ohne installierte Schrift meldet OpenSCAD einen Fehler, wenn die entsprechende Sprache gewählt wird.
 
 4. EXPORTIEREN
-   F6 (Rendern), F7 (STL). Der Exportname steht in der Konsole: Front/Buchstaben Wordclock_<Teil>_<LANG>_<Schrift>,
-   alle anderen Teile Wordclock_<Teil>. Tipp: OpenSCAD 2024/2025 mit Backend "Manifold" rendert in Sekunden.
+   F6 (Rendern), F7 (STL). Der Exportname steht in der Konsole: Front Frame_<LANG>_<Schrift>
+   (Buchstaben ..._Letters), Rückwand Holder_Rear, Halter Holder_<Name>, PictureFrame <LANG>_Pictureframe_<Größe>_<Schrift>. Tipp: OpenSCAD 2024/2025 mit Backend "Manifold" rendert in Sekunden.
 
 5. NEUE SPRACHE IM MODELL
    models/lang/lang_XX.scad anlegen, in lang/lang_all.scad die include-Zeile und den Eintrag in LANGS
@@ -85,6 +85,6 @@ Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern (Quelle: too
      THIMBLES = 4 Blöcke für je eine Reißzwecke in die Rahmenwand (z. B. Spanplattenrahmen) + Schlüsselloch-Aufhänger
      NONE     = nur die Platte, gehalten von Rückwand / Abstandsrahmen und Aufhänger des Bilderrahmens
    Kommandozeile: openscad -o pf.stl -D 'LANG="DE"' -D 'PRINT_ORIENT=true' Wordclock_Model_PictureFrame.scad
-   (tools\export_fronts.bat: PARTS=PictureFrame oder Both). FreeCAD-Makro für den PictureFrame folgt.
+   (tools\export_fronts.bat: PARTS=PictureFrame oder Both). FreeCAD: Wordclock_Model_PictureFrame.FCMacro.
 
 Raster und Grammatik je Sprache: docs/languages/LANG_<Code>.txt

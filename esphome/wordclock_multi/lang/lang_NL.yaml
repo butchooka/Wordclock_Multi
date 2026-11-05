@@ -1,5 +1,5 @@
 # lang_NL.yaml - Wordclock 16x16, ESPHome language package NL (Nederlands), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_NL.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: woordklok
   friendly_name: Woordklok
   ap_ssid: Woordklok Fallback
-  timezone: Europe/Amsterdam
   latitude: "52.368°"           # Amsterdam
   longitude: "4.904°"
   extra_hidden: "false"         # language has extra words (HALLO), switch shown
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: Temperatuur buiten min
   t_tout_max: Temperatuur buiten max
   t_col_time: Kleur tijd
-  t_col_vent: Kleur LUCHTEN
-  t_col_alarm: Kleur ALARM
-  t_col_battery: Kleur ACCU
-  t_col_tout: Kleur temperatuur buiten
-  t_col_tin: Kleur temperatuur binnen
-  t_sw_temp: Temperatuur tonen
+  t_col_vent: LUCHTEN tonen
+  t_col_alarm: ALARM tonen
+  t_col_battery: ACCU tonen
+  t_col_tout: Temperatuur buiten tonen
+  t_col_tin: Temperatuur binnen tonen
   t_sw_min: Losse minuten tonen
-  t_sw_alarm: Alarm tonen
-  t_sw_vent: Luchten tonen
-  t_sw_battery: Accu tonen
   t_sw_extra: HALLO tonen
   t_fx: Effect
   t_fx_color: Effectkleur
@@ -51,7 +46,8 @@ substitutions:
   t_text: Lichtkrant
   t_text_start: Tekst starten
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "Uit"
   c_0: Warm wit
   c_1: Wit
   c_2: Rood

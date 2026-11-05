@@ -11,8 +11,10 @@ rem Front = front of the own case, PictureFrame = front plate for the 25 cm pict
 set PARTS=Front
 rem Liberation, Arial, DejaVu (as FONT in the Customizer)
 set FONT=Liberation
-rem Vorschau, Normal, Fein (as QUALITY in the model)
-set QUALITY=Fein
+rem picture size of the frame (PICTUREFRAME_SIZE, part of the file name <LANG>_Pictureframe_<size>_<font>.stl)
+set PF_SIZE=231
+rem Preview, Normal, Fine (as QUALITY in the model)
+set QUALITY=Fine
 rem extra options, e.g. --backend=Manifold (OpenSCAD 2024/2025, much faster)
 set OPTS=
 rem ------------------
@@ -35,10 +37,11 @@ for %%p in (%LIST%) do (
     set N=%%~nf
     set L=!N:lang_=!
     if /i not "!L!"=="all" (
-      set OUT=export\Wordclock_%%p_!L!_%FONTTAG%.stl
+      set OUT=export\Frame_!L!_%FONTTAG%.stl
+      if /i "%%p"=="PictureFrame" set OUT=export\!L!_Pictureframe_%PF_SIZE%_%FONTTAG%.stl
       echo !L!  -^>  !OUT!
       if /i "%%p"=="PictureFrame" (
-        "%OPENSCAD%" %OPTS% -o "!OUT!" -D "LANG=\"!L!\"" -D "FONT=\"%FONT%\"" -D "QUALITY=\"%QUALITY%\"" -D "PRINT_ORIENT=true" Wordclock_Model_PictureFrame.scad
+        "%OPENSCAD%" %OPTS% -o "!OUT!" -D "LANG=\"!L!\"" -D "FONT=\"%FONT%\"" -D "QUALITY=\"%QUALITY%\"" -D "PRINT_ORIENT=true" -D "PICTUREFRAME_SIZE=%PF_SIZE%" Wordclock_Model_PictureFrame.scad
       ) else (
         "%OPENSCAD%" %OPTS% -o "!OUT!" -D "LANG=\"!L!\"" -D "PART=\"%%p\"" -D "FONT=\"%FONT%\"" -D "QUALITY=\"%QUALITY%\"" -D "PRINT_ORIENT=true" Wordclock_Model.scad
       )

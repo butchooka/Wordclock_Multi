@@ -6,7 +6,7 @@
 //   OpenSCAD font: "" = setting SCHRIFT, otherwise e.g. "Noto Sans KR:style=Bold"
 //   FreeCAD font file: "" = font dialog, otherwise e.g. "NotoSansKR-Bold.otf" (searched in the system fonts)
 // Note: the apostrophe ' ('AWVE) is a letter of its own (one cell, printed high like in the font) and Ì
-// (Latin-1) is one cell; both have metrics in METRIK_LIBERATION_BOLD / METRIK_DEJAVU_BOLD of Wordclock_Model.scad.
+// (Latin-1) is one cell; both have metrics in METRICS_LIBERATION_BOLD / METRICS_DEJAVU_BOLD of Wordclock_Model.scad.
 LANG_scifi_NAV = ["scifi_NAV", "Na'vi", [
     "*xxKRRLIKxLUxxx*",
     "*x'AWVExxMUVExx*",

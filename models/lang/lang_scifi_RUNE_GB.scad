@@ -9,7 +9,7 @@
 // or FreeMono/FreeSerif (GNU FreeFont); FreeCAD finds one automatically (FONT_AUTO), in OpenSCAD set the
 // font name in the entry below. Segoe UI Historic has only a regular weight: the runes are thinner than
 // the bold Latin letters, fine with a front skin (FRONT_SKIN). OpenSCAD has no metrics for runes and
-// centres them roughly (size via FREI_GROESSE); FreeCAD measures every glyph.
+// centres them roughly (size via FONT_CUSTOM_SCALE); FreeCAD measures every glyph.
 // Letters: A=ᚪ  B=ᛒ  C=ᚳ  E=ᛖ  F=ᚠ  G=ᚷ  H=ᚻ  I=ᛁ  K=ᛣ  L=ᛚ  M=ᛗ  N=ᚾ  O=ᚩ  P=ᛈ  Q=ᛢ  R=ᚱ  S=ᛋ  T=ᛏ  U=ᚢ  V=ᚡ  W=ᚹ  X=ᛉ  Y=ᚣ
 LANG_scifi_RUNE_GB = ["scifi_RUNE_GB", "Runes (English)", [
     "*xxxxᛁᛏxᛁᛋxxxxx*",

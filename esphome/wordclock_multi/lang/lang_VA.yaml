@@ -1,5 +1,5 @@
 # lang_VA.yaml - Wordclock 16x16, ESPHome language package VA (Latina), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_VA.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: horologium
   friendly_name: Horologium
   ap_ssid: Horologium Fallback
-  timezone: Europe/Rome
   latitude: "41.903°"           # Città del Vaticano
   longitude: "12.453°"
   extra_hidden: "false"         # language has extra words (ROMANI ITE DOMUM), switch shown
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: Temperatura externa min
   t_tout_max: Temperatura externa max
   t_col_time: Color horae
-  t_col_vent: Color VENTILA
-  t_col_alarm: Color MONITUM
-  t_col_battery: Color VIGOR
-  t_col_tout: Color temperaturae externae
-  t_col_tin: Color temperaturae internae
-  t_sw_temp: Ostende temperaturam
+  t_col_vent: Ostende VENTILA
+  t_col_alarm: Ostende MONITUM
+  t_col_battery: Ostende VIGOR
+  t_col_tout: Ostende temperaturam externam
+  t_col_tin: Ostende temperaturam internam
   t_sw_min: Ostende minuta singula
-  t_sw_alarm: Ostende monitum
-  t_sw_vent: Ostende ventila
-  t_sw_battery: Ostende accumulatrum
   t_sw_extra: Ostende ROMANI ITE DOMUM
   t_fx: Effectus
   t_fx_color: Color effectus
@@ -51,7 +46,8 @@ substitutions:
   t_text: Textus currens
   t_text_start: Textum ostende
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "Exstinctum"
   c_0: Album calidum
   c_1: Album
   c_2: Rubrum

@@ -23,7 +23,8 @@ Grammatik und Schreibweise bestätigt haben. Korrekturen sind sehr willkommen (I
 
 - Uhrzeit in Worten mit Einzelminuten (`+ 1..4 MINUTEN`), Farben je Anzeige (Palette, Zufall jede Stunde,
   eigene Farbe; Uhrzeit-Wörter auch „Pride“: jedes Wort eine zufällige Farbe, neu jede Minute)
-- Temperaturpunkte außen (linke Spalte) und innen (rechte Spalte), Wörter LÜFTEN und ALARM, Akkubalken
+- Temperaturpunkte außen (linke Spalte) und innen (rechte Spalte), Wörter LÜFTEN und ALARM, Akkubalken – jeweils
+  über die Farbwahl „Aus“ abschaltbar
 - Helligkeit Tag/Nacht, Nacht nach Sonnenstand, festen Zeiten oder gemischt (Sonne, aber nicht vor / nicht nach
   einer Uhrzeit)
 - Effekte: Rainbow, Aurora, Matrix, Feuer, Konfetti, Sternenhimmel, Blinken (Dauer und Blinkzyklus einstellbar)
@@ -99,6 +100,9 @@ Inhalt von `esphome/` 1:1 nach `/config/esphome/` kopieren (`wordclock_multi.yam
 der Unterordner hält die Pakete aus der Geräteliste des Dashboards heraus). In `wordclock_multi.yaml` Sprache,
 Datenpin und die Home-Assistant-Entitäten für Alarm, Lüften, Akku und die beiden Temperaturen eintragen.
 Standard: Wemos D1 mini ESP32, GPIO32, Zickzack-Verdrahtung; ESP32-C6 siehe Kommentar am Ende der Datei.
+Gerätename: `name` / `friendly_name` unter `substitutions:` in `wordclock_multi.yaml`. Mehrere Uhren: je Uhr eine Kopie
+von `wordclock_multi.yaml` (z. B. `wortuhr-kueche.yaml`) mit eigenem `name`, alle nutzen `wordclock_multi/`;
+Umbenennen im ESPHome-Dashboard (Rename) funktioniert ebenfalls.
 
 - Effekte: „Effekt“ und „Effekt Farbe“ wählen, dann „Effekt starten“.
 - Lauftext: Textfeld „Lauftext“ und Taste „Lauftext starten“, oder in einer Automation die Aktion
@@ -137,7 +141,7 @@ arduino/Wordclock/
 esphome/
   wordclock_multi.yaml     <- Sprache, Board, Pins, WLAN/API/OTA, Home-Assistant-Entitäten
   wordclock_multi/core.yaml          Logik und Entitäten, für alle Sprachen gleich
-  wordclock_multi/lang/lang_XX.yaml  Sprache: Gerätename, Hotspot, Standort, Zeitzone, Entitätsnamen
+  wordclock_multi/lang/lang_XX.yaml  Sprache: Gerätename, Hotspot, Standort, Entitätsnamen
   wordclock_multi/src/*.h  Kopie von arduino/Wordclock/src (tools/sync_src.py)
 models/lang/lang_XX.scad   Raster jeder Sprache für die 3D-Modelle (die Modelle selbst: MakerWorld)
 docs/languages/            erzeugt von tools/make_info.py: je Sprache eine Datei + Übersicht LANGUAGES.txt
@@ -148,6 +152,8 @@ docs/LANG_SPEC.md          neue Sprache anlegen
 tools/                     Python-Werkzeuge (check_lang, make_info, make_font, render_fronts, sync_src, ...) und
                            die Windows-Doppelklick-Dateien:
   build_firmware.bat       Arduino-Firmware für alle Sprachen/Boards -> output/firmware/
+  bundle_firmware.bat      Firmware als Einzeldateien je Sprache (ESPHome .yaml + .h, Arduino .ino + .h, Zips,
+                           z. B. für MakerWorld) -> output/makerworld/
   check_languages.bat      alle Sprachen prüfen, docs/languages + docs/setup aktualisieren -> output/check_log.txt
   render_fronts.bat        Vorschaubilder aller Fronten (hell und dunkel) -> docs/render/
 output/                    lokale Build-Ergebnisse und Logs (nicht im Repository)

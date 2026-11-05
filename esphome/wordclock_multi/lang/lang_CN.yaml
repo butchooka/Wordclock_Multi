@@ -1,5 +1,5 @@
 # lang_CN.yaml - Wordclock 16x16, ESPHome language package CN (中文 / Mandarin Chinese), v0.9
-# Device name, hotspot, location (capital), time zone, entity names and options.
+# Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_CN.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).
 substitutions:
@@ -7,7 +7,6 @@ substitutions:
   name: wenzizhong
   friendly_name: WenziZhong
   ap_ssid: WenziZhong Fallback
-  timezone: Asia/Shanghai
   latitude: "39.904°"           # Beijing
   longitude: "116.407°"
   extra_hidden: "false"         # language has extra words (一寸光阴一寸金), switch shown
@@ -33,16 +32,12 @@ substitutions:
   t_tout_min: 室外温度 最小
   t_tout_max: 室外温度 最大
   t_col_time: 时间颜色
-  t_col_vent: 通风颜色
-  t_col_alarm: 警报颜色
-  t_col_battery: 电池颜色
-  t_col_tout: 室外温度颜色
-  t_col_tin: 室内温度颜色
-  t_sw_temp: 温度显示
+  t_col_vent: 通风显示
+  t_col_alarm: 警报显示
+  t_col_battery: 电池显示
+  t_col_tout: 室外温度显示
+  t_col_tin: 室内温度显示
   t_sw_min: 单分钟显示
-  t_sw_alarm: 警报显示
-  t_sw_vent: 通风显示
-  t_sw_battery: 电池显示
   t_sw_extra: 显示「一寸光阴一寸金」
   t_fx: 特效
   t_fx_color: 特效颜色
@@ -51,7 +46,8 @@ substitutions:
   t_text: 滚动文字
   t_text_start: 显示文字
 
-  # colour options (palette order, never change the order)
+  # colour options (palette order, never change the order; c_off = additional display off)
+  c_off: "关"
   c_0: 暖白
   c_1: 白
   c_2: 红
