@@ -1,4 +1,4 @@
-# lang_GB.yaml - Wordclock 16x16, ESPHome language package GB (English), v2.0
+# lang_GB.yaml - Wordclock 16x16, ESPHome language package GB (English), v1.0
 # Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_GB.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).

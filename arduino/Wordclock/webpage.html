@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  webpage.html - Wordclock 16x16, web interface (Arduino), v2.0
+  webpage.html - Wordclock 16x16, web interface (Arduino), v1.0
   SOURCE of the web interface. After a change run  python3 tools/make_webpage.py : it writes webpage.h
   (gzip-compressed byte array, approx. a quarter of the size; the browser unpacks it).
   One page, no external files (works in the hotspot without internet).
@@ -61,6 +61,9 @@ button.dan{color:var(--bad)}
 #scanList li{padding:6px 8px;border-radius:7px;cursor:pointer;display:flex;justify-content:space-between}
 #scanList li:hover{background:var(--in)}
 code{background:var(--in);border-radius:6px;padding:2px 5px;font-size:12.5px;word-break:break-all}
+.cp{display:flex;align-items:center;gap:6px;margin-top:6px}
+.cp code{flex:1;padding:5px 7px;user-select:all;-webkit-user-select:all}
+.cp button{flex:none;padding:4px 9px}
 progress{width:100%;margin-top:8px;accent-color:var(--ac)}
 .banner{margin:20px 0 8px;background:#0f0e0c;color:#d8d0c4;border-radius:14px;padding:16px 18px;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;justify-content:center;text-align:center}
 .banner a{color:var(--glow);text-decoration:none;font-weight:600}
@@ -139,18 +142,19 @@ progress{width:100%;margin-top:8px;accent-color:var(--ac)}
   <div class="row hide" id="rowExtra"><label for="swExtra" data-t="swExtra">Show extra words</label><label class="sw"><input type="checkbox" id="swExtra" name="swExtra"><span></span></label></div>
   <div class="row"><label for="apiTo" data-t="apiTo">Values valid for (min, 0 = always)</label><input type="number" id="apiTo" name="apiTo" min="0" max="1440"></div>
   <div class="kv" style="margin-top:8px"><span data-t="v_out">Outside</span><span id="vOut">–</span><span data-t="v_in">Inside</span><span id="vIn">–</span><span data-t="v_batt">Battery</span><span id="vAkku">–</span><span data-t="v_la">Ventilate / alarm</span><span id="vLA">–</span></div>
-  <p class="hint"><span data-t="hint_extra"></span><br><code id="apiEx">/api/set?tout=8.5&amp;tin=21.5&amp;akku=80&amp;luft=1&amp;alarm=0</code></p>
+  <p class="hint" data-t="hint_extra"></p>
+  <div class="cp"><code id="apiEx">/api/set?tout=8.5&amp;tin=21.5&amp;akku=80&amp;luft=1&amp;alarm=0</code><button type="button" onclick="cp(this)" title="Copy">📋</button></div>
 </section>
 
 <section class="card" id="secApi">
   <h2 data-t="sec_api">HTTP control</h2>
   <p class="hint" style="margin-top:0" data-th="hint_api1"></p>
-  <div class="kv" style="margin-top:8px;grid-template-columns:1fr">
-    <code data-p="/api/set?fx=blink&amp;fxcolor=ff8800&amp;fxdur=20">–</code>
-    <code data-p="/api/set?brday=40&amp;brnight=0">–</code>
-    <code data-p="/api/set?text=Hello%20World&amp;textcolor=rainbow">–</code>
-    <code data-p="/api/set?col_time=random&amp;show_minutes=1">–</code>
-    <code data-p="/api/get">–</code>
+  <div style="margin-top:8px">
+    <div class="cp"><code data-p="/api/set?fx=blink&amp;fxcolor=ff8800&amp;fxdur=20">–</code><button type="button" onclick="cp(this)" title="Copy">📋</button></div>
+    <div class="cp"><code data-p="/api/set?brday=40&amp;brnight=0">–</code><button type="button" onclick="cp(this)" title="Copy">📋</button></div>
+    <div class="cp"><code data-p="/api/set?text=Hello%20World&amp;textcolor=rainbow">–</code><button type="button" onclick="cp(this)" title="Copy">📋</button></div>
+    <div class="cp"><code data-p="/api/set?col_time=random&amp;show_minutes=1">–</code><button type="button" onclick="cp(this)" title="Copy">📋</button></div>
+    <div class="cp"><code data-p="/api/get">–</code><button type="button" onclick="cp(this)" title="Copy">📋</button></div>
   </div>
   <p class="hint" id="apiKeys"></p>
 </section>
@@ -245,6 +249,20 @@ function applyLang(){
 function toast(s){const e=Q('#toast');e.textContent=s;e.classList.add('on');clearTimeout(T.toast);T.toast=setTimeout(()=>e.classList.remove('on'),2200);}
 function val(el){return el.type==='checkbox'?(el.checked?'1':'0'):el.value;}
 async function post(u,d){const r=await fetch(u,{method:'POST',body:new URLSearchParams(d||{})});return r.json();}
+// Set text only when it changed: status() runs every 2 s, rewriting would clear a running text selection.
+function setTx(e,s){if(e.textContent!==s)e.textContent=s;}
+// Copy button: Clipboard API only works in a secure context (https/localhost), the clock runs on http -> fallback
+function cp(b){
+  const s=b.previousElementSibling.textContent;
+  const ok=()=>{b.textContent='✓';setTimeout(()=>b.textContent='📋',1500);};
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(s).then(ok,()=>cpOld(s,ok));return;}
+  cpOld(s,ok);
+}
+function cpOld(s,ok){
+  const a=document.createElement('textarea');a.value=s;a.setAttribute('readonly','');
+  a.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.append(a);a.select();
+  try{if(document.execCommand('copy'))ok();}catch(e){}a.remove();
+}
 function out(el){const o=Q('output[for="'+el.name+'"]');if(o)o.textContent=el.value+(el.dataset.u||'');}
 
 async function send(el){
@@ -375,8 +393,8 @@ async function status(){
     Q('#wIp').textContent=s.ip||'–';
     Q('#wErr').textContent=s.reason?(s.reason+(('wr_'+s.reason) in U?' – '+t('wr_'+s.reason):'')):'–';
     const base='http://'+(s.ip||location.host);
-    Q('#apiEx').textContent=base+'/api/set?tout=8.5&tin=21.5&akku=80&luft=1&alarm=0';
-    QA('[data-p]').forEach(e=>e.textContent=base+e.dataset.p);
+    setTx(Q('#apiEx'),base+'/api/set?tout=8.5&tin=21.5&akku=80&luft=1&alarm=0');
+    QA('[data-p]').forEach(e=>setTx(e,base+e.dataset.p));
     Q('#ver').textContent=s.ver;Q('#verFoot').textContent=s.ver;
     Q('#up').textContent=fmtUp(s.up);Q('#heap').textContent=Math.round(s.heap/1024)+' kB';
   }catch(e){Q('#chNet').textContent='⚠️ '+t('net_lost');}

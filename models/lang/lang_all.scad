@@ -1,4 +1,4 @@
-// lang_all.scad - Wordclock 16x16, list of all model languages, v2.0
+// lang_all.scad - Wordclock 16x16, list of all model languages, v1.0
 // New language: add the include line and the entry in LANGS, and the option in LANG of Wordclock_Model.scad.
 // Script variants (scifi_RUNE_GB ...): front only, firmware of the base language, see tools/make_variants.py.
 include <lang_dialect_BAD.scad>

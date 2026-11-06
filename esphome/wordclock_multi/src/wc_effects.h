@@ -1,5 +1,5 @@
 /*
-  wc_effects.h - Wordclock 16x16, effect register (Arduino + ESPHome), v2.0
+  wc_effects.h - Wordclock 16x16, effect register (Arduino + ESPHome), v1.0
 
   Adding an effect:
     1. write a function  static void wc_fx_name(WcRgb *f, const WcFxCtx &c)  that fills all 256 pixels

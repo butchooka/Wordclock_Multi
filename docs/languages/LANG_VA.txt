@@ -1,8 +1,8 @@
-Wordclock_Multi v2.0 - Latina (VA)
+Wordclock_Multi v1.0 - Latina (VA)
 ==================================
 Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
 
-Status:                       v0.9 (im Test / in test)
+Status:                       v0.9 (Grammatik unbestätigt / grammar unconfirmed)
 Hauptstadt / capital:         Città del Vaticano  (41.9029, 12.4534)
 Zeitzone / time zone:         Europe/Rome  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
 Arduino: Hotspot / hotspot:   Horologium  ->  http://192.168.4.1

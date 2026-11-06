@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-make_variants.py - Wordclock 16x16, script variants of the front, v2.0
+make_variants.py - Wordclock 16x16, script variants of the front, v1.0
 
 A script variant is a front in another script for an existing language: same grid, same words, same firmware,
 only every letter is replaced by a character of the other script (e.g. runes). It exists only in the 3D models:
@@ -24,7 +24,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANG_DIR = os.path.join(ROOT, "models", "lang")
-VERSION = "v2.0"
+VERSION = "v1.0"
 KEEP = set("x*|+.0123456789 ")      # copied unchanged
 
 # Anglo-Saxon runes (futhorc, the runes of the English word maps in Tolkien's books), one rune per letter.

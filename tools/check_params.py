@@ -15,7 +15,7 @@ Checked per parameter (top-level assignments with UPPERCASE names and a fixed va
   WARN   customizable SCAD text or number without option list (// [a, b]) or slider (// [min:step:max])
 Calculated values (expressions) are not compared.
 
-Call: python tools/check_params.py [--log output/check_params_log.txt] [--verbose]
+Call: python tools/check_params.py [--log tools/logs/check_params_log.txt] [--verbose]
 Exit code 1 if errors were found.
 """
 import argparse
@@ -41,6 +41,7 @@ ONLY_SCAD = {
     "PRINT_ORIENT": "print orientation (FCMacro: EXPORT_PRINT_POSE)",
     "QUALITY": "rounding quality of OpenSCAD",
     "LAYOUT_GAP": "OpenSCAD view only",
+    "SUPPORT_PARTS": "lookup table support part -> holder (FCMacro: built in the code)",
 }
 ONLY_FC = {
     "EXPORT*": "export (FreeCAD only)",

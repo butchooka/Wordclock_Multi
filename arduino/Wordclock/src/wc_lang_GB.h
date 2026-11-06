@@ -1,5 +1,5 @@
 /*
-  wc_lang_GB.h - Wordclock 16x16, language file GB (English), v2.0
+  wc_lang_GB.h - Wordclock 16x16, language file GB (English), v1.0
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_GB.scad (check: python3 tools/check_lang.py GB).
   This file is also the reference for the ui_json keys of all other languages.

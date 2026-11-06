@@ -1,8 +1,8 @@
-Wordclock_Multi v2.0 - Badisch (dialect_BAD)
+Wordclock_Multi v1.0 - Badisch (dialect_BAD)
 ============================================
 Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
 
-Status:                       v2.0 (getestet / tested)
+Status:                       v1.0 (bestätigt / confirmed)
 Hauptstadt / capital:         Freiburg im Breisgau  (47.9990, 7.8421)
 Zeitzone / time zone:         Europe/Berlin  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
 Arduino: Hotspot / hotspot:   Wortuhrle  ->  http://192.168.4.1

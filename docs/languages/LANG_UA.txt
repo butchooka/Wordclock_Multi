@@ -1,8 +1,8 @@
-Wordclock_Multi v2.0 - Українська (UA)
+Wordclock_Multi v1.0 - Українська (UA)
 ======================================
 Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
 
-Status:                       v0.9 (im Test / in test)
+Status:                       v0.9 (Grammatik unbestätigt / grammar unconfirmed)
 Hauptstadt / capital:         Київ (Kyiv)  (50.4501, 30.5234)
 Zeitzone / time zone:         Europe/Kyiv  (POSIX EET-2EEST,M3.5.0/3,M10.5.0/4)
 Arduino: Hotspot / hotspot:   SlovoHodynnyk  ->  http://192.168.4.1

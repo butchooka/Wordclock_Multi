@@ -1,4 +1,4 @@
-# lang_dialect_CH.yaml - Wordclock 16x16, ESPHome language package dialect_CH (Schwizerdütsch), v2.0
+# lang_dialect_CH.yaml - Wordclock 16x16, ESPHome language package dialect_CH (Schwizerdütsch), v1.0
 # Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_dialect_CH.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).

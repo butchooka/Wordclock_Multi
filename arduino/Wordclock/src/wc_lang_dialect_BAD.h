@@ -1,5 +1,5 @@
 /*
-  wc_lang_dialect_BAD.h - Wordclock 16x16, language file dialect_BAD (Badisch), v2.0
+  wc_lang_dialect_BAD.h - Wordclock 16x16, language file dialect_BAD (Badisch), v1.0
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_dialect_BAD.scad (check: python3 tools/check_lang.py dialect_BAD).
   Preview of all times: see tools/preview.cpp.

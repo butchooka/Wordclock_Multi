@@ -1,0 +1,390 @@
+{
+ "note": "written by the Wordclock tools (tools/wc_stamp.py): base data of every output, an output is only built again when they change",
+ "outputs": {
+  "run_all": {
+   "built": "2026-11-06 15:07:56",
+   "files": {
+    "arduino/Wordclock/src/wc_core.h": {
+     "date": "2026-11-06 14:58:42",
+     "sha256": "d25c8538ebdc1247"
+    },
+    "arduino/Wordclock/src/wc_effects.h": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "adfe3faf50c90525"
+    },
+    "arduino/Wordclock/src/wc_font16.h": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "e73d7349c64ef83e"
+    },
+    "arduino/Wordclock/src/wc_lang_CN.h": {
+     "date": "2026-11-04 15:30:32",
+     "sha256": "424dbebf9d2da43a"
+    },
+    "arduino/Wordclock/src/wc_lang_CZ.h": {
+     "date": "2026-11-04 15:30:33",
+     "sha256": "762cfffab2094ac8"
+    },
+    "arduino/Wordclock/src/wc_lang_DE.h": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "335eadceea227bbf"
+    },
+    "arduino/Wordclock/src/wc_lang_DK.h": {
+     "date": "2026-11-04 15:30:34",
+     "sha256": "56776c2181a1f1b1"
+    },
+    "arduino/Wordclock/src/wc_lang_EO.h": {
+     "date": "2026-11-04 15:30:34",
+     "sha256": "6a72896434e77c69"
+    },
+    "arduino/Wordclock/src/wc_lang_ES.h": {
+     "date": "2026-11-04 15:30:34",
+     "sha256": "329cb3be8229ef55"
+    },
+    "arduino/Wordclock/src/wc_lang_FR.h": {
+     "date": "2026-11-04 15:30:35",
+     "sha256": "1c4b5ec7a474fdc6"
+    },
+    "arduino/Wordclock/src/wc_lang_GB.h": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "8dc4637aa0cc7c5f"
+    },
+    "arduino/Wordclock/src/wc_lang_GR.h": {
+     "date": "2026-11-04 15:30:35",
+     "sha256": "217733fd3307f3bb"
+    },
+    "arduino/Wordclock/src/wc_lang_HU.h": {
+     "date": "2026-11-04 15:30:36",
+     "sha256": "58370cbfcfa417f2"
+    },
+    "arduino/Wordclock/src/wc_lang_ID.h": {
+     "date": "2026-11-04 15:30:36",
+     "sha256": "32a5454c1ea74856"
+    },
+    "arduino/Wordclock/src/wc_lang_IT.h": {
+     "date": "2026-11-04 15:30:36",
+     "sha256": "bab4c732636c1e9c"
+    },
+    "arduino/Wordclock/src/wc_lang_JP.h": {
+     "date": "2026-11-04 15:30:37",
+     "sha256": "a4157d44337b28b9"
+    },
+    "arduino/Wordclock/src/wc_lang_KR.h": {
+     "date": "2026-11-04 15:30:37",
+     "sha256": "36e7720edbfe48c4"
+    },
+    "arduino/Wordclock/src/wc_lang_NL.h": {
+     "date": "2026-11-04 15:30:37",
+     "sha256": "382c1773f02378b1"
+    },
+    "arduino/Wordclock/src/wc_lang_NO.h": {
+     "date": "2026-11-04 15:30:37",
+     "sha256": "4b0c07e1697be512"
+    },
+    "arduino/Wordclock/src/wc_lang_PL.h": {
+     "date": "2026-11-04 15:30:38",
+     "sha256": "3e36756b1f2d629e"
+    },
+    "arduino/Wordclock/src/wc_lang_PT.h": {
+     "date": "2026-11-04 15:30:38",
+     "sha256": "413f182edf6dc771"
+    },
+    "arduino/Wordclock/src/wc_lang_RO.h": {
+     "date": "2026-11-04 15:30:38",
+     "sha256": "96be533c871a88ff"
+    },
+    "arduino/Wordclock/src/wc_lang_SE.h": {
+     "date": "2026-11-04 15:30:39",
+     "sha256": "77f65fdd4c5c2be4"
+    },
+    "arduino/Wordclock/src/wc_lang_TR.h": {
+     "date": "2026-11-04 15:30:39",
+     "sha256": "6bf296fad1e4c780"
+    },
+    "arduino/Wordclock/src/wc_lang_TZ.h": {
+     "date": "2026-11-04 15:30:39",
+     "sha256": "d6e9a25f2a7307ce"
+    },
+    "arduino/Wordclock/src/wc_lang_UA.h": {
+     "date": "2026-11-04 15:30:40",
+     "sha256": "22923c592b6ae99b"
+    },
+    "arduino/Wordclock/src/wc_lang_VA.h": {
+     "date": "2026-11-04 15:30:40",
+     "sha256": "b1f646ce00580214"
+    },
+    "arduino/Wordclock/src/wc_lang_dialect_BAD.h": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "b81547f28d3210c6"
+    },
+    "arduino/Wordclock/src/wc_lang_dialect_CH.h": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "ca321e4eb7d81934"
+    },
+    "arduino/Wordclock/src/wc_lang_dialect_SWG.h": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "f4a7a4c52db3d3f2"
+    },
+    "arduino/Wordclock/src/wc_lang_scifi_HVA.h": {
+     "date": "2026-11-04 15:30:41",
+     "sha256": "8429dda407f56529"
+    },
+    "arduino/Wordclock/src/wc_lang_scifi_NAV.h": {
+     "date": "2026-11-04 15:30:41",
+     "sha256": "1705cc4746c48159"
+    },
+    "arduino/Wordclock/src/wc_lang_scifi_QYA.h": {
+     "date": "2026-11-04 15:30:42",
+     "sha256": "7f13c791f6623c94"
+    },
+    "arduino/Wordclock/src/wc_lang_scifi_TLH.h": {
+     "date": "2026-11-04 15:30:42",
+     "sha256": "4c98e984717ad63f"
+    },
+    "arduino/Wordclock/src/wc_text.h": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "670a573ce28a6587"
+    },
+    "models/lang/lang_CN.scad": {
+     "date": "2026-11-04 12:19:05",
+     "sha256": "c0d563ad37563b91"
+    },
+    "models/lang/lang_CZ.scad": {
+     "date": "2026-11-04 14:16:32",
+     "sha256": "5a65f73f3034a350"
+    },
+    "models/lang/lang_DE.scad": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "73aa596350902b26"
+    },
+    "models/lang/lang_DK.scad": {
+     "date": "2026-10-26 08:04:44",
+     "sha256": "7d86cf0c80794927"
+    },
+    "models/lang/lang_EO.scad": {
+     "date": "2026-10-26 08:14:16",
+     "sha256": "f5ebb4c26a69661c"
+    },
+    "models/lang/lang_ES.scad": {
+     "date": "2026-10-26 08:04:44",
+     "sha256": "efdffdd1083bfc65"
+    },
+    "models/lang/lang_FR.scad": {
+     "date": "2026-10-26 08:04:45",
+     "sha256": "7e05ed2d7eb81e97"
+    },
+    "models/lang/lang_GB.scad": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "9ede9730f47b08f5"
+    },
+    "models/lang/lang_GR.scad": {
+     "date": "2026-11-04 14:16:32",
+     "sha256": "c37b9d7d57ef7ab0"
+    },
+    "models/lang/lang_HU.scad": {
+     "date": "2026-11-04 14:16:20",
+     "sha256": "ffd375a7991f0667"
+    },
+    "models/lang/lang_ID.scad": {
+     "date": "2026-10-26 08:04:45",
+     "sha256": "25277f47c9c2d0c4"
+    },
+    "models/lang/lang_IT.scad": {
+     "date": "2026-10-26 08:04:46",
+     "sha256": "630f5afecbadbced"
+    },
+    "models/lang/lang_JP.scad": {
+     "date": "2026-11-04 12:19:05",
+     "sha256": "ed79a1d949a51ba2"
+    },
+    "models/lang/lang_KR.scad": {
+     "date": "2026-11-04 12:19:05",
+     "sha256": "f454324a2c7b9589"
+    },
+    "models/lang/lang_NL.scad": {
+     "date": "2026-10-26 08:04:46",
+     "sha256": "f333b99ab2fc9dfa"
+    },
+    "models/lang/lang_NO.scad": {
+     "date": "2026-10-26 08:04:46",
+     "sha256": "7680c24f1e03a723"
+    },
+    "models/lang/lang_PL.scad": {
+     "date": "2026-11-04 14:16:32",
+     "sha256": "2c0a604ac197360b"
+    },
+    "models/lang/lang_PT.scad": {
+     "date": "2026-10-26 08:04:47",
+     "sha256": "7313be0d896031d2"
+    },
+    "models/lang/lang_RO.scad": {
+     "date": "2026-11-04 14:16:32",
+     "sha256": "1d40292d13c79dcd"
+    },
+    "models/lang/lang_SE.scad": {
+     "date": "2026-10-26 08:04:47",
+     "sha256": "11e1e33bd6b8898e"
+    },
+    "models/lang/lang_TR.scad": {
+     "date": "2026-11-04 14:16:32",
+     "sha256": "7d6278a9f9f8ca13"
+    },
+    "models/lang/lang_TZ.scad": {
+     "date": "2026-10-25 17:39:27",
+     "sha256": "d82fde8b3b6b055c"
+    },
+    "models/lang/lang_UA.scad": {
+     "date": "2026-11-04 14:16:32",
+     "sha256": "d8e6f7a90c9f16f1"
+    },
+    "models/lang/lang_VA.scad": {
+     "date": "2026-10-25 13:51:27",
+     "sha256": "54dbe7ac6edd0ca9"
+    },
+    "models/lang/lang_all.scad": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "9b1e69f8b9c91e27"
+    },
+    "models/lang/lang_dialect_BAD.scad": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "50b4c89ff879861e"
+    },
+    "models/lang/lang_dialect_CH.scad": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "9e9f0be088076a75"
+    },
+    "models/lang/lang_dialect_SWG.scad": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "37c99e8e6916b2db"
+    },
+    "models/lang/lang_scifi_HVA.scad": {
+     "date": "2026-11-03 09:21:23",
+     "sha256": "09e3906f7917c0ad"
+    },
+    "models/lang/lang_scifi_NAV.scad": {
+     "date": "2026-11-04 14:16:32",
+     "sha256": "d7acb000bcc8bc3c"
+    },
+    "models/lang/lang_scifi_QYA.scad": {
+     "date": "2026-11-03 09:21:24",
+     "sha256": "7f1a9dc3cb8e177e"
+    },
+    "models/lang/lang_scifi_RUNE_DE.scad": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "54b5a3911bb66a40"
+    },
+    "models/lang/lang_scifi_RUNE_GB.scad": {
+     "date": "2026-11-06 10:51:01",
+     "sha256": "462214428e9b1dd4"
+    },
+    "models/lang/lang_scifi_TLH.scad": {
+     "date": "2026-11-03 09:21:25",
+     "sha256": "5d65d0ffcf37daff"
+    },
+    "tools/render_fronts.py": {
+     "date": "2026-11-06 14:32:18",
+     "sha256": "4fbf9725ff257214"
+    },
+    "tools/render_mask.cpp": {
+     "date": "2026-11-06 10:54:19",
+     "sha256": "2b3853bcf7c46940"
+    }
+   },
+   "key": "475c381bc3acc26b",
+   "params": {
+    "compiler": true,
+    "default_font": "LiberationSans-Bold.ttf",
+    "installed_fonts": "511980b3435508fa",
+    "langs": [
+     "CN",
+     "CZ",
+     "DE",
+     "DK",
+     "EO",
+     "ES",
+     "FR",
+     "GB",
+     "GR",
+     "HU",
+     "ID",
+     "IT",
+     "JP",
+     "KR",
+     "NL",
+     "NO",
+     "PL",
+     "PT",
+     "RO",
+     "SE",
+     "TR",
+     "TZ",
+     "UA",
+     "VA",
+     "dialect_BAD",
+     "dialect_CH",
+     "dialect_SWG",
+     "scifi_HVA",
+     "scifi_NAV",
+     "scifi_QYA",
+     "scifi_TLH",
+     "scifi_RUNE_DE",
+     "scifi_RUNE_GB"
+    ],
+    "options": {
+     "bg": "1E1F22",
+     "color": "warmwhite",
+     "features": false,
+     "filler": "auto",
+     "font": "",
+     "gif_ms": 1000,
+     "gif_size": 480,
+     "langs": [],
+     "size": 1600,
+     "style": "light",
+     "ticker": "♥ Wordclock International butchooka ♥",
+     "ticker_lang": "GB",
+     "ticker_size": 240,
+     "time": "10:22"
+    }
+   },
+   "size": null,
+   "written": [
+    "Wordclock_Render_v1.0_ALL_1022.gif",
+    "Wordclock_Render_v1.0_ALL_1022.png",
+    "Wordclock_Render_v1.0_CN_1022.png",
+    "Wordclock_Render_v1.0_CZ_1022.png",
+    "Wordclock_Render_v1.0_DE_1022.png",
+    "Wordclock_Render_v1.0_DK_1022.png",
+    "Wordclock_Render_v1.0_EO_1022.png",
+    "Wordclock_Render_v1.0_ES_1022.png",
+    "Wordclock_Render_v1.0_FR_1022.png",
+    "Wordclock_Render_v1.0_GB_1022.png",
+    "Wordclock_Render_v1.0_GR_1022.png",
+    "Wordclock_Render_v1.0_HU_1022.png",
+    "Wordclock_Render_v1.0_ID_1022.png",
+    "Wordclock_Render_v1.0_IT_1022.png",
+    "Wordclock_Render_v1.0_JP_1022.png",
+    "Wordclock_Render_v1.0_KR_1022.png",
+    "Wordclock_Render_v1.0_NL_1022.png",
+    "Wordclock_Render_v1.0_NO_1022.png",
+    "Wordclock_Render_v1.0_PL_1022.png",
+    "Wordclock_Render_v1.0_PT_1022.png",
+    "Wordclock_Render_v1.0_RO_1022.png",
+    "Wordclock_Render_v1.0_SE_1022.png",
+    "Wordclock_Render_v1.0_TR_1022.png",
+    "Wordclock_Render_v1.0_TZ_1022.png",
+    "Wordclock_Render_v1.0_UA_1022.png",
+    "Wordclock_Render_v1.0_VA_1022.png",
+    "Wordclock_Render_v1.0_dialect_BAD_1022.png",
+    "Wordclock_Render_v1.0_dialect_CH_1022.png",
+    "Wordclock_Render_v1.0_dialect_SWG_1022.png",
+    "Wordclock_Render_v1.0_scifi_HVA_1022.png",
+    "Wordclock_Render_v1.0_scifi_NAV_1022.png",
+    "Wordclock_Render_v1.0_scifi_QYA_1022.png",
+    "Wordclock_Render_v1.0_scifi_RUNE_DE_1022.png",
+    "Wordclock_Render_v1.0_scifi_RUNE_GB_1022.png",
+    "Wordclock_Render_v1.0_scifi_TLH_1022.png",
+    "Wordclock_Ticker_v1.0.gif"
+   ]
+  }
+ }
+}

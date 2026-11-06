@@ -1,5 +1,5 @@
 /*
-  wc_lang_dialect_SWG.h - Wordclock 16x16, language file dialect_SWG (Schwäbisch, Swabian), v2.0
+  wc_lang_dialect_SWG.h - Wordclock 16x16, language file dialect_SWG (Schwäbisch, Swabian), v1.0
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_dialect_SWG.scad (check: python3 tools/check_lang.py dialect_SWG).
   Preview of all times: see tools/preview.cpp.

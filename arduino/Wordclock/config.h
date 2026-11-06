@@ -1,11 +1,11 @@
 /*
-  config.h - Wordclock 16x16, Arduino settings, v2.0
+  config.h - Wordclock 16x16, Arduino settings, v1.0
   Only this file needs to be changed for a build. Everything else is set in the web interface.
 */
 #pragma once
 
-// build_firmware.bat writes wc_build.h only into its temporary copy of the sketch (never into this folder)
-// and sets WC_LANG_FILE there. In the Arduino IDE this file does not exist and the settings below apply.
+// tools/build_firmware.py writes wc_build.h only into its temporary copy of the sketch (never into this folder)
+// and sets WC_LANG_FILE and LED_PIN there. In the Arduino IDE this file does not exist and the settings below apply.
 #if defined(__has_include)
 #if __has_include("wc_build.h")
 #include "wc_build.h"
@@ -14,15 +14,15 @@
 
 // ============================ LANGUAGE ============================
 // Language file in src/. Grid, time words, web interface, hotspot/device name and default location/time zone
-// come from it. Copy one line of the list below over the #define (v2.0 = tested, v0.9 = in test).
+// come from it. Copy one line of the list below over the #define (v1.0 = confirmed, v0.9 = grammar unconfirmed).
 #ifndef WC_LANG_FILE
-#define WC_LANG_FILE "src/wc_lang_dialect_BAD.h"
+#define WC_LANG_FILE "src/wc_lang_DE.h"
 #endif
 //
 // LANGUAGES BEGIN (list written by tools/make_info.py)
 //   Countries / Länder:
-//     #define WC_LANG_FILE "src/wc_lang_DE.h"  Deutsch (v2.0)
-//     #define WC_LANG_FILE "src/wc_lang_GB.h"  English (v2.0)
+//     #define WC_LANG_FILE "src/wc_lang_DE.h"  Deutsch (v1.0)
+//     #define WC_LANG_FILE "src/wc_lang_GB.h"  English (v1.0)
 //     #define WC_LANG_FILE "src/wc_lang_CN.h"  中文 (v0.9)
 //     #define WC_LANG_FILE "src/wc_lang_CZ.h"  Čeština (v0.9)
 //     #define WC_LANG_FILE "src/wc_lang_DK.h"  Dansk (v0.9)
@@ -44,9 +44,9 @@
 //     #define WC_LANG_FILE "src/wc_lang_TZ.h"  Kiswahili (v0.9)
 //     #define WC_LANG_FILE "src/wc_lang_UA.h"  Українська (v0.9)
 //   Dialects / Dialekte:
-//     #define WC_LANG_FILE "src/wc_lang_dialect_BAD.h"  Badisch (v2.0)
-//     #define WC_LANG_FILE "src/wc_lang_dialect_CH.h"   Schwizerdütsch (v2.0)
-//     #define WC_LANG_FILE "src/wc_lang_dialect_SWG.h"  Schwäbisch (v2.0)
+//     #define WC_LANG_FILE "src/wc_lang_dialect_BAD.h"  Badisch (v1.0)
+//     #define WC_LANG_FILE "src/wc_lang_dialect_CH.h"   Schwizerdütsch (v1.0)
+//     #define WC_LANG_FILE "src/wc_lang_dialect_SWG.h"  Schwäbisch (v1.0)
 //   Other languages / andere Sprachen:
 //     #define WC_LANG_FILE "src/wc_lang_EO.h"         Esperanto (v0.9)
 //     #define WC_LANG_FILE "src/wc_lang_VA.h"         Latina (v0.9)

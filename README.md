@@ -7,16 +7,17 @@ Runs either with **ESPHome / Home Assistant** or stand-alone as an **Arduino** s
 Deutsche Fassung: [README_DE.md](README_DE.md)
 
 <p align="center">
-  <img src="docs/img/front_GB.png" width="380" alt="Front GB, 10:22">
-  <img src="docs/img/front_DE_dark.png" width="380" alt="Front DE dark, 10:22">
+  <img src="docs/render/Wordclock_Render_v1.0_GB_1022.png" width="380" alt="Front GB, 10:22">
+  <img src="docs/render_dark/Wordclock_Render_v1.0_DE_1022.png" width="380" alt="Front DE dark, 10:22">
 </p>
 
 3D model (case, front per language, stand, wall and Skadis holders, picture frame version):
 **MakerWorld:** _link follows_ <!-- MAKERWORLD_LINK -->
 The models are not part of this repository.
 
-Version 2.0. Final and tested: DE (Deutsch), GB (English) and the dialects dialect_BAD (Badisch),
-dialect_CH (Schwizerdütsch) and dialect_SWG (Schwäbisch). All other languages are v0.9 until native speakers have confirmed grammar and spelling.
+Version 1.0. Model, print and firmware are tested for all languages. Grammar and spelling confirmed (v1.0): DE (Deutsch),
+GB (English) and the dialects dialect_BAD (Badisch), dialect_CH (Schwizerdütsch) and dialect_SWG (Schwäbisch). All other
+languages are v0.9 (grammar unconfirmed) until native speakers have confirmed grammar and spelling.
 Corrections are very welcome (issue or pull request).
 
 ## Features
@@ -28,13 +29,14 @@ Corrections are very welcome (issue or pull request).
 - Brightness day/night, night by sun position, fixed times or mixed (sun, but not before / not after a time)
 - Effects: rainbow, aurora, matrix, fire, confetti, stars, blink (duration and blink cycle adjustable)
 - Text ticker: a text runs letter by letter over the whole matrix (Latin, Greek, Cyrillic, digits, € and ♥)
-- Easter egg per language (greeting or typical saying from free cells), switchable
+- Easter egg per language (greeting or typical saying from free cells), switchable; shown at the start until the
+  time is known (pulsing blue while the hotspot is open)
 - Current limit, LED wiring (zigzag / row by row, mirrored) adjustable
 - Arduino: web interface in the language of the clock, hotspot with captive portal for the first start,
   NTP via DHCP, outdoor temperature from Open-Meteo (optional), HTTP API
 - ESPHome: all settings as Home Assistant entities, sensors from Home Assistant by entity ID
 
-<p align="center"><img src="docs/img/text_ticker.gif" width="240" alt="Text ticker"></p>
+<p align="center"><img src="docs/render/Wordclock_Ticker_v1.0.gif" width="240" alt="Text ticker (light)"> <img src="docs/render_dark/Wordclock_Ticker_v1.0.gif" width="240" alt="Text ticker (dark)"></p>
 
 ## Languages
 
@@ -44,58 +46,59 @@ Order: languages of countries, dialects, other languages. Grids, grammar and exa
 <!-- LANGUAGES BEGIN (table written by tools/make_info.py) -->
 | Code | Language | Kind | Version | Default location |
 |---|---|---|---|---|
-| `DE` | Deutsch | country | v2.0 tested | Berlin |
-| `GB` | English | country | v2.0 tested | London |
-| `CN` | 中文 | country | v0.9 in test | Beijing |
-| `CZ` | Čeština | country | v0.9 in test | Praha |
-| `DK` | Dansk | country | v0.9 in test | København |
-| `ES` | Español | country | v0.9 in test | Madrid |
-| `FR` | Français | country | v0.9 in test | Paris |
-| `GR` | Ελληνικά | country | v0.9 in test | Athína |
-| `HU` | Magyar | country | v0.9 in test | Budapest |
-| `ID` | Bahasa Indonesia | country | v0.9 in test | Jakarta |
-| `IT` | Italiano | country | v0.9 in test | Roma |
-| `JP` | 日本語 | country | v0.9 in test | Tokyo |
-| `KR` | 한국어 | country | v0.9 in test | Seoul |
-| `NL` | Nederlands | country | v0.9 in test | Amsterdam |
-| `NO` | Norsk | country | v0.9 in test | Oslo |
-| `PL` | Polski | country | v0.9 in test | Warszawa |
-| `PT` | Português | country | v0.9 in test | Lisboa |
-| `RO` | Română | country | v0.9 in test | București |
-| `SE` | Svenska | country | v0.9 in test | Stockholm |
-| `TR` | Türkçe | country | v0.9 in test | Ankara |
-| `TZ` | Kiswahili | country | v0.9 in test | Dodoma |
-| `UA` | Українська | country | v0.9 in test | Київ (Kyiv) |
-| `dialect_BAD` | Badisch | dialect | v2.0 tested | Freiburg im Breisgau |
-| `dialect_CH` | Schwizerdütsch | dialect | v2.0 tested | Bern |
-| `dialect_SWG` | Schwäbisch | dialect | v2.0 tested | Stuttgart |
-| `EO` | Esperanto | other | v0.9 in test | Warszawa |
-| `VA` | Latina | other | v0.9 in test | Città del Vaticano |
-| `scifi_HVA` | Valyrio | other | v0.9 in test | Roma |
-| `scifi_NAV` | Na'vi | other | v0.9 in test | Berlin |
-| `scifi_QYA` | Quenya | other | v0.9 in test | London |
-| `scifi_TLH` | tlhIngan Hol | other | v0.9 in test | Berlin |
+| `DE` | Deutsch | country | v1.0 confirmed | Berlin |
+| `GB` | English | country | v1.0 confirmed | London |
+| `CN` | 中文 | country | v0.9 grammar unconfirmed | Beijing |
+| `CZ` | Čeština | country | v0.9 grammar unconfirmed | Praha |
+| `DK` | Dansk | country | v0.9 grammar unconfirmed | København |
+| `ES` | Español | country | v0.9 grammar unconfirmed | Madrid |
+| `FR` | Français | country | v0.9 grammar unconfirmed | Paris |
+| `GR` | Ελληνικά | country | v0.9 grammar unconfirmed | Athína |
+| `HU` | Magyar | country | v0.9 grammar unconfirmed | Budapest |
+| `ID` | Bahasa Indonesia | country | v0.9 grammar unconfirmed | Jakarta |
+| `IT` | Italiano | country | v0.9 grammar unconfirmed | Roma |
+| `JP` | 日本語 | country | v0.9 grammar unconfirmed | Tokyo |
+| `KR` | 한국어 | country | v0.9 grammar unconfirmed | Seoul |
+| `NL` | Nederlands | country | v0.9 grammar unconfirmed | Amsterdam |
+| `NO` | Norsk | country | v0.9 grammar unconfirmed | Oslo |
+| `PL` | Polski | country | v0.9 grammar unconfirmed | Warszawa |
+| `PT` | Português | country | v0.9 grammar unconfirmed | Lisboa |
+| `RO` | Română | country | v0.9 grammar unconfirmed | București |
+| `SE` | Svenska | country | v0.9 grammar unconfirmed | Stockholm |
+| `TR` | Türkçe | country | v0.9 grammar unconfirmed | Ankara |
+| `TZ` | Kiswahili | country | v0.9 grammar unconfirmed | Dodoma |
+| `UA` | Українська | country | v0.9 grammar unconfirmed | Київ (Kyiv) |
+| `dialect_BAD` | Badisch | dialect | v1.0 confirmed | Freiburg im Breisgau |
+| `dialect_CH` | Schwizerdütsch | dialect | v1.0 confirmed | Bern |
+| `dialect_SWG` | Schwäbisch | dialect | v1.0 confirmed | Stuttgart |
+| `EO` | Esperanto | other | v0.9 grammar unconfirmed | Warszawa |
+| `VA` | Latina | other | v0.9 grammar unconfirmed | Città del Vaticano |
+| `scifi_HVA` | Valyrio | other | v0.9 grammar unconfirmed | Roma |
+| `scifi_NAV` | Na'vi | other | v0.9 grammar unconfirmed | Berlin |
+| `scifi_QYA` | Quenya | other | v0.9 grammar unconfirmed | London |
+| `scifi_TLH` | tlhIngan Hol | other | v0.9 grammar unconfirmed | Berlin |
 | `scifi_RUNE_DE` | Runen (Deutsch) | script variant of `DE` (front only) | firmware of `DE` | Berlin |
 | `scifi_RUNE_GB` | Runes (English) | script variant of `GB` (front only) | firmware of `GB` | London |
 <!-- LANGUAGES END -->
 
-<p align="center"><img src="docs/render/Wordclock_Render_v2.0_ALL_1022.gif" width="360" alt="All fronts (light)"> <img src="docs/render/dark/Wordclock_Render_v2.0_ALL_1022.gif" width="360" alt="All fronts (dark)"></p>
-<p align="center">All fronts at a glance: <a href="docs/render/Wordclock_Render_v2.0_ALL_1022.png">light</a> | <a href="docs/render/dark/Wordclock_Render_v2.0_ALL_1022.png">dark</a></p>
+<p align="center"><img src="docs/render/Wordclock_Render_v1.0_ALL_1022.gif" width="360" alt="All fronts (light)"> <img src="docs/render_dark/Wordclock_Render_v1.0_ALL_1022.gif" width="360" alt="All fronts (dark)"></p>
 
 ## Quick start
 
 | Variant | Copy | Choose the language | Guide |
 |---|---|---|---|
-| Arduino | folder `arduino/Wordclock` into the sketchbook | `config.h`: `#define WC_LANG_FILE "src/wc_lang_GB.h"` | `docs/setup/SETUP_Arduino_EN.txt` |
-| ESPHome | content of `esphome/` to `/config/esphome/` | `wordclock_multi.yaml`: `lang: !include wordclock_multi/lang/lang_GB.yaml` | `docs/setup/SETUP_ESPHome_EN.txt` |
+| Arduino | folder `arduino/Wordclock` into the sketchbook | `config.h`: `#define WC_LANG_FILE "src/wc_lang_GB.h"` | [`arduino/README.md`](arduino/README.md) |
+| ESPHome | content of `esphome/` to `/config/esphome/` | `wordclock_multi.yaml`: `lang: !include wordclock_multi/lang/lang_GB.yaml` | [`esphome/README.md`](esphome/README.md) |
 
 Both base files list all languages as ready-to-copy lines in a comment.
+Even simpler: single-file versions per language in `arduino/single_Language/` and `esphome/single_Language/`
+(each folder has a README.md).
 
 ### ESPHome
 
 Secrets in `secrets.yaml`: `wifi_ssid`, `wifi_password`, `ap_password`, `api_key`, `ota_password`.
 Copy the content of `esphome/` 1:1 to `/config/esphome/` (`wordclock_multi.yaml` plus the folder `wordclock_multi/`;
-the subfolder keeps the packages out of the dashboard device list). In `wordclock_multi.yaml` set the language,
+the subfolder keeps the packages out of the dashboard device list; `single_Language/` is not needed). In `wordclock_multi.yaml` set the language,
 the data pin and the Home Assistant entities for alarm, vent, battery and the two temperatures.
 Defaults: Wemos D1 mini ESP32, GPIO32, zigzag wiring; ESP32-C6 see the comment at the end of the file.
 Device name: `name` / `friendly_name` under `substitutions:` in `wordclock_multi.yaml`. Several clocks: one copy of
@@ -143,18 +146,32 @@ esphome/
   wordclock_multi/src/*.h  copy of arduino/Wordclock/src (tools/sync_src.py)
 models/lang/lang_XX.scad   grid of every language for the 3D models (the models themselves: MakerWorld)
 docs/languages/            generated by tools/make_info.py: one file per language + LANGUAGES.txt overview
-docs/setup/                generated by tools/make_info.py: setup guides (DE/EN)
-docs/render/               preview images and animated GIF of all fronts (tools/render_fronts.bat), dark/ = dark front
-docs/img/                  pictures of this README
+docs/setup/                generated by tools/make_info.py: setup guides FreeCAD + OpenSCAD (SETUP_*_EN/DE.md)
+arduino/README*.md, esphome/README*.md  generated by tools/make_info.py: setup guides (EN / DE)
+arduino/single_Language/   single-file sketch per language (tools/bundle_firmware.py)
+esphome/single_Language/   single-file ESPHome version per language: .yaml + .h (tools/bundle_firmware.py)
+docs/render/               preview images, animated GIF of all fronts and text ticker GIF, light front (tools/render_fronts.py)
+docs/render_dark/          the same with the dark front
 docs/LANG_SPEC.md          how to add a language
-tools/                     Python tools (check_lang, make_info, make_font, render_fronts, sync_src, ...) and
-                           the Windows double-click files:
-  build_firmware.bat       compile the Arduino firmware for all languages/boards -> output/firmware/
-  bundle_firmware.bat      firmware as single files per language (ESPHome .yaml + .h, Arduino .ino + .h, zips,
-                           e.g. for MakerWorld) -> output/makerworld/
-  check_languages.bat      check all languages, update docs/languages + docs/setup -> output/check_log.txt
-  render_fronts.bat        preview images of all fronts (light and dark) -> docs/render/
-output/                    local build results and logs (not in the repository)
+tools/                     Python tools (check_lang, make_info, render_fronts, bundle_firmware, ...)
+  wordclock_tools.bat      Windows menu for all tools (double-click, choose a number, A = all in a row):
+                           check languages / ESPHome / models, render fronts, bundle the firmware, export
+                           fronts and parts (binary STL), Bambu Studio 3MF per language, item P = PictureFrame for
+                           another picture frame (asks size, depth, ...); generated files are only rewritten when
+                           their content changes; logs in tools/logs/,
+                           afterwards tools/clean.py removes caches and temporary files; item B = backup clean
+                           (also removes the generated STL/3MF/zips/fonts, only git-ignored outputs, asks first);
+                           unchanged outputs are skipped (items 5, 9, 10, 12-14), so "A" after any change only
+                           rebuilds what really changed; everything again: `wordclock_tools.bat A F`
+  wc_stamp.py              base data of every output (content hash and date of the input files, parameters, versions
+                           of OpenSCAD, fonts) in an info file next to the outputs:
+                           docs/render*/render_info.json,
+                           _private/makerworld/export/export_info.json, export_3mf/3mf_info.json; --force = all again
+  install_fonts.py         checks the fonts of the fronts (CN, JP, KR: Noto Sans SC/JP/KR Bold, runes: Segoe UI
+                           Historic) and downloads / installs missing Noto fonts for all users (menu item 15)
+  make_3mf.py              Bambu Studio project (3MF) per language (or one with all fronts) from tools/template_P2S.3mf:
+                           only the meshes are swapped, printer, profile, filament change, plates and per object
+                           settings come from the template; break-away hook supports as a removable part
 ```
 
 The C++ files in `arduino/Wordclock/src/` are used by both variants (ESPHome via `esphome: includes:`). They are
@@ -163,19 +180,22 @@ edited only there, `python3 tools/sync_src.py` copies them to the ESPHome folder
 Tools (Python 3, g++ for the previews):
 
 g++ on Windows (MinGW-w64 from WinLibs): in a command prompt `winget install BrechtSanders.WinLibs.POSIX.UCRT`, then open
-a new window and check with `g++ --version`. Without g++ `tools/check_languages.bat` still checks grids, texts and YAML,
+a new window and check with `g++ --version`. Without g++ `tools/wordclock_tools.bat` (item 1) still checks grids, texts and YAML,
 but not the fillers, and the files `docs/languages/LANG_XX.txt` are not rewritten. If `g++` is not found, add the `bin` folder of
 WinLibs to `Path` (Windows key, "environment variables", edit environment variables for your account).
 
 ```
 python3 tools/check_lang.py [XX] [--words]   check grids, word positions, texts, YAML keys
-python3 tools/make_info.py                   write docs/languages + docs/setup, language lists in config.h, YAML and README
+python3 tools/make_info.py                   write docs/languages, setup guides, language lists in config.h, YAML and README
 python3 tools/render_fronts.py [XX ...]      PNG renders of the fronts plus GIF (Pillow), e.g. --style dark --time 13:47
-                                             (Windows: double-click tools/render_fronts.bat; no compiler needed, the lit
+                                             (Windows: tools/wordclock_tools.bat, item 5; no compiler needed, the lit
                                              words come from tools/render_masks.json.xz)
 python3 tools/make_masks.py                  rebuild that mask cache after a language change (needs g++)
 python3 tools/make_font.py                   regenerate the ticker font src/wc_font16.h (Pillow)
 python3 tools/make_webpage.py                pack webpage.html into webpage.h (after every change of the page)
+python3 tools/bundle_firmware.py [XX ...]    single-file versions in arduino/ and esphome/single_Language
+python3 tools/clean.py [--dry] [--backup]    remove __pycache__, temporary build folders and other leftovers;
+                                             --backup also the generated STL/3MF/zips/fonts (slim manual backup)
 ```
 
 ## Hardware

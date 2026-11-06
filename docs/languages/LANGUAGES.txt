@@ -1,40 +1,40 @@
-Wordclock_Multi v2.0 - Sprachen / languages
+Wordclock_Multi v1.0 - Sprachen / languages
 ===========================================
 Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
 
-   Code         Sprache/language  Art/kind         Version  Status             Hauptstadt/capital    Zeitzone/time zone
-   -----------  ----------------  ---------------  -------  -----------------  --------------------  --------------------
-   DE           Deutsch           Land/country     v2.0     getestet / tested  Berlin                Europe/Berlin
-   GB           English           Land/country     v2.0     getestet / tested  London                Europe/London
-   CN           中文                Land/country     v0.9     im Test / in test  Beijing               Asia/Shanghai
-   CZ           Čeština           Land/country     v0.9     im Test / in test  Praha                 Europe/Prague
-   DK           Dansk             Land/country     v0.9     im Test / in test  København             Europe/Copenhagen
-   ES           Español           Land/country     v0.9     im Test / in test  Madrid                Europe/Madrid
-   FR           Français          Land/country     v0.9     im Test / in test  Paris                 Europe/Paris
-   GR           Ελληνικά          Land/country     v0.9     im Test / in test  Athína                Europe/Athens
-   HU           Magyar            Land/country     v0.9     im Test / in test  Budapest              Europe/Budapest
-   ID           Bahasa Indonesia  Land/country     v0.9     im Test / in test  Jakarta               Asia/Jakarta
-   IT           Italiano          Land/country     v0.9     im Test / in test  Roma                  Europe/Rome
-   JP           日本語               Land/country     v0.9     im Test / in test  Tokyo                 Asia/Tokyo
-   KR           한국어               Land/country     v0.9     im Test / in test  Seoul                 Asia/Seoul
-   NL           Nederlands        Land/country     v0.9     im Test / in test  Amsterdam             Europe/Amsterdam
-   NO           Norsk             Land/country     v0.9     im Test / in test  Oslo                  Europe/Oslo
-   PL           Polski            Land/country     v0.9     im Test / in test  Warszawa              Europe/Warsaw
-   PT           Português         Land/country     v0.9     im Test / in test  Lisboa                Europe/Lisbon
-   RO           Română            Land/country     v0.9     im Test / in test  București             Europe/Bucharest
-   SE           Svenska           Land/country     v0.9     im Test / in test  Stockholm             Europe/Stockholm
-   TR           Türkçe            Land/country     v0.9     im Test / in test  Ankara                Europe/Istanbul
-   TZ           Kiswahili         Land/country     v0.9     im Test / in test  Dodoma                Africa/Dar_es_Salaam
-   UA           Українська        Land/country     v0.9     im Test / in test  Київ (Kyiv)           Europe/Kyiv
-   dialect_BAD  Badisch           Dialekt/dialect  v2.0     getestet / tested  Freiburg im Breisgau  Europe/Berlin
-   dialect_CH   Schwizerdütsch    Dialekt/dialect  v2.0     getestet / tested  Bern                  Europe/Zurich
-   dialect_SWG  Schwäbisch        Dialekt/dialect  v2.0     getestet / tested  Stuttgart             Europe/Berlin
-   EO           Esperanto         andere/other     v0.9     im Test / in test  Warszawa              Europe/Warsaw
-   VA           Latina            andere/other     v0.9     im Test / in test  Città del Vaticano    Europe/Rome
-   scifi_HVA    Valyrio           andere/other     v0.9     im Test / in test  Roma                  Europe/Rome
-   scifi_NAV    Na'vi             andere/other     v0.9     im Test / in test  Berlin                Europe/Berlin
-   scifi_QYA    Quenya            andere/other     v0.9     im Test / in test  London                Europe/London
-   scifi_TLH    tlhIngan Hol      andere/other     v0.9     im Test / in test  Berlin                Europe/Berlin
+   Code         Sprache/language  Art/kind         Version  Status                                       Hauptstadt/capital    Zeitzone/time zone
+   -----------  ----------------  ---------------  -------  -------------------------------------------  --------------------  --------------------
+   DE           Deutsch           Land/country     v1.0     bestätigt / confirmed                        Berlin                Europe/Berlin
+   GB           English           Land/country     v1.0     bestätigt / confirmed                        London                Europe/London
+   CN           中文                Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Beijing               Asia/Shanghai
+   CZ           Čeština           Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Praha                 Europe/Prague
+   DK           Dansk             Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  København             Europe/Copenhagen
+   ES           Español           Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Madrid                Europe/Madrid
+   FR           Français          Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Paris                 Europe/Paris
+   GR           Ελληνικά          Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Athína                Europe/Athens
+   HU           Magyar            Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Budapest              Europe/Budapest
+   ID           Bahasa Indonesia  Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Jakarta               Asia/Jakarta
+   IT           Italiano          Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Roma                  Europe/Rome
+   JP           日本語               Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Tokyo                 Asia/Tokyo
+   KR           한국어               Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Seoul                 Asia/Seoul
+   NL           Nederlands        Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Amsterdam             Europe/Amsterdam
+   NO           Norsk             Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Oslo                  Europe/Oslo
+   PL           Polski            Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Warszawa              Europe/Warsaw
+   PT           Português         Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Lisboa                Europe/Lisbon
+   RO           Română            Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  București             Europe/Bucharest
+   SE           Svenska           Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Stockholm             Europe/Stockholm
+   TR           Türkçe            Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Ankara                Europe/Istanbul
+   TZ           Kiswahili         Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Dodoma                Africa/Dar_es_Salaam
+   UA           Українська        Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Київ (Kyiv)           Europe/Kyiv
+   dialect_BAD  Badisch           Dialekt/dialect  v1.0     bestätigt / confirmed                        Freiburg im Breisgau  Europe/Berlin
+   dialect_CH   Schwizerdütsch    Dialekt/dialect  v1.0     bestätigt / confirmed                        Bern                  Europe/Zurich
+   dialect_SWG  Schwäbisch        Dialekt/dialect  v1.0     bestätigt / confirmed                        Stuttgart             Europe/Berlin
+   EO           Esperanto         andere/other     v0.9     Grammatik unbestätigt / grammar unconfirmed  Warszawa              Europe/Warsaw
+   VA           Latina            andere/other     v0.9     Grammatik unbestätigt / grammar unconfirmed  Città del Vaticano    Europe/Rome
+   scifi_HVA    Valyrio           andere/other     v0.9     Grammatik unbestätigt / grammar unconfirmed  Roma                  Europe/Rome
+   scifi_NAV    Na'vi             andere/other     v0.9     Grammatik unbestätigt / grammar unconfirmed  Berlin                Europe/Berlin
+   scifi_QYA    Quenya            andere/other     v0.9     Grammatik unbestätigt / grammar unconfirmed  London                Europe/London
+   scifi_TLH    tlhIngan Hol      andere/other     v0.9     Grammatik unbestätigt / grammar unconfirmed  Berlin                Europe/Berlin
 
 Schrift-Varianten (nur Front, Firmware der Basissprache) / script variants (front only, firmware of the base):
    Code           Name             Basis/base  Schrift/font (OpenSCAD, FreeCAD)

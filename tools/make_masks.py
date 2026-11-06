@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-make_masks.py - Wordclock 16x16, mask cache for render_fronts.py, v2.0
+make_masks.py - Wordclock 16x16, mask cache for render_fronts.py, v1.0
 
 Compiles every language once (tools/render_mask.cpp, needs g++ or clang++) and stores the lit cells of all
 1440 minutes, the time texts and the additional displays in tools/render_masks.json.xz (approx. 40 KB).

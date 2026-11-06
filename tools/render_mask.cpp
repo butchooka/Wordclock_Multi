@@ -1,5 +1,5 @@
 /*
-  render_mask.cpp - Wordclock 16x16, helper for tools/render_fronts.py, v2.0
+  render_mask.cpp - Wordclock 16x16, helper for tools/render_fronts.py, v1.0
   Compiles the shared core + one language and prints the lit cells of one time (same logic as the clock).
   Build: g++ -std=c++11 -DLANG=DE tools/render_mask.cpp -o render_mask
   Run:   render_mask hh:mm RRGGBB features
@@ -33,7 +33,7 @@ static void render_bits(int h, int m, bool features, unsigned col, WcRgb *f) {
   in.valid = true; in.hour = h; in.minute = m; in.show_minutes = true;
   in.c_time = wc_hex(col);
   if (features) {
-    in.show_vent = in.show_alarm = in.show_battery = in.show_temp = true;
+    in.show_vent = in.show_alarm = in.show_battery = in.show_tout = in.show_tin = true;
     in.vent = in.alarm = true; in.battery = 70.0f;
     in.t_out = 12.0f; in.t_in = 22.0f;
     in.t_out_lo = 5; in.t_out_hi = 30; in.t_in_lo = 20; in.t_in_hi = 25;
@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
   in.valid = true; in.hour = h; in.minute = m; in.show_minutes = true;
   in.c_time = wc_hex(col);
   if (features) {
-    in.show_vent = in.show_alarm = in.show_battery = in.show_temp = true;
+    in.show_vent = in.show_alarm = in.show_battery = in.show_tout = in.show_tin = true;
     in.vent = in.alarm = true; in.battery = 70.0f;
     in.t_out = 12.0f; in.t_in = 22.0f;
     in.t_out_lo = 5; in.t_out_hi = 30; in.t_in_lo = 20; in.t_in_hi = 25;

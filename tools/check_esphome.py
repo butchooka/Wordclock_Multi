@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-check_esphome.py - Wordclock 16x16, checks the ESPHome configuration of all languages, v2.0
+check_esphome.py - Wordclock 16x16, checks the ESPHome configuration of all languages, v1.0
 
 Step 1 (always, Python only): every esphome/wordclock_multi/lang/lang_XX.yaml
   - is valid YAML (with line number on an error)
@@ -9,8 +9,8 @@ Step 1 (always, Python only): every esphome/wordclock_multi/lang/lang_XX.yaml
   - the options of a select are unique (colours incl. c_off, night modes)
   Uses PyYAML if installed (comes with ESPHome), otherwise a simple line check.
 Step 2 (if ESPHome is installed, or with --esphome): "esphome config" for every language with a generated copy of
-  esphome/wordclock_multi.yaml (language set, dummy secrets) in output/esphome_check/. Only validates, no compile.
-  Full output per language: output/esphome_check/<code>.txt
+  esphome/wordclock_multi.yaml (language set, dummy secrets) in tools/logs/esphome_check/. Only validates, no compile.
+  Full output per language: tools/logs/esphome_check/<code>.txt
 
     python3 tools/check_esphome.py [--log FILE] [--no-esphome] [--esphome] [CODE ...]
 """
@@ -25,7 +25,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ESP = os.path.join(ROOT, "esphome")
 LANG_DIR = os.path.join(ESP, "wordclock_multi", "lang")
-WORK = os.path.join(ROOT, "output", "esphome_check")
+WORK = os.path.join(ROOT, "tools", "logs", "esphome_check")
 
 # values YAML 1.1 does not read as a string when unquoted
 YAML11_SPECIAL = re.compile(r"^(y|Y|yes|Yes|YES|n|N|no|No|NO|true|True|TRUE|false|False|FALSE|on|On|ON|off|Off|OFF"
@@ -201,13 +201,13 @@ def main():
             if a.esphome:
                 bad.append("esphome")
         else:
-            say("Step 2: esphome config (%s), output in output/esphome_check/" % " ".join(cmd))
+            say("Step 2: esphome config (%s), output in tools/logs/esphome_check/" % " ".join(cmd))
             for c in codes:
                 if c in bad:
                     say("  %-14s skipped (step 1)" % c)
                     continue
                 ok, msg = esphome_config(cmd, c)
-                say("  %-14s %s" % (c, "ok" if ok else "FAILED  (output/esphome_check/%s.txt)" % c))
+                say("  %-14s %s" % (c, "ok" if ok else "FAILED  (tools/logs/esphome_check/%s.txt)" % c))
                 for m in msg:
                     say("      " + m)
                 if not ok:

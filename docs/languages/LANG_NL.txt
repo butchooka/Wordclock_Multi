@@ -1,8 +1,8 @@
-Wordclock_Multi v2.0 - Nederlands (NL)
+Wordclock_Multi v1.0 - Nederlands (NL)
 ======================================
 Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
 
-Status:                       v0.9 (im Test / in test)
+Status:                       v0.9 (Grammatik unbestätigt / grammar unconfirmed)
 Hauptstadt / capital:         Amsterdam  (52.3676, 4.9041)
 Zeitzone / time zone:         Europe/Amsterdam  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
 Arduino: Hotspot / hotspot:   Woordklok  ->  http://192.168.4.1

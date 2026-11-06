@@ -1,8 +1,8 @@
-Wordclock_Multi v2.0 - Deutsch (DE)
+Wordclock_Multi v1.0 - Deutsch (DE)
 ===================================
 Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
 
-Status:                       v2.0 (getestet / tested)
+Status:                       v1.0 (bestätigt / confirmed)
 Hauptstadt / capital:         Berlin  (52.5200, 13.4050)
 Zeitzone / time zone:         Europe/Berlin  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
 Arduino: Hotspot / hotspot:   Wortuhr  ->  http://192.168.4.1

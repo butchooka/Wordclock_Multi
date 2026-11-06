@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-sync_src.py - Wordclock 16x16, copies the shared C++ files to the ESPHome folder, v2.0
+sync_src.py - Wordclock 16x16, copies the shared C++ files to the ESPHome folder, v1.0
 
 The single source is arduino/Wordclock/src/*.h (Arduino needs the files inside the sketch folder).
 ESPHome uses a copy in esphome/wordclock_multi/src/, so the folder esphome/ can be copied 1:1 to /config/esphome/.

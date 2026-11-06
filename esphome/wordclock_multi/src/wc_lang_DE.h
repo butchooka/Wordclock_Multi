@@ -1,5 +1,5 @@
 /*
-  wc_lang_DE.h - Wordclock 16x16, language file DE (Deutsch), v2.0
+  wc_lang_DE.h - Wordclock 16x16, language file DE (Deutsch), v1.0
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_DE.scad (check: python3 tools/check_lang.py DE).
   Preview of all times: see tools/preview.cpp.

@@ -1,8 +1,8 @@
-Wordclock_Multi v2.0 - English (GB)
+Wordclock_Multi v1.0 - English (GB)
 ===================================
 Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
 
-Status:                       v2.0 (getestet / tested)
+Status:                       v1.0 (bestätigt / confirmed)
 Hauptstadt / capital:         London  (51.5074, -0.1278)
 Zeitzone / time zone:         Europe/London  (POSIX GMT0BST,M3.5.0/1,M10.5.0)
 Arduino: Hotspot / hotspot:   Wordclock  ->  http://192.168.4.1

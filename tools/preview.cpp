@@ -1,5 +1,5 @@
 /*
-  preview.cpp - Wordclock 16x16, host preview of a language file, v2.0
+  preview.cpp - Wordclock 16x16, host preview of a language file, v1.0
   Compiles the shared core + effects + one language with any C++ compiler (no Arduino/ESPHome needed)
   and prints the words for every 5 minutes (and with single minutes), plus the lit grid for some times.
 
@@ -33,7 +33,7 @@ static void clock_in(WcClockIn &in, int h, int m) {
   memset(&in, 0, sizeof(in));
   in.valid = true; in.hour = h; in.minute = m; in.show_minutes = true;
   in.show_vent = in.show_alarm = in.show_battery = true; in.vent = in.alarm = true; in.battery = 75.0f;
-  in.show_temp = true; in.t_out = 12.0f; in.t_in = 22.0f;
+  in.show_tout = in.show_tin = true; in.t_out = 12.0f; in.t_in = 22.0f;
   in.t_out_lo = 5; in.t_out_hi = 30; in.t_in_lo = 20; in.t_in_hi = 25;
   in.c_time = wc_rgb(255, 255, 255); in.c_vent = in.c_alarm = in.c_battery = wc_rgb(255, 0, 0);
   in.show_extra = true;
@@ -43,7 +43,7 @@ static void clock_in(WcClockIn &in, int h, int m) {
 static void print_grid(int h, int m, bool time_only) {
   WcClockIn in;
   clock_in(in, h, m);
-  if (time_only) in.show_temp = in.show_vent = in.show_alarm = in.show_battery = in.show_extra = false;
+  if (time_only) in.show_tout = in.show_tin = in.show_vent = in.show_alarm = in.show_battery = in.show_extra = false;
   WcRgb f[WC_N];
   wc_render_clock(WC_LANG, in, f);
   char txt[256];

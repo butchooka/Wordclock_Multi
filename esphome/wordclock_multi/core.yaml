@@ -1,4 +1,4 @@
-# wordclock_multi/core.yaml - Wordclock 16x16, ESPHome core package, multi-language v2.0
+# wordclock_multi/core.yaml - Wordclock 16x16, ESPHome core package, multi-language v1.0
 # Do not edit for a normal build: settings are in wordclock_multi.yaml, texts in wordclock_multi/lang/lang_XX.yaml.
 # No secrets in here (secrets.yaml is only searched next to the file that uses !secret).
 # Identical for all languages. The display logic is in the shared C++ files (${src_dir}):
@@ -9,7 +9,7 @@
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
-  comment: "Wordclock 16x16 ${lang_code} v2.0"
+  comment: "Wordclock 16x16 ${lang_code} v1.0"
   includes:
     - ${src_dir}/wc_core.h
     - ${src_dir}/wc_effects.h
@@ -80,6 +80,12 @@ globals:
     type: uint32_t
     initial_value: "0"
   - id: ha_stale           # no connection for longer than ha_timeout_min: values from Home Assistant are ignored
+    type: bool
+    initial_value: "false"
+  - id: wifi_lost_since    # millis() since when the Wi-Fi is not connected (from the start), 0 = connected
+    type: uint32_t
+    initial_value: "1"
+  - id: wifi_ap_on         # Wi-Fi not connected for 60 s (= ap_timeout default): the fallback hotspot is open
     type: bool
     initial_value: "false"
   - id: fx_mode            # 0 = clock, 1..n = effect number (order of WC_FX in wc_effects.h)
@@ -570,6 +576,15 @@ interval:
   - interval: 5s
     then:
       - lambda: |-
+          // Wi-Fi: the fallback hotspot (wifi: ap:) opens after ap_timeout (default 1 min) without connection
+          if (wifi::global_wifi_component != nullptr && wifi::global_wifi_component->is_connected()) {
+            id(wifi_lost_since) = 0;
+            id(wifi_ap_on) = false;
+          } else {
+            const uint32_t now_ms = millis();
+            if (id(wifi_lost_since) == 0) id(wifi_lost_since) = now_ms ? now_ms : 1;
+            id(wifi_ap_on) = now_ms - id(wifi_lost_since) >= 60000UL;
+          }
           if (api::global_api_server != nullptr && api::global_api_server->is_connected()) {
             id(ha_lost_since) = 0;
             id(ha_stale) = false;
@@ -701,6 +716,12 @@ light:
               in.pride = (ctime_sel == 9) && in.valid;   // pride: one random colour per time word, re-rolled each minute
               if (in.pride) in.pride_col = wc_pride_refresh((int32_t)(t.hour * 60 + t.minute));
               in.c_time = wc_pal_or_random(ctime_sel, id(rnd_clock));
+              // no time: the extra words (easter egg) are shown instead of the prefix (wc_render_clock);
+              // hotspot open (Wi-Fi not reachable): they pulse blue, otherwise static in the time colour
+              if (!in.valid && id(wifi_ap_on)) {
+                const float v = 0.15f + 0.85f * (0.5f - 0.5f * cosf(ms / 1000.0f * 3.1415926f));
+                in.c_time = wc_rgb(0, 0, (uint8_t)(255 * v));
+              }
               in.c_vent = wc_pal_or_random(sv < 0 ? 0 : sv, id(rnd_vent));
               in.c_alarm = wc_pal_or_random(sa < 0 ? 0 : sa, id(rnd_alarm));
               in.c_battery = wc_pal_or_random(sb < 0 ? 0 : sb, id(rnd_battery));

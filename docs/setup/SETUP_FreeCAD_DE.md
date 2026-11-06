@@ -1,0 +1,85 @@
+# Wordclock_Multi v1.0 - Einrichtung FreeCAD
+
+> Automatisch erzeugt von `tools/make_info.py` - nicht von Hand ändern.
+
+[English](SETUP_FreeCAD_EN.md) | **Deutsch**
+
+## 1. Was wohin kopieren
+
+`Wordclock_Model.FCMacro`, `Wordclock_Common.py` (gemeinsamer Teil beider Makros) und den Ordner `lang/`
+(mit allen `lang_XX.scad`) zusammen in einen Ordner kopieren, z. B. in den FreeCAD-Makroordner
+(Makro > Makros... zeigt den Pfad) oder einfach den Ordner `models/` benutzen.
+Das Makro liest die Raster aus `lang/lang_XX.scad` neben sich (anderer Ort: `LANG_DIR` oben im Makro).
+
+## 2. Sprache wählen
+
+Oben im Makro:
+
+- `LANG = None` → Auswahldialog beim Start (zeigt alle gefundenen Sprachen)
+- `LANG = "ALL"` → Fronten aller Sprachen in einem Durchlauf
+
+| Code | Sprache | Makro / macro | Datei / file |
+|---|---|---|---|
+| `DE` | Deutsch | `LANG = "DE"` | `models/lang/lang_DE.scad` |
+| `GB` | English | `LANG = "GB"` | `models/lang/lang_GB.scad` |
+| `CN` | 中文 | `LANG = "CN"` | `models/lang/lang_CN.scad` |
+| `CZ` | Čeština | `LANG = "CZ"` | `models/lang/lang_CZ.scad` |
+| `DK` | Dansk | `LANG = "DK"` | `models/lang/lang_DK.scad` |
+| `ES` | Español | `LANG = "ES"` | `models/lang/lang_ES.scad` |
+| `FR` | Français | `LANG = "FR"` | `models/lang/lang_FR.scad` |
+| `GR` | Ελληνικά | `LANG = "GR"` | `models/lang/lang_GR.scad` |
+| `HU` | Magyar | `LANG = "HU"` | `models/lang/lang_HU.scad` |
+| `ID` | Bahasa Indonesia | `LANG = "ID"` | `models/lang/lang_ID.scad` |
+| `IT` | Italiano | `LANG = "IT"` | `models/lang/lang_IT.scad` |
+| `JP` | 日本語 | `LANG = "JP"` | `models/lang/lang_JP.scad` |
+| `KR` | 한국어 | `LANG = "KR"` | `models/lang/lang_KR.scad` |
+| `NL` | Nederlands | `LANG = "NL"` | `models/lang/lang_NL.scad` |
+| `NO` | Norsk | `LANG = "NO"` | `models/lang/lang_NO.scad` |
+| `PL` | Polski | `LANG = "PL"` | `models/lang/lang_PL.scad` |
+| `PT` | Português | `LANG = "PT"` | `models/lang/lang_PT.scad` |
+| `RO` | Română | `LANG = "RO"` | `models/lang/lang_RO.scad` |
+| `SE` | Svenska | `LANG = "SE"` | `models/lang/lang_SE.scad` |
+| `TR` | Türkçe | `LANG = "TR"` | `models/lang/lang_TR.scad` |
+| `TZ` | Kiswahili | `LANG = "TZ"` | `models/lang/lang_TZ.scad` |
+| `UA` | Українська | `LANG = "UA"` | `models/lang/lang_UA.scad` |
+| `dialect_BAD` | Badisch | `LANG = "dialect_BAD"` | `models/lang/lang_dialect_BAD.scad` |
+| `dialect_CH` | Schwizerdütsch | `LANG = "dialect_CH"` | `models/lang/lang_dialect_CH.scad` |
+| `dialect_SWG` | Schwäbisch | `LANG = "dialect_SWG"` | `models/lang/lang_dialect_SWG.scad` |
+| `EO` | Esperanto | `LANG = "EO"` | `models/lang/lang_EO.scad` |
+| `VA` | Latina | `LANG = "VA"` | `models/lang/lang_VA.scad` |
+| `scifi_HVA` | Valyrio | `LANG = "scifi_HVA"` | `models/lang/lang_scifi_HVA.scad` |
+| `scifi_NAV` | Na'vi | `LANG = "scifi_NAV"` | `models/lang/lang_scifi_NAV.scad` |
+| `scifi_QYA` | Quenya | `LANG = "scifi_QYA"` | `models/lang/lang_scifi_QYA.scad` |
+| `scifi_TLH` | tlhIngan Hol | `LANG = "scifi_TLH"` | `models/lang/lang_scifi_TLH.scad` |
+| `scifi_RUNE_DE` | Runen (Deutsch) | `LANG = "scifi_RUNE_DE"` | `models/lang/lang_scifi_RUNE_DE.scad` |
+| `scifi_RUNE_GB` | Runes (English) | `LANG = "scifi_RUNE_GB"` | `models/lang/lang_scifi_RUNE_GB.scad` |
+
+## 3. Wichtige Einstellungen
+
+Oben im Makro, Kommentare dort:
+
+- `MODEL` / `BUILD_*` (welche Teile), `CAP_HEIGHT`, `FRONT_SKIN`, `ESP_BOARD`
+- `FONT_FILE` (`None` = Schriftdialog; Sprachen mit eigener Schrift wie JP/CN/KR bekommen automatisch eine
+  passende installierte Schrift, `FONT_AUTO` / `LANG_FONTS`)
+- `FILLER` = Darstellung der Füllfelder (`x` im Raster): `"auto"` (Standard: Vorgabe der Sprache aus
+  `lang_XX.scad`, z. B. Punkt bei CN/JP/KR, sonst X), `"X"`, `"dot"` (Punkt wie die Temperaturpunkte,
+  Größe `FILLER_DOT`) oder ein beliebiges Zeichen wie `"-"`, `"+"`, `"O"`.
+  Die Füllfelder bleiben offen (Lichtkammer), damit Effekte über die ganze Fläche laufen.
+
+## 4. Ausführen und exportieren
+
+Makro > Makros... > `Wordclock_Model.FCMacro` > Ausführen. Mit `EXPORT = "stl"` (Standard, `"step"` geht auch)
+landen alle Teile in Drucklage im Ordner `export/` neben dem Makro. Dateinamen wie in OpenSCAD, mit Zusatz `_freecad`:
+`Frame_<LANG>_<Schrift>_freecad` (Buchstaben: `..._Letters_freecad`), `Rear_freecad`, `Holder_<Name>_freecad`
+(Stützen: `Holder_<Name>_Support_freecad`).
+
+## 5. Sondermodell PictureFrame
+
+Der PictureFrame (Frontplatte für einen tiefen Bilderrahmen) hat ein eigenes Makro:
+`Wordclock_Model_PictureFrame.FCMacro` (gleiche Parameter `PICTUREFRAME_*` wie in OpenSCAD, Befestigung
+`PICTUREFRAME_OWN_MOUNT = "SCREW"` / `"THIMBLES"` / `"NONE"`, siehe [SETUP_OpenSCAD](SETUP_OpenSCAD_DE.md)).
+Dateiname: `Pictureframe_<PICTUREFRAME_SIZE>_<LANG>_<Schrift>_freecad`.
+
+---
+
+Raster und Grammatik je Sprache: [`docs/languages/LANG_<Code>.txt`](../languages/)

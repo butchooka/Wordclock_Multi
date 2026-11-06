@@ -1,8 +1,8 @@
-Wordclock_Multi v2.0 - Schwizerdütsch (dialect_CH)
+Wordclock_Multi v1.0 - Schwizerdütsch (dialect_CH)
 ==================================================
 Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
 
-Status:                       v2.0 (getestet / tested)
+Status:                       v1.0 (bestätigt / confirmed)
 Hauptstadt / capital:         Bern  (46.9480, 7.4474)
 Zeitzone / time zone:         Europe/Zurich  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
 Arduino: Hotspot / hotspot:   Wortuehrli  ->  http://192.168.4.1

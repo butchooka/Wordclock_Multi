@@ -1,8 +1,8 @@
-Wordclock_Multi v2.0 - Schwäbisch (dialect_SWG)
+Wordclock_Multi v1.0 - Schwäbisch (dialect_SWG)
 ===============================================
 Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
 
-Status:                       v2.0 (getestet / tested)
+Status:                       v1.0 (bestätigt / confirmed)
 Hauptstadt / capital:         Stuttgart  (48.7758, 9.1829)
 Zeitzone / time zone:         Europe/Berlin  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
 Arduino: Hotspot / hotspot:   Wortuehrle  ->  http://192.168.4.1

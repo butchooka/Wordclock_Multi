@@ -1,4 +1,4 @@
-# wordclock_multi.yaml - Wordclock 16x16, ESPHome, multi-language v2.0
+# wordclock_multi.yaml - Wordclock 16x16, ESPHome, multi-language v1.0
 # The only file you normally edit. Structure (copy the content of the folder esphome/ 1:1 to /config/esphome/):
 #   wordclock_multi.yaml               <- this file: language, board, pins, Wi-Fi/API/OTA, Home Assistant entities
 #   wordclock_multi/core.yaml          logic and entities (identical for all languages)
@@ -11,11 +11,11 @@
 # wordclock_multi/. Each copy needs its own name: below. Renaming in the ESPHome dashboard (... > Rename) works,
 # because name is defined here as a substitution (ESPHome only renames a name defined in the main file).
 
-# LANGUAGE: replace the line "lang: ..." under packages: by one line of this list (v2.0 = tested, v0.9 = in test)
+# LANGUAGE: replace the line "lang: ..." under packages: by one line of this list (v1.0 = confirmed, v0.9 = grammar unconfirmed)
 # LANGUAGES BEGIN (list written by tools/make_info.py)
 #   Countries / Länder:
-#     lang: !include wordclock_multi/lang/lang_DE.yaml  Deutsch (v2.0)
-#     lang: !include wordclock_multi/lang/lang_GB.yaml  English (v2.0)
+#     lang: !include wordclock_multi/lang/lang_DE.yaml  Deutsch (v1.0)
+#     lang: !include wordclock_multi/lang/lang_GB.yaml  English (v1.0)
 #     lang: !include wordclock_multi/lang/lang_CN.yaml  中文 (v0.9)
 #     lang: !include wordclock_multi/lang/lang_CZ.yaml  Čeština (v0.9)
 #     lang: !include wordclock_multi/lang/lang_DK.yaml  Dansk (v0.9)
@@ -37,9 +37,9 @@
 #     lang: !include wordclock_multi/lang/lang_TZ.yaml  Kiswahili (v0.9)
 #     lang: !include wordclock_multi/lang/lang_UA.yaml  Українська (v0.9)
 #   Dialects / Dialekte:
-#     lang: !include wordclock_multi/lang/lang_dialect_BAD.yaml  Badisch (v2.0)
-#     lang: !include wordclock_multi/lang/lang_dialect_CH.yaml   Schwizerdütsch (v2.0)
-#     lang: !include wordclock_multi/lang/lang_dialect_SWG.yaml  Schwäbisch (v2.0)
+#     lang: !include wordclock_multi/lang/lang_dialect_BAD.yaml  Badisch (v1.0)
+#     lang: !include wordclock_multi/lang/lang_dialect_CH.yaml   Schwizerdütsch (v1.0)
+#     lang: !include wordclock_multi/lang/lang_dialect_SWG.yaml  Schwäbisch (v1.0)
 #   Other languages / andere Sprachen:
 #     lang: !include wordclock_multi/lang/lang_EO.yaml         Esperanto (v0.9)
 #     lang: !include wordclock_multi/lang/lang_VA.yaml         Latina (v0.9)

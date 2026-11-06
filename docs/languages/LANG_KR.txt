@@ -1,8 +1,8 @@
-Wordclock_Multi v2.0 - 한국어 (KR)
+Wordclock_Multi v1.0 - 한국어 (KR)
 ===============================
 Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
 
-Status:                       v0.9 (im Test / in test)
+Status:                       v0.9 (Grammatik unbestätigt / grammar unconfirmed)
 Hauptstadt / capital:         Seoul  (37.5665, 126.9780)
 Zeitzone / time zone:         Asia/Seoul  (POSIX KST-9)
 Arduino: Hotspot / hotspot:   GeuljaSigye  ->  http://192.168.4.1

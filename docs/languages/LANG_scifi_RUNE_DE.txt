@@ -1,4 +1,4 @@
-Wordclock_Multi v2.0 - Runen (Deutsch) (scifi_RUNE_DE)
+Wordclock_Multi v1.0 - Runen (Deutsch) (scifi_RUNE_DE)
 ======================================================
 Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
 

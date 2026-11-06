@@ -1,4 +1,4 @@
-# Adding a language (LANG_SPEC v2.0)
+# Adding a language (LANG_SPEC v1.0)
 
 A language consists of exactly three files plus two list entries. Nothing else is changed.
 
@@ -76,11 +76,13 @@ After a change of the base grid run `python3 tools/make_variants.py` again.
   TZ HAKUNA MATATA) as `WcWord` list in `WC_LANG.extra`. The switch is named after the phrase in the language
   (`swExtra` in `UI_JSON` and `t_sw_extra` in the YAML, pattern like the VENT switch, e.g. "Show HELLO",
   "HALLO anzeigen"), off by default; `extra_hidden: "false"` in the YAML.
+  As long as the time is unknown (start, no connection) the clock shows the extra words instead of the prefix,
+  whatever the switch says (pulsing blue while the hotspot is open). So the extra must look good on its own.
 
 ## Time grammar
 
 `time_words(valid, hour, minute, show_minutes, m)` marks words with `m.word({row, col, len})` / `m.at(row, col)`
-(row/col from 0). `valid == false`: only the prefix (e.g. ES IST). The text in the web interface is taken from the
+(row/col from 0). `valid == false`: only the prefix (e.g. ES IST) or nothing; this is only used for the text, the grid shows the extra words instead. The text in the web interface is taken from the
 grid automatically in the order of the calls, separated by spaces; `m.glue(...)` marks a word like `m.word(...)`
 but appends its text without a space (a word split in the grid, e.g. IT "MINUTIO": MINUT + O = MINUTO).
 Everything is possible in code: next hour from a certain minute, singular/plural, different hour words,
@@ -102,8 +104,8 @@ The header comment of `wc_lang_XX.h` contains the grammar in German and English 
 ```
 
 `tools/make_info.py` builds `docs/languages/LANG_XX.txt` from it (plus grid, all 5-minute steps, special times and four example
-grids from `preview.cpp`) and updates `docs/languages/LANGUAGES.txt` and the setup guides `docs/setup/SETUP_*_DE/EN.txt`
-(all languages are listed there automatically). Never edit the generated files in `docs/languages/` and `docs/setup/` by hand.
+grids from `preview.cpp`) and updates `docs/languages/LANGUAGES.txt` and the setup guides (`arduino/README*.md`, `esphome/README*.md`, `docs/setup/SETUP_*_EN/DE.md`)
+(all languages are listed there automatically). Never edit the generated files in `docs/languages/`, `docs/setup/` and the setup READMEs by hand.
 
 ## Texts
 
@@ -129,14 +131,14 @@ zone, no new entries in `LOC`/`TZ`.
 ## Check
 
 Windows: double-click `tools/check_languages.bat` (checks all languages without changing files and
-writes `output/check_log.txt`, then updates `docs/languages/` and `docs/setup/` with tools/make_info.py; an outdated ESPHome copy is reported,
+writes `tools/logs/check_log.txt`, then updates `docs/languages/` and the setup guides with tools/make_info.py; an outdated ESPHome copy is reported,
 then run tools/sync_src.py). The filler check and the files `docs/languages/LANG_XX.txt` need g++ (Windows:
 `winget install BrechtSanders.WinLibs.POSIX.UCRT`, new window, `g++ --version`). Command line:
 
 ```
 python3 tools/sync_src.py                                                       # copy .h to ESPHome
 python3 tools/check_lang.py XX --words
-python3 tools/make_info.py                                                       # writes docs/languages + docs/setup (needs g++)
+python3 tools/make_info.py                                                       # writes docs/languages + setup guides (needs g++)
 g++ -std=c++11 -Wall -DLANG=XX tools/preview.cpp -o preview && ./preview        # all times
 ./preview grid 13:47                                                             # lit grid of one time
 ```
@@ -145,7 +147,7 @@ g++ -std=c++11 -Wall -DLANG=XX tools/preview.cpp -o preview && ./preview        
 
 Attach the current ZIP of the repository and write:
 
-> Erstelle mit dem angehängten Wordclock_Multi v2.0 die Sprache **[Sprache]** nach LANG_SPEC.md. Der Kern
+> Erstelle mit dem angehängten Wordclock_Multi v1.0 die Sprache **[Sprache]** nach LANG_SPEC.md. Der Kern
 > (wc_core.h, wc_effects.h, wc_text.h, wc_font16.h, webpage.html, Wordclock.ino, core.yaml, Modelle) bleibt unverändert; falls die Sprache
 > eine Kernänderung braucht, nur beschreiben, nicht umsetzen.
 > Vorgehen: 1. Grammatik der Uhrzeit (5-Minuten-Schritte, Bezug auf die volle/nächste Stunde, Einzahl/Mehrzahl

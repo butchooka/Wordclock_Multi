@@ -1,5 +1,5 @@
 /*
-  wc_core.h - Wordclock 16x16, shared core (Arduino + ESPHome), v2.0
+  wc_core.h - Wordclock 16x16, shared core (Arduino + ESPHome), v1.0
   Plain C++ without Arduino/ESPHome dependencies. Used by:
     - arduino/Wordclock/Wordclock.ino   (#include "src/wc_core.h")
     - esphome/wordclock_multi/core.yaml       (esphome: includes:)
@@ -21,7 +21,7 @@
 #include <string.h>
 #include <math.h>
 
-#define WC_VERSION "2.0"
+#define WC_VERSION "1.0"
 #define WC_ROWS 16
 #define WC_COLS 16
 #define WC_N (WC_ROWS * WC_COLS)
@@ -111,7 +111,8 @@ struct WcMark {
   void at(int r, int c) { WcWord w = {(uint8_t)r, (uint8_t)c, 1}; word(w); }
 };
 
-// valid = false: no time yet, only the prefix ("IT IS") should be marked
+// valid = false: no time yet, only the prefix ("IT IS") should be marked (used for the text; the grid shows the
+// extra words instead, see wc_render_clock)
 typedef void (*WcTimeFn)(bool valid, int hour, int minute, bool show_minutes, WcMark &m);
 
 // One language = one WcLangDef named WC_LANG in src/wc_lang_XX.h
@@ -257,9 +258,13 @@ static inline void wc_render_clock(const WcLangDef &L, const WcClockIn &in, WcRg
   int8_t wid_arr[WC_N];
   memset(wid_arr, -1, sizeof(wid_arr));
   WcMark m = {cell, 0, L.grid, nullptr, 0, 0, wid_arr, 0};
-  L.time_words(in.valid, in.hour, in.minute, in.show_minutes, m);
-  if (in.show_extra)
+  if (in.valid) {
+    L.time_words(in.valid, in.hour, in.minute, in.show_minutes, m);
+    if (in.show_extra)
+      for (int i = 0; i < L.extra_n; i++) m.word(L.extra[i]);
+  } else {  // no time yet (start, no connection): the extra words (easter egg) instead of the prefix, switch ignored
     for (int i = 0; i < L.extra_n; i++) m.word(L.extra[i]);
+  }
 
   m.group = 1;
   if (in.show_vent && in.vent) m.word(L.vent);

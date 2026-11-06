@@ -1,0 +1,105 @@
+# Wordclock_Multi v1.0 - Einrichtung Arduino
+
+> Automatisch erzeugt von `tools/make_info.py` - nicht von Hand ändern.
+
+[English](README.md) | **Deutsch**
+
+Einzeldatei-Sketch je Sprache: [`single_Language/`](single_Language/).
+
+## 1. Voraussetzungen
+
+- Arduino IDE 2.x mit dem ESP32-Boardpaket von Espressif (Version 2.0.x oder 3.x).
+  Boardverwalter-URL: `https://espressif.github.io/arduino-esp32/package_esp32_index.json`
+- Nur bei Boardpaket 2.0.x: Bibliothek „Adafruit NeoPixel“ (Bibliotheksverwalter).
+  Mit 3.x wird keine zusätzliche Bibliothek gebraucht.
+
+## 2. Was wohin kopieren
+
+Den kompletten Ordner `arduino/Wordclock` in den Sketchbook-Ordner der Arduino IDE kopieren
+(z. B. `Dokumente/Arduino/Wordclock`). Der Ordner muss `Wordclock` heißen und enthält:
+
+- `Wordclock.ino`, `config.h`, `webpage.h` (`webpage.html` = Quelle der Weboberfläche)
+- `src/wc_core.h`, `src/wc_effects.h`, `src/wc_text.h`, `src/wc_font16.h`
+- `src/wc_lang_XX.h` (alle Sprachen, nur die gewählte wird kompiliert)
+
+## 3. Sprache wählen
+
+Nur in `config.h`, eine Zeile (die Liste steht auch als Kommentar in `config.h`):
+
+| Code | Sprache | config.h | Hotspot | Adresse |
+|---|---|---|---|---|
+| `DE` | Deutsch | `#define WC_LANG_FILE "src/wc_lang_DE.h"` | `Wortuhr` | http://wortuhr.local |
+| `GB` | English | `#define WC_LANG_FILE "src/wc_lang_GB.h"` | `Wordclock` | http://wordclock.local |
+| `CN` | 中文 | `#define WC_LANG_FILE "src/wc_lang_CN.h"` | `WenziZhong` | http://wenzizhong.local |
+| `CZ` | Čeština | `#define WC_LANG_FILE "src/wc_lang_CZ.h"` | `SlovniHodiny` | http://slovnihodiny.local |
+| `DK` | Dansk | `#define WC_LANG_FILE "src/wc_lang_DK.h"` | `Ordur` | http://ordur.local |
+| `ES` | Español | `#define WC_LANG_FILE "src/wc_lang_ES.h"` | `Reloj` | http://reloj.local |
+| `FR` | Français | `#define WC_LANG_FILE "src/wc_lang_FR.h"` | `Horloge` | http://horloge.local |
+| `GR` | Ελληνικά | `#define WC_LANG_FILE "src/wc_lang_GR.h"` | `RoloiLexeon` | http://roloilexeon.local |
+| `HU` | Magyar | `#define WC_LANG_FILE "src/wc_lang_HU.h"` | `SzoOra` | http://szoora.local |
+| `ID` | Bahasa Indonesia | `#define WC_LANG_FILE "src/wc_lang_ID.h"` | `JamKata` | http://jamkata.local |
+| `IT` | Italiano | `#define WC_LANG_FILE "src/wc_lang_IT.h"` | `Orologio` | http://orologio.local |
+| `JP` | 日本語 | `#define WC_LANG_FILE "src/wc_lang_JP.h"` | `MojiDokei` | http://mojidokei.local |
+| `KR` | 한국어 | `#define WC_LANG_FILE "src/wc_lang_KR.h"` | `GeuljaSigye` | http://geuljasigye.local |
+| `NL` | Nederlands | `#define WC_LANG_FILE "src/wc_lang_NL.h"` | `Woordklok` | http://woordklok.local |
+| `NO` | Norsk | `#define WC_LANG_FILE "src/wc_lang_NO.h"` | `Ordklokke` | http://ordklokke.local |
+| `PL` | Polski | `#define WC_LANG_FILE "src/wc_lang_PL.h"` | `ZegarSlowny` | http://zegarslowny.local |
+| `PT` | Português | `#define WC_LANG_FILE "src/wc_lang_PT.h"` | `Relogio` | http://relogio.local |
+| `RO` | Română | `#define WC_LANG_FILE "src/wc_lang_RO.h"` | `CeasCuCuvinte` | http://ceascucuvinte.local |
+| `SE` | Svenska | `#define WC_LANG_FILE "src/wc_lang_SE.h"` | `Ordklocka` | http://ordklocka.local |
+| `TR` | Türkçe | `#define WC_LANG_FILE "src/wc_lang_TR.h"` | `KelimeSaati` | http://kelimesaati.local |
+| `TZ` | Kiswahili | `#define WC_LANG_FILE "src/wc_lang_TZ.h"` | `SaaManeno` | http://saamaneno.local |
+| `UA` | Українська | `#define WC_LANG_FILE "src/wc_lang_UA.h"` | `SlovoHodynnyk` | http://slovohodynnyk.local |
+| `dialect_BAD` | Badisch | `#define WC_LANG_FILE "src/wc_lang_dialect_BAD.h"` | `Wortuhrle` | http://wortuhrle.local |
+| `dialect_CH` | Schwizerdütsch | `#define WC_LANG_FILE "src/wc_lang_dialect_CH.h"` | `Wortuehrli` | http://wortuehrli.local |
+| `dialect_SWG` | Schwäbisch | `#define WC_LANG_FILE "src/wc_lang_dialect_SWG.h"` | `Wortuehrle` | http://wortuehrle.local |
+| `EO` | Esperanto | `#define WC_LANG_FILE "src/wc_lang_EO.h"` | `VortHorlogo` | http://vorthorlogo.local |
+| `VA` | Latina | `#define WC_LANG_FILE "src/wc_lang_VA.h"` | `Horologium` | http://horologium.local |
+| `scifi_HVA` | Valyrio | `#define WC_LANG_FILE "src/wc_lang_scifi_HVA.h"` | `Valyrio` | http://valyrio.local |
+| `scifi_NAV` | Na'vi | `#define WC_LANG_FILE "src/wc_lang_scifi_NAV.h"` | `LiuKrr` | http://liukrr.local |
+| `scifi_QYA` | Quenya | `#define WC_LANG_FILE "src/wc_lang_scifi_QYA.h"` | `QuettaLume` | http://quettalume.local |
+| `scifi_TLH` | tlhIngan Hol | `#define WC_LANG_FILE "src/wc_lang_scifi_TLH.h"` | `Mutlhaq` | http://mutlhaq.local |
+
+Schrift-Varianten (nur Front, gleiche Firmware wie die Basissprache - diese hier wählen): `scifi_RUNE_DE` = `DE`, `scifi_RUNE_GB` = `GB`
+
+Die Sprache bestimmt Raster, Uhrzeitwörter, Texte der Weboberfläche, Gerätename, Hotspot-Name sowie
+Standard-Standort und Zeitzone (Hauptstadt). Standort und Zeitzone sind später in der Weboberfläche änderbar.
+
+## 4. Hardware in config.h
+
+`LED_PIN` (Standard 32 beim Wemos D1 mini ESP32, 2 beim ESP32-C6), `MA_PER_CHANNEL`, `IDLE_MA_PER_LED`,
+`AP_PASS` (leer = offener Hotspot), optional `AP_SSID` (eigener Hotspot-Name). Alles andere wird in der
+Weboberfläche eingestellt.
+
+## 5. Hochladen
+
+Board „WEMOS D1 MINI ESP32“, Partition Scheme „Default 4MB with spiffs“, Port wählen, Hochladen.
+Updates nur per USB, kein Update über WLAN.
+
+ESP32-C6 (SuperMini / XIAO): nur mit Boardpaket 3.x, Board „ESP32C6 Dev Module“ (bzw. „XIAO_ESP32C6“),
+„USB CDC On Boot: Enabled“ (serieller Monitor über USB), gleiches Partition Scheme. `LED_PIN` ist dann
+automatisch GPIO2.
+
+## 6. Erster Start
+
+Die Uhr öffnet den Hotspot aus der Tabelle oben → verbinden → http://192.168.4.1 → unter WLAN das eigene
+Netz eintragen. Danach erreichbar unter der Adresse aus der Tabelle oder der IP aus dem Router.
+Steuerung per HTTP: siehe Kommentar oben in `Wordclock.ino` (Parameternamen in allen Sprachen gleich).
+
+## 7. Sprache wechseln
+
+Zeile in `config.h` ändern und per USB neu hochladen.
+
+## 8. Lauftext
+
+Weboberfläche, Bereich Effekte: Text eingeben, „Lauftext starten“. Jeder Buchstabe füllt die ganze Matrix,
+der Text läuft für die Effekt Dauer (mindestens einmal komplett, Dauer 0 = bis Stopp) in der Farbe der Uhrzeit
+(„Zufall“ = Regenbogen). Per HTTP: `/api/set?text=Hallo%20Welt` (optional `&textcolor=red|rrggbb|rainbow`),
+`/api/set?textstart=1` zeigt den gespeicherten Text erneut, `fx=stop` beendet ihn. Schrift: lateinische,
+griechische und kyrillische Buchstaben, Ziffern, Satzzeichen, € und ♥ (chinesische, japanische und
+koreanische Zeichen werden übersprungen).
+
+---
+
+Alle Sprachen im Detail: [`docs/languages/LANG_<Code>.txt`](../docs/languages/),
+Übersicht: [`docs/languages/LANGUAGES.txt`](../docs/languages/LANGUAGES.txt)

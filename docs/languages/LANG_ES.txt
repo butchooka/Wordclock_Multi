@@ -1,8 +1,8 @@
-Wordclock_Multi v2.0 - Español (ES)
+Wordclock_Multi v1.0 - Español (ES)
 ===================================
 Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
 
-Status:                       v0.9 (im Test / in test)
+Status:                       v0.9 (Grammatik unbestätigt / grammar unconfirmed)
 Hauptstadt / capital:         Madrid  (40.4168, -3.7038)
 Zeitzone / time zone:         Europe/Madrid  (POSIX CET-1CEST,M3.5.0,M10.5.0/3)
 Arduino: Hotspot / hotspot:   Reloj  ->  http://192.168.4.1

@@ -8,15 +8,16 @@ _private/
 CLAUDE.md
 Claude.md
 
-# local outputs (firmware builds, logs, STL exports)
+# local outputs (logs, check results, Claude's working files)
+tools/logs/
 output/
 models/export/
+tools/check_models_baseline.json
+tools/template_*.3mf
 arduino/Wordclock/firmware/
 check_log.txt
 *_log.txt
 
-# large overview renders (the README uses docs/img/ instead)
-docs/render/**/*_ALL_*.png
 
 # build / system files
 *.zip

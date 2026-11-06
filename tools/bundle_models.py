@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""tools/bundle_models.py - Wordclock_Multi: single-file versions of the models (e.g. for MakerWorld), v2.0
+"""tools/bundle_models.py - Wordclock_Multi: single-file versions of the models (e.g. for MakerWorld), v1.0
 
 The models share code: Wordclock_Common.scad (OpenSCAD) and Wordclock_Common.py (FreeCAD macros), plus the
 language grids in models/lang/. For an upload that needs ONE file this script inserts everything:
@@ -10,8 +10,8 @@ language grids in models/lang/. For an upload that needs ONE file this script in
   FreeCAD:   the block "# >>> include Wordclock_Common.py" ... "# <<< include" is replaced by the content of
              Wordclock_Common.py. Note: the macro still reads the language grids from a folder "lang" next to it.
 
-Output: models/export/bundle/ (same file names). No OpenSCAD / FreeCAD needed, takes about a second.
-Call:  python tools/bundle_models.py [--out DIR]     (or double-click tools/bundle_models.bat)
+Output: _private/makerworld/models/ (same file names, private, not in the repository). No OpenSCAD / FreeCAD needed, takes about a second.
+Call:  python tools/bundle_models.py [--out DIR]     (or tools/wordclock_tools.bat)
 Exit code 1 on an error (missing include file, "use <...>", include left in the result).
 """
 import argparse
@@ -88,7 +88,7 @@ def bundle_macro(path):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--out", default=str(MODELS / "export" / "bundle"), help="target folder")
+    ap.add_argument("--out", default=str(ROOT / "_private" / "makerworld" / "models"), help="target folder")
     a = ap.parse_args()
     out_dir = pathlib.Path(a.out)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -114,8 +114,10 @@ def main():
             errors += 1
             continue
         dst = out_dir / name
-        dst.write_text(text, encoding="utf-8", newline="\n")
-        print("ok     %-40s %6d lines, %4d kB" % (name, text.count("\n"), (len(text.encode("utf-8")) + 512) // 1024))
+        same = dst.is_file() and dst.read_bytes() == text.encode("utf-8")
+        if not same:
+            dst.write_text(text, encoding="utf-8", newline="\n")
+        print(("same   " if same else "ok     ") + "%-40s %6d lines, %4d kB" % (name, text.count("\n"), (len(text.encode("utf-8")) + 512) // 1024))
     print("")
     print("Output: %s" % out_dir)
     print("ALL OK" if not errors else "RESULT: %d errors" % errors)

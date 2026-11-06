@@ -1,5 +1,5 @@
 /*
-  Wordclock.ino - Wordclock 16x16, Arduino variant, multi-language, v2.0
+  Wordclock.ino - Wordclock 16x16, Arduino variant, multi-language, v1.0
   Arduino variant without Home Assistant: configuration completely via the web interface
   (source webpage.html, packed into webpage.h by tools/make_webpage.py).
   Language and hardware: config.h. Fits the case from models/ (same grid, same LED layout).
@@ -43,6 +43,8 @@
   - NTP server automatically via DHCP (fallback server adjustable) or fixed, time zone selectable
   - No known Wi-Fi or Wi-Fi not found: open hotspot (name from the language file) with captive portal
     (http://192.168.4.1). The clock keeps trying to reach the saved Wi-Fi and then switches the hotspot off.
+  - Until the time is known the extra words (easter egg) are shown instead of the prefix; while the hotspot is
+    active they pulse blue
   - Reachable at http://<name>.local (name from the language file, adjustable) or via the IP address
   - Outdoor temperature optionally from Open-Meteo (free, no key, plain HTTP, uses the location; can be switched off in the
     web interface, a value set via HTTP has priority)
@@ -240,7 +242,7 @@ void loadSettings() {
   }
   S.on = prefs.getBool("on", S.on);
   S.swMin = prefs.getBool("swMin", S.swMin);
-  {  // migration from the former switches (up to v2.0): switch off = colour "off", then the key is removed
+  {  // migration from the former switches (up to v1.0): switch off = colour "off", then the key is removed
     const char *oldk[4] = {"swLuft", "swAlarm", "swAkku", "swTemp"};
     bool mig = false;
     for (int i = 0; i < 4; i++) {
@@ -459,7 +461,9 @@ void renderClock() {
   in.vent = curLuft(); in.alarm = curAlarm(); in.battery = curAkku();
   in.t_out = curTout(); in.t_in = curTin();
   in.t_out_lo = S.toMin; in.t_out_hi = S.toMax; in.t_in_lo = S.tiMin; in.t_in_hi = S.tiMax;
-  if (!in.valid && apActive) {  // hotspot active and no time: prefix ("ES IST") pulses blue
+  // no time: the extra words (easter egg) are shown instead of the prefix (wc_render_clock);
+  // hotspot active (no Wi-Fi saved or Wi-Fi not reachable): they pulse blue, otherwise static in the time colour
+  if (!in.valid && apActive) {
     const float v = 0.15f + 0.85f * (0.5f - 0.5f * cosf(millis() / 1000.0f * 3.1415926f));
     in.c_time = wc_rgb(0, 0, (uint8_t)(255 * v));
   } else {
