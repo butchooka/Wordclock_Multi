@@ -3,8 +3,10 @@
 export_fronts.py - Wordclock 16x16, exports the front of every language as STL with OpenSCAD, v1.0
 
 Front        = front of the own case (Wordclock_Model.scad, PART = "Front")      -> Frame_<LANG>_<font>.stl
-PictureFrame = front plate for the 25 cm picture frame (IKEA SANNAHED / RIBBA), current defaults of
-               Wordclock_Model_PictureFrame.scad                                  -> <LANG>_Pictureframe_<size>_<font>.stl
+PictureFrame = front plate for a deep picture frame, one file per frame of PF_FRAMES (size = glass size, inner depth;
+               all other values = defaults of Wordclock_Model_PictureFrame.scad) -> Pictureframe_<FRAME>_<LANG>_<font>.stl
+               RIBBA = IKEA RIBBA 25x25 (231 / 38 mm, default of the model), SANNAHED = IKEA SANNAHED 25x25 (249 / 44 mm);
+               --frame RIBBA = only this frame (default: all frames)
 Parts        = the language independent parts: Rear.stl, Holder_<name>.stl and the break-away supports
                Holder_<name>_Support.stl (same print coordinates as the holder)
 All files in print orientation as binary STL (much smaller than OpenSCAD's default ASCII STL; --ascii = old format).
@@ -12,11 +14,11 @@ Fonts: a language with its own script (CN, JP, KR, runes) brings its font in lan
 tag of the font really used (Frame_KR_NotoSansKRBold.stl). Before the export every needed font is searched in the
 fonts OpenSCAD sees (Windows: the system font folder = "Install for all users", the fonts of OpenSCAD); if one is
 missing, nothing is exported and the font is named (else OpenSCAD would cut empty boxes).
-Only LANG, FONT, QUALITY and PRINT_ORIENT are set, all other parameters are the defaults of the model; the picture
-size for the file name is read from PICTUREFRAME_SIZE in the model.
+Only LANG, FONT, QUALITY and PRINT_ORIENT (PictureFrame: also size and depth of the frame) are set, all other
+parameters are the defaults of the model.
 Output: _private/makerworld/export/ (private, not in the repository). FreeCAD: LANG = "ALL" in the macro.
 Special case other picture frame: --size/--depth/--tol/--thickness/--glass/--mount set the PictureFrame values
-(e.g. another IKEA frame) -> _private/makerworld/export/custom/<LANG>_Pictureframe_<size>x<depth>_<font>.stl
+(e.g. another IKEA frame) -> _private/makerworld/export/custom/Pictureframe_<size>x<depth>_<LANG>_<font>.stl
 (wordclock_tools.bat item P asks for the values).
 Unchanged files are skipped: export_info.json in the output folder holds the base data of every STL (content of the
 model, Wordclock_Common.scad, lang_all.scad and the language file, the -D values, OpenSCAD version and the font file,
@@ -24,7 +26,7 @@ see tools/wc_stamp.py). Only when one of them changed OpenSCAD runs again (--for
 
 Call:  python tools/export_fronts.py [Front|PictureFrame|Both|Parts] [--lang DE GB ...] [--font Liberation|Arial|DejaVu]
                                      [--quality Preview|Normal|Fine] [--openscad PATH] [--manifold] [--ascii]
-                                     [--size MM] [--depth MM] [--tol MM] [--thickness MM] [--glass MM]
+                                     [--frame RIBBA SANNAHED] [--size MM] [--depth MM] [--tol MM] [--thickness MM] [--glass MM]
                                      [--mount SCREW|THIMBLES|NONE] [--force]
        (or tools/wordclock_tools.bat)
 """
@@ -70,8 +72,20 @@ def pf_default(name, fallback):
     return float(m.group(1)) if m else fallback
 
 
-def pf_size():
-    return num(pf_default("PICTUREFRAME_SIZE", 231.0))
+# picture frames with their own export (file name Pictureframe_<FRAME>_<LANG>_<font>.stl, type first = grouped):
+# size = glass size (PICTUREFRAME_SIZE), depth = inner depth of the frame (PICTUREFRAME_FRAME_DEPTH), in mm
+PF_FRAMES = {"RIBBA": {"size": 231.0, "depth": 38.0},          # IKEA RIBBA 25x25 (default of the model)
+             "SANNAHED": {"size": 249.0, "depth": 44.0}}       # IKEA SANNAHED 25x25, measured 2026-11-11
+
+
+def frame_defs(frame):
+    f = PF_FRAMES[frame]
+    return ["-D", "PICTUREFRAME_SIZE=%s" % num(f["size"]), "-D", "PICTUREFRAME_FRAME_DEPTH=%s" % num(f["depth"])]
+
+
+def pf_name(lang, font, frame):
+    """File name (without .stl) of the PictureFrame plate of a frame: Pictureframe_RIBBA_DE_LiberationSansBold."""
+    return "Pictureframe_%s_%s_%s" % (frame, lang, font_for(lang, font)[1])
 
 
 # special case other picture frame: option -> (SCAD parameter, min, max) - limits as in the Customizer
@@ -301,6 +315,8 @@ def main(argv=None):
     ap.add_argument("--manifold", action="store_true", help="--backend=Manifold (OpenSCAD 2024/2025, much faster)")
     ap.add_argument("--ascii", action="store_true", help="ASCII STL as before (OpenSCAD older than 2021)")
     ap.add_argument("--only", nargs="*", help="Parts: only these part names")
+    ap.add_argument("--frame", nargs="*", type=str.upper, choices=sorted(PF_FRAMES),
+                    help="PictureFrame: only these frames (default: all of PF_FRAMES)")
     g = ap.add_argument_group("special case other picture frame (PictureFrame only)")
     g.add_argument("--size", type=float, help="picture size = glass size in mm (220 ... 300)")
     g.add_argument("--depth", type=float, help="inner depth of the frame in mm (22 ... 80)")
@@ -362,21 +378,36 @@ def main(argv=None):
               "the languages out with --lang ..., then run again.")
         return 2
     print("ok\n")
-    size = pf_size()
-    if pf_defs:
-        size = "%sx%s" % (num(a.size if a.size is not None else pf_default("PICTUREFRAME_SIZE", 231.0)),
-                          num(a.depth if a.depth is not None else pf_default("PICTUREFRAME_FRAME_DEPTH", 38.0)))
-    total = len(parts) * len(langs)
-    k = 0
+    # jobs: (part, frame); frame = PF_FRAMES key, "custom" for the special case, None for the front
+    jobs = []
     for part in parts:
+        if part != "PictureFrame":
+            jobs.append((part, None))
+        elif pf_defs:
+            jobs.append((part, "custom"))
+        else:
+            jobs += [(part, f) for f in (a.frame or list(PF_FRAMES))]
+    if pf_defs and a.frame:
+        print("NOTE: --frame is ignored with --size/--depth/... (special case)")
+    custom = "%sx%s" % (num(a.size if a.size is not None else pf_default("PICTUREFRAME_SIZE", 231.0)),
+                        num(a.depth if a.depth is not None else pf_default("PICTUREFRAME_FRAME_DEPTH", 38.0)))
+    total = len(jobs) * len(langs)
+    k = 0
+    for part, frame in jobs:
+        if frame and frame != "custom":
+            print("PictureFrame %s: glass %s mm, depth %s mm" % (frame, num(PF_FRAMES[frame]["size"]),
+                                                                 num(PF_FRAMES[frame]["depth"])))
         for L in langs:
             k += 1
             spec, tag = font_for(L, a.font)
             d = ["-D", 'LANG="%s"' % L, "-D", 'FONT="%s"' % a.font, "-D", 'QUALITY="%s"' % a.quality,
                  "-D", "PRINT_ORIENT=true"]
-            if part == "PictureFrame":
-                fn, model = "%s_Pictureframe_%s_%s.stl" % (L, size, tag), "Wordclock_Model_PictureFrame.scad"
+            if frame == "custom":
+                fn, model = "Pictureframe_%s_%s_%s.stl" % (custom, L, tag), "Wordclock_Model_PictureFrame.scad"
                 d += pf_defs
+            elif frame:
+                fn, model = pf_name(L, a.font, frame) + ".stl", "Wordclock_Model_PictureFrame.scad"
+                d += frame_defs(frame)
             else:
                 fn, model = "Frame_%s_%s.stl" % (L, tag), "Wordclock_Model.scad"
                 d += ["-D", 'PART="Front"']

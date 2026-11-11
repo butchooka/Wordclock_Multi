@@ -1,5 +1,16 @@
 # Changelog – Wordclock_Multi
 
+## 2026-11-11 - PictureFrame: named frames RIBBA / SANNAHED, Bambu 3MF
+- `export_fronts.py`: PictureFrame plates are exported per frame of `PF_FRAMES` and named type first, so the
+  files of one kind are grouped: `Pictureframe_RIBBA_<LANG>_<font>.stl` (231 / 38 mm, default of the model, before
+  `<LANG>_Pictureframe_231_<font>.stl`) and new `Pictureframe_SANNAHED_<LANG>_<font>.stl` (IKEA SANNAHED 25x25:
+  glass 249 mm, depth 44 mm). New option `--frame RIBBA|SANNAHED` (default: all). Special case `--size/--depth/...`:
+  `custom/Pictureframe_<size>x<depth>_<LANG>_<font>.stl`.
+- `make_3mf.py --pictureframe [--frame ...]`: one Bambu Studio project per language and frame
+  (`Wordclock_Pictureframe_<FRAME>_<LANG>_<font>.3mf`); the plate takes the place and settings of the front of
+  `template_P2S.3mf` (no template of its own).
+- `wordclock_tools.bat`: new item 16 (Bambu 3MF PictureFrame), part of `A`; item 10 exports both frames.
+
 ## 2026-11-10 - Models: wider frame, thicker letter layer (less light bleed)
 - `FRAME_WALL` default 2.2 -> 2.7 mm (+0.5 mm per side) in `Wordclock_Model` and `Wordclock_Model_PictureFrame`
   (`.scad` / `.FCMacro`), so the LEDs no longer shine through the outer frame wall. Front grows by 1 mm in width/height.

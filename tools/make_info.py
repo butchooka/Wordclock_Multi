@@ -808,7 +808,8 @@ ergänzen und in `Wordclock_Model.scad` die Option `XX:Name` in der `LANG`-Zeile
 
 ## 6. Sondermodell PictureFrame (eigene Datei Wordclock_Model_PictureFrame.scad)
 
-Frontplatte für einen tiefen Bilderrahmen (Standard: 231 mm Bildmaß, 38 mm Innentiefe). `PICTUREFRAME_SIZE`
+Frontplatte für einen tiefen Bilderrahmen (Standard: 231 mm Bildmaß, 38 mm Innentiefe = IKEA RIBBA 25x25;
+IKEA SANNAHED 25x25: 249 mm / 44 mm). `PICTUREFRAME_SIZE`
 und `PICTUREFRAME_FRAME_DEPTH` nachmessen, `PICTUREFRAME_GLASS_THICKNESS` = Dicke der Originalscheibe, wenn sie
 vorn bleiben soll (0 = ohne). ESP waagerecht unter dem Buchstabenteil (USB rechts, Zugentlastung daneben).
 Befestigung umschalten mit `PICTUREFRAME_OWN_MOUNT`:
@@ -823,7 +824,7 @@ Kommandozeile:
 openscad -o pf.stl -D 'LANG="DE"' -D 'PRINT_ORIENT=true' Wordclock_Model_PictureFrame.scad
 ```
 
-(alle Sprachen: `tools\\wordclock_tools.bat`, Punkt 10). FreeCAD: `Wordclock_Model_PictureFrame.FCMacro`.
+(alle Sprachen und beide Rahmen RIBBA / SANNAHED: `tools\\wordclock_tools.bat`, Punkt 10, Bambu-3MF Punkt 16). FreeCAD: `Wordclock_Model_PictureFrame.FCMacro`.
 
 ---
 
@@ -894,7 +895,8 @@ option `XX:Name` to the `LANG` line of `Wordclock_Model.scad` (see [`docs/LANG_S
 
 ## 6. Special model PictureFrame (own file Wordclock_Model_PictureFrame.scad)
 
-Front plate for a deep picture frame (default: 231 mm picture size, 38 mm inner depth). Measure
+Front plate for a deep picture frame (default: 231 mm picture size, 38 mm inner depth = IKEA RIBBA 25x25;
+IKEA SANNAHED 25x25: 249 mm / 44 mm). Measure
 `PICTUREFRAME_SIZE` and `PICTUREFRAME_FRAME_DEPTH`, `PICTUREFRAME_GLASS_THICKNESS` = thickness of the original
 sheet if it stays in front (0 = without). ESP horizontal below the letter part (USB right, strain relief next to it).
 Choose the fastening with `PICTUREFRAME_OWN_MOUNT`:
@@ -909,7 +911,7 @@ Command line:
 openscad -o pf.stl -D 'LANG="GB"' -D 'PRINT_ORIENT=true' Wordclock_Model_PictureFrame.scad
 ```
 
-(all languages: `tools\\wordclock_tools.bat`, item 10). FreeCAD: `Wordclock_Model_PictureFrame.FCMacro`.
+(all languages and both frames RIBBA / SANNAHED: `tools\\wordclock_tools.bat`, item 10, Bambu 3MF item 16). FreeCAD: `Wordclock_Model_PictureFrame.FCMacro`.
 
 ---
 

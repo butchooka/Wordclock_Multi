@@ -2,12 +2,12 @@
 rem tools\wordclock_tools.bat - Wordclock_Multi v1.0: all tools in one menu (double-click).
 rem Choose an action by its number, A runs all of them one after another in a sensible order.
 rem Direct call without menu:  wordclock_tools.bat 5      or      wordclock_tools.bat A
-rem Unchanged outputs are skipped (5, 9, 10, 12-14: info file with the base data next to the outputs, see
+rem Unchanged outputs are skipped (5, 9, 10, 12-14, 16: info file with the base data next to the outputs, see
 rem tools\wc_stamp.py). Build everything again: second argument F, e.g.  wordclock_tools.bat A F
 rem Needs Python 3 (python.org, option "Add python.exe to PATH"). Logs go to tools\logs\, after every action
 rem tools\clean.py removes caches and temporary files (__pycache__, build folders in %%TEMP%%, ...).
 rem B (Backup clean) also removes the generated STL/3MF/zips/fonts - all can be rebuilt with the menu.
-rem Actions 3, 4, 8, 9, 10, 12, 13, 14, 15 need the private folder models\ (not part of the GitHub repository).
+rem Actions 3, 4, 8, 9, 10, 12, 13, 14, 15, 16 need the private folder models\ (not part of the GitHub repository).
 chcp 65001 >nul
 setlocal EnableExtensions
 cd /d "%~dp0.."
@@ -35,6 +35,7 @@ set "T12=Bambu 3MF per language"
 set "T13=Bambu 3MF with all fronts"
 set "T14=Export parts STL"
 set "T15=Fonts check / install"
+set "T16=Bambu 3MF PictureFrame"
 
 if /i "%~2"=="F" set "WC_FORCE=1"
 if not "%~1"=="" (
@@ -56,7 +57,8 @@ echo   5  Render fronts       preview images light/dark, normal + _full, overvie
 echo   6  Bundle firmware     single-file versions -^> esphome\ + arduino\single_Language, zips -^> _private\makerworld
 echo   8  Bundle models       single-file SCAD/FCMacro -^> _private\makerworld\models
 echo   9  Export fronts       STL of the case front, all languages -^> _private\makerworld\export (slow)
-echo  10  Export PictureFrame STL of the picture frame plate, all languages -^> _private\makerworld\export (slow)
+echo  10  Export PictureFrame STL of the picture frame plate, all languages and frames (RIBBA, SANNAHED)
+echo                          -^> _private\makerworld\export (slow)
 echo  11  Mask cache          rebuild tools\render_masks.json.xz after a language change (needs g++)
 echo  12  Bambu 3MF           one Bambu Studio project per language from tools\template_P2S.3mf
 echo                          -^> _private\makerworld\export_3mf (exports missing STL first)
@@ -64,14 +66,16 @@ echo  13  Bambu 3MF all       one Bambu Studio project with all fronts (one plat
 echo  14  Export parts        STL of rear, holders and their supports -^> _private\makerworld\export
 echo  15  Fonts               check the fonts of the fronts (CN, JP, KR, runes), download and install
 echo                          missing ones for all users (asks for administrator rights)
+echo  16  Bambu 3MF PictureFrame  one project per language and frame (RIBBA, SANNAHED) from the front
+echo                          of tools\template_P2S.3mf -^> export_3mf (exports missing STL first)
 echo   P  PictureFrame other  special case: asks size, depth, ... of another picture frame and exports
 echo                          the plates -^> _private\makerworld\export\custom
-echo   A  All                15 1 2 3 4 5 6 8 9 10 14 12 one after another
+echo   A  All                15 1 2 3 4 5 6 8 9 10 14 12 16 one after another
 echo   C  Clean              remove caches and temporary files only
 echo   B  Backup clean       also remove generated STL/3MF/zips/fonts (slim folder for a manual backup,
-echo                          only git-ignored outputs, lists first and asks; rebuild with 6, 8-10, 12-15)
+echo                          only git-ignored outputs, lists first and asks; rebuild with 6, 8-10, 12-16)
 echo   Q  Quit
-echo   Unchanged outputs are skipped (5, 9, 10, 12-14); all again: wordclock_tools.bat 9 F  (or A F)
+echo   Unchanged outputs are skipped (5, 9, 10, 12-14, 16); all again: wordclock_tools.bat 9 F  (or A F)
 echo.
 set "SEL="
 set /p "SEL=Choice: "
@@ -89,7 +93,7 @@ goto finish
 :all
 set "T0=%time%"
 set "NALL=0"
-for %%N in (15 1 2 3 4 5 6 8 9 10 14 12) do (
+for %%N in (15 1 2 3 4 5 6 8 9 10 14 12 16) do (
   set /a NALL+=1
   call :do %%N
 )
@@ -145,7 +149,7 @@ rem ----------------------------------------------------------------------------
 call set "TT=%%T%~1%%"
 echo.
 echo =============================================================================================
-if defined NALL (echo  [%NALL%/12]  %~1  %TT%   - start %time:~0,8%) else (echo  %~1  %TT%   - start %time:~0,8%)
+if defined NALL (echo  [%NALL%/13]  %~1  %TT%   - start %time:~0,8%) else (echo  %~1  %TT%   - start %time:~0,8%)
 echo =============================================================================================
 if "%~1"=="1"  goto a1
 if "%~1"=="2"  goto a2
@@ -161,6 +165,7 @@ if "%~1"=="12" goto a12
 if "%~1"=="13" goto a13
 if "%~1"=="14" goto a14
 if "%~1"=="15" goto a15
+if "%~1"=="16" goto a16
 echo Unknown choice: %~1
 exit /b 1
 
@@ -264,6 +269,13 @@ goto done
 if not exist models\lang goto nomodels
 rem option: --check only check, install nothing
 %PY% tools\install_fonts.py
+goto done
+
+:a16
+if not exist models\Wordclock_Model.scad goto nomodels
+rem PictureFrame plates (export_fronts.PF_FRAMES) in the place of the front of the template, one 3MF each
+rem options: --frame RIBBA, --lang DE GB, --reuse
+%PY% tools\make_3mf.py --pictureframe --log "%ROOT%\tools\logs\make_3mf_pf_log.txt"
 goto done
 
 :nomodels

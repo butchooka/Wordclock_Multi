@@ -24,10 +24,15 @@ own font, its tag is in the file names; a missing font stops the run before anyt
 Input:  _private/makerworld/export/           Output: _private/makerworld/export_3mf/
   Wordclock_<LANG>_<font>.3mf   one project per language (default)
   Wordclock_ALL_<font>.3mf      --all: one project with one plate per front plus the plates of the other parts
+  Wordclock_Pictureframe_<FRAME>_<LANG>_<font>.3mf   --pictureframe: one project per language and picture frame
+                                (export_fronts.PF_FRAMES: RIBBA, SANNAHED; --frame RIBBA = only this one) with one
+                                plate: the PictureFrame plate takes the place and all settings (filament change, per
+                                object settings) of the front of the template - no template of its own needed
 
-Call:  python tools/make_3mf.py [--lang DE GB ...] [--all | --all-only] [--font Liberation] [--template FILE]
+Call:  python tools/make_3mf.py [--lang DE GB ...] [--all | --all-only | --pictureframe [--frame RIBBA]]
+                         [--font Liberation] [--template FILE]
                                 [--reuse] [--no-supports] [--quality Fine] [--manifold] [--log FILE] [--force]
-       (or tools/wordclock_tools.bat, items 12 and 13)
+       (or tools/wordclock_tools.bat, items 12, 13 and 16)
 Pure Python 3 (no extra packages).
 """
 import argparse
@@ -345,6 +350,66 @@ def esc(s):
     return (str(s).replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;").replace(">", "&gt;"))
 
 
+# ------------------------------------------------------------------ PictureFrame
+def pictureframe(a, tpl, front_plate, langs):
+    """--pictureframe: one 3MF per language and frame, the plate replaces the front of the template."""
+    frames = a.frame or list(export_fronts.PF_FRAMES)
+    names = [(L, f, export_fronts.pf_name(L, a.font, f)) for f in frames for L in langs]
+    print("\n=== Step 3/4: export the PictureFrame STL files (%d frames x %d languages) - takes a while"
+          % (len(frames), len(langs)))
+    args = ["--font", a.font, "--quality", a.quality] + (["--manifold"] if a.manifold else []) + \
+        (["--force"] if a.force else [])
+    todo = langs
+    if a.reuse:
+        print("--reuse: existing STL files are used, only missing ones are exported")
+        todo = sorted({L for L, f, n in names if not os.path.isfile(os.path.join(STL_DIR, n + ".stl"))})
+    if todo:
+        if export_fronts.main(["PictureFrame", "--lang"] + todo + ["--frame"] + frames + args) == 2:
+            return 2                                  # font missing
+        print()
+    failed = [n for L, f, n in names if not os.path.isfile(os.path.join(STL_DIR, n + ".stl"))]
+    if failed:
+        print("ERROR: missing STL files: %s\n       the 3MF of these are left out" % " ".join(failed))
+    front = [o for o in tpl.plates[front_plate]["objects"] if tpl.objects[o]["role"] == "FRONT"][0]
+    gc = " ".join(re.findall(r'top_z="([\d.]+)', " ".join(tpl.gcodes.get(str(front_plate + 1), []))))
+    if gc:
+        print("Filament change of the template front at z = %s mm is taken over - check it fits the plate"
+              % ", ".join("%.2f" % float(x) for x in gc.split()))
+    os.makedirs(OUT_DIR, exist_ok=True)
+    info = wc_stamp.Info(os.path.join(OUT_DIR, "3mf_info.json"), a.force)
+    bed = (tpl.stride[0] / PLATE_GAP, tpl.stride[1] / PLATE_GAP)
+    made = skipped = 0
+    print("\n=== Step 4/4: write the 3MF files -> %s" % os.path.relpath(OUT_DIR, ROOT))
+    todo = [x for x in names if x[2] not in failed]
+    for i, (L, f, name) in enumerate(todo):
+        fn = "Wordclock_%s.3mf" % name
+        out = os.path.join(OUT_DIR, fn)
+        print("[%d/%d] %-14s %-9s -> %s ... " % (i + 1, len(todo), L, f, fn), end="", flush=True)
+        title = "Wordclock %s PictureFrame %s" % (L, f)
+        inp = wc_stamp.inputs([a.template, os.path.abspath(__file__), os.path.join(STL_DIR, name + ".stl")],
+                              title=title)
+        if info.fresh(out, inp):
+            print("unchanged, skipped")
+            skipped += 1
+            continue
+        v, t = load_stl(os.path.join(STL_DIR, name + ".stl"))
+        lo, hi = bbox(v)
+        if hi[0] - lo[0] > bed[0] or hi[1] - lo[1] > bed[1]:
+            print("WARNING plate %.0f x %.0f mm larger than the bed %.0f x %.0f mm ... "
+                  % (hi[0] - lo[0], hi[1] - lo[1], bed[0], bed[1]), end="")
+        b = Builder(tpl, title)
+        b.add_plate(front_plate, name)
+        b.add_object(front, name, [(name, name + ".stl", v, t)])
+        del v, t
+        b.write(out)
+        info.store(out, inp)
+        made += 1
+        print("ok (%.1f MB)" % (os.path.getsize(out) / 1e6))
+    print("\nResult: %d 3MF files written, %d unchanged in %s%s" % (made, skipped, os.path.relpath(OUT_DIR, ROOT),
+                                                                  "  - with errors, see above" if failed else ""))
+    return 1 if failed else 0
+
+
 # ------------------------------------------------------------------ main
 class Tee:
     """Output to the console and a log file at the same time (progress stays visible)."""
@@ -385,6 +450,10 @@ def main():
     ap.add_argument("--lang", nargs="*", help="only these languages (default: all of models/lang)")
     ap.add_argument("--all", action="store_true", help="also one 3MF with all fronts (one plate each)")
     ap.add_argument("--all-only", action="store_true", help="only the 3MF with all fronts")
+    ap.add_argument("--pictureframe", action="store_true",
+                    help="only the PictureFrame plates: one 3MF per language and picture frame")
+    ap.add_argument("--frame", nargs="*", type=str.upper, choices=sorted(export_fronts.PF_FRAMES),
+                    help="--pictureframe: only these frames (default: all)")
     ap.add_argument("--font", default="Liberation")
     ap.add_argument("--quality", default="Fine")
     ap.add_argument("--manifold", action="store_true")
@@ -454,6 +523,10 @@ def main():
               "or leave the languages out with --lang ...")
         return 2
     print("ok: " + ", ".join(sorted({export_fronts.font_for(L, a.font)[0] for L in langs})))
+    if a.pictureframe:
+        r = pictureframe(a, tpl, front_plate, langs)
+        print("(%.0f s)" % (time.time() - t0))
+        return r
     print("\n=== Step 3/4: export the STL files (%d parts, %d fronts) - takes a while" % (len(roles + sup), len(langs)))
     failed = export_stl(a, langs, roles + sup)
     if failed is None:

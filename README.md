@@ -163,7 +163,7 @@ tools/                     Python tools (check_lang, make_info, render_fronts, b
                            their content changes; logs in tools/logs/,
                            afterwards tools/clean.py removes caches and temporary files; item B = backup clean
                            (also removes the generated STL/3MF/zips/fonts, only git-ignored outputs, asks first);
-                           unchanged outputs are skipped (items 5, 9, 10, 12-14), so "A" after any change only
+                           unchanged outputs are skipped (items 5, 9, 10, 12-14, 16), so "A" after any change only
                            rebuilds what really changed; everything again: `wordclock_tools.bat A F`
   wc_stamp.py              base data of every output (content hash and date of the input files, parameters, versions
                            of OpenSCAD, fonts) in an info file next to the outputs:
@@ -173,7 +173,12 @@ tools/                     Python tools (check_lang, make_info, render_fronts, b
                            Historic) and downloads / installs missing Noto fonts for all users (menu item 15)
   make_3mf.py              Bambu Studio project (3MF) per language (or one with all fronts) from tools/template_P2S.3mf:
                            only the meshes are swapped, printer, profile, filament change, plates and per object
-                           settings come from the template; break-away hook supports as a removable part
+                           settings come from the template; break-away hook supports as a removable part;
+                           --pictureframe (menu item 16): one project per language and picture frame
+                           (Wordclock_Pictureframe_<RIBBA|SANNAHED>_<LANG>_<font>.3mf), the plate takes the place and
+                           settings of the front of the same template
+  export_fronts.py         STL export with OpenSCAD: fronts, parts, PictureFrame plates per frame
+                           (PF_FRAMES: RIBBA 231 / 38 mm, SANNAHED 249 / 44 mm -> Pictureframe_<FRAME>_<LANG>_<font>.stl)
 ```
 
 The C++ files in `arduino/Wordclock/src/` are used by both variants (ESPHome via `esphome: includes:`). They are

@@ -164,7 +164,7 @@ tools/                     Python-Werkzeuge (check_lang, make_info, render_front
                            werden nur bei geändertem Inhalt neu geschrieben; Logs in tools/logs/,
                            danach räumt tools/clean.py Caches und Temp-Dateien auf; Punkt B = Backup-Aufräumen
                            (entfernt auch erzeugte STL/3MF/Zips/Schriften, nur von git ignorierte Ausgaben, fragt vorher);
-                           unveränderte Ausgaben werden übersprungen (Punkte 5, 9, 10, 12-14), "A" nach einer
+                           unveränderte Ausgaben werden übersprungen (Punkte 5, 9, 10, 12-14, 16), "A" nach einer
                            Änderung baut also nur neu, was sich wirklich geändert hat; alles neu: `wordclock_tools.bat A F`
   wc_stamp.py              Basisdaten jeder Ausgabe (Inhalts-Hash und Datum der Eingangsdateien, Parameter, Versionen
                            von OpenSCAD, Schriften) in einer Info-Datei neben den Ausgaben:
@@ -174,7 +174,12 @@ tools/                     Python-Werkzeuge (check_lang, make_info, render_front
                            Historic), lädt fehlende Noto-Schriften und installiert sie für alle Benutzer (Menüpunkt 15)
   make_3mf.py              Bambu-Studio-Projekt (3MF) je Sprache (oder eins mit allen Fronten) aus tools/template_P2S.3mf:
                            nur die Netze werden getauscht, Drucker, Profil, Farbwechsel, Platten und Objekt-Einstellungen
-                           kommen aus der Vorlage; abbrechbare Haken-Stützen als entfernbares Teil
+                           kommen aus der Vorlage; abbrechbare Haken-Stützen als entfernbares Teil;
+                           --pictureframe (Menüpunkt 16): ein Projekt je Sprache und Bilderrahmen
+                           (Wordclock_Pictureframe_<RIBBA|SANNAHED>_<LANG>_<Schrift>.3mf), die Platte übernimmt Platz
+                           und Einstellungen der Front derselben Vorlage
+  export_fronts.py         STL-Export mit OpenSCAD: Fronten, Teile, PictureFrame-Platten je Rahmen
+                           (PF_FRAMES: RIBBA 231 / 38 mm, SANNAHED 249 / 44 mm -> Pictureframe_<RAHMEN>_<LANG>_<Schrift>.stl)
 ```
 
 Die C++-Dateien in `arduino/Wordclock/src/` nutzen beide Varianten (ESPHome über `esphome: includes:`). Sie werden

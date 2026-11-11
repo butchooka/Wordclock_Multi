@@ -102,7 +102,8 @@ option `XX:Name` to the `LANG` line of `Wordclock_Model.scad` (see [`docs/LANG_S
 
 ## 6. Special model PictureFrame (own file Wordclock_Model_PictureFrame.scad)
 
-Front plate for a deep picture frame (default: 231 mm picture size, 38 mm inner depth). Measure
+Front plate for a deep picture frame (default: 231 mm picture size, 38 mm inner depth = IKEA RIBBA 25x25;
+IKEA SANNAHED 25x25: 249 mm / 44 mm). Measure
 `PICTUREFRAME_SIZE` and `PICTUREFRAME_FRAME_DEPTH`, `PICTUREFRAME_GLASS_THICKNESS` = thickness of the original
 sheet if it stays in front (0 = without). ESP horizontal below the letter part (USB right, strain relief next to it).
 Choose the fastening with `PICTUREFRAME_OWN_MOUNT`:
@@ -117,7 +118,7 @@ Command line:
 openscad -o pf.stl -D 'LANG="GB"' -D 'PRINT_ORIENT=true' Wordclock_Model_PictureFrame.scad
 ```
 
-(all languages: `tools\wordclock_tools.bat`, item 10). FreeCAD: `Wordclock_Model_PictureFrame.FCMacro`.
+(all languages and both frames RIBBA / SANNAHED: `tools\wordclock_tools.bat`, item 10, Bambu 3MF item 16). FreeCAD: `Wordclock_Model_PictureFrame.FCMacro`.
 
 ---
 
