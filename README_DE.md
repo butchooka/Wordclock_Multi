@@ -16,7 +16,7 @@ English version: [README.md](README.md)
 Die Modelle sind nicht Teil dieses Repositorys.
 
 Version 1.0. Modell, Druck und Firmware sind für alle Sprachen getestet. Grammatik und Schreibweise bestätigt (v1.0):
-DE (Deutsch), GB (English) und die Dialekte dialect_BAD (Badisch), dialect_CH (Schwizerdütsch) und dialect_SWG (Schwäbisch).
+DE (Deutsch), GB (English), PL (Polski) und die Dialekte dialect_BAD (Badisch), dialect_CH (Schwizerdütsch) und dialect_SWG (Schwäbisch).
 Alle anderen Sprachen sind v0.9 (Grammatik unbestätigt), bis Muttersprachler Grammatik und Schreibweise bestätigt haben. Korrekturen sind sehr willkommen (Issue oder Pull Request).
 
 ## Funktionen
@@ -62,7 +62,7 @@ Reihenfolge: Landessprachen, Dialekte, andere Sprachen. Raster, Grammatik und Be
 | `KR` | 한국어 | Land | v0.9 Grammatik unbestätigt | Seoul |
 | `NL` | Nederlands | Land | v0.9 Grammatik unbestätigt | Amsterdam |
 | `NO` | Norsk | Land | v0.9 Grammatik unbestätigt | Oslo |
-| `PL` | Polski | Land | v0.9 Grammatik unbestätigt | Warszawa |
+| `PL` | Polski | Land | v1.0 bestätigt | Warszawa |
 | `PT` | Português | Land | v0.9 Grammatik unbestätigt | Lisboa |
 | `RO` | Română | Land | v0.9 Grammatik unbestätigt | București |
 | `SE` | Svenska | Land | v0.9 Grammatik unbestätigt | Stockholm |

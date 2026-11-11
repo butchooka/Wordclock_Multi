@@ -1,5 +1,9 @@
 # Changelog – Wordclock_Multi
 
+## 2026-11-11 - Language PL: grammar confirmed (v1.0)
+- Polski (PL) grammar and spelling confirmed by BaroszD (native speaker): status v0.9 -> v1.0 in `wc_lang_PL.h`
+  (Arduino and ESPHome copy), `lang_PL.yaml`, `LANG_PL.txt`, README / README_DE (intro and language table).
+
 ## 2026-11-11 - PictureFrame: named frames RIBBA / SANNAHED, Bambu 3MF
 - `export_fronts.py`: PictureFrame plates are exported per frame of `PF_FRAMES` and named type first, so the
   files of one kind are grouped: `Pictureframe_RIBBA_<LANG>_<font>.stl` (231 / 38 mm, default of the model, before

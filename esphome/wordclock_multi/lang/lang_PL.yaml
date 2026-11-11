@@ -1,4 +1,4 @@
-# lang_PL.yaml - Wordclock 16x16, ESPHome language package PL (Polski), v0.9
+# lang_PL.yaml - Wordclock 16x16, ESPHome language package PL (Polski), v1.0
 # Device name, hotspot, location (capital), entity names and options.
 # Grid and time words: ${src_dir}/wc_lang_PL.h (shared with the Arduino variant).
 # Every value can be overwritten in wordclock_multi.yaml under substitutions (e.g. name, latitude).

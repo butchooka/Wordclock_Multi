@@ -16,7 +16,7 @@ Deutsche Fassung: [README_DE.md](README_DE.md)
 The models are not part of this repository.
 
 Version 1.0. Model, print and firmware are tested for all languages. Grammar and spelling confirmed (v1.0): DE (Deutsch),
-GB (English) and the dialects dialect_BAD (Badisch), dialect_CH (Schwizerdütsch) and dialect_SWG (Schwäbisch). All other
+GB (English), PL (Polski) and the dialects dialect_BAD (Badisch), dialect_CH (Schwizerdütsch) and dialect_SWG (Schwäbisch). All other
 languages are v0.9 (grammar unconfirmed) until native speakers have confirmed grammar and spelling.
 Corrections are very welcome (issue or pull request).
 
@@ -61,7 +61,7 @@ Order: languages of countries, dialects, other languages. Grids, grammar and exa
 | `KR` | 한국어 | country | v0.9 grammar unconfirmed | Seoul |
 | `NL` | Nederlands | country | v0.9 grammar unconfirmed | Amsterdam |
 | `NO` | Norsk | country | v0.9 grammar unconfirmed | Oslo |
-| `PL` | Polski | country | v0.9 grammar unconfirmed | Warszawa |
+| `PL` | Polski | country | v1.0 confirmed | Warszawa |
 | `PT` | Português | country | v0.9 grammar unconfirmed | Lisboa |
 | `RO` | Română | country | v0.9 grammar unconfirmed | București |
 | `SE` | Svenska | country | v0.9 grammar unconfirmed | Stockholm |
