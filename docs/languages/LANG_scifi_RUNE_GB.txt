@@ -24,7 +24,7 @@ RASTER / GRID (Zeile 1 = oben / row 1 = top)
      1234567890123456
    1 *xxxxᛁᛏxᛁᛋxxxxx*
    2 *xxxᛢᚢᚪᚱᛏᛖᚱxxxx*
-   3 *xxxᛏᚹᛖᚾᛏᚣᚻᛖᛚᛚᚩ*
+   3 *xxᛏᚹᛖᚾᛏᚣxᚻᛖᛚᛚᚩ*
    4 *xxᚠᛁᚡᛖxxᛏᛖᚾxxx*
    5 *xxxxxᚻᚪᛚᚠxxxxx*
    6 *xxᛈᚪᛋᛏxxxᛏᚩxxx*
@@ -43,7 +43,7 @@ Basis / base GB:
      1234567890123456
    1 *xxxxITxISxxxxx*
    2 *xxxQUARTERxxxx*
-   3 *xxxTWENTYHELLO*
+   3 *xxTWENTYxHELLO*
    4 *xxFIVExxTENxxx*
    5 *xxxxxHALFxxxxx*
    6 *xxPASTxxxTOxxx*

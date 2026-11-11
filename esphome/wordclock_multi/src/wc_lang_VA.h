@@ -51,8 +51,8 @@ static const char *const GRID[16] = {
     "*xxxUNDECIMAxxx*",
     "*MERIDIESxMEDIA*",
     "*NOXxxETxxMINUS*",
-    "*VIGINTIQUINQUE*",
-    "*DECEMxxDIMIDIA*",
+    "*VIGINTIxDECEMx*",
+    "*QUINQUEDIMIDIA*",
     "*xxQUADRANTESxx*",
     "*xxROMANIxITExx*",
     "*xxxxxDOMUMxxxx*",
@@ -64,7 +64,7 @@ static const char *const GRID[16] = {
 static const WcWord EST = {0, 1, 3}, HORA = {0, 5, 4};
 static const WcWord MERIDIES = {6, 1, 8}, MEDIA = {6, 10, 5}, NOX = {7, 1, 3};  // MEDIA NOX over two rows
 static const WcWord ET = {7, 6, 2}, MINUS = {7, 10, 5};
-static const WcWord M_QUINQUE = {8, 8, 7}, M_DECEM = {9, 1, 5}, M_VIGINTI = {8, 1, 7}, M_DIMIDIA = {9, 8, 7};
+static const WcWord M_QUINQUE = {9, 1, 7}, M_DECEM = {8, 9, 5}, M_VIGINTI = {8, 1, 7}, M_DIMIDIA = {9, 8, 7};
 static const WcWord M_QUADRAN = {10, 3, 7}, M_S = {10, 12, 1}, M_QUADRANTE = {10, 3, 9};  // QUADRAN+S / QUADRANTE
 // hour 0..11 (index 0 = MERIDIES, only a placeholder: 0/12 o'clock is MEDIA NOX/MERIDIES, chosen in time_words;
 // DECIMA is the end of UNDECIMA)

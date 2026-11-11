@@ -1,5 +1,48 @@
 # Changelog – Wordclock_Multi
 
+## 2026-11-10 - Models: wider frame, thicker letter layer (less light bleed)
+- `FRAME_WALL` default 2.2 -> 2.7 mm (+0.5 mm per side) in `Wordclock_Model` and `Wordclock_Model_PictureFrame`
+  (`.scad` / `.FCMacro`), so the LEDs no longer shine through the outer frame wall. Front grows by 1 mm in width/height.
+- `FRONT_THICKNESS` default 1.4 -> 1.6 mm in `Wordclock_Model` (`.scad` / `.FCMacro`): the dark letter layer is one
+  0.2 mm layer higher (1.0 -> 1.2 mm at `FRONT_SKIN` 0.4). Dark filament for the front is still required.
+
+## 2026-11-10 - Arduino: web interface switchable to English
+- New switch "Web interface in English" (System, setting `uiEn`, saved in Preferences) in every language; the label
+  is fixed English so it can be found in any language, hidden when the clock language is GB. After switching the
+  page reloads. Also applies to the server pages of the captive portal (`tr()`).
+- New `arduino/Wordclock/wc_ui_en.h`: includes `src/wc_lang_GB.h` with its `WC_LANG` renamed and only uses its
+  `UI_JSON` (approx. 7 KB flash, nothing extra for GB). Grid and time words of the clock are unchanged, ESPHome unchanged.
+- `/api/config` and `/api/save`: key `uiEn` (0/1). `webpage.h` regenerated.
+
+## 2026-11-10 - Frame model: watermark only on the back
+- `Wordclock_Model.scad` / `.FCMacro`: watermark engraving on the inner upper frame wall of the front removed,
+  watermark remains only on the front side of the back (rear). Header/config comments adjusted.
+
+## 2026-11-10 - Watermark depth 0.2 mm
+- `WATERMARK_DEPTH` default 0.4 -> 0.2 mm (1 layer) in `Wordclock_Common.scad`, `Wordclock_Model.FCMacro` and
+  `Wordclock_Model_PictureFrame.FCMacro`; header comments adjusted.
+
+## 2026-11-09 – Renders: full display set, file names without version
+- `render_fronts.py` renders a second set `*_full` per front: time plus VENT (orange), ALARM (red), battery half full
+  (5 bars, white) and both temperature dots on the default scale (outside 8 °C = yellow, inside 24 °C = orange),
+  i.e. the default colours of the firmware (`COL_DEF`), without the extra words. Overview PNG and GIF also as `_full`.
+  Option `--set both|normal|full` (default both) replaces `--features`. `render_mask.cpp`: shared `set_features()`.
+- File names without version: `Wordclock_Render_<LANG>_<hhmm>[_full].png`, `Wordclock_Render_ALL_<hhmm>[_full].png/.gif`,
+  `Wordclock_Ticker.gif`. Old `*_v1.0_*` files are removed by the next complete run (menu 5).
+- README / README_DE: links adjusted, GIF row shows all fronts light (normal) and dark (`_full`).
+- Mask cache `render_masks.json.xz` is rebuilt by menu 1 (with g++) or 11; it is only used without a compiler.
+
+## 2026-11-09 – Grids: no touching words that are lit together
+- Checked all languages for words that are lit at the same time and touch in a row without a free cell
+  (time words, extra words, status words, battery bars; script `tools/logs/claude/adjacency.cpp`).
+  Found and fixed (only grid positions, no grammar change):
+  - GB: TWENTY|HELLO (row 3) – TWENTY one cell to the left: `*xxTWENTYxHELLO*`.
+  - VA: VIGINTI|QUINQUE (row 9, :25/:35) – rows 9/10 now `*VIGINTIxDECEMx*` / `*QUINQUEDIMIDIA*`
+    (QUINQUE and DIMIDIA touch but are never lit together).
+  - PT: CARGA|battery bars (row 16) – CARGA moved to column 1: `CARGAx||||||||||`.
+- `lang_scifi_RUNE_GB.scad` regenerated (`make_variants.py`), ESPHome copies synced (`sync_src.py`).
+  Docs, renders, single files and model exports of GB, VA, PT, RUNE_GB still have to be regenerated.
+
 ## 2026-11-06 – Ready-made Arduino firmware removed
 - The precompiled `.bin` files (`arduino/compiled/`, incl. `build_info.json`) are no longer part of the project:
   the build was very slow. Arduino: compile in the Arduino IDE (`arduino/Wordclock` or `arduino/single_Language/`).

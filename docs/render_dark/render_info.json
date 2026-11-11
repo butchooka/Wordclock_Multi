@@ -2,7 +2,7 @@
  "note": "written by the Wordclock tools (tools/wc_stamp.py): base data of every output, an output is only built again when they change",
  "outputs": {
   "run_all": {
-   "built": "2026-11-06 15:08:23",
+   "built": "2026-11-09 12:29:52",
    "files": {
     "arduino/Wordclock/src/wc_core.h": {
      "date": "2026-11-06 14:58:42",
@@ -45,8 +45,8 @@
      "sha256": "1c4b5ec7a474fdc6"
     },
     "arduino/Wordclock/src/wc_lang_GB.h": {
-     "date": "2026-11-06 10:51:01",
-     "sha256": "8dc4637aa0cc7c5f"
+     "date": "2026-11-09 12:01:09",
+     "sha256": "9fb3ff1de2de386e"
     },
     "arduino/Wordclock/src/wc_lang_GR.h": {
      "date": "2026-11-04 15:30:35",
@@ -85,8 +85,8 @@
      "sha256": "3e36756b1f2d629e"
     },
     "arduino/Wordclock/src/wc_lang_PT.h": {
-     "date": "2026-11-04 15:30:38",
-     "sha256": "413f182edf6dc771"
+     "date": "2026-11-09 12:01:09",
+     "sha256": "54d2d4115055cadd"
     },
     "arduino/Wordclock/src/wc_lang_RO.h": {
      "date": "2026-11-04 15:30:38",
@@ -109,8 +109,8 @@
      "sha256": "22923c592b6ae99b"
     },
     "arduino/Wordclock/src/wc_lang_VA.h": {
-     "date": "2026-11-04 15:30:40",
-     "sha256": "b1f646ce00580214"
+     "date": "2026-11-09 12:01:09",
+     "sha256": "199fe6af2a632dc4"
     },
     "arduino/Wordclock/src/wc_lang_dialect_BAD.h": {
      "date": "2026-11-06 10:51:01",
@@ -173,8 +173,8 @@
      "sha256": "7e05ed2d7eb81e97"
     },
     "models/lang/lang_GB.scad": {
-     "date": "2026-11-06 10:51:01",
-     "sha256": "9ede9730f47b08f5"
+     "date": "2026-11-09 12:01:09",
+     "sha256": "b1f07db67684bc7b"
     },
     "models/lang/lang_GR.scad": {
      "date": "2026-11-04 14:16:32",
@@ -213,8 +213,8 @@
      "sha256": "2c0a604ac197360b"
     },
     "models/lang/lang_PT.scad": {
-     "date": "2026-10-26 08:04:47",
-     "sha256": "7313be0d896031d2"
+     "date": "2026-11-09 12:01:09",
+     "sha256": "44e7d7a4d18d4a20"
     },
     "models/lang/lang_RO.scad": {
      "date": "2026-11-04 14:16:32",
@@ -237,8 +237,8 @@
      "sha256": "d8e6f7a90c9f16f1"
     },
     "models/lang/lang_VA.scad": {
-     "date": "2026-10-25 13:51:27",
-     "sha256": "54dbe7ac6edd0ca9"
+     "date": "2026-11-09 12:01:39",
+     "sha256": "8671aa449389d79a"
     },
     "models/lang/lang_all.scad": {
      "date": "2026-11-06 10:51:01",
@@ -273,23 +273,23 @@
      "sha256": "54b5a3911bb66a40"
     },
     "models/lang/lang_scifi_RUNE_GB.scad": {
-     "date": "2026-11-06 10:51:01",
-     "sha256": "462214428e9b1dd4"
+     "date": "2026-11-09 12:01:09",
+     "sha256": "0108c261387bf49d"
     },
     "models/lang/lang_scifi_TLH.scad": {
      "date": "2026-11-03 09:21:25",
      "sha256": "5d65d0ffcf37daff"
     },
     "tools/render_fronts.py": {
-     "date": "2026-11-06 14:32:18",
-     "sha256": "4fbf9725ff257214"
+     "date": "2026-11-09 12:13:02",
+     "sha256": "761e2263b8e34a9b"
     },
     "tools/render_mask.cpp": {
-     "date": "2026-11-06 10:54:19",
-     "sha256": "2b3853bcf7c46940"
+     "date": "2026-11-09 12:13:02",
+     "sha256": "335f6474bdd2c33b"
     }
    },
-   "key": "88b9ae0d0f09a10b",
+   "key": "ee6449a32f651ea8",
    "params": {
     "compiler": true,
     "default_font": "LiberationSans-Bold.ttf",
@@ -332,12 +332,12 @@
     "options": {
      "bg": "1E1F22",
      "color": "warmwhite",
-     "features": false,
      "filler": "auto",
      "font": "",
      "gif_ms": 1000,
      "gif_size": 480,
      "langs": [],
+     "set": "both",
      "size": 1600,
      "style": "dark",
      "ticker": "♥ Wordclock International butchooka ♥",
@@ -348,42 +348,77 @@
    },
    "size": null,
    "written": [
-    "Wordclock_Render_v1.0_ALL_1022.gif",
-    "Wordclock_Render_v1.0_ALL_1022.png",
-    "Wordclock_Render_v1.0_CN_1022.png",
-    "Wordclock_Render_v1.0_CZ_1022.png",
-    "Wordclock_Render_v1.0_DE_1022.png",
-    "Wordclock_Render_v1.0_DK_1022.png",
-    "Wordclock_Render_v1.0_EO_1022.png",
-    "Wordclock_Render_v1.0_ES_1022.png",
-    "Wordclock_Render_v1.0_FR_1022.png",
-    "Wordclock_Render_v1.0_GB_1022.png",
-    "Wordclock_Render_v1.0_GR_1022.png",
-    "Wordclock_Render_v1.0_HU_1022.png",
-    "Wordclock_Render_v1.0_ID_1022.png",
-    "Wordclock_Render_v1.0_IT_1022.png",
-    "Wordclock_Render_v1.0_JP_1022.png",
-    "Wordclock_Render_v1.0_KR_1022.png",
-    "Wordclock_Render_v1.0_NL_1022.png",
-    "Wordclock_Render_v1.0_NO_1022.png",
-    "Wordclock_Render_v1.0_PL_1022.png",
-    "Wordclock_Render_v1.0_PT_1022.png",
-    "Wordclock_Render_v1.0_RO_1022.png",
-    "Wordclock_Render_v1.0_SE_1022.png",
-    "Wordclock_Render_v1.0_TR_1022.png",
-    "Wordclock_Render_v1.0_TZ_1022.png",
-    "Wordclock_Render_v1.0_UA_1022.png",
-    "Wordclock_Render_v1.0_VA_1022.png",
-    "Wordclock_Render_v1.0_dialect_BAD_1022.png",
-    "Wordclock_Render_v1.0_dialect_CH_1022.png",
-    "Wordclock_Render_v1.0_dialect_SWG_1022.png",
-    "Wordclock_Render_v1.0_scifi_HVA_1022.png",
-    "Wordclock_Render_v1.0_scifi_NAV_1022.png",
-    "Wordclock_Render_v1.0_scifi_QYA_1022.png",
-    "Wordclock_Render_v1.0_scifi_RUNE_DE_1022.png",
-    "Wordclock_Render_v1.0_scifi_RUNE_GB_1022.png",
-    "Wordclock_Render_v1.0_scifi_TLH_1022.png",
-    "Wordclock_Ticker_v1.0.gif"
+    "Wordclock_Render_ALL_1022.gif",
+    "Wordclock_Render_ALL_1022.png",
+    "Wordclock_Render_ALL_1022_full.gif",
+    "Wordclock_Render_ALL_1022_full.png",
+    "Wordclock_Render_CN_1022.png",
+    "Wordclock_Render_CN_1022_full.png",
+    "Wordclock_Render_CZ_1022.png",
+    "Wordclock_Render_CZ_1022_full.png",
+    "Wordclock_Render_DE_1022.png",
+    "Wordclock_Render_DE_1022_full.png",
+    "Wordclock_Render_DK_1022.png",
+    "Wordclock_Render_DK_1022_full.png",
+    "Wordclock_Render_EO_1022.png",
+    "Wordclock_Render_EO_1022_full.png",
+    "Wordclock_Render_ES_1022.png",
+    "Wordclock_Render_ES_1022_full.png",
+    "Wordclock_Render_FR_1022.png",
+    "Wordclock_Render_FR_1022_full.png",
+    "Wordclock_Render_GB_1022.png",
+    "Wordclock_Render_GB_1022_full.png",
+    "Wordclock_Render_GR_1022.png",
+    "Wordclock_Render_GR_1022_full.png",
+    "Wordclock_Render_HU_1022.png",
+    "Wordclock_Render_HU_1022_full.png",
+    "Wordclock_Render_ID_1022.png",
+    "Wordclock_Render_ID_1022_full.png",
+    "Wordclock_Render_IT_1022.png",
+    "Wordclock_Render_IT_1022_full.png",
+    "Wordclock_Render_JP_1022.png",
+    "Wordclock_Render_JP_1022_full.png",
+    "Wordclock_Render_KR_1022.png",
+    "Wordclock_Render_KR_1022_full.png",
+    "Wordclock_Render_NL_1022.png",
+    "Wordclock_Render_NL_1022_full.png",
+    "Wordclock_Render_NO_1022.png",
+    "Wordclock_Render_NO_1022_full.png",
+    "Wordclock_Render_PL_1022.png",
+    "Wordclock_Render_PL_1022_full.png",
+    "Wordclock_Render_PT_1022.png",
+    "Wordclock_Render_PT_1022_full.png",
+    "Wordclock_Render_RO_1022.png",
+    "Wordclock_Render_RO_1022_full.png",
+    "Wordclock_Render_SE_1022.png",
+    "Wordclock_Render_SE_1022_full.png",
+    "Wordclock_Render_TR_1022.png",
+    "Wordclock_Render_TR_1022_full.png",
+    "Wordclock_Render_TZ_1022.png",
+    "Wordclock_Render_TZ_1022_full.png",
+    "Wordclock_Render_UA_1022.png",
+    "Wordclock_Render_UA_1022_full.png",
+    "Wordclock_Render_VA_1022.png",
+    "Wordclock_Render_VA_1022_full.png",
+    "Wordclock_Render_dialect_BAD_1022.png",
+    "Wordclock_Render_dialect_BAD_1022_full.png",
+    "Wordclock_Render_dialect_CH_1022.png",
+    "Wordclock_Render_dialect_CH_1022_full.png",
+    "Wordclock_Render_dialect_SWG_1022.png",
+    "Wordclock_Render_dialect_SWG_1022_full.png",
+    "Wordclock_Render_scifi_HVA_1022.png",
+    "Wordclock_Render_scifi_HVA_1022_full.png",
+    "Wordclock_Render_scifi_NAV_1022.png",
+    "Wordclock_Render_scifi_NAV_1022_full.png",
+    "Wordclock_Render_scifi_QYA_1022.png",
+    "Wordclock_Render_scifi_QYA_1022_full.png",
+    "Wordclock_Render_scifi_RUNE_DE_1022.png",
+    "Wordclock_Render_scifi_RUNE_DE_1022_full.png",
+    "Wordclock_Render_scifi_RUNE_GB_1022.png",
+    "Wordclock_Render_scifi_RUNE_GB_1022_full.png",
+    "Wordclock_Render_scifi_TLH_1022.png",
+    "Wordclock_Render_scifi_TLH_1022_full.png",
+    "Wordclock_Ticker.gif"
    ]
   }
  }

@@ -14,7 +14,7 @@
 LANG_scifi_RUNE_GB = ["scifi_RUNE_GB", "Runes (English)", [
     "*xxxxᛁᛏxᛁᛋxxxxx*",
     "*xxxᛢᚢᚪᚱᛏᛖᚱxxxx*",
-    "*xxxᛏᚹᛖᚾᛏᚣᚻᛖᛚᛚᚩ*",
+    "*xxᛏᚹᛖᚾᛏᚣxᚻᛖᛚᛚᚩ*",
     "*xxᚠᛁᚡᛖxxᛏᛖᚾxxx*",
     "*xxxxxᚻᚪᛚᚠxxxxx*",
     "*xxᛈᚪᛋᛏxxxᛏᚩxxx*",

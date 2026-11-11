@@ -46,7 +46,7 @@ static const char *const GRID[16] = {
     "*xxxxxxMEIAxxxx*",
     "x+x1234xMINUTOSx",
     "xAREJARxxALARMEx",
-    "xCARGA||||||||||",
+    "CARGAx||||||||||",
 };
 // {row, column, length}, row/column counted from 0
 static const WcWord E_IS = {0, 2, 1}, SAO = {0, 5, 3};  // É (singular) / SÃO (plural)
@@ -175,7 +175,7 @@ static const WcLangDef WC_LANG = {
     "PT", "Português", wc_pt::GRID,
     {14, 1, 6},   // AREJAR
     {14, 9, 6},   // ALARME
-    {15, 1, 5},   // CARGA
+    {15, 0, 5},   // CARGA
     {15, 6, 10},  // battery bars
     wc_pt::EXTRA, 1,  // OLÁ
     wc_pt::time_words,

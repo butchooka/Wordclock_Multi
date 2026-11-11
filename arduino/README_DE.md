@@ -18,7 +18,7 @@ Einzeldatei-Sketch je Sprache: [`single_Language/`](single_Language/).
 Den kompletten Ordner `arduino/Wordclock` in den Sketchbook-Ordner der Arduino IDE kopieren
 (z. B. `Dokumente/Arduino/Wordclock`). Der Ordner muss `Wordclock` heißen und enthält:
 
-- `Wordclock.ino`, `config.h`, `webpage.h` (`webpage.html` = Quelle der Weboberfläche)
+- `Wordclock.ino`, `config.h`, `webpage.h` (`webpage.html` = Quelle der Weboberfläche), `wc_ui_en.h` (englische Weboberfläche)
 - `src/wc_core.h`, `src/wc_effects.h`, `src/wc_text.h`, `src/wc_font16.h`
 - `src/wc_lang_XX.h` (alle Sprachen, nur die gewählte wird kompiliert)
 

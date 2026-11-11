@@ -33,7 +33,7 @@ RASTER / GRID (Zeile 1 = oben / row 1 = top)
   13 *xxxxxxMEIAxxxx*
   14 x+x1234xMINUTOSx
   15 xAREJARxxALARMEx
-  16 xCARGA||||||||||
+  16 CARGAx||||||||||
 
   *  Temperaturpunkt (links außen, rechts innen) / temperature dot (left outside, right inside)
   |  Akkubalken / battery bar

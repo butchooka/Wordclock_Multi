@@ -3,7 +3,7 @@
   Compiles the shared core + one language and prints the lit cells of one time (same logic as the clock).
   Build: g++ -std=c++11 -DLANG=DE tools/render_mask.cpp -o render_mask
   Run:   render_mask hh:mm RRGGBB features
-         features = 0 (time and minutes only) or 1 (also VENT, ALARM, battery, temperature dots)
+         features = 0 (time and minutes only) or 1 (also VENT, ALARM, battery, temperature dots in the default colours)
   Output: line 1 "code<TAB>name<TAB>time text", then 16 rows of the grid (UTF-8),
           then 16 lines with 16 colours each (hex RRGGBB, 000000 = off).
   Run:   render_mask all          (used by tools/make_masks.py for the mask cache)
@@ -27,21 +27,28 @@
 #include "../arduino/Wordclock/src/wc_core.h"
 #include WC_LANG_PATH(LANG)
 
+// Full display ("_full" renders): VENT and ALARM on, battery half full, both temperature dots, each in the default
+// colour of the firmware (COL_DEF in Wordclock.ino: VENT orange, ALARM red, BATTERY white, temperatures = scale with
+// the default ranges outside 5..30, inside 20..25). Outside 8 degC = yellow (row 11), inside 24 degC = orange (row 2).
+static void set_features(WcClockIn &in, bool features) {
+  if (features) {
+    in.show_vent = in.show_alarm = in.show_battery = in.show_tout = in.show_tin = true;
+    in.vent = in.alarm = true; in.battery = 50.0f;
+    in.t_out = 8.0f; in.t_in = 24.0f;
+    in.t_out_lo = 5; in.t_out_hi = 30; in.t_in_lo = 20; in.t_in_hi = 25;
+    in.tout_scale = in.tin_scale = true;
+    in.c_vent = WC_PAL[3]; in.c_alarm = WC_PAL[2]; in.c_battery = WC_PAL[1];
+  } else {
+    in.battery = NAN; in.t_out = NAN; in.t_in = NAN;
+  }
+}
+
 static void render_bits(int h, int m, bool features, unsigned col, WcRgb *f) {
   WcClockIn in;
   memset(&in, 0, sizeof(in));
   in.valid = true; in.hour = h; in.minute = m; in.show_minutes = true;
   in.c_time = wc_hex(col);
-  if (features) {
-    in.show_vent = in.show_alarm = in.show_battery = in.show_tout = in.show_tin = true;
-    in.vent = in.alarm = true; in.battery = 70.0f;
-    in.t_out = 12.0f; in.t_in = 22.0f;
-    in.t_out_lo = 5; in.t_out_hi = 30; in.t_in_lo = 20; in.t_in_hi = 25;
-    in.tout_scale = in.tin_scale = true;
-    in.c_vent = in.c_alarm = in.c_battery = wc_hex(col);
-  } else {
-    in.battery = NAN; in.t_out = NAN; in.t_in = NAN;
-  }
+  set_features(in, features);
   wc_render_clock(WC_LANG, in, f);
 }
 
@@ -87,16 +94,7 @@ int main(int argc, char **argv) {
   memset(&in, 0, sizeof(in));
   in.valid = true; in.hour = h; in.minute = m; in.show_minutes = true;
   in.c_time = wc_hex(col);
-  if (features) {
-    in.show_vent = in.show_alarm = in.show_battery = in.show_tout = in.show_tin = true;
-    in.vent = in.alarm = true; in.battery = 70.0f;
-    in.t_out = 12.0f; in.t_in = 22.0f;
-    in.t_out_lo = 5; in.t_out_hi = 30; in.t_in_lo = 20; in.t_in_hi = 25;
-    in.tout_scale = in.tin_scale = true;
-    in.c_vent = in.c_alarm = in.c_battery = wc_hex(col);
-  } else {
-    in.battery = NAN; in.t_out = NAN; in.t_in = NAN;
-  }
+  set_features(in, features);
   WcRgb f[WC_N];
   wc_render_clock(WC_LANG, in, f);
   char txt[256];

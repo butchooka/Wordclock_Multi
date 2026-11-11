@@ -8,7 +8,7 @@
 LANG_GB = ["GB", "English", [
     "*xxxxITxISxxxxx*",
     "*xxxQUARTERxxxx*",
-    "*xxxTWENTYHELLO*",
+    "*xxTWENTYxHELLO*",
     "*xxFIVExxTENxxx*",
     "*xxxxxHALFxxxxx*",
     "*xxPASTxxxTOxxx*",

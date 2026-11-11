@@ -33,7 +33,7 @@ namespace wc_gb {
 static const char *const GRID[16] = {
     "*xxxxITxISxxxxx*",
     "*xxxQUARTERxxxx*",
-    "*xxxTWENTYHELLO*",
+    "*xxTWENTYxHELLO*",
     "*xxFIVExxTENxxx*",
     "*xxxxxHALFxxxxx*",
     "*xxPASTxxxTOxxx*",
@@ -50,7 +50,7 @@ static const char *const GRID[16] = {
 };
 // {row, column, length}, row/column counted from 0
 static const WcWord IT = {0, 5, 2}, IS = {0, 8, 2};
-static const WcWord M_QUARTER = {1, 4, 7}, M_TWENTY = {2, 4, 6}, M_FIVE = {3, 3, 4}, M_TEN = {3, 9, 3};
+static const WcWord M_QUARTER = {1, 4, 7}, M_TWENTY = {2, 3, 6}, M_FIVE = {3, 3, 4}, M_TEN = {3, 9, 3};
 static const WcWord HALF = {4, 6, 4}, PAST = {5, 3, 4}, TO = {5, 10, 2}, OCLOCK = {12, 5, 6};
 // hour 0..11 (0 = twelve)
 static const WcWord HOURS[12] = {{11, 9, 6}, {6, 3, 3}, {6, 9, 3},  {7, 2, 5},  {7, 9, 4},  {8, 3, 4},

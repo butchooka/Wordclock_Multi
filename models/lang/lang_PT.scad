@@ -21,5 +21,5 @@ LANG_PT = ["PT", "Português", [
     "*xxxxxxMEIAxxxx*",
     "x+x1234xMINUTOSx",
     "xAREJARxxALARMEx",
-    "xCARGA||||||||||"
+    "CARGAx||||||||||"
 ], "", ""];

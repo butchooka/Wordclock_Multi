@@ -5,6 +5,8 @@ render_fronts.py - Wordclock 16x16, preview images of the front for every langua
 Renders the front of each language as PNG with the same time and the same colour (lit letters exactly as the
 clock shows them: the language file is compiled with the shared core, see tools/render_mask.cpp).
 One image per language plus an overview with all languages, e.g. for MakerWorld or the README.
+Two sets: "normal" (time only) and "full" (additionally VENT, ALARM, battery half full and both temperature dots,
+each in the default colour of the firmware, without the extra words), file names of the full set end in "_full".
 
 Needs: Python 3 with Pillow (pip install pillow). With g++ or clang++ the language files are compiled directly;
 without a compiler the mask cache tools/render_masks.json.xz is used (built by tools/make_masks.py, contains every
@@ -14,12 +16,13 @@ tools/wordclock_tools.bat (item 5).
 Usage (from the repository root):
     python3 tools/render_fronts.py                         all languages, 10:22, warm white
     python3 tools/render_fronts.py DE GB --time 13:47 --color green
-    python3 tools/render_fronts.py --color 00A0FF --features --style dark
+    python3 tools/render_fronts.py --color 00A0FF --set full --style dark
 
 Options:
     --time hh:mm      time shown (default 10:22, shows hour, minute words and the single minutes)
     --color C         palette name (warmwhite, white, red, orange, yellow, green, blue, violet) or hex RRGGBB
-    --features        also light VENT, ALARM, battery bars and the temperature dots
+    --set S           both (default) | normal = time only | full = also VENT (orange), ALARM (red), battery 50 %
+                      (white) and the temperature dots (scale: outside 8 degC yellow, inside 24 degC orange)
     --style S         light = white front skin (FRONT_SKIN, default) | dark = dark front, letters open
     --size N          edge length of the single images in pixels (default 1600)
     --bg RRGGBB       background colour (default 1E1F22)
@@ -35,10 +38,12 @@ Options:
     --ticker TEXT     text of the text ticker GIF (default "♥ Wordclock International butchooka ♥")
     --ticker-lang L   front used for the ticker GIF (default GB)
     --ticker-size N   edge length of the ticker GIF (default 240, 0 = no ticker GIF)
-Output: Wordclock_Render_v1.0_<LANG>_<hhmm>.png, Wordclock_Render_v1.0_ALL_<hhmm>.png (overview),
-        Wordclock_Render_v1.0_ALL_<hhmm>.gif (animation, endless loop) and Wordclock_Ticker_v1.0.gif (text ticker,
-        letter by letter in rainbow colours as on the clock, font src/wc_font16.h). Ticker GIF and the clean-up of
-        old renders (other version / time in the output folder) only when all languages are rendered.
+Output: Wordclock_Render_<LANG>_<hhmm>.png, Wordclock_Render_ALL_<hhmm>.png (overview),
+        Wordclock_Render_ALL_<hhmm>.gif (animation, endless loop), the same with "_full" appended for the full set
+        (e.g. Wordclock_Render_DE_1022_full.png), and Wordclock_Ticker.gif (text ticker, letter by letter in rainbow
+        colours as on the clock, font src/wc_font16.h). No version in the file names (README links stay valid).
+        Ticker GIF and the clean-up of old renders (other names / time in the output folder) only when all languages
+        and both sets are rendered.
 Unchanged runs are skipped: render_info.json in the output folder holds the base data of the last run (the
 firmware sources src/*.h, models/lang/*.scad, render_fronts.py, render_mask.cpp, mask cache, options, installed
 fonts, see tools/wc_stamp.py). When nothing changed and all images are there, nothing is rendered (--force = all).
@@ -281,11 +286,12 @@ def variant_grid(code):
 
 def lang_mask(lang, hhmm, color, features, cxx, tmp):
     exe = os.path.join(tmp, "render_mask_" + lang + (".exe" if os.name == "nt" else ""))
-    r = subprocess.run([cxx, "-std=c++11", "-O1", "-DLANG=" + lang, os.path.join(ROOT, "tools", "render_mask.cpp"),
-                        "-o", exe], capture_output=True, text=True)
-    if r.returncode != 0:
-        print(r.stderr)
-        sys.exit("compile error for " + lang)
+    if not os.path.isfile(exe):                 # compiled once per language and run (both sets, ticker)
+        r = subprocess.run([cxx, "-std=c++11", "-O1", "-DLANG=" + lang, os.path.join(ROOT, "tools", "render_mask.cpp"),
+                            "-o", exe], capture_output=True, text=True)
+        if r.returncode != 0:
+            print(r.stderr)
+            sys.exit("compile error for " + lang)
     r = subprocess.run([exe, hhmm, color, "1" if features else "0"], capture_output=True)
     lines = r.stdout.decode("utf-8").splitlines()
     code, name, text = lines[0].split("\t")
@@ -530,7 +536,7 @@ def save_img(im, fn, **kw):
 
 
 def clean_old(out, keep):
-    """Removes renders of another version or time from the output folder (all languages are rendered again)."""
+    """Removes renders with other names (old version in the name, other time) from the output folder (complete run)."""
     for f in glob.glob(os.path.join(out, "Wordclock_Render_*")) + glob.glob(os.path.join(out, "Wordclock_Ticker_*")):
         if os.path.basename(f) not in keep:
             os.remove(f)
@@ -572,12 +578,30 @@ def animation(images, bg, size, labels, fonts):
     return frames
 
 
+def write_all(imgs, labels, fonts, a, h, m, suf, written):
+    """Overview PNG and animated GIF of all rendered fronts of one set (suf = "" or "_full")."""
+    n = len(imgs)
+    cols_n = 4 if n > 6 else 3 if n > 4 else n
+    ov = overview(imgs, cols_n, hex_rgb(a.bg), 800, labels, fonts)
+    fn = os.path.join(a.out, "Wordclock_Render_ALL_%02d%02d%s.png" % (h, m, suf))
+    save_img(ov, fn, optimize=True)
+    written.add(os.path.basename(fn))
+    print("overview  ->  " + os.path.relpath(fn, ROOT))
+    if a.gif_size > 0:
+        frames = animation(imgs, hex_rgb(a.bg), a.gif_size, labels, fonts)
+        fn = os.path.join(a.out, "Wordclock_Render_ALL_%02d%02d%s.gif" % (h, m, suf))
+        save_img(frames[0], fn, save_all=True, append_images=frames[1:], duration=a.gif_ms, loop=0,
+                 optimize=True, disposal=1)
+        written.add(os.path.basename(fn))
+        print("animation ->  %s  (%d fronts, %d ms each)" % (os.path.relpath(fn, ROOT), len(frames), a.gif_ms))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("langs", nargs="*")
     ap.add_argument("--time", default="10:22")
     ap.add_argument("--color", default="warmwhite")
-    ap.add_argument("--features", action="store_true")
+    ap.add_argument("--set", default="both", choices=["both", "normal", "full"])
     ap.add_argument("--style", default="light", choices=["light", "dark"])
     ap.add_argument("--size", type=int, default=1600)
     ap.add_argument("--bg", default="1E1F22")
@@ -611,7 +635,8 @@ def main():
     var = variants()
     known = {l.upper(): l for l in languages() + sorted(var)}   # case-insensitive, keeps the spelling (e.g. scifi_TLH)
     langs = [known.get(l.upper(), l) for l in a.langs] or languages() + sorted(var)
-    full = not a.langs
+    full = not a.langs and a.set == "both"      # complete run: ticker GIF and clean-up of old renders
+    sets = ["normal", "full"] if a.set == "both" else [a.set]
     os.makedirs(a.out, exist_ok=True)
     written = set()
     info = wc_stamp.Info(os.path.join(a.out, "render_info.json"), a.force)
@@ -621,34 +646,39 @@ def main():
     opts = {k: v for k, v in vars(a).items() if k not in ("out", "force")}
     inp = wc_stamp.inputs(files, options=opts, langs=langs, compiler=bool(cxx), default_font=os.path.basename(default[0]),
                           installed_fonts=wc_stamp.text_hash("\n".join(sorted(k for k in font_index() if k))))
-    run_key = "run_%s" % "_".join(langs) if not full else "run_all"
+    run_key = "run_all" if full else "run_%s_%s" % ("_".join(langs) if a.langs else "all", a.set)
     prev = info.data["outputs"].get(run_key, {}).get("written", [])
     if prev and info.fresh(os.path.join(a.out, run_key), inp, [os.path.join(a.out, f) for f in prev], virtual=True):
         print("nothing changed since the last run (%s) - %d images kept, nothing rendered"
               % (info.data["outputs"][run_key]["built"], len(prev)))
         return
 
-    imgs, labels, fonts = [], [], []
     with tempfile.TemporaryDirectory() as tmp:
-        for L in langs:
-            B = var.get(L, L)                   # script variant: lit cells of the base language, own letters
-            if cxx:
-                code, name, text, grid, cols = lang_mask(B, hhmm, color, a.features, cxx, tmp)
-            else:
-                code, name, text, grid, cols = lang_mask_cached(B, hhmm, color, a.features, cache)
-            if L in var:
-                code, name, grid = L, lang_field(L, 1), variant_grid(L)
-            filler = lang_filler(L, a.filler)
-            font = lang_font(L, grid, filler, name, default)
-            im = render(grid, cols, a.size, a.style, hex_rgb(a.bg), font, filler)
-            fn = os.path.join(a.out, "Wordclock_Render_%s_%s_%02d%02d.png" % (VERSION, code, h, m))
-            save_img(im, fn, optimize=True)
-            written.add(os.path.basename(fn))
-            print("%-6s %-13s %s  ->  %s  [%s%s]" % (code, name, text, os.path.relpath(fn, ROOT),
-                                                   os.path.basename(font[0]), "#%d" % font[1] if font[1] else ""))
-            imgs.append(im)
-            labels.append(name)
-            fonts.append(font)
+        for st in sets:
+            feat = st == "full"
+            suf = "_full" if feat else ""
+            imgs, labels, fonts = [], [], []
+            for L in langs:
+                B = var.get(L, L)               # script variant: lit cells of the base language, own letters
+                if cxx:
+                    code, name, text, grid, cols = lang_mask(B, hhmm, color, feat, cxx, tmp)
+                else:
+                    code, name, text, grid, cols = lang_mask_cached(B, hhmm, color, feat, cache)
+                if L in var:
+                    code, name, grid = L, lang_field(L, 1), variant_grid(L)
+                filler = lang_filler(L, a.filler)
+                font = lang_font(L, grid, filler, name, default)
+                im = render(grid, cols, a.size, a.style, hex_rgb(a.bg), font, filler)
+                fn = os.path.join(a.out, "Wordclock_Render_%s_%02d%02d%s.png" % (code, h, m, suf))
+                save_img(im, fn, optimize=True)
+                written.add(os.path.basename(fn))
+                print("%-6s %-13s %s  ->  %s  [%s%s]" % (code, name, text, os.path.relpath(fn, ROOT),
+                                                       os.path.basename(font[0]), "#%d" % font[1] if font[1] else ""))
+                imgs.append(im)
+                labels.append(name)
+                fonts.append(font)
+            if len(imgs) > 1:
+                write_all(imgs, labels, fonts, a, h, m, suf, written)
         if full and a.ticker_size > 0 and a.ticker:
             T = known.get(a.ticker_lang.upper(), a.ticker_lang)
             if cxx:
@@ -656,25 +686,10 @@ def main():
             else:
                 _, _, _, tgrid, _ = lang_mask_cached(T, hhmm, color, False, cache)
             tfill = lang_filler(T, a.filler)
-            fn = os.path.join(a.out, "Wordclock_Ticker_%s.gif" % VERSION)
+            fn = os.path.join(a.out, "Wordclock_Ticker.gif")
             ticker_gif(a.ticker, tgrid, a.ticker_size, a.style, hex_rgb(a.bg), lang_font(T, tgrid, tfill, T, default),
                        tfill, fn)
             written.add(os.path.basename(fn))
-    if len(imgs) > 1:
-        n = len(imgs)
-        cols_n = 4 if n > 6 else 3 if n > 4 else n
-        ov = overview(imgs, cols_n, hex_rgb(a.bg), 800, labels, fonts)
-        fn = os.path.join(a.out, "Wordclock_Render_%s_ALL_%02d%02d.png" % (VERSION, h, m))
-        save_img(ov, fn, optimize=True)
-        written.add(os.path.basename(fn))
-        print("overview  ->  " + os.path.relpath(fn, ROOT))
-        if a.gif_size > 0:
-            frames = animation(imgs, hex_rgb(a.bg), a.gif_size, labels, fonts)
-            fn = os.path.join(a.out, "Wordclock_Render_%s_ALL_%02d%02d.gif" % (VERSION, h, m))
-            save_img(frames[0], fn, save_all=True, append_images=frames[1:], duration=a.gif_ms, loop=0,
-                     optimize=True, disposal=1)
-            written.add(os.path.basename(fn))
-            print("animation ->  %s  (%d fronts, %d ms each)" % (os.path.relpath(fn, ROOT), len(frames), a.gif_ms))
     if full:
         clean_old(a.out, written)
     info.store(os.path.join(a.out, run_key), inp, written=sorted(written))

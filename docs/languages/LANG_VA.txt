@@ -26,8 +26,8 @@ RASTER / GRID (Zeile 1 = oben / row 1 = top)
    6 *xxxUNDECIMAxxx*
    7 *MERIDIESxMEDIA*
    8 *NOXxxETxxMINUS*
-   9 *VIGINTIQUINQUE*
-  10 *DECEMxxDIMIDIA*
+   9 *VIGINTIxDECEMx*
+  10 *QUINQUEDIMIDIA*
   11 *xxQUADRANTESxx*
   12 *xxROMANIxITExx*
   13 *xxxxxDOMUMxxxx*
@@ -117,8 +117,8 @@ BEISPIELE / EXAMPLES (nur Uhrzeit, · = aus / time only, · = off)
 ················   ······DECIMA····   ················   ················
 ················   ················   ················   ··········MEDIA·
 ················   ······ET········   ··········MINUS·   ·NOX······MINUS·
-················   ·VIGINTIQUINQUE·   ················   ········QUINQUE·
-················   ················   ················   ················
+················   ·VIGINTI········   ················   ················
+················   ·QUINQUE········   ················   ·QUINQUE········
 ················   ················   ···QUADRANTE····   ················
 ················   ················   ················   ················
 ················   ················   ················   ················

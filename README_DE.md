@@ -7,8 +7,8 @@ Läuft entweder mit **ESPHome / Home Assistant** oder eigenständig als **Arduin
 English version: [README.md](README.md)
 
 <p align="center">
-  <img src="docs/render/Wordclock_Render_v1.0_DE_1022.png" width="380" alt="Front DE, 10:22">
-  <img src="docs/render_dark/Wordclock_Render_v1.0_DE_1022.png" width="380" alt="Front DE dunkel, 10:22">
+  <img src="docs/render/Wordclock_Render_DE_1022.png" width="380" alt="Front DE, 10:22">
+  <img src="docs/render_dark/Wordclock_Render_DE_1022.png" width="380" alt="Front DE dunkel, 10:22">
 </p>
 
 3D-Modell (Gehäuse, Front je Sprache, Ständer, Wand- und Skadis-Halter, Bilderrahmen-Version):
@@ -33,11 +33,11 @@ Alle anderen Sprachen sind v0.9 (Grammatik unbestätigt), bis Muttersprachler Gr
 - Easter Egg je Sprache (Gruß oder typischer Spruch aus freien Feldern), schaltbar; wird beim Start angezeigt, bis
   die Uhrzeit bekannt ist (pulsiert blau, solange der Hotspot offen ist)
 - Strombegrenzung, LED-Verdrahtung (Zickzack / zeilenweise, gespiegelt) einstellbar
-- Arduino: Weboberfläche in der Sprache der Uhr, Hotspot mit Captive Portal beim ersten Start, NTP per DHCP,
+- Arduino: Weboberfläche in der Sprache der Uhr (umschaltbar auf Englisch), Hotspot mit Captive Portal beim ersten Start, NTP per DHCP,
   Außentemperatur von Open-Meteo (optional), HTTP-API
 - ESPHome: alle Einstellungen als Home-Assistant-Entitäten, Sensoren aus Home Assistant per Entitäts-ID
 
-<p align="center"><img src="docs/render/Wordclock_Ticker_v1.0.gif" width="240" alt="Lauftext (hell)"> <img src="docs/render_dark/Wordclock_Ticker_v1.0.gif" width="240" alt="Lauftext (dunkel)"></p>
+<p align="center"><img src="docs/render/Wordclock_Ticker.gif" width="240" alt="Lauftext (hell)"> <img src="docs/render_dark/Wordclock_Ticker.gif" width="240" alt="Lauftext (dunkel)"></p>
 
 ## Sprachen
 
@@ -82,7 +82,7 @@ Reihenfolge: Landessprachen, Dialekte, andere Sprachen. Raster, Grammatik und Be
 | `scifi_RUNE_GB` | Runes (English) | Schrift-Variante von `GB` (nur Front) | Firmware von `GB` | London |
 <!-- LANGUAGES END -->
 
-<p align="center"><img src="docs/render/Wordclock_Render_v1.0_ALL_1022.gif" width="360" alt="Alle Fronten (hell)"> <img src="docs/render_dark/Wordclock_Render_v1.0_ALL_1022.gif" width="360" alt="Alle Fronten (dunkel)"></p>
+<p align="center"><img src="docs/render/Wordclock_Render_ALL_1022.gif" width="360" alt="Alle Fronten (hell)"> <img src="docs/render_dark/Wordclock_Render_ALL_1022_full.gif" width="360" alt="Alle Fronten, alle Anzeigen an (dunkel)"></p>
 
 ## Schnellstart
 
@@ -136,6 +136,7 @@ arduino/Wordclock/
   config.h                 <- Sprache und Hardware (Liste aller Sprachen im Kommentar)
   webpage.html             Weboberfläche (Quelle), alle Texte kommen aus der Sprachdatei
   webpage.h                dieselbe, gzip-gepackt (erzeugt von tools/make_webpage.py)
+  wc_ui_en.h               englische Weboberfläche als Alternative in jeder Sprache (Texte aus wc_lang_GB.h)
   src/wc_core.h            gemeinsamer Kern: Uhrzeitanzeige, Farben, Strombegrenzung, LED-Zuordnung
   src/wc_effects.h         Effekte
   src/wc_text.h            Lauftext, src/wc_font16.h dessen 16x16-Schrift (tools/make_font.py)
@@ -151,7 +152,8 @@ docs/setup/                erzeugt von tools/make_info.py: Anleitungen FreeCAD +
 arduino/README*.md, esphome/README*.md  erzeugt von tools/make_info.py: Anleitungen (EN / DE)
 arduino/single_Language/   Einzeldatei-Sketch je Sprache (tools/bundle_firmware.py)
 esphome/single_Language/   ESPHome-Einzeldatei-Version je Sprache: .yaml + .h (tools/bundle_firmware.py)
-docs/render/               Vorschaubilder, animiertes GIF aller Fronten und Lauftext-GIF, helle Front (tools/render_fronts.py)
+docs/render/               Vorschaubilder, animiertes GIF aller Fronten und Lauftext-GIF, helle Front (tools/render_fronts.py);
+                           *_full = zusätzlich LÜFTEN, ALARM, Akku und Temperaturpunkte in den Standardfarben
 docs/render_dark/          dasselbe mit dunkler Front
 docs/LANG_SPEC.md          neue Sprache anlegen
 tools/                     Python-Werkzeuge (check_lang, make_info, render_fronts, bundle_firmware, ...)
@@ -190,6 +192,7 @@ für dieses Konto bearbeiten).
 python3 tools/check_lang.py [XX] [--words]   Raster, Wortpositionen, Texte, YAML-Schlüssel prüfen
 python3 tools/make_info.py                   docs/languages, Anleitungen, Sprachlisten in config.h, YAML und README schreiben
 python3 tools/render_fronts.py [XX ...]      PNG-Bilder der Fronten plus GIF (Pillow), z. B. --style dark --time 13:47
+                                             (Satz normal und _full, nur einer: --set normal / --set full)
                                              (Windows: tools/wordclock_tools.bat, Punkt 5; kein Compiler nötig, die
                                              leuchtenden Wörter kommen aus tools/render_masks.json.xz)
 python3 tools/make_masks.py                  diesen Masken-Cache nach Sprachänderungen neu bauen (braucht g++)

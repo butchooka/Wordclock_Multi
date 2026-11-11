@@ -207,6 +207,8 @@ progress{width:100%;margin-top:8px;accent-color:var(--ac)}
   <div class="live">
     <div class="row"><label for="mir" data-t="mir">LED 0 front top right (mirror)</label><label class="sw"><input type="checkbox" id="mir" name="mir"><span></span></label></div>
     <div class="row"><label for="srp" data-t="srp">Matrix wired in zigzag</label><label class="sw"><input type="checkbox" id="srp" name="srp"><span></span></label></div>
+    <!-- fixed English label (not translated): findable in every language; hidden when the clock language is English -->
+    <div class="row" id="uiEnRow"><label for="uiEn">Web interface in English</label><label class="sw"><input type="checkbox" id="uiEn" name="uiEn"><span></span></label></div>
   </div>
   <div class="btns">
     <button onclick="act('restart','q_restart')" data-t="restart">Restart</button>
@@ -268,6 +270,7 @@ function out(el){const o=Q('output[for="'+el.name+'"]');if(o)o.textContent=el.va
 async function send(el){
   const d={};d[el.name]=val(el);
   try{const r=await post('/api/save',d);
+    if(el.name==='uiEn'){location.reload();return;}   // texts come with /api/info: load the page again
     if(r.restart){toast(t('saved_restart'));setTimeout(()=>location.reload(),9000);}else toast(t('saved'));
   }catch(e){toast(t('save_err'));}
 }
@@ -355,6 +358,7 @@ document.addEventListener('change',e=>{
 async function info(){
   const r=await (await fetch('/api/info')).json();
   I=r;U=r.ui||{};
+  Q('#uiEnRow').style.display=I.code==='GB'?'none':'';
   applyLang();buildColors();buildFx();buildLoc();
 }
 async function load(){

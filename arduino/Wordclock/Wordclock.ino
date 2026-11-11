@@ -24,6 +24,7 @@
      Wordclock/config.h          <- language and hardware
      Wordclock/webpage.h         web interface, gzip-packed (generated from webpage.html by tools/make_webpage.py)
      Wordclock/webpage.html      source of the web interface (not compiled)
+     Wordclock/wc_ui_en.h        English web interface as alternative (texts of src/wc_lang_GB.h)
      Wordclock/src/wc_core.h     shared core (also used by ESPHome)
      Wordclock/src/wc_effects.h  effect register (also used by ESPHome)
      Wordclock/src/wc_text.h     text ticker, wc_font16.h its font (also used by ESPHome)
@@ -92,6 +93,7 @@
 #include "src/wc_effects.h"
 #include "src/wc_text.h"
 #include WC_LANG_FILE
+#include "wc_ui_en.h"   // after WC_LANG_FILE: English texts of the web interface (switch uiEn)
 #include "webpage.h"
 
 #if defined(CONFIG_LWIP_TCPIP_CORE_LOCKING) && CONFIG_LWIP_TCPIP_CORE_LOCKING
@@ -119,10 +121,11 @@ const char *apSsid() {
   return WC_LANG.ap_ssid;
 #endif
 }
-// text of the web interface from the language file (ui_json)
+// texts of the web interface: from the language file (ui_json) or English (setting uiEn)
+const char *uiJson();
 String tr(const char *key) {
   char b[200];
-  return wc_json_get(WC_LANG.ui_json, key, b, sizeof(b)) ? String(b) : String(key);
+  return wc_json_get(uiJson(), key, b, sizeof(b)) ? String(b) : String(key);
 }
 
 // ============================ LED OUTPUT (WS2812, GRB) ============================
@@ -188,6 +191,7 @@ struct Settings {
   uint8_t col[6];
   uint32_t cus[6];              // custom colours 0xRRGGBB
   bool on, swMin, swExtra, tOnl, mir, srp;
+  bool uiEn;                    // web interface in English instead of the language of the clock
   float tiMin, tiMax, toMin, toMax;
   uint8_t fxd;                  // effect duration s (0 = until stopped)
   float blk;                    // blink cycle s
@@ -208,6 +212,7 @@ void setDefaults() {
   for (int i = 0; i < 6; i++) { S.col[i] = i ? COL_OFF : COL_DEF[0]; S.cus[i] = 0xFF8C28; }
   S.on = true; S.swMin = true; S.swExtra = false;
   S.tOnl = true; S.mir = true; S.srp = true;   // zigzag wiring as default
+  S.uiEn = false;
   S.tiMin = 20; S.tiMax = 25; S.toMin = 5; S.toMax = 30;
   S.fxd = 30; S.blk = 1.5f; S.apiTo = 30;
   S.txt = WC_LANG.ap_ssid;
@@ -261,6 +266,7 @@ void loadSettings() {
   S.tOnl = prefs.getBool("tOnl", S.tOnl);
   S.mir = prefs.getBool("mir", S.mir);
   S.srp = prefs.getBool("srp", S.srp);
+  S.uiEn = prefs.getBool("uiEn", S.uiEn);
   S.tiMin = prefs.getFloat("tiMin", S.tiMin);
   S.tiMax = prefs.getFloat("tiMax", S.tiMax);
   S.toMin = prefs.getFloat("toMin", S.toMin);
@@ -303,6 +309,7 @@ void saveSettings() {
   prefs.putBool("tOnl", S.tOnl);
   prefs.putBool("mir", S.mir);
   prefs.putBool("srp", S.srp);
+  prefs.putBool("uiEn", S.uiEn);
   prefs.putFloat("tiMin", S.tiMin);
   prefs.putFloat("tiMax", S.tiMax);
   prefs.putFloat("toMin", S.toMin);
@@ -313,6 +320,8 @@ void saveSettings() {
   prefs.putString("txt", S.txt);
   prefs.end();
 }
+
+const char *uiJson() { return S.uiEn ? WC_UI_EN : WC_LANG.ui_json; }
 
 // ============================ RUNTIME STATE ============================
 bool apActive = false;
@@ -735,10 +744,11 @@ void handleInfo() {
   }
   j += "],\"ui\":";
   server.sendHeader("Cache-Control", "no-store");
-  server.setContentLength(j.length() + strlen(WC_LANG.ui_json) + 1);
+  const char *ui = uiJson();
+  server.setContentLength(j.length() + strlen(ui) + 1);
   server.send(200, "application/json", "");
   server.sendContent(j);
-  server.sendContent(WC_LANG.ui_json, strlen(WC_LANG.ui_json));
+  server.sendContent(ui, strlen(ui));
   server.sendContent("}");
 }
 
@@ -796,6 +806,7 @@ void handleConfig() {
   auto n = [&](const char *k, const String &v) { j += "\""; j += k; j += "\":"; j += v; j += ","; };
   auto s = [&](const char *k, const String &v) { j += "\""; j += k; j += "\":\""; j += jsonEsc(v); j += "\","; };
   b("on", S.on); b("swMin", S.swMin); b("swExtra", S.swExtra); b("tOnl", S.tOnl); b("mir", S.mir); b("srp", S.srp);
+  b("uiEn", S.uiEn);
   n("brD", String(S.brD)); n("brN", String(S.brN)); n("cur", String(S.cur));
   n("lat", String(S.lat, 4)); n("lon", String(S.lon, 4)); n("nso", String(S.nso)); n("neo", String(S.neo));
   n("nmode", String(S.nmode)); s("nfs", hm(S.nfs)); s("nfe", hm(S.nfe)); s("nme", hm(S.nme)); s("nml", hm(S.nml));
@@ -826,6 +837,7 @@ void handleSave() {
   if (has("tOnl")) { S.tOnl = gi("tOnl"); lastWeather = 0; weatherDone = false; }
   if (has("mir")) S.mir = gi("mir");
   if (has("srp")) S.srp = gi("srp");
+  if (has("uiEn")) S.uiEn = gi("uiEn");
   if (has("brD")) S.brD = cl(gi("brD"), 1, 100);
   if (has("brN")) S.brN = cl(gi("brN"), 0, 100);
   if (has("cur")) S.cur = cl(gi("cur"), 100, 3000);

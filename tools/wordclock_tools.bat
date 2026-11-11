@@ -52,7 +52,7 @@ echo                          docs\languages, setup guides (.md), language lists
 echo   2  Check ESPHome       all lang_XX.yaml, with ESPHome installed also "esphome config"
 echo   3  Check parameters    SCAD ^<-^> FreeCAD macro settings (models, Python only)
 echo   4  Check 3D models     render all parts with OpenSCAD, fit check, FreeCAD comparison
-echo   5  Render fronts       preview images light/dark + overview + GIFs + text ticker -^> docs\render*
+echo   5  Render fronts       preview images light/dark, normal + _full, overview, GIFs, ticker -^> docs\render*
 echo   6  Bundle firmware     single-file versions -^> esphome\ + arduino\single_Language, zips -^> _private\makerworld
 echo   8  Bundle models       single-file SCAD/FCMacro -^> _private\makerworld\models
 echo   9  Export fronts       STL of the case front, all languages -^> _private\makerworld\export (slow)
@@ -211,7 +211,7 @@ goto done
 
 :a5
 %PY% -c "import PIL" >nul 2>nul || %PY% -m pip install --user pillow
-rem other time/colour: e.g. --time 13:47 --color green --features
+rem renders the normal set and the _full set (all additional displays on); other time/colour: e.g. --time 13:47 --color green --set full
 echo Light fronts ...
 %PY% tools\render_fronts.py
 echo.
