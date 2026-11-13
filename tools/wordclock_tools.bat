@@ -49,7 +49,8 @@ cls
 echo  Wordclock_Multi - tools                                           (logs in tools\logs\)
 echo  ---------------------------------------------------------------------------------------------
 echo   1  Check languages     sync C++ to ESPHome, pack web page, check all languages, update
-echo                          docs\languages, setup guides (.md), language lists in README/config.h/YAML
+echo                          docs\languages, setup guides (.md), language lists in README/config.h/YAML,
+echo                          desktop word clock docs\wordclock_desktop.html (needs g++)
 echo   2  Check ESPHome       all lang_XX.yaml, with ESPHome installed also "esphome config"
 echo   3  Check parameters    SCAD ^<-^> FreeCAD macro settings (models, Python only)
 echo   4  Check 3D models     render all parts with OpenSCAD, fit check, FreeCAD comparison
@@ -192,6 +193,9 @@ echo     %RES%
 >>"%LOG%" echo.
 call :say "Update docs\languages and setup guides - tools\make_info.py"
 %PY% tools\make_info.py >>"%LOG%" 2>&1
+>>"%LOG%" echo.
+call :say "Desktop word clock docs\wordclock_desktop.html - tools\make_desktop_clock.py"
+%PY% tools\make_desktop_clock.py >>"%LOG%" 2>&1
 >>"%LOG%" echo.
 >>"%LOG%" echo Result: %RES%
 type "%LOG%"

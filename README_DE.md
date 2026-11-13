@@ -36,6 +36,9 @@ Alle anderen Sprachen sind v0.9 (Grammatik unbestätigt), bis Muttersprachler Gr
 - Arduino: Weboberfläche in der Sprache der Uhr (umschaltbar auf Englisch), Hotspot mit Captive Portal beim ersten Start, NTP per DHCP,
   Außentemperatur von Open-Meteo (optional), HTTP-API
 - ESPHome: alle Einstellungen als Home-Assistant-Entitäten, Sensoren aus Home Assistant per Entitäts-ID
+- Kleines Extra: [`docs/wordclock_desktop.html`](docs/wordclock_desktop.html) – die Uhrzeit in Worten am PC, eine
+  einzelne Datei ohne Uhr und ohne Internet (Systemzeit und Systemsprache, im Browser oder als iframe, z. B. auf
+  dem Desktop); Zahnrad oben rechts: Einzelminuten, Farbe Buchstaben, Größe; Pfeiltasten ← → wechseln die Sprache
 
 <p align="center"><img src="docs/render/Wordclock_Ticker.gif" width="240" alt="Lauftext (hell)"> <img src="docs/render_dark/Wordclock_Ticker.gif" width="240" alt="Lauftext (dunkel)"></p>
 
@@ -156,6 +159,8 @@ docs/render/               Vorschaubilder, animiertes GIF aller Fronten und Lauf
                            *_full = zusätzlich LÜFTEN, ALARM, Akku und Temperaturpunkte in den Standardfarben
 docs/render_dark/          dasselbe mit dunkler Front
 docs/LANG_SPEC.md          neue Sprache anlegen
+docs/wordclock_desktop.html  Desktop-Wortuhr, alle Sprachen in einer HTML-Datei (tools/make_desktop_clock.py);
+                           Parameter ?lang=DE&min=0&color=ffb35c&size=48&bg=transparent&gear=0
 tools/                     Python-Werkzeuge (check_lang, make_info, render_fronts, bundle_firmware, ...)
   wordclock_tools.bat      Windows-Menü für alle Werkzeuge (Doppelklick, Nummer wählen, A = alle nacheinander):
                            Sprachen / ESPHome / Modelle prüfen, Fronten rendern, Firmware bündeln,
@@ -203,6 +208,7 @@ python3 tools/render_fronts.py [XX ...]      PNG-Bilder der Fronten plus GIF (Pi
 python3 tools/make_masks.py                  diesen Masken-Cache nach Sprachänderungen neu bauen (braucht g++)
 python3 tools/make_font.py                   Lauftext-Schrift src/wc_font16.h neu erzeugen (Pillow)
 python3 tools/make_webpage.py                webpage.html nach webpage.h packen (nach jeder Änderung der Seite)
+python3 tools/make_desktop_clock.py          docs/wordclock_desktop.html aus den Sprachdateien (braucht g++, Menüpunkt 1)
 python3 tools/bundle_firmware.py [XX ...]    Einzeldatei-Versionen in arduino/ und esphome/single_Language
 python3 tools/clean.py [--dry] [--backup]    __pycache__, temporäre Build-Ordner und andere Reste entfernen;
                                              --backup auch erzeugte STL/3MF/Zips/Schriften (schlankes Backup)

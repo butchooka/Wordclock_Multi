@@ -1,5 +1,15 @@
 # Changelog – Wordclock_Multi
 
+## 2026-11-13 - Desktop word clock (easter egg)
+- New `docs/wordclock_desktop.html`: the time in words like the header of the Arduino web interface, as one static
+  HTML file (all languages, approx. 110 KB, no server, no internet). System time, language from the browser /
+  system (`?lang=XX` overrides, also dialects and sci-fi). One line per row of the clock grid, centred, size fits
+  the window. Gear at the top right (shown on mouse move): single minutes, letter colour, size (saved per
+  browser); shows the link with parameters for an iframe (`min`, `color`, `size`, also `bg`, `gear=0`).
+  Easter egg: arrow keys ← → switch through all languages.
+- New `tools/make_desktop_clock.py`: compiles the time grammar of every `wc_lang_XX.h` with g++ (same code as the
+  firmware) and writes the HTML; part of menu item 1 in `wordclock_tools.bat`. README / README_DE: hint.
+
 ## 2026-11-11 - Language PL: grammar confirmed (v1.0)
 - Polski (PL) grammar and spelling confirmed by BaroszD (native speaker): status v0.9 -> v1.0 in `wc_lang_PL.h`
   (Arduino and ESPHome copy), `lang_PL.yaml`, `LANG_PL.txt`, README / README_DE (intro and language table).
