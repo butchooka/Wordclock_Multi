@@ -36,7 +36,7 @@
 //     #define WC_LANG_FILE "src/wc_lang_KR.h"  한국어 (v0.9)
 //     #define WC_LANG_FILE "src/wc_lang_NL.h"  Nederlands (v0.9)
 //     #define WC_LANG_FILE "src/wc_lang_NO.h"  Norsk (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_PL.h"  Polski (v0.9)
+//     #define WC_LANG_FILE "src/wc_lang_PL.h"  Polski (v1.0)
 //     #define WC_LANG_FILE "src/wc_lang_PT.h"  Português (v0.9)
 //     #define WC_LANG_FILE "src/wc_lang_RO.h"  Română (v0.9)
 //     #define WC_LANG_FILE "src/wc_lang_SE.h"  Svenska (v0.9)

@@ -14,7 +14,7 @@ needs no folder structure this script writes per language:
             inside the .ino, code from the headers would get prototypes before its types and not compile.
 
 Both folders are part of the repository and get a README.md (how to use the files). The two zips
-(Wordclock_ESPHome.zip, Wordclock_Arduino.zip) and README.txt for the MakerWorld upload go to _private/makerworld/
+(Wordclock_ESPHome.zip, Wordclock_Arduino.zip, content of the folders at the top level) and README.txt for the MakerWorld upload go to _private/makerworld/
 (private, not in the repository). Needs Python 3 only, takes about a second.
 Call:  python tools/bundle_firmware.py [DE GB ...] [--no-zip]   (or tools/wordclock_tools.bat)
 Exit code 1 on an error (missing file, a line that was expected but not found).
@@ -191,7 +191,7 @@ def arduino_bundle(code, sketch_name, hname):
 README = """Wordclock 16x16 - firmware single-file versions / Firmware als Einzeldateien (v1.0)
 Source / Quelle: https://github.com/butchooka/Wordclock_Multi   (XX = language code / Sprachcode)
 
-ESPHome (Home Assistant)  -  Wordclock_ESPHome.zip / esphome/
+ESPHome (Home Assistant)  -  Wordclock_ESPHome.zip
   EN: copy wordclock_multi_XX.yaml AND wordclock_multi_XX.h to /config/esphome/ (secrets.yaml next to them:
       wifi_ssid, wifi_password, ap_password, api_key, ota_password). Your own values are all at the top of the
       .yaml under "substitutions:": name, friendly_name, led_pin, wiring and the Home Assistant entities (alarm,
@@ -203,7 +203,7 @@ ESPHome (Home Assistant)  -  Wordclock_ESPHome.zip / esphome/
       (Alarm, Lüften, Akku, Temperatur außen / innen). Dann Install. Mehrere Uhren: je Uhr eine Kopie der .yaml
       mit eigenem name.
 
-Arduino (stand-alone, web interface / eigenständig, Weboberfläche)  -  Wordclock_Arduino.zip / arduino/
+Arduino (stand-alone, web interface / eigenständig, Weboberfläche)  -  Wordclock_Arduino.zip
   EN: open the folder Wordclock_XX/Wordclock_XX.ino in the Arduino IDE (ESP32 board package 2.0.x or 3.x, with 2.0.x
       also the library "Adafruit NeoPixel"), check the settings (LED_PIN ...) at the top, upload via USB.
   DE: Ordner Wordclock_XX/Wordclock_XX.ino in der Arduino IDE öffnen (ESP32-Boardpaket 2.0.x oder 3.x, bei 2.0.x
@@ -266,12 +266,13 @@ def all_codes():
     return sorted(p.stem[len("wc_lang_"):] for p in SRC.glob("wc_lang_*.h"))
 
 
-def zip_dir(src, zpath, prefix):
+def zip_dir(src, zpath):
+    """Content of src at the top level of the zip (no esphome/ or arduino/ folder around it)."""
     zpath.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(zpath, "w", zipfile.ZIP_DEFLATED) as z:
         for f in sorted(src.rglob("*")):
             if f.is_file():
-                z.write(f, pathlib.PurePosixPath(prefix) / f.relative_to(src).as_posix())
+                z.write(f, f.relative_to(src).as_posix())
 
 
 def main():
@@ -310,8 +311,8 @@ def main():
     write(out_ino / "README.md", README_INO % done)
     if not a.no_zip and not errors:
         write(out_mw / "README.txt", README % done)
-        zip_dir(out_esp, out_mw / "Wordclock_ESPHome.zip", "esphome")
-        zip_dir(out_ino, out_mw / "Wordclock_Arduino.zip", "arduino")
+        zip_dir(out_esp, out_mw / "Wordclock_ESPHome.zip")
+        zip_dir(out_ino, out_mw / "Wordclock_Arduino.zip")
     print("\n%d languages, %d errors -> %s, %s" % (len(codes), errors, out_esp.relative_to(ROOT), out_ino.relative_to(ROOT)))
     if not a.no_zip and not errors:
         print("zips + README.txt -> %s" % out_mw.relative_to(ROOT))

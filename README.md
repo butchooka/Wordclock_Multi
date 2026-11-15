@@ -176,11 +176,13 @@ tools/                     Python tools (check_lang, make_info, render_fronts, b
                            _private/makerworld/export/export_info.json, export_3mf/3mf_info.json; --force = all again
   install_fonts.py         checks the fonts of the fronts (CN, JP, KR: Noto Sans SC/JP/KR Bold, runes: Segoe UI
                            Historic) and downloads / installs missing Noto fonts for all users (menu item 15)
-  make_3mf.py              Bambu Studio project (3MF) per language (or one with all fronts) from tools/template_P2S.3mf:
+  make_3mf.py              Bambu Studio project (3MF) per language from tools/template_P2S.3mf, --all: also all_ files
+                           (menu item 13: Wordclock_all_<font>.3mf and Pictureframe_<FRAME>_all_<font>.3mf,
+                           one plate per language, plates named "DE - Deutsch"):
                            only the meshes are swapped, printer, profile, filament change, plates and per object
                            settings come from the template; break-away hook supports as a removable part;
                            --pictureframe (menu item 16): one project per language and picture frame
-                           (Wordclock_Pictureframe_<RIBBA|SANNAHED>_<LANG>_<font>.3mf), the plate takes the place and
+                           (Pictureframe_<RIBBA|SANNAHED>_<LANG>_<font>.3mf), the plate takes the place and
                            settings of the front of the same template
   export_fronts.py         STL export with OpenSCAD: fronts, parts, PictureFrame plates per frame
                            (PF_FRAMES: RIBBA 231 / 38 mm, SANNAHED 249 / 44 mm -> Pictureframe_<FRAME>_<LANG>_<font>.stl)

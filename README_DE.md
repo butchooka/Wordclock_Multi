@@ -177,11 +177,13 @@ tools/                     Python-Werkzeuge (check_lang, make_info, render_front
                            _private/makerworld/export/export_info.json, export_3mf/3mf_info.json; --force = alles neu
   install_fonts.py         prüft die Schriften der Fronten (CN, JP, KR: Noto Sans SC/JP/KR Bold, Runen: Segoe UI
                            Historic), lädt fehlende Noto-Schriften und installiert sie für alle Benutzer (Menüpunkt 15)
-  make_3mf.py              Bambu-Studio-Projekt (3MF) je Sprache (oder eins mit allen Fronten) aus tools/template_P2S.3mf:
+  make_3mf.py              Bambu-Studio-Projekt (3MF) je Sprache aus tools/template_P2S.3mf, --all: zusätzlich all_-Dateien
+                           (Menüpunkt 13: Wordclock_all_<Schrift>.3mf und Pictureframe_<RAHMEN>_all_<Schrift>.3mf,
+                           eine Platte je Sprache, Platten benannt „DE - Deutsch“):
                            nur die Netze werden getauscht, Drucker, Profil, Farbwechsel, Platten und Objekt-Einstellungen
                            kommen aus der Vorlage; abbrechbare Haken-Stützen als entfernbares Teil;
                            --pictureframe (Menüpunkt 16): ein Projekt je Sprache und Bilderrahmen
-                           (Wordclock_Pictureframe_<RIBBA|SANNAHED>_<LANG>_<Schrift>.3mf), die Platte übernimmt Platz
+                           (Pictureframe_<RIBBA|SANNAHED>_<LANG>_<Schrift>.3mf), die Platte übernimmt Platz
                            und Einstellungen der Front derselben Vorlage
   export_fronts.py         STL-Export mit OpenSCAD: Fronten, Teile, PictureFrame-Platten je Rahmen
                            (PF_FRAMES: RIBBA 231 / 38 mm, SANNAHED 249 / 44 mm -> Pictureframe_<RAHMEN>_<LANG>_<Schrift>.stl)

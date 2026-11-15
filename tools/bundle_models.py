@@ -5,9 +5,11 @@ The models share code: Wordclock_Common.scad (OpenSCAD) and Wordclock_Common.py 
 language grids in models/lang/. For an upload that needs ONE file this script inserts everything:
 
   OpenSCAD:  every line  include <file>  is replaced by the content of the file (recursive, relative to the
-             including file, every file only once) -> Wordclock_Model.scad / Wordclock_Model_PictureFrame.scad
+             including file, every file only once) -> Wordclock_Model_PictureFrame.scad
              without any include (all languages inside, Customizer parameters unchanged at the top).
-  FreeCAD:   the block "# >>> include Wordclock_Common.py" ... "# <<< include" is replaced by the content of
+             Only the PictureFrame is bundled (MakerWorld: the normal case comes as 3MF/STL); the normal model
+             and the FreeCAD macros are not needed there (add them to SCAD_FILES / MACRO_FILES if wanted).
+  FreeCAD:   (MACRO_FILES, empty) the block "# >>> include Wordclock_Common.py" ... "# <<< include" is replaced by
              Wordclock_Common.py. Note: the macro still reads the language grids from a folder "lang" next to it.
 
 Output: _private/makerworld/models/ (same file names, private, not in the repository). No OpenSCAD / FreeCAD needed, takes about a second.
@@ -21,8 +23,9 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MODELS = ROOT / "models"
-SCAD_FILES = ["Wordclock_Model.scad", "Wordclock_Model_PictureFrame.scad"]
-MACRO_FILES = ["Wordclock_Model.FCMacro", "Wordclock_Model_PictureFrame.FCMacro"]
+SCAD_FILES = ["Wordclock_Model_PictureFrame.scad"]     # MakerWorld: the case is uploaded as 3MF/STL, only the
+MACRO_FILES = []                                       # PictureFrame (other frame sizes) needs the SCAD (Customizer)
+OLD_FILES = ["Wordclock_Model.scad", "Wordclock_Model.FCMacro", "Wordclock_Model_PictureFrame.FCMacro"]
 
 INCLUDE_RE = re.compile(r"^\s*include\s*<([^>]+)>\s*;?\s*(//.*)?$")
 USE_RE = re.compile(r"^\s*use\s*<([^>]+)>")
@@ -93,6 +96,11 @@ def main():
     out_dir = pathlib.Path(a.out)
     out_dir.mkdir(parents=True, exist_ok=True)
     errors = 0
+    for name in OLD_FILES:                             # bundles of earlier versions, no longer wanted
+        old = out_dir / name
+        if old.is_file() and name not in SCAD_FILES + MACRO_FILES:
+            old.unlink()
+            print("removed %s (no longer bundled)" % name)
     for name in SCAD_FILES + MACRO_FILES:
         src = MODELS / name
         if not src.is_file():

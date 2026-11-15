@@ -32,7 +32,7 @@ set "T9=Export fronts STL"
 set "T10=Export PictureFrame STL"
 set "T11=Mask cache"
 set "T12=Bambu 3MF per language"
-set "T13=Bambu 3MF with all fronts"
+set "T13=Bambu 3MF all_ - all languages"
 set "T14=Export parts STL"
 set "T15=Fonts check / install"
 set "T16=Bambu 3MF PictureFrame"
@@ -56,14 +56,15 @@ echo   3  Check parameters    SCAD ^<-^> FreeCAD macro settings (models, Python 
 echo   4  Check 3D models     render all parts with OpenSCAD, fit check, FreeCAD comparison
 echo   5  Render fronts       preview images light/dark, normal + _full, overview, GIFs, ticker -^> docs\render*
 echo   6  Bundle firmware     single-file versions -^> esphome\ + arduino\single_Language, zips -^> _private\makerworld
-echo   8  Bundle models       single-file SCAD/FCMacro -^> _private\makerworld\models
+echo   8  Bundle models       single-file PictureFrame SCAD -^> _private\makerworld\models
 echo   9  Export fronts       STL of the case front, all languages -^> _private\makerworld\export (slow)
 echo  10  Export PictureFrame STL of the picture frame plate, all languages and frames (RIBBA, SANNAHED)
 echo                          -^> _private\makerworld\export (slow)
 echo  11  Mask cache          rebuild tools\render_masks.json.xz after a language change (needs g++)
 echo  12  Bambu 3MF           one Bambu Studio project per language from tools\template_P2S.3mf
 echo                          -^> _private\makerworld\export_3mf (exports missing STL first)
-echo  13  Bambu 3MF all       one Bambu Studio project with all fronts (one plate each) -^> export_3mf
+echo  13  Bambu 3MF all_      all languages in one project (one plate each): Wordclock_all_..., and per
+echo                          frame Pictureframe_RIBBA_all_... / Pictureframe_SANNAHED_all_... -^> export_3mf
 echo  14  Export parts        STL of rear, holders and their supports -^> _private\makerworld\export
 echo  15  Fonts               check the fonts of the fronts (CN, JP, KR, runes), download and install
 echo                          missing ones for all users (asks for administrator rights)
@@ -71,7 +72,7 @@ echo  16  Bambu 3MF PictureFrame  one project per language and frame (RIBBA, SAN
 echo                          of tools\template_P2S.3mf -^> export_3mf (exports missing STL first)
 echo   P  PictureFrame other  special case: asks size, depth, ... of another picture frame and exports
 echo                          the plates -^> _private\makerworld\export\custom
-echo   A  All                15 1 2 3 4 5 6 8 9 10 14 12 16 one after another
+echo   A  All                15 1 2 3 4 5 6 8 9 10 14 12 16 13 one after another
 echo   C  Clean              remove caches and temporary files only
 echo   B  Backup clean       also remove generated STL/3MF/zips/fonts (slim folder for a manual backup,
 echo                          only git-ignored outputs, lists first and asks; rebuild with 6, 8-10, 12-16)
@@ -94,7 +95,7 @@ goto finish
 :all
 set "T0=%time%"
 set "NALL=0"
-for %%N in (15 1 2 3 4 5 6 8 9 10 14 12 16) do (
+for %%N in (15 1 2 3 4 5 6 8 9 10 14 12 16 13) do (
   set /a NALL+=1
   call :do %%N
 )
@@ -150,7 +151,7 @@ rem ----------------------------------------------------------------------------
 call set "TT=%%T%~1%%"
 echo.
 echo =============================================================================================
-if defined NALL (echo  [%NALL%/13]  %~1  %TT%   - start %time:~0,8%) else (echo  %~1  %TT%   - start %time:~0,8%)
+if defined NALL (echo  [%NALL%/14]  %~1  %TT%   - start %time:~0,8%) else (echo  %~1  %TT%   - start %time:~0,8%)
 echo =============================================================================================
 if "%~1"=="1"  goto a1
 if "%~1"=="2"  goto a2
@@ -261,7 +262,9 @@ goto done
 
 :a13
 if not exist models\Wordclock_Model.scad goto nomodels
+rem all_ files: normal clock (all fronts + rear/holder plates) and one per PictureFrame frame
 %PY% tools\make_3mf.py --all-only --log "%ROOT%\tools\logs\make_3mf_all_log.txt"
+%PY% tools\make_3mf.py --pictureframe --all-only --log "%ROOT%\tools\logs\make_3mf_pf_all_log.txt"
 goto done
 
 :a14

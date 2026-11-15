@@ -19,7 +19,7 @@ Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated
    KR           한국어               Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Seoul                 Asia/Seoul
    NL           Nederlands        Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Amsterdam             Europe/Amsterdam
    NO           Norsk             Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Oslo                  Europe/Oslo
-   PL           Polski            Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Warszawa              Europe/Warsaw
+   PL           Polski            Land/country     v1.0     bestätigt / confirmed                        Warszawa              Europe/Warsaw
    PT           Português         Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Lisboa                Europe/Lisbon
    RO           Română            Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  București             Europe/Bucharest
    SE           Svenska           Land/country     v0.9     Grammatik unbestätigt / grammar unconfirmed  Stockholm             Europe/Stockholm

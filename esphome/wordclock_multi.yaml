@@ -29,7 +29,7 @@
 #     lang: !include wordclock_multi/lang/lang_KR.yaml  한국어 (v0.9)
 #     lang: !include wordclock_multi/lang/lang_NL.yaml  Nederlands (v0.9)
 #     lang: !include wordclock_multi/lang/lang_NO.yaml  Norsk (v0.9)
-#     lang: !include wordclock_multi/lang/lang_PL.yaml  Polski (v0.9)
+#     lang: !include wordclock_multi/lang/lang_PL.yaml  Polski (v1.0)
 #     lang: !include wordclock_multi/lang/lang_PT.yaml  Português (v0.9)
 #     lang: !include wordclock_multi/lang/lang_RO.yaml  Română (v0.9)
 #     lang: !include wordclock_multi/lang/lang_SE.yaml  Svenska (v0.9)

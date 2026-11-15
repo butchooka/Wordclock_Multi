@@ -14,7 +14,7 @@ Objects of the template are found by their name (".stl" and "_freecad" are ignor
   Holder_<name>            -> Holder_<name>.stl, plus Holder_<name>_Support.stl as a second part of the same object
                               (break-away supports; in Bambu Studio: right click on the part > Delete, if not wanted)
 Supports are only added to holders that stand on the plate as exported (template object not tilted).
-The plate with the front gets the name of the front (Frame_<LANG>_<font>).
+The plate with the front gets the language as its name ("DE - Deutsch", PictureFrame: "RIBBA DE - Deutsch").
 
 All STL files are brought up to date first with tools/export_fronts.py (OpenSCAD; unchanged STL files are skipped,
 see export_info.json), so the 3MF always shows the current model (--reuse = take existing files, only for tests).
@@ -23,13 +23,15 @@ folder, see tools/wc_stamp.py; --force = all). Languages with their own script (
 own font, its tag is in the file names; a missing font stops the run before anything is exported.
 Input:  _private/makerworld/export/           Output: _private/makerworld/export_3mf/
   Wordclock_<LANG>_<font>.3mf   one project per language (default)
-  Wordclock_ALL_<font>.3mf      --all: one project with one plate per front plus the plates of the other parts
-  Wordclock_Pictureframe_<FRAME>_<LANG>_<font>.3mf   --pictureframe: one project per language and picture frame
+  Wordclock_all_<font>.3mf      --all: one project with one plate per front plus the plates of the other parts
+  Pictureframe_<FRAME>_<LANG>_<font>.3mf   --pictureframe: one project per language and picture frame
                                 (export_fronts.PF_FRAMES: RIBBA, SANNAHED; --frame RIBBA = only this one) with one
                                 plate: the PictureFrame plate takes the place and all settings (filament change, per
                                 object settings) of the front of the template - no template of its own needed
+  Pictureframe_<FRAME>_all_<font>.3mf      --pictureframe --all: per frame one project with one plate
+                                per language (--all-only: only these)
 
-Call:  python tools/make_3mf.py [--lang DE GB ...] [--all | --all-only | --pictureframe [--frame RIBBA]]
+Call:  python tools/make_3mf.py [--lang DE GB ...] [--pictureframe [--frame RIBBA]] [--all | --all-only]
                          [--font Liberation] [--template FILE]
                                 [--reuse] [--no-supports] [--quality Fine] [--manifold] [--log FILE] [--force]
        (or tools/wordclock_tools.bat, items 12, 13 and 16)
@@ -346,6 +348,16 @@ class Builder:
         os.replace(tmp, path)
 
 
+def lang_label(lang):
+    """Plate name of a language: "DE - Deutsch" (own name from models/lang/lang_XX.scad, code only if not found)."""
+    try:
+        with open(os.path.join(MODELS, "lang", "lang_%s.scad" % lang), encoding="utf-8") as f:
+            m = re.search(r'=\s*\[\s*"[^"]*"\s*,\s*"([^"]*)"', f.read())
+        return "%s - %s" % (lang, m.group(1)) if m and m.group(1) else lang
+    except OSError:
+        return lang
+
+
 def esc(s):
     return (str(s).replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;").replace(">", "&gt;"))
 
@@ -381,30 +393,49 @@ def pictureframe(a, tpl, front_plate, langs):
     made = skipped = 0
     print("\n=== Step 4/4: write the 3MF files -> %s" % os.path.relpath(OUT_DIR, ROOT))
     todo = [x for x in names if x[2] not in failed]
-    for i, (L, f, name) in enumerate(todo):
-        fn = "Wordclock_%s.3mf" % name
+
+    def loader(name):
+        def load():
+            v, t = load_stl(os.path.join(STL_DIR, name + ".stl"))
+            lo, hi = bbox(v)
+            if hi[0] - lo[0] > bed[0] or hi[1] - lo[1] > bed[1]:
+                print("WARNING %s: plate %.0f x %.0f mm larger than the bed %.0f x %.0f mm ... "
+                      % (name, hi[0] - lo[0], hi[1] - lo[1], bed[0], bed[1]), end="")
+            return (name, name + ".stl", v, t)
+        return load
+
+    def write(fn, title, items):
+        """items: [(LANG, frame, name)] -> one plate each."""
+        nonlocal made, skipped
         out = os.path.join(OUT_DIR, fn)
-        print("[%d/%d] %-14s %-9s -> %s ... " % (i + 1, len(todo), L, f, fn), end="", flush=True)
-        title = "Wordclock %s PictureFrame %s" % (L, f)
-        inp = wc_stamp.inputs([a.template, os.path.abspath(__file__), os.path.join(STL_DIR, name + ".stl")],
-                              title=title)
+        inp = wc_stamp.inputs([a.template, os.path.abspath(__file__)] +
+                              [os.path.join(STL_DIR, n + ".stl") for L, f, n in items], title=title)
         if info.fresh(out, inp):
             print("unchanged, skipped")
             skipped += 1
-            continue
-        v, t = load_stl(os.path.join(STL_DIR, name + ".stl"))
-        lo, hi = bbox(v)
-        if hi[0] - lo[0] > bed[0] or hi[1] - lo[1] > bed[1]:
-            print("WARNING plate %.0f x %.0f mm larger than the bed %.0f x %.0f mm ... "
-                  % (hi[0] - lo[0], hi[1] - lo[1], bed[0], bed[1]), end="")
+            return
         b = Builder(tpl, title)
-        b.add_plate(front_plate, name)
-        b.add_object(front, name, [(name, name + ".stl", v, t)])
-        del v, t
+        for L, f, name in items:
+            b.add_plate(front_plate, "%s %s" % (f, lang_label(L)))
+            b.add_object(front, name, [loader(name)])
         b.write(out)
         info.store(out, inp)
         made += 1
-        print("ok (%.1f MB)" % (os.path.getsize(out) / 1e6))
+        print("ok (%d plate%s, %.1f MB)" % (len(b.plates), "" if len(b.plates) == 1 else "s", os.path.getsize(out) / 1e6))
+
+    if not a.all_only:
+        for i, (L, f, name) in enumerate(todo):
+            fn = "%s.3mf" % name                     # Pictureframe_<FRAME>_<LANG>_<font>
+            print("[%d/%d] %-14s %-9s -> %s ... " % (i + 1, len(todo), L, f, fn), end="", flush=True)
+            write(fn, "Wordclock %s PictureFrame %s" % (L, f), [(L, f, name)])
+    if a.all or a.all_only:
+        for f in frames:
+            items = [x for x in todo if x[1] == f]
+            if not items:
+                continue
+            fn = "Pictureframe_%s_all_%s.3mf" % (f, a.tag)
+            print("all %d languages %-9s -> %s ... " % (len(items), f, fn), end="", flush=True)
+            write(fn, "Wordclock PictureFrame %s all languages" % f, items)
     print("\nResult: %d 3MF files written, %d unchanged in %s%s" % (made, skipped, os.path.relpath(OUT_DIR, ROOT),
                                                                   "  - with errors, see above" if failed else ""))
     return 1 if failed else 0
@@ -448,8 +479,9 @@ def export_stl(a, langs, parts):
 def main():
     ap = argparse.ArgumentParser(description="Bambu Studio 3MF per language from tools/template_P2S.3mf")
     ap.add_argument("--lang", nargs="*", help="only these languages (default: all of models/lang)")
-    ap.add_argument("--all", action="store_true", help="also one 3MF with all fronts (one plate each)")
-    ap.add_argument("--all-only", action="store_true", help="only the 3MF with all fronts")
+    ap.add_argument("--all", action="store_true",
+                    help="also one 3MF with all fronts (one plate each); with --pictureframe one per frame")
+    ap.add_argument("--all-only", action="store_true", help="only the 3MF with all fronts (see --all)")
     ap.add_argument("--pictureframe", action="store_true",
                     help="only the PictureFrame plates: one 3MF per language and picture frame")
     ap.add_argument("--frame", nargs="*", type=str.upper, choices=sorted(export_fronts.PF_FRAMES),
@@ -561,7 +593,7 @@ def main():
             if i == front_plate:
                 for L in front_langs:
                     fname = export_fronts.front_name(L, a.font)
-                    b.add_plate(i, fname)
+                    b.add_plate(i, lang_label(L))
                     for o in pl["objects"]:
                         if tpl.objects[o]["role"] == "FRONT":
                             b.add_object(o, fname, [front_loader(fname)])
@@ -613,7 +645,7 @@ def main():
             made += 1
             print("ok (%.1f MB)" % (os.path.getsize(os.path.join(OUT_DIR, fn)) / 1e6))
     if a.all or a.all_only:
-        fn = "Wordclock_ALL_%s.3mf" % a.tag
+        fn = "Wordclock_all_%s.3mf" % a.tag
         print("all %d fronts -> %s ... " % (len(langs), fn), end="", flush=True)
         inp = base(langs, "Wordclock all languages")
         if info.fresh(os.path.join(OUT_DIR, fn), inp):

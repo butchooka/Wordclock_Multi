@@ -1,5 +1,30 @@
 # Changelog – Wordclock_Multi
 
+## 2026-11-13 - PictureFrame: slim hanger, support pillars, Customizer cleaned up
+- Fix: with a bigger board (e.g. Wemos D1 mini ESP32) the keyhole hanger of the own mount (SCREW / THIMBLES) reached
+  out of the plate at the top (231 mm frame). The big hanger block is replaced by a slim hanger at the top centre: two
+  thin webs and a flange flush with the rear edge of the frame with a slot open downwards (put the clock onto the shank
+  of a wall screw). It only uses the rim and the top margin and never reaches out of the plate, whatever the board.
+  `PICTUREFRAME_KEYHOLE_TRAVEL`, `_HEAD_HEIGHT`, `_HOLLOW` and `_RIBS` removed, `PICTUREFRAME_KEYHOLE_WIDTH` 40 -> 20 mm.
+- Original fastening (NONE): new `PICTUREFRAME_PILLARS` (Customizer, default on) = 4 hollow support pillars beside the
+  matrix, exactly as long as `PICTUREFRAME_FRAME_DEPTH` (rear panel of the frame rests on them), diameter
+  `PICTUREFRAME_PILLAR_DIAMETER` (8 mm), wall `PICTUREFRAME_PILLAR_WALL` (1.2 mm, hidden).
+- Default fastening is now `PICTUREFRAME_OWN_MOUNT = "NONE"` (original fastening with pillars).
+- Customizer: section Front (`FRAME_WALL`, `DOT_DIAMETER`, `STROKE_VERTICAL`, `FRONT_SKIN`) and `PICTUREFRAME_TOL`
+  moved to [Hidden]. FreeCAD macro identical (same parameters and geometry). SETUP_OpenSCAD DE/EN updated.
+
+## 2026-11-13 - MakerWorld outputs: all_ 3MF, flat firmware zips, only PictureFrame SCAD
+- `make_3mf.py`: all_ variant per clock with all languages, one plate each: `Wordclock_all_<font>.3mf` (normal clock,
+  before `Wordclock_ALL_<font>.3mf`, plus the rear/holder plates) and new `--pictureframe --all[-only]` ->
+  `Pictureframe_RIBBA_all_<font>.3mf` / `Pictureframe_SANNAHED_all_<font>.3mf`; the PictureFrame 3MF per language
+  are named like their STL, without `Wordclock_`: `Pictureframe_<FRAME>_<LANG>_<font>.3mf`. Plates are named after the language
+  ("DE - Deutsch", PictureFrame "RIBBA DE - Deutsch"), also in the 3MF per language.
+- `wordclock_tools.bat`: item 13 writes all three all_ files, now also part of `A`.
+- `bundle_firmware.py`: `Wordclock_ESPHome.zip` / `Wordclock_Arduino.zip` without the folder `esphome/` / `arduino/`
+  (files resp. `Wordclock_XX/` folders at the top level of the zip).
+- `bundle_models.py`: only `Wordclock_Model_PictureFrame.scad` is bundled for MakerWorld (no combined `.FCMacro`, no
+  normal case SCAD); old bundles in `_private/makerworld/models/` are removed on the next run.
+
 ## 2026-11-13 - Desktop word clock (easter egg)
 - New `docs/wordclock_desktop.html`: the time in words like the header of the Arduino web interface, as one static
   HTML file (all languages, approx. 110 KB, no server, no internet). System time, language from the browser /

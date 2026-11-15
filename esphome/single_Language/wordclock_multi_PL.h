@@ -892,7 +892,7 @@ static inline void wc_text_render(const WcText &t, float ts, WcRgb color, bool r
 // ===== end wc_text.h =====
 // ===== begin wc_lang_PL.h =====
 /*
-  wc_lang_PL.h - Wordclock 16x16, language file PL (Polski), v0.9
+  wc_lang_PL.h - Wordclock 16x16, language file PL (Polski), v1.0
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_PL.scad (check: python3 tools/check_lang.py PL).
   Preview of all times: see tools/preview.cpp.
