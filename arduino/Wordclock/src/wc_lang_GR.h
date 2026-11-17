@@ -1,5 +1,5 @@
 /*
-  wc_lang_GR.h - Wordclock 16x16, language file GR (Ελληνικά), v0.9
+  wc_lang_GR.h - Wordclock 16x16, language file GR (Ελληνικά), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_GR.scad (check: python3 tools/check_lang.py GR).
   Preview of all times: see tools/preview.cpp.

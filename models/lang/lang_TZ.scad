@@ -1,4 +1,4 @@
-// lang_TZ.scad - Wordclock 16x16, model language file TZ (Kiswahili), v0.9
+// lang_TZ.scad - Wordclock 16x16, model language file TZ (Kiswahili), unconfirmed
 // Used by Wordclock_Model.scad (via lang_all.scad) and Wordclock_Model.FCMacro (reads this file).
 // The grid must be identical to arduino/Wordclock/src/wc_lang_TZ.h (check: python3 tools/check_lang.py TZ).
 // 16 rows of 16 characters, row 1 = top. "*" temperature dot, "|" battery bar, "+" plus, "x" filler (printed as FILLER), space/"." = nothing.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-clean.py - Wordclock 16x16, removes caches and temporary files of the tools, v1.0
+clean.py - Wordclock 16x16, removes caches and temporary files of the tools
 
 Removes (only generated files, never sources or results):
   - __pycache__ folders and *.pyc / *.pyo everywhere in the repository (also models/, tools/logs/, _private/)

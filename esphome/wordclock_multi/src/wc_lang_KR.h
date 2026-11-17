@@ -1,5 +1,5 @@
 /*
-  wc_lang_KR.h - Wordclock 16x16, language file KR (한국어 / Korean), v0.9
+  wc_lang_KR.h - Wordclock 16x16, language file KR (한국어 / Korean), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_KR.scad (check: python3 tools/check_lang.py KR).
   Preview of all times: see tools/preview.cpp.

@@ -1,5 +1,5 @@
 /*
-  wc_lang_VA.h - Wordclock 16x16, language file VA (Latina), v0.9
+  wc_lang_VA.h - Wordclock 16x16, language file VA (Latina), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_VA.scad (check: python3 tools/check_lang.py VA).
   Preview of all times: see tools/preview.cpp.

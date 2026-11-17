@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-check_esphome.py - Wordclock 16x16, checks the ESPHome configuration of all languages, v1.0
+check_esphome.py - Wordclock 16x16, checks the ESPHome configuration of all languages
 
 Step 1 (always, Python only): every esphome/wordclock_multi/lang/lang_XX.yaml
   - is valid YAML (with line number on an error)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""tools/bundle_models.py - Wordclock_Multi: single-file versions of the models (e.g. for MakerWorld), v1.0
+"""tools/bundle_models.py - Wordclock_Multi: single-file versions of the models (e.g. for MakerWorld)
 
 The models share code: Wordclock_Common.scad (OpenSCAD) and Wordclock_Common.py (FreeCAD macros), plus the
 language grids in models/lang/. For an upload that needs ONE file this script inserts everything:

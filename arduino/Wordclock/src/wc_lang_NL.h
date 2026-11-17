@@ -1,5 +1,5 @@
 /*
-  wc_lang_NL.h - Wordclock 16x16, language file NL (Nederlands), v0.9
+  wc_lang_NL.h - Wordclock 16x16, language file NL (Nederlands), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_NL.scad (check: python3 tools/check_lang.py NL).
   Preview of all times: see tools/preview.cpp.

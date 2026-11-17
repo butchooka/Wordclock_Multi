@@ -1,5 +1,5 @@
 /*
-  wc_lang_IT.h - Wordclock 16x16, language file IT (Italiano), v0.9
+  wc_lang_IT.h - Wordclock 16x16, language file IT (Italiano), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_IT.scad (check: python3 tools/check_lang.py IT).
   Preview of all times: see tools/preview.cpp.

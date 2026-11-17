@@ -1,24 +1,28 @@
 #!/usr/bin/env python3
 """
-export_fronts.py - Wordclock 16x16, exports the front of every language as STL with OpenSCAD, v1.0
+export_fronts.py - Wordclock 16x16, exports the front of every language as STL with OpenSCAD
 
-Front        = front of the own case (Wordclock_Model.scad, PART = "Front")      -> Frame_<LANG>_<font>.stl
-PictureFrame = front plate for a deep picture frame, one file per frame of PF_FRAMES (size = glass size, inner depth;
-               all other values = defaults of Wordclock_Model_PictureFrame.scad) -> Pictureframe_<FRAME>_<LANG>_<font>.stl
+Front        = front of the own case (Wordclock_Model.scad, PART = "Front")      -> Frame_<LANG>.stl
+PictureFrame = front plate for a deep picture frame, one file per frame of PF_FRAMES and board of BOARDS (size = glass
+               size, inner depth; all other values = defaults of Wordclock_Model_PictureFrame.scad)
+               -> Pictureframe_<FRAME>_<LANG>_<BOARD>.stl
                RIBBA = IKEA RIBBA 25x25 (231 / 38 mm, default of the model), SANNAHED = IKEA SANNAHED 25x25 (249 / 44 mm);
-               --frame RIBBA = only this frame (default: all frames)
-Parts        = the language independent parts: Rear.stl, Holder_<name>.stl and the break-away supports
+               BOARD = ESP32C6 (ESP32-C6 SuperMini) or WemosD1 (Wemos D1 mini ESP32), the ESP slot differs;
+               --frame RIBBA = only this frame, --board ESP32C6 = only this board (default: all)
+Parts        = the language independent parts: Rear_<BOARD>.stl (one rear per board), Holder_<name>.stl (HOLDERS:
+               Foot, Skadis, BasePlate; no Holder_Wall, the rear has a keyhole hanger) and the break-away supports
                Holder_<name>_Support.stl (same print coordinates as the holder)
 All files in print orientation as binary STL (much smaller than OpenSCAD's default ASCII STL; --ascii = old format).
-Fonts: a language with its own script (CN, JP, KR, runes) brings its font in lang_XX.scad; the file name gets the
-tag of the font really used (Frame_KR_NotoSansKRBold.stl). Before the export every needed font is searched in the
+File names without the font (shorter); the font is part of the base data (export_info.json), a change of the font
+exports again. Fonts: a language with its own script (CN, JP, KR, runes) brings its font in lang_XX.scad. Before the
+export every needed font is searched in the
 fonts OpenSCAD sees (Windows: the system font folder = "Install for all users", the fonts of OpenSCAD); if one is
 missing, nothing is exported and the font is named (else OpenSCAD would cut empty boxes).
-Only LANG, FONT, QUALITY and PRINT_ORIENT (PictureFrame: also size and depth of the frame) are set, all other
+Only LANG, FONT, QUALITY, PRINT_ORIENT and ESP_BOARD (PictureFrame: also size and depth of the frame) are set, all other
 parameters are the defaults of the model.
 Output: _private/makerworld/export/ (private, not in the repository). FreeCAD: LANG = "ALL" in the macro.
 Special case other picture frame: --size/--depth/--tol/--thickness/--glass/--mount set the PictureFrame values
-(e.g. another IKEA frame) -> _private/makerworld/export/custom/Pictureframe_<size>x<depth>_<LANG>_<font>.stl
+(e.g. another IKEA frame) -> _private/makerworld/export/custom/Pictureframe_<size>x<depth>_<LANG>_<BOARD>.stl
 (wordclock_tools.bat item P asks for the values).
 Unchanged files are skipped: export_info.json in the output folder holds the base data of every STL (content of the
 model, Wordclock_Common.scad, lang_all.scad and the language file, the -D values, OpenSCAD version and the font file,
@@ -26,7 +30,7 @@ see tools/wc_stamp.py). Only when one of them changed OpenSCAD runs again (--for
 
 Call:  python tools/export_fronts.py [Front|PictureFrame|Both|Parts] [--lang DE GB ...] [--font Liberation|Arial|DejaVu]
                                      [--quality Preview|Normal|Fine] [--openscad PATH] [--manifold] [--ascii]
-                                     [--frame RIBBA SANNAHED] [--size MM] [--depth MM] [--tol MM] [--thickness MM] [--glass MM]
+                                     [--frame RIBBA SANNAHED] [--board ESP32C6 WemosD1] [--size MM] [--depth MM] [--tol MM] [--thickness MM] [--glass MM]
                                      [--mount SCREW|THIMBLES|NONE] [--force]
        (or tools/wordclock_tools.bat)
 """
@@ -49,8 +53,24 @@ OUT = os.path.join(ROOT, "_private", "makerworld", "export")
 BASE_FONTS = {"liberation": "Liberation Sans:style=Bold", "arial": "Arial:style=Bold", "dejavu": "DejaVu Sans:style=Bold"}
 FONT_TAGS = {"liberation": "LiberationSansBold", "arial": "ArialBold", "dejavu": "DejaVuSansBold"}
 # language independent parts (PART in Wordclock_Model.scad = file name)
-HOLDERS = ["Holder_Foot", "Holder_Skadis", "Holder_Wall", "Holder_BasePlate"]
-PARTS = ["Rear"] + HOLDERS + [h + "_Support" for h in HOLDERS]
+# Holder_Wall is not exported any more: the keyhole hanger in the rear does the same (part stays in the model)
+HOLDERS = ["Holder_Foot", "Holder_Skadis", "Holder_BasePlate"]
+# boards with their own export (rear of the case, PictureFrame plate): tag in the file name -> (ESP_BOARD, label)
+BOARDS = {"ESP32C6": ("esp32_c6_supermini", "ESP32-C6 SuperMini"),
+          "WemosD1": ("wemos_d1_mini_esp32", "Wemos D1 mini ESP32")}
+REARS = ["Rear_" + b for b in BOARDS]
+PARTS = REARS + HOLDERS + [h + "_Support" for h in HOLDERS]
+
+
+def board_def(board):
+    return ["-D", 'ESP_BOARD="%s"' % BOARDS[board][0]]
+
+
+def part_defs(name):
+    """-D definitions of a language independent part: Rear_<BOARD> = PART Rear with the ESP slot of that board."""
+    if name.startswith("Rear_") and name[5:] in BOARDS:
+        return ["-D", 'PART="Rear"'] + board_def(name[5:])
+    return ["-D", 'PART="%s"' % name]
 
 
 def find_openscad(given):
@@ -83,9 +103,9 @@ def frame_defs(frame):
     return ["-D", "PICTUREFRAME_SIZE=%s" % num(f["size"]), "-D", "PICTUREFRAME_FRAME_DEPTH=%s" % num(f["depth"])]
 
 
-def pf_name(lang, font, frame):
-    """File name (without .stl) of the PictureFrame plate of a frame: Pictureframe_RIBBA_DE_LiberationSansBold."""
-    return "Pictureframe_%s_%s_%s" % (frame, lang, font_for(lang, font)[1])
+def pf_name(lang, frame, board):
+    """File name (without .stl) of the PictureFrame plate of a frame and board: Pictureframe_RIBBA_DE_ESP32C6."""
+    return "Pictureframe_%s_%s_%s" % (frame, lang, board)
 
 
 # special case other picture frame: option -> (SCAD parameter, min, max) - limits as in the Customizer
@@ -140,8 +160,8 @@ def font_for(lang, font):
     return BASE_FONTS.get(font.lower(), font), FONT_TAGS.get(font.lower(), font_tag_of(font))
 
 
-def front_name(lang, font):
-    return "Frame_%s_%s" % (lang, font_for(lang, font)[1])
+def front_name(lang, font=None):
+    return "Frame_%s" % lang
 
 
 def _font_names(path):
@@ -317,6 +337,8 @@ def main(argv=None):
     ap.add_argument("--only", nargs="*", help="Parts: only these part names")
     ap.add_argument("--frame", nargs="*", type=str.upper, choices=sorted(PF_FRAMES),
                     help="PictureFrame: only these frames (default: all of PF_FRAMES)")
+    ap.add_argument("--board", nargs="*", choices=list(BOARDS),
+                    help="PictureFrame and rear: only these boards (default: all of BOARDS)")
     g = ap.add_argument_group("special case other picture frame (PictureFrame only)")
     g.add_argument("--size", type=float, help="picture size = glass size in mm (220 ... 300)")
     g.add_argument("--depth", type=float, help="inner depth of the frame in mm (22 ... 80)")
@@ -354,12 +376,12 @@ def main(argv=None):
     failed = []
     t0 = time.time()
     if a.part == "Parts":
-        names = a.only or PARTS
+        names = a.only or [n for n in PARTS if n not in REARS or not a.board or n[5:] in a.board]
         print()
         for i, name in enumerate(names):
             fn = name + ".stl"
             print("[%d/%d] %-24s -> %s ... " % (i + 1, len(names), name, fn), end="", flush=True)
-            d = ["-D", 'PART="%s"' % name, "-D", 'QUALITY="%s"' % a.quality, "-D", "PRINT_ORIENT=true"]
+            d = part_defs(name) + ["-D", 'QUALITY="%s"' % a.quality, "-D", "PRINT_ORIENT=true"]
             if not export(scad, extra, os.path.join(OUT, fn), d, "Wordclock_Model.scad", info,
                           base_data(scad, extra, d, "Wordclock_Model.scad")):
                 failed.append(name)
@@ -378,38 +400,39 @@ def main(argv=None):
               "the languages out with --lang ..., then run again.")
         return 2
     print("ok\n")
-    # jobs: (part, frame); frame = PF_FRAMES key, "custom" for the special case, None for the front
+    # jobs: (part, frame, board); frame = PF_FRAMES key, "custom" for the special case, None for the front
     jobs = []
+    boards = a.board or list(BOARDS)
     for part in parts:
         if part != "PictureFrame":
-            jobs.append((part, None))
+            jobs.append((part, None, None))
         elif pf_defs:
-            jobs.append((part, "custom"))
+            jobs += [(part, "custom", b) for b in boards]
         else:
-            jobs += [(part, f) for f in (a.frame or list(PF_FRAMES))]
+            jobs += [(part, f, b) for f in (a.frame or list(PF_FRAMES)) for b in boards]
     if pf_defs and a.frame:
         print("NOTE: --frame is ignored with --size/--depth/... (special case)")
     custom = "%sx%s" % (num(a.size if a.size is not None else pf_default("PICTUREFRAME_SIZE", 231.0)),
                         num(a.depth if a.depth is not None else pf_default("PICTUREFRAME_FRAME_DEPTH", 38.0)))
     total = len(jobs) * len(langs)
     k = 0
-    for part, frame in jobs:
+    for part, frame, board in jobs:
         if frame and frame != "custom":
-            print("PictureFrame %s: glass %s mm, depth %s mm" % (frame, num(PF_FRAMES[frame]["size"]),
-                                                                 num(PF_FRAMES[frame]["depth"])))
+            print("PictureFrame %s, %s: glass %s mm, depth %s mm" % (frame, BOARDS[board][1], num(PF_FRAMES[frame]["size"]),
+                                                                     num(PF_FRAMES[frame]["depth"])))
         for L in langs:
             k += 1
-            spec, tag = font_for(L, a.font)
+            spec = font_for(L, a.font)[0]
             d = ["-D", 'LANG="%s"' % L, "-D", 'FONT="%s"' % a.font, "-D", 'QUALITY="%s"' % a.quality,
                  "-D", "PRINT_ORIENT=true"]
             if frame == "custom":
-                fn, model = "Pictureframe_%s_%s_%s.stl" % (custom, L, tag), "Wordclock_Model_PictureFrame.scad"
-                d += pf_defs
+                fn, model = "Pictureframe_%s_%s_%s.stl" % (custom, L, board), "Wordclock_Model_PictureFrame.scad"
+                d += pf_defs + board_def(board)
             elif frame:
-                fn, model = pf_name(L, a.font, frame) + ".stl", "Wordclock_Model_PictureFrame.scad"
-                d += frame_defs(frame)
+                fn, model = pf_name(L, frame, board) + ".stl", "Wordclock_Model_PictureFrame.scad"
+                d += frame_defs(frame) + board_def(board)
             else:
-                fn, model = "Frame_%s_%s.stl" % (L, tag), "Wordclock_Model.scad"
+                fn, model = front_name(L) + ".stl", "Wordclock_Model.scad"
                 d += ["-D", 'PART="Front"']
             print("[%d/%d] %-14s -> %s ... " % (k, total, L, fn), end="", flush=True)
             if not export(scad, extra, os.path.join(out_dir, fn), d, model, info,

@@ -1,5 +1,5 @@
 /*
-  wc_ui_en.h - Wordclock 16x16, English web interface as alternative (Arduino only), v1.0
+  wc_ui_en.h - Wordclock 16x16, English web interface as alternative (Arduino only)
   Makes the English texts (ui_json of src/wc_lang_GB.h) available in every language, switch "Web interface in
   English" (setting uiEn). Only the texts are used: grid and time words of GB are not referenced and are removed by
   the linker (approx. 7 KB flash for the texts, nothing extra when the language is GB).

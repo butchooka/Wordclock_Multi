@@ -1,5 +1,5 @@
 /*
-  preview.cpp - Wordclock 16x16, host preview of a language file, v1.0
+  preview.cpp - Wordclock 16x16, host preview of a language file
   Compiles the shared core + effects + one language with any C++ compiler (no Arduino/ESPHome needed)
   and prints the words for every 5 minutes (and with single minutes), plus the lit grid for some times.
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-make_info.py - Wordclock 16x16, writes docs/languages, docs/setup and the setup READMEs, v1.0
+make_info.py - Wordclock 16x16, writes docs/languages, docs/setup and the setup READMEs
 
 Generates (never edit these files by hand, they are overwritten):
   docs/languages/LANG_XX.txt  per language (German + English): data, grid, time grammar, all 5-minute steps,
@@ -39,7 +39,6 @@ def info_rel(name):
     if "/" in name:
         return name
     return "docs/" + ("setup/" if name.startswith("SETUP_") else "languages/") + name
-VERSION = "v1.0"
 
 # times for the info files
 STEPS_HOUR = 9                                    # all 5-minute steps of this hour
@@ -94,8 +93,8 @@ def lang_data(code):
     h = read(os.path.join(SRC, "wc_lang_%s.h" % code))
     y = read(os.path.join(ROOT, "esphome", "wordclock_multi", "lang", "lang_%s.yaml" % code))
     d = {"code": code}
-    m = re.search(r"wc_lang_\w+\.h - .*?, (v[\d.]+)", h)
-    d["version"] = m.group(1) if m else "?"
+    m = re.search(r"wc_lang_\w+\.h - .*?, (confirmed|unconfirmed)\r?$", h, re.M)
+    d["status"] = m.group(1) if m else "?"
     m = re.search(r"static const WcLangDef WC_LANG = \{\s*\"([^\"]+)\",\s*\"([^\"]+)\"", h)
     d["name"] = m.group(2) if m else code
     m = re.search(r"time_words,\s*\"([^\"]+)\",\s*\"([^\"]+)\",\s*(-?[\d.]+)f,\s*(-?[\d.]+)f,\s*//\s*([^\n]+)\n"
@@ -112,7 +111,7 @@ def lang_data(code):
     for k in ("name", "friendly_name", "ap_ssid"):
         m = re.search(r"^  %s:\s*(.+?)\s*$" % k, y, re.M)
         d["y_" + k] = m.group(1) if m else ""
-    d["tested"] = d["version"] not in ("v0.9", "?") and not d["version"].startswith("v0.")
+    d["tested"] = d["status"] == "confirmed"
     return d
 
 
@@ -159,7 +158,7 @@ def variants(langs):
 def variant_file(v):
     b = v["base"]
     L = []
-    L.append("Wordclock_Multi %s - %s (%s)" % (VERSION, v["name"], v["code"]))
+    L.append("Wordclock_Multi - %s (%s)" % (v["name"], v["code"]))
     L.append("=" * len(L[0]))
     L.append("Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.")
     L.append("")
@@ -225,14 +224,14 @@ def framed(rows, numbers=True):
 
 def lang_file(d, pv):
     c = d["code"]
-    status_de = "bestätigt" if d["tested"] else "Grammatik unbestätigt"
-    status_en = "confirmed" if d["tested"] else "grammar unconfirmed"
+    status_de = "bestätigt" if d["tested"] else "unbestätigt"
+    status_en = "confirmed" if d["tested"] else "unconfirmed"
     L = []
-    L.append("Wordclock_Multi %s - %s (%s)" % (VERSION, d["name"], c))
+    L.append("Wordclock_Multi - %s (%s)" % (d["name"], c))
     L.append("=" * len(L[0]))
     L.append("Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.")
     L.append("")
-    L.append("Status:                       %s (%s / %s)" % (d["version"], status_de, status_en))
+    L.append("Status:                       %s / %s" % (status_de, status_en))
     L.append("Hauptstadt / capital:         %s  (%.4f, %.4f)" % (d.get("capital", "?"), d.get("lat", 0), d.get("lon", 0)))
     L.append("Zeitzone / time zone:         %s  (POSIX %s)" % (d.get("tzname", "?"), d.get("posix", "?")))
     L.append("Arduino: Hotspot / hotspot:   %s  ->  http://192.168.4.1" % d.get("ap", "?"))
@@ -303,7 +302,7 @@ def table(langs, cols, rowfn, indent="   "):
 
 
 def st(d, de):
-    return ("bestätigt" if d["tested"] else "Grammatik unbestätigt") if de else ("confirmed" if d["tested"] else "grammar unconfirmed")
+    return ("bestätigt" if d["tested"] else "unbestätigt") if de else ("confirmed" if d["tested"] else "unconfirmed")
 
 
 def planned_line(langs, de):
@@ -314,13 +313,13 @@ def planned_line(langs, de):
 
 def overview(langs):
     T = []
-    T.append("Wordclock_Multi %s - Sprachen / languages" % VERSION)
+    T.append("Wordclock_Multi - Sprachen / languages")
     T.append("=" * len(T[0]))
     T.append("Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.")
     T.append("")
-    T.append(table(langs, ["Code", "Sprache/language", "Art/kind", "Version", "Status", "Hauptstadt/capital",
+    T.append(table(langs, ["Code", "Sprache/language", "Art/kind", "Status", "Hauptstadt/capital",
                            "Zeitzone/time zone"],
-                   lambda d: [d["code"], d["name"], KIND[group(d["code"])], d["version"],
+                   lambda d: [d["code"], d["name"], KIND[group(d["code"])],
                               st(d, True) + " / " + st(d, False), d.get("capital", "?"), d.get("tzname", "?")]))
     T.append("")
     if VAR:
@@ -357,7 +356,7 @@ def variant_note(de):
 
 def head(title, de, other):
     """Title, generated note and link to the other language version (other = file name of it)."""
-    t = "# Wordclock_Multi %s - %s\n\n" % (VERSION, title)
+    t = "# Wordclock_Multi - %s\n\n" % title
     gen = ("> Automatisch erzeugt von `tools/make_info.py` - nicht von Hand ändern.\n\n"
            "[English](%s) | **Deutsch**\n" % other if de else
            "> Generated by `tools/make_info.py` - do not edit by hand.\n\n"
@@ -929,7 +928,7 @@ def base_list(langs, fmt, prefix):
         out.append("%s%s / %s:" % (prefix, GROUP_NAMES[g][1].capitalize(), GROUP_NAMES[g][0]))
         w = max(len(fmt % d["code"]) for d in ls)
         for d in ls:
-            out.append("%s  %s  %s (%s)" % (prefix, (fmt % d["code"]).ljust(w), d["name"], d["version"]))
+            out.append("%s  %s  %s (%s)" % (prefix, (fmt % d["code"]).ljust(w), d["name"], d["status"]))
     return out
 
 
@@ -954,13 +953,13 @@ def update_block(rel, prefix, lines):
 
 def md_table(langs, de):
     """Language table for README.md / README_DE.md (between <!-- LANGUAGES BEGIN --> and <!-- LANGUAGES END -->)."""
-    head = ("| Code | Sprache | Art | Version | Standard-Standort |" if de else
-            "| Code | Language | Kind | Version | Default location |")
+    head = ("| Code | Sprache | Art | Status | Standard-Standort |" if de else
+            "| Code | Language | Kind | Status | Default location |")
     out = [head, "|---|---|---|---|---|"]
     for d in langs:
         g = group(d["code"])
         kind = {0: "Land" if de else "country", 1: "Dialekt" if de else "dialect", 2: "andere" if de else "other"}[g]
-        ver = d["version"] + ((" bestätigt" if de else " confirmed") if d["tested"] else (" Grammatik unbestätigt" if de else " grammar unconfirmed"))
+        ver = st(d, de)
         out.append("| `%s` | %s | %s | %s | %s |" % (d["code"], d["name"], kind, ver, d.get("capital", "?")))
     for v in VAR:
         b = v["base"]

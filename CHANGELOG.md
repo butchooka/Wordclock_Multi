@@ -1,5 +1,46 @@
 # Changelog – Wordclock_Multi
 
+## 2026-11-17 - Frame wall 3.7 mm
+- `FRAME_WALL` default 2.7 -> 3.7 mm (frame 1 mm wider all around, outer size +2 mm) in `Wordclock_Model.scad` and `Wordclock_Model.FCMacro`, picture frame (`Wordclock_Model_PictureFrame.scad` / `.FCMacro`) and the customizer parameter sets (`Wordclock_Model.json`). Reason: thin wall + rounded outer corners vs. square inner corners gave uneven wall thickness and a rough outer surface.
+
+## 2026-11-16 - MakerWorld exports: all_ files per group, no wall holder
+- `make_3mf.py`: the all_ files are split into groups (`ALL_GROUPS`): `Wordclock_all.3mf` (languages and dialects),
+  `Wordclock_scifi_all.3mf` (Klingon, Na'vi, Quenya, Valyrian), `Wordclock_runes_all.3mf` (runes DE / GB), the same for
+  the picture frame (`Pictureframe_<FRAME>_scifi_all_<BOARD>.3mf` ...) - room for more languages below 36 plates.
+- `Holder_Wall` is no longer exported (STL / 3MF): the keyhole hanger in the rear does the same. The part stays in the model.
+- `wordclock_tools.bat`: `A` no longer builds the single 3MF per language (items 12 / 16); 12 and 16 ask for the
+  languages (Enter = all).
+
+## 2026-11-16 - MakerWorld exports: board variants, single holder plates, short names
+- Rear and PictureFrame plate per board: `ESP32C6` (ESP32-C6 SuperMini) and `WemosD1` (Wemos D1 mini ESP32), the ESP
+  slot differs. `export_fronts.py`: `Rear_ESP32C6.stl` / `Rear_WemosD1.stl` (was `Rear.stl`),
+  `Pictureframe_<FRAME>_<LANG>_<BOARD>.stl`, new option `--board`.
+- File names without the font (shorter): `Frame_<LANG>.stl`, `Wordclock_<LANG>.3mf`, `Wordclock_all.3mf`,
+  `Pictureframe_<FRAME>_<LANG>_<BOARD>.3mf`, `Pictureframe_<FRAME>_all_<BOARD>.3mf` (one all_ file per frame and board,
+  62 plates would exceed the Bambu Studio limit of 36). The font stays part of the base data (rebuild on change).
+- `make_3mf.py`, Wordclock 3MF: one plate per rear (160 x 160 mm, two do not fit on the P2S bed), every holder on its
+  own plate (centred). In `Wordclock_all.3mf` the holders stay on one plate when there would be more than 36 plates.
+- PictureFrame 3MF: prime tower off (no room next to the large plate; a little white after the filament change is fine).
+- STEP instead of STL dropped: OpenSCAD has no STEP export, a STEP of the mesh brings no quality and is much larger,
+  the 3MF always holds a mesh.
+
+## 2026-11-16 - PictureFrame: compact keyhole hanger without bridges
+- Hanger of the own mount (SCREW / THIMBLES) is now a real keyhole: put the head of the wall screw through the round
+  hole, slide the clock down. It is attached directly to the rim of the matrix (more stable) instead of reaching up to
+  the upper plate edge, and still reaches the rear edge of the frame. Hanger 14.3 x 16 mm instead of 20 mm x whole top
+  margin. New `PICTUREFRAME_KEYHOLE_DEPTH` (default 0 = up to the rear edge of the frame; smaller = shorter hanger,
+  the wall screw then stands out correspondingly further).
+- The webs are only as far apart as the screw head needs (`PICTUREFRAME_KEYHOLE_HEAD_DIAMETER` + 0.5 mm),
+  `PICTUREFRAME_KEYHOLE_WIDTH` removed. Underside of the flange chamfered 45 degrees from the webs to the slot edge:
+  prints without bridges / overhangs, countersunk heads fit the chamfer.
+- The wall screw head (outer edge) has to stand out approx. 5.5 ... 6.2 mm (was 3.3 ... 4.0 mm), see log / echo.
+
+## 2026-11-16 - No version numbers, language status confirmed / unconfirmed
+- Version numbers removed everywhere (file headers, README titles, LANG_SPEC, tools, ESPHome comment, firmware: `fwVersion()` is now `Wordclock_<LANG>`, `WC_VERSION` removed).
+- Language status in the header of `wc_lang_XX.h` / `lang_XX.yaml` / `lang_XX.scad` is now `confirmed` or `unconfirmed` (was v1.0 / v0.9);
+  `tools/make_info.py` reads it from there. README tables: column Status (confirmed / unconfirmed, DE: bestätigt / unbestätigt).
+- `lang_PL.scad` was still marked v0.9, now confirmed like the firmware files.
+
 ## 2026-11-13 - PictureFrame: slim hanger, support pillars, Customizer cleaned up
 - Fix: with a bigger board (e.g. Wemos D1 mini ESP32) the keyhole hanger of the own mount (SCREW / THIMBLES) reached
   out of the plate at the top (231 mm frame). The big hanger block is replaced by a slim hanger at the top centre: two

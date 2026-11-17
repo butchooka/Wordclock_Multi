@@ -1,5 +1,5 @@
 /*
-  wc_lang_scifi_TLH.h - Wordclock 16x16, language file scifi_TLH (tlhIngan Hol), v0.9
+  wc_lang_scifi_TLH.h - Wordclock 16x16, language file scifi_TLH (tlhIngan Hol), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_scifi_TLH.scad (check: python3 tools/check_lang.py scifi_TLH).
   Preview of all times: see tools/preview.cpp.

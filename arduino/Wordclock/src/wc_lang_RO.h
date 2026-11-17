@@ -1,5 +1,5 @@
 /*
-  wc_lang_RO.h - Wordclock 16x16, language file RO (Română), v0.9
+  wc_lang_RO.h - Wordclock 16x16, language file RO (Română), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_RO.scad (check: python3 tools/check_lang.py RO).
   Preview of all times: see tools/preview.cpp.

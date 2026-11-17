@@ -1,5 +1,5 @@
 /*
-  wc_lang_HU.h - Wordclock 16x16, language file HU (Magyar), v0.9
+  wc_lang_HU.h - Wordclock 16x16, language file HU (Magyar), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_HU.scad (check: python3 tools/check_lang.py HU).
   Preview of all times: see tools/preview.cpp.

@@ -1,5 +1,5 @@
 /*
-  wc_lang_DK.h - Wordclock 16x16, language file DK (Dansk), v0.9
+  wc_lang_DK.h - Wordclock 16x16, language file DK (Dansk), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_DK.scad (check: python3 tools/check_lang.py DK).
   Preview of all times: see tools/preview.cpp.

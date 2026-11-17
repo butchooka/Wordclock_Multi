@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-make_3mf.py - Wordclock 16x16, Bambu Studio project (3MF) per language from a template, v1.0
+make_3mf.py - Wordclock 16x16, Bambu Studio project (3MF) per language from a template
 
 The template (tools/template_P2S.3mf) is a normal Bambu Studio project, saved with Ctrl+S. It holds everything that is
 not geometry: printer, process profile, bed type, filaments, the filament change after the front skin, per object
@@ -9,12 +9,17 @@ the meshes and keeps all the rest, so a change in the template (e.g. supports of
 new 3MF after the next run.
 
 Objects of the template are found by their name (".stl" and "_freecad" are ignored):
-  Frame...  / Front        -> the front of the language (Frame_<LANG>_<font of the language>.stl)
-  Rear (or Holder_Rear)    -> Rear.stl
+  Frame...  / Front        -> the front of the language (Frame_<LANG>.stl)
+  Rear (or Holder_Rear)    -> Rear_<BOARD>.stl: one plate per board of export_fronts.BOARDS (ESP32C6, WemosD1), the
+                              rear is 160 x 160 mm, two do not fit on one bed; plate "Rear ESP32-C6 SuperMini"
   Holder_<name>            -> Holder_<name>.stl, plus Holder_<name>_Support.stl as a second part of the same object
                               (break-away supports; in Bambu Studio: right click on the part > Delete, if not wanted)
 Supports are only added to holders that stand on the plate as exported (template object not tilted).
-The plate with the front gets the language as its name ("DE - Deutsch", PictureFrame: "RIBBA DE - Deutsch").
+Holders of the template that are not in export_fronts.HOLDERS (Holder_Wall) are left out.
+A plate of the template with several holders is split: every holder gets its own plate (centred, named after the
+holder). Only when the all_ file would get more than 36 plates (Bambu Studio limit) they stay on one plate.
+The plate with the front gets the language as its name ("DE - Deutsch", PictureFrame: "RIBBA DE - Deutsch, ...").
+File names without the font (shorter); a change of the font still writes the 3MF again (base data).
 
 All STL files are brought up to date first with tools/export_fronts.py (OpenSCAD; unchanged STL files are skipped,
 see export_info.json), so the 3MF always shows the current model (--reuse = take existing files, only for tests).
@@ -22,16 +27,21 @@ A 3MF is only written again when its STL files, the template or make_3mf.py chan
 folder, see tools/wc_stamp.py; --force = all). Languages with their own script (CN, JP, KR, runes) get their
 own font, its tag is in the file names; a missing font stops the run before anything is exported.
 Input:  _private/makerworld/export/           Output: _private/makerworld/export_3mf/
-  Wordclock_<LANG>_<font>.3mf   one project per language (default)
-  Wordclock_all_<font>.3mf      --all: one project with one plate per front plus the plates of the other parts
-  Pictureframe_<FRAME>_<LANG>_<font>.3mf   --pictureframe: one project per language and picture frame
-                                (export_fronts.PF_FRAMES: RIBBA, SANNAHED; --frame RIBBA = only this one) with one
-                                plate: the PictureFrame plate takes the place and all settings (filament change, per
-                                object settings) of the front of the template - no template of its own needed
-  Pictureframe_<FRAME>_all_<font>.3mf      --pictureframe --all: per frame one project with one plate
-                                per language (--all-only: only these)
+  Wordclock_<LANG>.3mf          one project per language (default)
+  Wordclock_all.3mf             --all: one project with one plate per front plus the plates of the other parts;
+  Wordclock_scifi_all.3mf       the groups of ALL_GROUPS each get their own file: all = languages and dialects,
+  Wordclock_runes_all.3mf       scifi = Klingon, Na'vi, Quenya, Valyrian, runes = runic DE / GB (room for more)
+  Pictureframe_<FRAME>_<LANG>_<BOARD>.3mf  --pictureframe: one project per language, picture frame and board
+                                (export_fronts.PF_FRAMES: RIBBA, SANNAHED; --frame RIBBA = only this one;
+                                BOARDS: ESP32C6, WemosD1; --board ESP32C6 = only this one) with one plate: the
+                                PictureFrame plate takes the place and all settings (filament change, per object
+                                settings) of the front of the template - no template of its own needed. Prime tower
+                                off (no room next to the large plate, not needed: a little white after the change)
+  Pictureframe_<FRAME>_all_<BOARD>.3mf     --pictureframe --all: per frame, board and group (ALL_GROUPS:
+  Pictureframe_<FRAME>_scifi_all_<BOARD>.3mf  all, scifi, runes) one project with one plate per language
+  Pictureframe_<FRAME>_runes_all_<BOARD>.3mf  (--all-only: only these)
 
-Call:  python tools/make_3mf.py [--lang DE GB ...] [--pictureframe [--frame RIBBA]] [--all | --all-only]
+Call:  python tools/make_3mf.py [--lang DE GB ...] [--pictureframe [--frame RIBBA] [--board ESP32C6]] [--all | --all-only]
                          [--font Liberation] [--template FILE]
                                 [--reuse] [--no-supports] [--quality Fine] [--manifold] [--log FILE] [--force]
        (or tools/wordclock_tools.bat, items 12, 13 and 16)
@@ -146,7 +156,8 @@ class Template:
         area = self.project.get("printable_area", ["0x0", "256x0", "256x256", "0x256"])
         xs = [float(p.split("x")[0]) for p in area]
         ys = [float(p.split("x")[1]) for p in area]
-        self.stride = ((max(xs) - min(xs)) * PLATE_GAP, (max(ys) - min(ys)) * PLATE_GAP)
+        self.bed = (max(xs) - min(xs), max(ys) - min(ys))
+        self.stride = (self.bed[0] * PLATE_GAP, self.bed[1] * PLATE_GAP)
         # build items (position on the bed)
         self.items = {}
         for it in self.model.find("m:build", NS).findall("m:item", NS):
@@ -198,18 +209,20 @@ def role_of(name):
 class Builder:
     """Collects plates and objects and writes a Bambu Studio 3MF based on the template."""
 
-    def __init__(self, tpl, title):
-        self.tpl, self.title = tpl, title
+    def __init__(self, tpl, title, settings=None):
+        """settings: process settings that replace those of the template (e.g. {"enable_prime_tower": "0"})."""
+        self.tpl, self.title, self.settings = tpl, title, settings or {}
         self.plates = []          # (template plate index, name, [object entries])
         self.next_id = 1
 
     def add_plate(self, tpl_index, name):
         self.plates.append((tpl_index, name, []))
 
-    def add_object(self, tpl_oid, name, meshes):
+    def add_object(self, tpl_oid, name, meshes, local=None):
         """meshes: list of (part name, source file, verts, tris) or of functions that return it (loaded only while
-        the object is written - keeps the memory low for the file with all fronts), all in print coordinates."""
-        self.plates[-1][2].append((tpl_oid, name, meshes))
+        the object is written - keeps the memory low for the file with all fronts), all in print coordinates.
+        local: position on the plate (x, y), default = position of the template object."""
+        self.plates[-1][2].append((tpl_oid, name, meshes, local))
 
     def write(self, path):
         tpl = self.tpl
@@ -224,13 +237,15 @@ class Builder:
                  if not (k.startswith("3D/") or re.match(r"Metadata/(plate_\d+\.json|model_settings\.config|"
                                                           r"custom_gcode_per_layer\.xml|filament_sequence\.json|"
                                                           r"cut_information\.xml)$", k))}
+        if self.settings:
+            files["Metadata/project_settings.config"] = project_with(tpl.project, self.settings)
         res, build, rels, cfg_objects, cfg_plates, gcode_plates = [], [], [], [], [], []
         obj_no = 0
         identify = 1000
         for pi, (ti, pname, objs) in enumerate(self.plates):
             ox, oy = plate_offset(pi, n, tpl.stride)
             inst = []
-            for tpl_oid, name, meshes in objs:
+            for tpl_oid, name, meshes, local in objs:
                 meshes = [mm() if callable(mm) else mm for mm in meshes]
                 obj_no += 1
                 t_ob = tpl.objects[tpl_oid]
@@ -239,7 +254,8 @@ class Builder:
                 lo, hi = bbox(allv)
                 c = [(lo[k] + hi[k]) / 2.0 for k in range(3)]
                 zmin = min(rot_z(m, (v[0] - c[0], v[1] - c[1], v[2] - c[2])) for v in allv)
-                t = (t_ob["local"][0] + ox, t_ob["local"][1] + oy, -zmin)
+                local = local or t_ob["local"]
+                t = (local[0] + ox, local[1] + oy, -zmin)
                 # sub objects (one per part) in their own file
                 sub_xml, comps, parts_cfg = [], [], []
                 for vi, (pn, src, verts, tris) in enumerate(meshes):
@@ -348,6 +364,39 @@ class Builder:
         os.replace(tmp, path)
 
 
+# all_ files per group: (name, title, test of the language code); a language goes into the first group that fits
+ALL_GROUPS = [("runes_all", "runes", lambda L: L.startswith("scifi_RUNE")),
+              ("scifi_all", "sci-fi languages", lambda L: L.startswith("scifi_")),
+              ("all", "all languages", lambda L: True)]
+ALL_ORDER = ["all", "scifi_all", "runes_all"]          # order of the output
+
+
+def all_groups(langs):
+    """[(name, title, [languages])] of the all_ files, empty groups left out."""
+    g = {}
+    for L in langs:
+        n = next(x for x in ALL_GROUPS if x[2](L))
+        g.setdefault(n[0], (n[1], []))[1].append(L)
+    return [(n, g[n][0], g[n][1]) for n in ALL_ORDER if n in g]
+
+
+def wanted(role):
+    """Template object that is exported (holders only those of export_fronts.HOLDERS)."""
+    return not role.startswith("Holder_") or role in export_fronts.HOLDERS
+
+
+def project_with(project, settings):
+    """project_settings.config of the template with changed process settings; the keys are also marked as changed
+    against the system profile (different_settings_to_system, first entry = process), so Bambu Studio keeps them."""
+    pr = json.loads(json.dumps(project))
+    pr.update(settings)
+    diff = pr.get("different_settings_to_system")
+    if isinstance(diff, list) and diff:
+        keys = set(k for k in diff[0].split(";") if k) | set(settings)
+        diff[0] = ";".join(sorted(keys))
+    return (json.dumps(pr, indent=4, ensure_ascii=False) + "\n").encode("utf-8")
+
+
 def lang_label(lang):
     """Plate name of a language: "DE - Deutsch" (own name from models/lang/lang_XX.scad, code only if not found)."""
     try:
@@ -366,20 +415,22 @@ def esc(s):
 def pictureframe(a, tpl, front_plate, langs):
     """--pictureframe: one 3MF per language and frame, the plate replaces the front of the template."""
     frames = a.frame or list(export_fronts.PF_FRAMES)
-    names = [(L, f, export_fronts.pf_name(L, a.font, f)) for f in frames for L in langs]
-    print("\n=== Step 3/4: export the PictureFrame STL files (%d frames x %d languages) - takes a while"
-          % (len(frames), len(langs)))
+    boards = a.board or list(export_fronts.BOARDS)
+    names = [(L, f, B, export_fronts.pf_name(L, f, B)) for f in frames for B in boards for L in langs]
+    print("\n=== Step 3/4: export the PictureFrame STL files (%d frames x %d boards x %d languages) - takes a while"
+          % (len(frames), len(boards), len(langs)))
     args = ["--font", a.font, "--quality", a.quality] + (["--manifold"] if a.manifold else []) + \
         (["--force"] if a.force else [])
     todo = langs
     if a.reuse:
         print("--reuse: existing STL files are used, only missing ones are exported")
-        todo = sorted({L for L, f, n in names if not os.path.isfile(os.path.join(STL_DIR, n + ".stl"))})
+        todo = sorted({L for L, f, B, n in names if not os.path.isfile(os.path.join(STL_DIR, n + ".stl"))})
     if todo:
-        if export_fronts.main(["PictureFrame", "--lang"] + todo + ["--frame"] + frames + args) == 2:
+        if export_fronts.main(["PictureFrame", "--lang"] + todo + ["--frame"] + frames + ["--board"] + boards +
+                              args) == 2:
             return 2                                  # font missing
         print()
-    failed = [n for L, f, n in names if not os.path.isfile(os.path.join(STL_DIR, n + ".stl"))]
+    failed = [n for L, f, B, n in names if not os.path.isfile(os.path.join(STL_DIR, n + ".stl"))]
     if failed:
         print("ERROR: missing STL files: %s\n       the 3MF of these are left out" % " ".join(failed))
     front = [o for o in tpl.plates[front_plate]["objects"] if tpl.objects[o]["role"] == "FRONT"][0]
@@ -387,6 +438,7 @@ def pictureframe(a, tpl, front_plate, langs):
     if gc:
         print("Filament change of the template front at z = %s mm is taken over - check it fits the plate"
               % ", ".join("%.2f" % float(x) for x in gc.split()))
+    print("Prime tower off (no room next to the large plate; after the change a little white is printed on)")
     os.makedirs(OUT_DIR, exist_ok=True)
     info = wc_stamp.Info(os.path.join(OUT_DIR, "3mf_info.json"), a.force)
     bed = (tpl.stride[0] / PLATE_GAP, tpl.stride[1] / PLATE_GAP)
@@ -405,18 +457,19 @@ def pictureframe(a, tpl, front_plate, langs):
         return load
 
     def write(fn, title, items):
-        """items: [(LANG, frame, name)] -> one plate each."""
+        """items: [(LANG, frame, board, name)] -> one plate each."""
         nonlocal made, skipped
         out = os.path.join(OUT_DIR, fn)
         inp = wc_stamp.inputs([a.template, os.path.abspath(__file__)] +
-                              [os.path.join(STL_DIR, n + ".stl") for L, f, n in items], title=title)
+                              [os.path.join(STL_DIR, n + ".stl") for L, f, B, n in items], title=title,
+                              font=a.font)
         if info.fresh(out, inp):
             print("unchanged, skipped")
             skipped += 1
             return
-        b = Builder(tpl, title)
-        for L, f, name in items:
-            b.add_plate(front_plate, "%s %s" % (f, lang_label(L)))
+        b = Builder(tpl, title, {"enable_prime_tower": "0"})
+        for L, f, B, name in items:
+            b.add_plate(front_plate, "%s %s, %s" % (f, lang_label(L), export_fronts.BOARDS[B][1]))
             b.add_object(front, name, [loader(name)])
         b.write(out)
         info.store(out, inp)
@@ -424,18 +477,18 @@ def pictureframe(a, tpl, front_plate, langs):
         print("ok (%d plate%s, %.1f MB)" % (len(b.plates), "" if len(b.plates) == 1 else "s", os.path.getsize(out) / 1e6))
 
     if not a.all_only:
-        for i, (L, f, name) in enumerate(todo):
-            fn = "%s.3mf" % name                     # Pictureframe_<FRAME>_<LANG>_<font>
-            print("[%d/%d] %-14s %-9s -> %s ... " % (i + 1, len(todo), L, f, fn), end="", flush=True)
-            write(fn, "Wordclock %s PictureFrame %s" % (L, f), [(L, f, name)])
+        for i, (L, f, B, name) in enumerate(todo):
+            fn = "%s.3mf" % name                     # Pictureframe_<FRAME>_<LANG>_<BOARD>
+            print("[%d/%d] %-14s %-9s %-8s -> %s ... " % (i + 1, len(todo), L, f, B, fn), end="", flush=True)
+            write(fn, "Wordclock %s PictureFrame %s %s" % (L, f, B), [(L, f, B, name)])
     if a.all or a.all_only:
         for f in frames:
-            items = [x for x in todo if x[1] == f]
-            if not items:
-                continue
-            fn = "Pictureframe_%s_all_%s.3mf" % (f, a.tag)
-            print("all %d languages %-9s -> %s ... " % (len(items), f, fn), end="", flush=True)
-            write(fn, "Wordclock PictureFrame %s all languages" % f, items)
+            for B in boards:
+                for gname, gtitle, glangs in all_groups([x[0] for x in todo if x[1] == f and x[2] == B]):
+                    items = [x for x in todo if x[1] == f and x[2] == B and x[0] in glangs]
+                    fn = "Pictureframe_%s_%s_%s.3mf" % (f, gname, B)
+                    print("%-9s %2d languages %-9s %-8s -> %s ... " % (gname, len(items), f, B, fn), end="", flush=True)
+                    write(fn, "Wordclock PictureFrame %s %s %s" % (f, B, gtitle), items)
     print("\nResult: %d 3MF files written, %d unchanged in %s%s" % (made, skipped, os.path.relpath(OUT_DIR, ROOT),
                                                                   "  - with errors, see above" if failed else ""))
     return 1 if failed else 0
@@ -461,7 +514,7 @@ def export_stl(a, langs, parts):
     """Exports the parts and fronts with export_fronts.py; returns the list of missing files (names)."""
     args = ["--font", a.font, "--quality", a.quality] + (["--manifold"] if a.manifold else []) + \
         (["--force"] if a.force else [])
-    fronts = [export_fronts.front_name(L, a.font) for L in langs]
+    fronts = [export_fronts.front_name(L) for L in langs]
     if a.reuse:
         print("--reuse: existing STL files are used, only missing ones are exported")
         parts = [n for n in parts if not os.path.isfile(os.path.join(STL_DIR, n + ".stl"))]
@@ -486,6 +539,8 @@ def main():
                     help="only the PictureFrame plates: one 3MF per language and picture frame")
     ap.add_argument("--frame", nargs="*", type=str.upper, choices=sorted(export_fronts.PF_FRAMES),
                     help="--pictureframe: only these frames (default: all)")
+    ap.add_argument("--board", nargs="*", choices=list(export_fronts.BOARDS),
+                    help="--pictureframe: only these boards (default: all)")
     ap.add_argument("--font", default="Liberation")
     ap.add_argument("--quality", default="Fine")
     ap.add_argument("--manifold", action="store_true")
@@ -499,7 +554,6 @@ def main():
         os.makedirs(os.path.dirname(os.path.abspath(a.log)), exist_ok=True)
         sys.stdout = Tee(sys.__stdout__, open(a.log, "w", encoding="utf-8"))
     print("make_3mf %s" % time.strftime("%Y-%m-%d %H:%M"))
-    a.tag = export_fronts.FONT_TAGS.get(a.font.lower(), a.font)
     if not os.path.isfile(a.template):
         print("Template not found: %s\nSave a Bambu Studio project there (see README, 3MF for Bambu Studio)."
               % a.template)
@@ -543,8 +597,12 @@ def main():
 
     # --- STL files
     langs = a.lang or export_fronts.all_langs()
-    roles = sorted({o["role"] for o in tpl.objects.values() if o["role"] != "FRONT"})
+    left = sorted({o["role"] for o in tpl.objects.values() if not wanted(o["role"])})
+    if left:
+        print("Left out (not in export_fronts.HOLDERS): %s" % ", ".join(left))
+    roles = sorted({o["role"] for o in tpl.objects.values() if o["role"] != "FRONT" and wanted(o["role"])})
     sup = [] if a.no_supports else [r + "_Support" for r in roles if r.startswith("Holder_")]
+    roles = [x for r in roles for x in (export_fronts.REARS if r == "Rear" else [r])]   # one rear per board
     os.makedirs(STL_DIR, exist_ok=True)
     print("=== Step 2/4: check the fonts (%d languages)" % len(langs))
     errors = export_fronts.check_fonts(langs, a.font, export_fronts.find_openscad(None))
@@ -566,7 +624,7 @@ def main():
     if failed:
         print("ERROR: missing STL files: %s" % " ".join(failed))
         if all(f.startswith("Frame_") or f.endswith("_Support") for f in failed):
-            langs = [L for L in langs if export_fronts.front_name(L, a.font) not in failed]
+            langs = [L for L in langs if export_fronts.front_name(L) not in failed]
             print("       the 3MF of these languages are left out")
         else:
             return 1
@@ -588,20 +646,34 @@ def main():
             return (fname, fname + ".stl", v, t)
         return load
 
-    def fill(b, front_langs):
+    centre = (tpl.bed[0] / 2.0, tpl.bed[1] / 2.0)
+
+    def fill(b, front_langs, split=True):
+        """split: a plate of the template with several objects -> one plate per object (centred)."""
         for i, pl in enumerate(tpl.plates):
             if i == front_plate:
                 for L in front_langs:
-                    fname = export_fronts.front_name(L, a.font)
+                    fname = export_fronts.front_name(L)
                     b.add_plate(i, lang_label(L))
                     for o in pl["objects"]:
                         if tpl.objects[o]["role"] == "FRONT":
                             b.add_object(o, fname, [front_loader(fname)])
                         else:
                             b.add_object(o, tpl.objects[o]["role"], part_meshes(o))
-            else:
+                continue
+            rears = [o for o in pl["objects"] if tpl.objects[o]["role"] == "Rear"]
+            other = [o for o in pl["objects"] if tpl.objects[o]["role"] != "Rear" and wanted(tpl.objects[o]["role"])]
+            for o in rears:                           # one plate per board, the rear does not fit twice
+                for B, (_, label) in export_fronts.BOARDS.items():
+                    b.add_plate(i, "Rear %s" % label)
+                    b.add_object(o, "Rear_" + B, [mesh("Rear_" + B)], centre if len(pl["objects"]) > 1 else None)
+            if split and len(other) > 1:
+                for o in other:
+                    b.add_plate(i, tpl.objects[o]["role"])
+                    b.add_object(o, tpl.objects[o]["role"], part_meshes(o), centre)
+            elif other:
                 b.add_plate(i, tpl.plate_meta(i, "plater_name") or "Plate %d" % (i + 1))
-                for o in pl["objects"]:
+                for o in other:
                     b.add_object(o, tpl.objects[o]["role"], part_meshes(o))
 
     skipped = set()
@@ -624,14 +696,14 @@ def main():
     def base(front_langs, title):
         files = [a.template, os.path.abspath(__file__)] + \
             [os.path.join(STL_DIR, f) for f in stl_parts] + \
-            [os.path.join(STL_DIR, export_fronts.front_name(L, a.font) + ".stl") for L in front_langs]
-        return wc_stamp.inputs(files, title=title, no_supports=a.no_supports)
+            [os.path.join(STL_DIR, export_fronts.front_name(L) + ".stl") for L in front_langs]
+        return wc_stamp.inputs(files, title=title, no_supports=a.no_supports, font=a.font)
 
     made = skipped_3mf = 0
     print("\n=== Step 4/4: write the 3MF files -> %s" % os.path.relpath(OUT_DIR, ROOT))
     if not a.all_only:
         for i, L in enumerate(langs):
-            fn = "Wordclock_%s.3mf" % export_fronts.front_name(L, a.font)[len("Frame_"):]
+            fn = "Wordclock_%s.3mf" % L
             print("[%d/%d] %-14s -> %s ... " % (i + 1, len(langs), L, fn), end="", flush=True)
             inp = base([L], "Wordclock %s" % L)
             if info.fresh(os.path.join(OUT_DIR, fn), inp):
@@ -644,20 +716,25 @@ def main():
             info.store(os.path.join(OUT_DIR, fn), inp)
             made += 1
             print("ok (%.1f MB)" % (os.path.getsize(os.path.join(OUT_DIR, fn)) / 1e6))
-    if a.all or a.all_only:
-        fn = "Wordclock_all_%s.3mf" % a.tag
-        print("all %d fronts -> %s ... " % (len(langs), fn), end="", flush=True)
-        inp = base(langs, "Wordclock all languages")
+    for gname, gtitle, glangs in (all_groups(langs) if a.all or a.all_only else []):
+        fn = "Wordclock_%s.3mf" % gname
+        title = "Wordclock %s" % gtitle
+        print("%-9s %2d fronts -> %s ... " % (gname, len(glangs), fn), end="", flush=True)
+        inp = base(glangs, title)
         if info.fresh(os.path.join(OUT_DIR, fn), inp):
             print("unchanged, skipped")
             skipped_3mf += 1
-        else:
-            b = Builder(tpl, "Wordclock all languages")
-            fill(b, langs)
-            b.write(os.path.join(OUT_DIR, fn))
-            info.store(os.path.join(OUT_DIR, fn), inp)
-            made += 1
-            print("ok (%d plates, %.1f MB)" % (len(b.plates), os.path.getsize(os.path.join(OUT_DIR, fn)) / 1e6))
+            continue
+        b = Builder(tpl, title)
+        fill(b, glangs)
+        if len(b.plates) > MAX_PLATES:
+            b = Builder(tpl, title)
+            fill(b, glangs, split=False)
+            print("(holders on one plate, else more than %d plates) " % MAX_PLATES, end="")
+        b.write(os.path.join(OUT_DIR, fn))
+        info.store(os.path.join(OUT_DIR, fn), inp)
+        made += 1
+        print("ok (%d plates, %.1f MB)" % (len(b.plates), os.path.getsize(os.path.join(OUT_DIR, fn)) / 1e6))
     if skipped:
         print("\nNOTE: no supports added to %s - tilted on the plate in the template (supports fit the export "
               "orientation standing on the lower edge only)." % ", ".join(sorted(skipped)))

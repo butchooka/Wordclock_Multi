@@ -3,7 +3,7 @@
   folder Wordclock_RO/ with Wordclock_RO.ino (settings from config.h further down) and wordclock_bundle.h (all C++ files).
   The folder name must stay the same as the .ino name (Arduino IDE).
 
-  Wordclock.ino - Wordclock 16x16, Arduino variant, multi-language, v1.0
+  Wordclock.ino - Wordclock 16x16, Arduino variant, multi-language
   Arduino variant without Home Assistant: configuration completely via the web interface
   (source webpage.html, packed into webpage.h by tools/make_webpage.py).
   Language and hardware: config.h. Fits the case from models/ (same grid, same LED layout).
@@ -94,7 +94,7 @@
 
 // ===== begin config.h (settings: language, hardware) =====
 /*
-  config.h - Wordclock 16x16, Arduino settings, v1.0
+  config.h - Wordclock 16x16, Arduino settings
   Only this file needs to be changed for a build. Everything else is set in the web interface.
 */
 
@@ -134,7 +134,7 @@
 
 #define NUM_LEDS WC_N
 
-String fwVersion() { return String("Wordclock_") + WC_LANG.code + "_v" WC_VERSION; }
+String fwVersion() { return String("Wordclock_") + WC_LANG.code; }
 const char *apSsid() {
 #ifdef AP_SSID
   return AP_SSID;
@@ -268,7 +268,7 @@ void loadSettings() {
   }
   S.on = prefs.getBool("on", S.on);
   S.swMin = prefs.getBool("swMin", S.swMin);
-  {  // migration from the former switches (up to v1.0): switch off = colour "off", then the key is removed
+  {  // migration from the former switches (earlier firmware): switch off = colour "off", then the key is removed
     const char *oldk[4] = {"swLuft", "swAlarm", "swAkku", "swTemp"};
     bool mig = false;
     for (int i = 0; i < 4; i++) {

@@ -1,5 +1,5 @@
 /*
-  wc_lang_JP.h - Wordclock 16x16, language file JP (日本語 / Japanese), v0.9
+  wc_lang_JP.h - Wordclock 16x16, language file JP (日本語 / Japanese), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_JP.scad (check: python3 tools/check_lang.py JP).
   Preview of all times: see tools/preview.cpp.

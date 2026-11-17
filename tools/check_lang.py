@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-check_lang.py - Wordclock 16x16, checks language files, v1.0
+check_lang.py - Wordclock 16x16, checks language files
 
 Usage (from the repository root):
     python3 tools/check_lang.py            all languages

@@ -1,4 +1,4 @@
-# wordclock_multi/core.yaml - Wordclock 16x16, ESPHome core package, multi-language v1.0
+# wordclock_multi/core.yaml - Wordclock 16x16, ESPHome core package, multi-language
 # Do not edit for a normal build: settings are in wordclock_multi.yaml, texts in wordclock_multi/lang/lang_XX.yaml.
 # No secrets in here (secrets.yaml is only searched next to the file that uses !secret).
 # Identical for all languages. The display logic is in the shared C++ files (${src_dir}):
@@ -9,7 +9,7 @@
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
-  comment: "Wordclock 16x16 ${lang_code} v1.0"
+  comment: "Wordclock 16x16 ${lang_code}"
   includes:
     - ${src_dir}/wc_core.h
     - ${src_dir}/wc_effects.h

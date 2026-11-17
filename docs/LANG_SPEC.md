@@ -1,4 +1,4 @@
-# Adding a language (LANG_SPEC v1.0)
+# Adding a language
 
 A language consists of exactly three files plus two list entries. Nothing else is changed.
 
@@ -147,7 +147,7 @@ g++ -std=c++11 -Wall -DLANG=XX tools/preview.cpp -o preview && ./preview        
 
 Attach the current ZIP of the repository and write:
 
-> Erstelle mit dem angehängten Wordclock_Multi v1.0 die Sprache **[Sprache]** nach LANG_SPEC.md. Der Kern
+> Erstelle mit dem angehängten Wordclock_Multi die Sprache **[Sprache]** nach LANG_SPEC.md. Der Kern
 > (wc_core.h, wc_effects.h, wc_text.h, wc_font16.h, webpage.html, Wordclock.ino, core.yaml, Modelle) bleibt unverändert; falls die Sprache
 > eine Kernänderung braucht, nur beschreiben, nicht umsetzen.
 > Vorgehen: 1. Grammatik der Uhrzeit (5-Minuten-Schritte, Bezug auf die volle/nächste Stunde, Einzahl/Mehrzahl
@@ -157,7 +157,7 @@ Attach the current ZIP of the repository and write:
 > lang_XX.yaml, lang_XX.scad, Einträge in lang_all.scad und in der LANG-Zeile von Wordclock_Model.scad,
 > Hauptstadt in LOC von webpage.html prüfen. 3. tools/sync_src.py, tools/check_lang.py XX --words,
 > tools/make_info.py und preview.cpp ausführen, alle Uhrzeiten (5-Minuten-Schritte) und die Rasterbilder für
-> 3 Beispielzeiten zeigen. Version v0.9.
+> 3 Beispielzeiten zeigen. Status unconfirmed.
 > Ergebnis: nur die neuen/geänderten Dateien als ZIP in der Ordnerstruktur des Repositorys
 > (inklusive esphome/wordclock_multi/src/wc_lang_XX.h und docs/languages/LANG_XX.txt; die übrigen Doku-Dateien erzeugt
 > tools/check_languages.bat lokal).

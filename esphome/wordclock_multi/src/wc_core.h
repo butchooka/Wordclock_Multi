@@ -1,5 +1,5 @@
 /*
-  wc_core.h - Wordclock 16x16, shared core (Arduino + ESPHome), v1.0
+  wc_core.h - Wordclock 16x16, shared core (Arduino + ESPHome)
   Plain C++ without Arduino/ESPHome dependencies. Used by:
     - arduino/Wordclock/Wordclock.ino   (#include "src/wc_core.h")
     - esphome/wordclock_multi/core.yaml       (esphome: includes:)
@@ -21,7 +21,6 @@
 #include <string.h>
 #include <math.h>
 
-#define WC_VERSION "1.0"
 #define WC_ROWS 16
 #define WC_COLS 16
 #define WC_N (WC_ROWS * WC_COLS)

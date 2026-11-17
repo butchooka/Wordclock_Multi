@@ -1,5 +1,5 @@
 /*
-  wc_lang_SE.h - Wordclock 16x16, language file SE (Svenska), v0.9
+  wc_lang_SE.h - Wordclock 16x16, language file SE (Svenska), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_SE.scad (check: python3 tools/check_lang.py SE).
   Preview of all times: see tools/preview.cpp.

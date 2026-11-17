@@ -1,5 +1,5 @@
 /*
-  wc_lang_CZ.h - Wordclock 16x16, language file CZ (Čeština), v0.9
+  wc_lang_CZ.h - Wordclock 16x16, language file CZ (Čeština), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_CZ.scad (check: python3 tools/check_lang.py CZ).
   Preview of all times: see tools/preview.cpp.

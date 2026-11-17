@@ -1,5 +1,5 @@
 /*
-  wc_lang_TZ.h - Wordclock 16x16, language file TZ (Kiswahili), v0.9
+  wc_lang_TZ.h - Wordclock 16x16, language file TZ (Kiswahili), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_TZ.scad (check: python3 tools/check_lang.py TZ).
   Preview of all times: see tools/preview.cpp.

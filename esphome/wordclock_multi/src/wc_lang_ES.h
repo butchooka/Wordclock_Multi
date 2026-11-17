@@ -1,5 +1,5 @@
 /*
-  wc_lang_ES.h - Wordclock 16x16, language file ES (Español), v0.9
+  wc_lang_ES.h - Wordclock 16x16, language file ES (Español), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_ES.scad (check: python3 tools/check_lang.py ES).
   Preview of all times: see tools/preview.cpp.

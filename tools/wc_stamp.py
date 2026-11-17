@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-wc_stamp.py - Wordclock 16x16, skip outputs whose inputs did not change, v1.0
+wc_stamp.py - Wordclock 16x16, skip outputs whose inputs did not change
 
 Every tool that builds slow outputs (export_fronts.py, make_3mf.py, render_fronts.py) writes an info
 file next to its outputs with the base data of every output: the input files (SHA-256 of the content + date of the

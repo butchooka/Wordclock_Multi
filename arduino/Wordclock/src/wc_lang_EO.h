@@ -1,5 +1,5 @@
 /*
-  wc_lang_EO.h - Wordclock 16x16, language file EO (Esperanto), v0.9
+  wc_lang_EO.h - Wordclock 16x16, language file EO (Esperanto), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_EO.scad (check: python3 tools/check_lang.py EO).
   Preview of all times: see tools/preview.cpp.

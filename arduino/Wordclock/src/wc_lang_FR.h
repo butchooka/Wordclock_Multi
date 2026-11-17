@@ -1,5 +1,5 @@
 /*
-  wc_lang_FR.h - Wordclock 16x16, language file FR (Français), v0.9
+  wc_lang_FR.h - Wordclock 16x16, language file FR (Français), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_FR.scad (check: python3 tools/check_lang.py FR).
   Preview of all times: see tools/preview.cpp.

@@ -1,5 +1,5 @@
 /*
-  config.h - Wordclock 16x16, Arduino settings, v1.0
+  config.h - Wordclock 16x16, Arduino settings
   Only this file needs to be changed for a build. Everything else is set in the web interface.
 */
 #pragma once
@@ -14,46 +14,46 @@
 
 // ============================ LANGUAGE ============================
 // Language file in src/. Grid, time words, web interface, hotspot/device name and default location/time zone
-// come from it. Copy one line of the list below over the #define (v1.0 = confirmed, v0.9 = grammar unconfirmed).
+// come from it. Copy one line of the list below over the #define.
 #ifndef WC_LANG_FILE
 #define WC_LANG_FILE "src/wc_lang_DE.h"
 #endif
 //
 // LANGUAGES BEGIN (list written by tools/make_info.py)
 //   Countries / Länder:
-//     #define WC_LANG_FILE "src/wc_lang_DE.h"  Deutsch (v1.0)
-//     #define WC_LANG_FILE "src/wc_lang_GB.h"  English (v1.0)
-//     #define WC_LANG_FILE "src/wc_lang_CN.h"  中文 (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_CZ.h"  Čeština (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_DK.h"  Dansk (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_ES.h"  Español (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_FR.h"  Français (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_GR.h"  Ελληνικά (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_HU.h"  Magyar (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_ID.h"  Bahasa Indonesia (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_IT.h"  Italiano (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_JP.h"  日本語 (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_KR.h"  한국어 (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_NL.h"  Nederlands (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_NO.h"  Norsk (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_PL.h"  Polski (v1.0)
-//     #define WC_LANG_FILE "src/wc_lang_PT.h"  Português (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_RO.h"  Română (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_SE.h"  Svenska (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_TR.h"  Türkçe (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_TZ.h"  Kiswahili (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_UA.h"  Українська (v0.9)
+//     #define WC_LANG_FILE "src/wc_lang_DE.h"  Deutsch (confirmed)
+//     #define WC_LANG_FILE "src/wc_lang_GB.h"  English (confirmed)
+//     #define WC_LANG_FILE "src/wc_lang_CN.h"  中文 (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_CZ.h"  Čeština (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_DK.h"  Dansk (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_ES.h"  Español (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_FR.h"  Français (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_GR.h"  Ελληνικά (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_HU.h"  Magyar (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_ID.h"  Bahasa Indonesia (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_IT.h"  Italiano (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_JP.h"  日本語 (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_KR.h"  한국어 (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_NL.h"  Nederlands (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_NO.h"  Norsk (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_PL.h"  Polski (confirmed)
+//     #define WC_LANG_FILE "src/wc_lang_PT.h"  Português (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_RO.h"  Română (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_SE.h"  Svenska (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_TR.h"  Türkçe (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_TZ.h"  Kiswahili (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_UA.h"  Українська (unconfirmed)
 //   Dialects / Dialekte:
-//     #define WC_LANG_FILE "src/wc_lang_dialect_BAD.h"  Badisch (v1.0)
-//     #define WC_LANG_FILE "src/wc_lang_dialect_CH.h"   Schwizerdütsch (v1.0)
-//     #define WC_LANG_FILE "src/wc_lang_dialect_SWG.h"  Schwäbisch (v1.0)
+//     #define WC_LANG_FILE "src/wc_lang_dialect_BAD.h"  Badisch (confirmed)
+//     #define WC_LANG_FILE "src/wc_lang_dialect_CH.h"   Schwizerdütsch (confirmed)
+//     #define WC_LANG_FILE "src/wc_lang_dialect_SWG.h"  Schwäbisch (confirmed)
 //   Other languages / andere Sprachen:
-//     #define WC_LANG_FILE "src/wc_lang_EO.h"         Esperanto (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_VA.h"         Latina (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_scifi_HVA.h"  Valyrio (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_scifi_NAV.h"  Na'vi (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_scifi_QYA.h"  Quenya (v0.9)
-//     #define WC_LANG_FILE "src/wc_lang_scifi_TLH.h"  tlhIngan Hol (v0.9)
+//     #define WC_LANG_FILE "src/wc_lang_EO.h"         Esperanto (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_VA.h"         Latina (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_scifi_HVA.h"  Valyrio (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_scifi_NAV.h"  Na'vi (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_scifi_QYA.h"  Quenya (unconfirmed)
+//     #define WC_LANG_FILE "src/wc_lang_scifi_TLH.h"  tlhIngan Hol (unconfirmed)
 // LANGUAGES END
 
 // ============================ HARDWARE ============================

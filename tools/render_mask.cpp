@@ -1,5 +1,5 @@
 /*
-  render_mask.cpp - Wordclock 16x16, helper for tools/render_fronts.py, v1.0
+  render_mask.cpp - Wordclock 16x16, helper for tools/render_fronts.py
   Compiles the shared core + one language and prints the lit cells of one time (same logic as the clock).
   Build: g++ -std=c++11 -DLANG=DE tools/render_mask.cpp -o render_mask
   Run:   render_mask hh:mm RRGGBB features

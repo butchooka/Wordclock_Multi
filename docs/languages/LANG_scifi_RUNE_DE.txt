@@ -1,5 +1,5 @@
-Wordclock_Multi v1.0 - Runen (Deutsch) (scifi_RUNE_DE)
-======================================================
+Wordclock_Multi - Runen (Deutsch) (scifi_RUNE_DE)
+=================================================
 Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
 
 Schrift-Variante der Sprache DE (Deutsch): nur die Front ist anders. Raster, Wörter, Grammatik und Firmware sind

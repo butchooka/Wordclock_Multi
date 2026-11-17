@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-render_fronts.py - Wordclock 16x16, preview images of the front for every language, v1.0
+render_fronts.py - Wordclock 16x16, preview images of the front for every language
 
 Renders the front of each language as PNG with the same time and the same colour (lit letters exactly as the
 clock shows them: the language file is compiled with the shared core, see tools/render_mask.cpp).
@@ -69,7 +69,6 @@ except ImportError:
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "arduino", "Wordclock", "src")
-VERSION = "v1.0"
 
 # geometry of the front in mm (Wordclock_Model.scad defaults)
 PITCH = 10.0

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-check_models.py - Wordclock 16x16, checks the 3D models (OpenSCAD, optionally FreeCAD), v1.0
+check_models.py - Wordclock 16x16, checks the 3D models (OpenSCAD, optionally FreeCAD)
 
 Renders every part of models/Wordclock_Model.scad and models/Wordclock_Model_PictureFrame.scad with OpenSCAD and
 checks the result (pure Python, no extra packages):

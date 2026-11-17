@@ -1,5 +1,5 @@
-Wordclock_Multi v1.0 - Runes (English) (scifi_RUNE_GB)
-======================================================
+Wordclock_Multi - Runes (English) (scifi_RUNE_GB)
+=================================================
 Automatisch erzeugt von tools/make_info.py - nicht von Hand ändern. / Generated, do not edit.
 
 Schrift-Variante der Sprache GB (English): nur die Front ist anders. Raster, Wörter, Grammatik und Firmware sind

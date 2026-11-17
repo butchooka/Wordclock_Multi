@@ -1,4 +1,4 @@
-# Wordclock_Multi v1.0 - Einrichtung ESPHome
+# Wordclock_Multi - Einrichtung ESPHome
 
 > Automatisch erzeugt von `tools/make_info.py` - nicht von Hand ändern.
 

@@ -1,4 +1,4 @@
-# Wordclock_Multi v1.0 - Einrichtung OpenSCAD
+# Wordclock_Multi - Einrichtung OpenSCAD
 
 > Automatisch erzeugt von `tools/make_info.py` - nicht von Hand ändern.
 

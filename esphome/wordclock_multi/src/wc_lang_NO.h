@@ -1,5 +1,5 @@
 /*
-  wc_lang_NO.h - Wordclock 16x16, language file NO (Norsk), v0.9
+  wc_lang_NO.h - Wordclock 16x16, language file NO (Norsk), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_NO.scad (check: python3 tools/check_lang.py NO).
   Preview of all times: see tools/preview.cpp.

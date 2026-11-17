@@ -1,5 +1,5 @@
 /*
-  wc_lang_PT.h - Wordclock 16x16, language file PT (Português, Portugal), v0.9
+  wc_lang_PT.h - Wordclock 16x16, language file PT (Português, Portugal), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_PT.scad (check: python3 tools/check_lang.py PT).
   Preview of all times: see tools/preview.cpp.

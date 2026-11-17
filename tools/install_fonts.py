@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-install_fonts.py - Wordclock 16x16, checks the fonts the fronts need and installs missing ones, v1.0
+install_fonts.py - Wordclock 16x16, checks the fonts the fronts need and installs missing ones
 
 Languages with their own script bring their font in models/lang/lang_XX.scad (CN, JP, KR: Noto Sans SC/JP/KR Bold,
 runes: Segoe UI Historic, part of Windows 10/11). OpenSCAD only sees fonts installed for all users (Windows:

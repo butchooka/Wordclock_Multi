@@ -1,5 +1,5 @@
 /*
-  wc_lang_scifi_HVA.h - Wordclock 16x16, language file scifi_HVA (Valyrio), v0.9
+  wc_lang_scifi_HVA.h - Wordclock 16x16, language file scifi_HVA (Valyrio), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_scifi_HVA.scad (check: python3 tools/check_lang.py scifi_HVA).
   Preview of all times: see tools/preview.cpp.

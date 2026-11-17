@@ -15,9 +15,9 @@ Deutsche Fassung: [README_DE.md](README_DE.md)
 **MakerWorld:** _link follows_ <!-- MAKERWORLD_LINK -->
 The models are not part of this repository.
 
-Version 1.0. Model, print and firmware are tested for all languages. Grammar and spelling confirmed (v1.0): DE (Deutsch),
+Model, print and firmware are tested for all languages. Grammar and spelling confirmed: DE (Deutsch),
 GB (English), PL (Polski) and the dialects dialect_BAD (Badisch), dialect_CH (Schwizerdütsch) and dialect_SWG (Schwäbisch). All other
-languages are v0.9 (grammar unconfirmed) until native speakers have confirmed grammar and spelling.
+languages are unconfirmed until native speakers have confirmed grammar and spelling.
 Corrections are very welcome (issue or pull request).
 
 ## Features
@@ -47,39 +47,39 @@ Order: languages of countries, dialects, other languages. Grids, grammar and exa
 `docs/languages/LANG_<code>.txt`, overview `docs/languages/LANGUAGES.txt`. A new language: [LANG_SPEC.md](docs/LANG_SPEC.md).
 
 <!-- LANGUAGES BEGIN (table written by tools/make_info.py) -->
-| Code | Language | Kind | Version | Default location |
+| Code | Language | Kind | Status | Default location |
 |---|---|---|---|---|
-| `DE` | Deutsch | country | v1.0 confirmed | Berlin |
-| `GB` | English | country | v1.0 confirmed | London |
-| `CN` | 中文 | country | v0.9 grammar unconfirmed | Beijing |
-| `CZ` | Čeština | country | v0.9 grammar unconfirmed | Praha |
-| `DK` | Dansk | country | v0.9 grammar unconfirmed | København |
-| `ES` | Español | country | v0.9 grammar unconfirmed | Madrid |
-| `FR` | Français | country | v0.9 grammar unconfirmed | Paris |
-| `GR` | Ελληνικά | country | v0.9 grammar unconfirmed | Athína |
-| `HU` | Magyar | country | v0.9 grammar unconfirmed | Budapest |
-| `ID` | Bahasa Indonesia | country | v0.9 grammar unconfirmed | Jakarta |
-| `IT` | Italiano | country | v0.9 grammar unconfirmed | Roma |
-| `JP` | 日本語 | country | v0.9 grammar unconfirmed | Tokyo |
-| `KR` | 한국어 | country | v0.9 grammar unconfirmed | Seoul |
-| `NL` | Nederlands | country | v0.9 grammar unconfirmed | Amsterdam |
-| `NO` | Norsk | country | v0.9 grammar unconfirmed | Oslo |
-| `PL` | Polski | country | v1.0 confirmed | Warszawa |
-| `PT` | Português | country | v0.9 grammar unconfirmed | Lisboa |
-| `RO` | Română | country | v0.9 grammar unconfirmed | București |
-| `SE` | Svenska | country | v0.9 grammar unconfirmed | Stockholm |
-| `TR` | Türkçe | country | v0.9 grammar unconfirmed | Ankara |
-| `TZ` | Kiswahili | country | v0.9 grammar unconfirmed | Dodoma |
-| `UA` | Українська | country | v0.9 grammar unconfirmed | Київ (Kyiv) |
-| `dialect_BAD` | Badisch | dialect | v1.0 confirmed | Freiburg im Breisgau |
-| `dialect_CH` | Schwizerdütsch | dialect | v1.0 confirmed | Bern |
-| `dialect_SWG` | Schwäbisch | dialect | v1.0 confirmed | Stuttgart |
-| `EO` | Esperanto | other | v0.9 grammar unconfirmed | Warszawa |
-| `VA` | Latina | other | v0.9 grammar unconfirmed | Città del Vaticano |
-| `scifi_HVA` | Valyrio | other | v0.9 grammar unconfirmed | Roma |
-| `scifi_NAV` | Na'vi | other | v0.9 grammar unconfirmed | Berlin |
-| `scifi_QYA` | Quenya | other | v0.9 grammar unconfirmed | London |
-| `scifi_TLH` | tlhIngan Hol | other | v0.9 grammar unconfirmed | Berlin |
+| `DE` | Deutsch | country | confirmed | Berlin |
+| `GB` | English | country | confirmed | London |
+| `CN` | 中文 | country | unconfirmed | Beijing |
+| `CZ` | Čeština | country | unconfirmed | Praha |
+| `DK` | Dansk | country | unconfirmed | København |
+| `ES` | Español | country | unconfirmed | Madrid |
+| `FR` | Français | country | unconfirmed | Paris |
+| `GR` | Ελληνικά | country | unconfirmed | Athína |
+| `HU` | Magyar | country | unconfirmed | Budapest |
+| `ID` | Bahasa Indonesia | country | unconfirmed | Jakarta |
+| `IT` | Italiano | country | unconfirmed | Roma |
+| `JP` | 日本語 | country | unconfirmed | Tokyo |
+| `KR` | 한국어 | country | unconfirmed | Seoul |
+| `NL` | Nederlands | country | unconfirmed | Amsterdam |
+| `NO` | Norsk | country | unconfirmed | Oslo |
+| `PL` | Polski | country | confirmed | Warszawa |
+| `PT` | Português | country | unconfirmed | Lisboa |
+| `RO` | Română | country | unconfirmed | București |
+| `SE` | Svenska | country | unconfirmed | Stockholm |
+| `TR` | Türkçe | country | unconfirmed | Ankara |
+| `TZ` | Kiswahili | country | unconfirmed | Dodoma |
+| `UA` | Українська | country | unconfirmed | Київ (Kyiv) |
+| `dialect_BAD` | Badisch | dialect | confirmed | Freiburg im Breisgau |
+| `dialect_CH` | Schwizerdütsch | dialect | confirmed | Bern |
+| `dialect_SWG` | Schwäbisch | dialect | confirmed | Stuttgart |
+| `EO` | Esperanto | other | unconfirmed | Warszawa |
+| `VA` | Latina | other | unconfirmed | Città del Vaticano |
+| `scifi_HVA` | Valyrio | other | unconfirmed | Roma |
+| `scifi_NAV` | Na'vi | other | unconfirmed | Berlin |
+| `scifi_QYA` | Quenya | other | unconfirmed | London |
+| `scifi_TLH` | tlhIngan Hol | other | unconfirmed | Berlin |
 | `scifi_RUNE_DE` | Runen (Deutsch) | script variant of `DE` (front only) | firmware of `DE` | Berlin |
 | `scifi_RUNE_GB` | Runes (English) | script variant of `GB` (front only) | firmware of `GB` | London |
 <!-- LANGUAGES END -->
@@ -177,15 +177,19 @@ tools/                     Python tools (check_lang, make_info, render_fronts, b
   install_fonts.py         checks the fonts of the fronts (CN, JP, KR: Noto Sans SC/JP/KR Bold, runes: Segoe UI
                            Historic) and downloads / installs missing Noto fonts for all users (menu item 15)
   make_3mf.py              Bambu Studio project (3MF) per language from tools/template_P2S.3mf, --all: also all_ files
-                           (menu item 13: Wordclock_all_<font>.3mf and Pictureframe_<FRAME>_all_<font>.3mf,
-                           one plate per language, plates named "DE - Deutsch"):
+                           (menu item 13: Wordclock_all / _scifi_all / _runes_all.3mf and per frame and board
+                           Pictureframe_<FRAME>_[scifi_|runes_]all_<BOARD>.3mf; single 3MF per language only on
+                           demand, menu items 12 / 16 ask the languages; no Holder_Wall - keyhole in the rear,
+                           one plate per language, plates named "DE - Deutsch"); file names without the font;
+                           one rear plate per board (Rear_ESP32C6 / Rear_WemosD1), every holder on its own plate:
                            only the meshes are swapped, printer, profile, filament change, plates and per object
                            settings come from the template; break-away hook supports as a removable part;
-                           --pictureframe (menu item 16): one project per language and picture frame
-                           (Pictureframe_<RIBBA|SANNAHED>_<LANG>_<font>.3mf), the plate takes the place and
-                           settings of the front of the same template
+                           --pictureframe (menu item 16): one project per language, picture frame and board
+                           (Pictureframe_<RIBBA|SANNAHED>_<LANG>_<ESP32C6|WemosD1>.3mf), the plate takes the place
+                           and settings of the front of the same template, prime tower off
   export_fronts.py         STL export with OpenSCAD: fronts, parts, PictureFrame plates per frame
-                           (PF_FRAMES: RIBBA 231 / 38 mm, SANNAHED 249 / 44 mm -> Pictureframe_<FRAME>_<LANG>_<font>.stl)
+                           (PF_FRAMES: RIBBA 231 / 38 mm, SANNAHED 249 / 44 mm, BOARDS: ESP32C6, WemosD1
+                           -> Frame_<LANG>.stl, Rear_<BOARD>.stl, Pictureframe_<FRAME>_<LANG>_<BOARD>.stl)
 ```
 
 The C++ files in `arduino/Wordclock/src/` are used by both variants (ESPHome via `esphome: includes:`). They are

@@ -1,5 +1,5 @@
 /*
-  wc_lang_TR.h - Wordclock 16x16, language file TR (Türkçe), v0.9
+  wc_lang_TR.h - Wordclock 16x16, language file TR (Türkçe), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_TR.scad (check: python3 tools/check_lang.py TR).
   Preview of all times: see tools/preview.cpp.

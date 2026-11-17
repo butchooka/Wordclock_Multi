@@ -1,5 +1,5 @@
 /*
-  wc_lang_ID.h - Wordclock 16x16, language file ID (Bahasa Indonesia), v0.9
+  wc_lang_ID.h - Wordclock 16x16, language file ID (Bahasa Indonesia), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_ID.scad (check: python3 tools/check_lang.py ID).
   Preview of all times: see tools/preview.cpp.

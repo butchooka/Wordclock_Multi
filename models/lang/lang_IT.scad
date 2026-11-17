@@ -1,4 +1,4 @@
-// lang_IT.scad - Wordclock 16x16, model language file IT (Italiano), v0.9
+// lang_IT.scad - Wordclock 16x16, model language file IT (Italiano), unconfirmed
 // Used by Wordclock_Model.scad (via lang_all.scad) and Wordclock_Model.FCMacro (reads this file).
 // The grid must be identical to arduino/Wordclock/src/wc_lang_IT.h (check: python3 tools/check_lang.py IT).
 // 16 rows of 16 characters, row 1 = top. "*" temperature dot, "|" battery bar, "+" plus, "x" filler (printed as FILLER), space/"." = nothing.

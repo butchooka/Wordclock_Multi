@@ -1,5 +1,5 @@
 /*
-  wc_lang_CN.h - Wordclock 16x16, language file CN (中文 / Mandarin Chinese, simplified characters), v0.9
+  wc_lang_CN.h - Wordclock 16x16, language file CN (中文 / Mandarin Chinese, simplified characters), unconfirmed
   Grid, word positions, time grammar and web interface texts.
   The grid must be identical to models/lang/lang_CN.scad (check: python3 tools/check_lang.py CN).
   Preview of all times: see tools/preview.cpp.

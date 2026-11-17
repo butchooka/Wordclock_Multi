@@ -1,5 +1,5 @@
 @echo off
-rem tools\wordclock_tools.bat - Wordclock_Multi v1.0: all tools in one menu (double-click).
+rem tools\wordclock_tools.bat - Wordclock_Multi: all tools in one menu (double-click).
 rem Choose an action by its number, A runs all of them one after another in a sensible order.
 rem Direct call without menu:  wordclock_tools.bat 5      or      wordclock_tools.bat A
 rem Unchanged outputs are skipped (5, 9, 10, 12-14, 16: info file with the base data next to the outputs, see
@@ -58,21 +58,21 @@ echo   5  Render fronts       preview images light/dark, normal + _full, overvie
 echo   6  Bundle firmware     single-file versions -^> esphome\ + arduino\single_Language, zips -^> _private\makerworld
 echo   8  Bundle models       single-file PictureFrame SCAD -^> _private\makerworld\models
 echo   9  Export fronts       STL of the case front, all languages -^> _private\makerworld\export (slow)
-echo  10  Export PictureFrame STL of the picture frame plate, all languages and frames (RIBBA, SANNAHED)
-echo                          -^> _private\makerworld\export (slow)
+echo  10  Export PictureFrame STL of the picture frame plate, all languages, frames (RIBBA, SANNAHED) and
+echo                          boards (ESP32C6, WemosD1) -^> _private\makerworld\export (slow)
 echo  11  Mask cache          rebuild tools\render_masks.json.xz after a language change (needs g++)
-echo  12  Bambu 3MF           one Bambu Studio project per language from tools\template_P2S.3mf
-echo                          -^> _private\makerworld\export_3mf (exports missing STL first)
-echo  13  Bambu 3MF all_      all languages in one project (one plate each): Wordclock_all_..., and per
-echo                          frame Pictureframe_RIBBA_all_... / Pictureframe_SANNAHED_all_... -^> export_3mf
-echo  14  Export parts        STL of rear, holders and their supports -^> _private\makerworld\export
+echo  12  Bambu 3MF single    one Bambu Studio project per language from tools\template_P2S.3mf, asks the
+echo                          languages (Enter = all) -^> _private\makerworld\export_3mf (exports missing STL first)
+echo  13  Bambu 3MF all_      one plate per language: Wordclock_all / _scifi_all / _runes_all and per frame
+echo                          and board Pictureframe_RIBBA_all_ESP32C6, ..._scifi_all_..., ..._runes_all_... -^> export_3mf
+echo  14  Export parts        STL of rear (one per board), holders and supports -^> _private\makerworld\export
 echo  15  Fonts               check the fonts of the fronts (CN, JP, KR, runes), download and install
 echo                          missing ones for all users (asks for administrator rights)
-echo  16  Bambu 3MF PictureFrame  one project per language and frame (RIBBA, SANNAHED) from the front
-echo                          of tools\template_P2S.3mf -^> export_3mf (exports missing STL first)
+echo  16  Bambu 3MF PictureFrame single  one project per language, frame and board, asks the languages
+echo                          (Enter = all), no prime tower -^> export_3mf (exports missing STL first)
 echo   P  PictureFrame other  special case: asks size, depth, ... of another picture frame and exports
 echo                          the plates -^> _private\makerworld\export\custom
-echo   A  All                15 1 2 3 4 5 6 8 9 10 14 12 16 13 one after another
+echo   A  All                15 1 2 3 4 5 6 8 9 10 14 13 one after another (single 3MF 12 / 16 only on demand)
 echo   C  Clean              remove caches and temporary files only
 echo   B  Backup clean       also remove generated STL/3MF/zips/fonts (slim folder for a manual backup,
 echo                          only git-ignored outputs, lists first and asks; rebuild with 6, 8-10, 12-16)
@@ -95,7 +95,7 @@ goto finish
 :all
 set "T0=%time%"
 set "NALL=0"
-for %%N in (15 1 2 3 4 5 6 8 9 10 14 12 16 13) do (
+for %%N in (15 1 2 3 4 5 6 8 9 10 14 13) do (
   set /a NALL+=1
   call :do %%N
 )
@@ -151,7 +151,7 @@ rem ----------------------------------------------------------------------------
 call set "TT=%%T%~1%%"
 echo.
 echo =============================================================================================
-if defined NALL (echo  [%NALL%/14]  %~1  %TT%   - start %time:~0,8%) else (echo  %~1  %TT%   - start %time:~0,8%)
+if defined NALL (echo  [%NALL%/12]  %~1  %TT%   - start %time:~0,8%) else (echo  %~1  %TT%   - start %time:~0,8%)
 echo =============================================================================================
 if "%~1"=="1"  goto a1
 if "%~1"=="2"  goto a2
@@ -255,14 +255,15 @@ goto done
 
 :a12
 if not exist models\Wordclock_Model.scad goto nomodels
-rem exports all STL again (current model), then one 3MF per language
+rem exports all STL again (current model), then one 3MF per language (the languages are asked, Enter = all)
 rem options: --lang DE GB, --reuse (use existing STL, tests only), --no-supports, --template FILE, --font Arial
-%PY% tools\make_3mf.py --log "%ROOT%\tools\logs\make_3mf_log.txt"
+call :ask_langs
+%PY% tools\make_3mf.py %SLA% --log "%ROOT%\tools\logs\make_3mf_log.txt"
 goto done
 
 :a13
 if not exist models\Wordclock_Model.scad goto nomodels
-rem all_ files: normal clock (all fronts + rear/holder plates) and one per PictureFrame frame
+rem all_ files: normal clock (all fronts + rear/holder plates) and one per PictureFrame frame and board
 %PY% tools\make_3mf.py --all-only --log "%ROOT%\tools\logs\make_3mf_all_log.txt"
 %PY% tools\make_3mf.py --pictureframe --all-only --log "%ROOT%\tools\logs\make_3mf_pf_all_log.txt"
 goto done
@@ -280,9 +281,10 @@ goto done
 
 :a16
 if not exist models\Wordclock_Model.scad goto nomodels
-rem PictureFrame plates (export_fronts.PF_FRAMES) in the place of the front of the template, one 3MF each
-rem options: --frame RIBBA, --lang DE GB, --reuse
-%PY% tools\make_3mf.py --pictureframe --log "%ROOT%\tools\logs\make_3mf_pf_log.txt"
+rem PictureFrame plates (export_fronts.PF_FRAMES x BOARDS) in the place of the front of the template, one 3MF each
+rem options: --frame RIBBA, --board ESP32C6, --lang DE GB, --reuse (the languages are asked, Enter = all)
+call :ask_langs
+%PY% tools\make_3mf.py --pictureframe %SLA% --log "%ROOT%\tools\logs\make_3mf_pf_log.txt"
 goto done
 
 :nomodels
@@ -292,6 +294,14 @@ goto done
 :done
 %PY% tools\clean.py --quiet
 echo  --- %~1 %TT% finished %time:~0,8%
+exit /b 0
+
+:ask_langs
+rem single 3MF: ask the languages (codes as in models\lang, e.g. DE GB scifi_TLH), Enter = all
+set "SL="
+set "SLA="
+set /p "SL=  Languages (e.g. DE GB, Enter = all): "
+if defined SL set "SLA=--lang %SL%"
 exit /b 0
 
 :say
