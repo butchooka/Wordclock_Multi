@@ -463,8 +463,9 @@ def pictureframe(a, tpl, front_plate, langs):
         inp = wc_stamp.inputs([a.template, os.path.abspath(__file__)] +
                               [os.path.join(STL_DIR, n + ".stl") for L, f, B, n in items], title=title,
                               font=a.font)
-        if info.fresh(out, inp):
-            print("unchanged, skipped")
+        fresh, why = info.check(out, inp)
+        print(why, end="\n" if fresh else " ... ", flush=True)
+        if fresh:
             skipped += 1
             return
         b = Builder(tpl, title, {"enable_prime_tower": "0"})
@@ -489,7 +490,7 @@ def pictureframe(a, tpl, front_plate, langs):
                     fn = "Pictureframe_%s_%s_%s.3mf" % (f, gname, B)
                     print("%-9s %2d languages %-9s %-8s -> %s ... " % (gname, len(items), f, B, fn), end="", flush=True)
                     write(fn, "Wordclock PictureFrame %s %s %s" % (f, B, gtitle), items)
-    print("\nResult: %d 3MF files written, %d unchanged in %s%s" % (made, skipped, os.path.relpath(OUT_DIR, ROOT),
+    print("\nResult: %d 3MF files written, %d up to date in %s%s" % (made, skipped, os.path.relpath(OUT_DIR, ROOT),
                                                                   "  - with errors, see above" if failed else ""))
     return 1 if failed else 0
 
@@ -706,8 +707,9 @@ def main():
             fn = "Wordclock_%s.3mf" % L
             print("[%d/%d] %-14s -> %s ... " % (i + 1, len(langs), L, fn), end="", flush=True)
             inp = base([L], "Wordclock %s" % L)
-            if info.fresh(os.path.join(OUT_DIR, fn), inp):
-                print("unchanged, skipped")
+            fresh, why = info.check(os.path.join(OUT_DIR, fn), inp)
+            print(why, end="\n" if fresh else " ... ", flush=True)
+            if fresh:
                 skipped_3mf += 1
                 continue
             b = Builder(tpl, "Wordclock %s" % L)
@@ -721,8 +723,9 @@ def main():
         title = "Wordclock %s" % gtitle
         print("%-9s %2d fronts -> %s ... " % (gname, len(glangs), fn), end="", flush=True)
         inp = base(glangs, title)
-        if info.fresh(os.path.join(OUT_DIR, fn), inp):
-            print("unchanged, skipped")
+        fresh, why = info.check(os.path.join(OUT_DIR, fn), inp)
+        print(why, end="\n" if fresh else " ... ", flush=True)
+        if fresh:
             skipped_3mf += 1
             continue
         b = Builder(tpl, title)
@@ -738,7 +741,7 @@ def main():
     if skipped:
         print("\nNOTE: no supports added to %s - tilted on the plate in the template (supports fit the export "
               "orientation standing on the lower edge only)." % ", ".join(sorted(skipped)))
-    print("\nResult: %d 3MF files written, %d unchanged in %s  (%.0f s)%s" % (made, skipped_3mf,
+    print("\nResult: %d 3MF files written, %d up to date in %s  (%.0f s)%s" % (made, skipped_3mf,
                                                                           os.path.relpath(OUT_DIR, ROOT), time.time() - t0,
                                                      "  - with errors, see above" if failed else ""))
     return 1 if failed else 0

@@ -1,5 +1,24 @@
 # Changelog – Wordclock_Multi
 
+## 2026-11-19 - Clearer skip messages of the export tools
+- `wc_stamp.py`: new `Info.check()` gives the reason with the state. `export_fronts.py` / `make_3mf.py` print
+  `up to date (built 2026-11-19 09:20), skipped` instead of `unchanged, skipped`, and on a rebuild the reason, e.g.
+  `changed: Wordclock_Model.scad, rebuilding`, `new, building`, `Frame_DE.stl missing, rebuilding`, `forced, rebuilding`.
+  Reason: in item 13 the STL step said "unchanged" although the model had changed - the STL were already rebuilt by an
+  earlier item (14 / 9 / 10), "unchanged" meant "already up to date".
+
+## 2026-11-19 - Watermark on the back moved
+- Back (`Wordclock_Model.scad` / `.FCMacro`): the watermark now sits automatically centred between the open end of
+  the ESP slot and the strain relief (gap = board length + `STRAIN_RELIEF_GAP`) instead of 30 mm below the upper edge.
+  Reason: with the Wemos D1 mini ESP32 the wider semicircle support covered part of the text. Parameter
+  `WATERMARK_BACK_FROM_TOP` removed.
+
+## 2026-11-18 - Light chambers 10 mm
+- `CHAMBER_HEIGHT` default 15 -> 10 mm in `Wordclock_Model.scad` / `.FCMacro` and `Wordclock_Model_PictureFrame.scad` /
+  `.FCMacro` (front 5 mm shallower, shorter print). Reason: with 120° LEDs (10 mm pitch) only ~11 % of the light hit the
+  letter directly at 15 mm, ~89 % hit the walls and shone through light filament into the neighbour cells. At 10 mm
+  ~26 % reach the letter directly, the wall-to-front ratio drops from ~8:1 to ~3:1, the letter stays evenly lit.
+
 ## 2026-11-17 - Frame wall 3.7 mm
 - `FRAME_WALL` default 2.7 -> 3.7 mm (frame 1 mm wider all around, outer size +2 mm) in `Wordclock_Model.scad` and `Wordclock_Model.FCMacro`, picture frame (`Wordclock_Model_PictureFrame.scad` / `.FCMacro`) and the customizer parameter sets (`Wordclock_Model.json`). Reason: thin wall + rounded outer corners vs. square inner corners gave uneven wall thickness and a rough outer surface.
 

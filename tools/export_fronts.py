@@ -301,9 +301,11 @@ def base_data(scad, extra, defs, model, lang=None, spec=None):
 # ------------------------------------------------------------------ main
 def export(scad, extra, out, defs, model, info, inp):
     """OpenSCAD export, skipped when the base data did not change. Returns True when the file is fine."""
-    if info.fresh(out, inp):
-        print("unchanged, skipped")
+    fresh, why = info.check(out, inp)
+    print(why, end="" if not fresh else "\n", flush=True)
+    if fresh:
         return True
+    print(" ... ", end="", flush=True)
     ok = run_scad(scad, extra, out, defs, model)
     if ok:
         info.store(out, inp)

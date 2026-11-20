@@ -80,17 +80,32 @@ class Info:
             self.data = {}
         self.data.setdefault("outputs", {})
 
-    def fresh(self, out, inp, extra_outputs=(), virtual=False):
-        """virtual: out is only a name (e.g. one render run), the files to check are extra_outputs"""
+    def check(self, out, inp, extra_outputs=(), virtual=False):
+        """(fresh, text): fresh = output can be kept; text = why (for the log), e.g.
+        "up to date (built 2026-11-19 09:20), skipped" or "changed: Wordclock_Model.scad, rebuilding".
+        virtual: out is only a name (e.g. one render run), the files to check are extra_outputs"""
         if self.force:
-            return False
+            return False, "forced, rebuilding"
         e = self.data["outputs"].get(os.path.basename(out))
-        if not e or e.get("key") != key(inp):
-            return False
+        if not e:
+            return False, "new, building"
+        if e.get("key") != key(inp):
+            old = e.get("files", {})
+            ch = [os.path.basename(k) for k, v in inp["files"].items()
+                  if old.get(k, {}).get("sha256") != v["sha256"]]
+            ch += [os.path.basename(k) + " (removed)" for k in old if k not in inp["files"]]
+            if e.get("params", {}) != inp["params"]:
+                ch.append("parameters")
+            return False, "changed: %s, rebuilding" % (", ".join(ch) or "base data")
         for o, size in ([] if virtual else [(out, e.get("size"))]) + [(p, None) for p in extra_outputs]:
-            if not os.path.isfile(o) or (size is not None and os.path.getsize(o) != size):
-                return False
-        return True
+            if not os.path.isfile(o):
+                return False, "%s missing, rebuilding" % os.path.basename(o)
+            if size is not None and os.path.getsize(o) != size:
+                return False, "%s has another size, rebuilding" % os.path.basename(o)
+        return True, "up to date (built %s), skipped" % e.get("built", "?")[:16]
+
+    def fresh(self, out, inp, extra_outputs=(), virtual=False):
+        return self.check(out, inp, extra_outputs, virtual)[0]
 
     def store(self, out, inp, **more):
         e = {"key": key(inp), "built": time.strftime("%Y-%m-%d %H:%M:%S"),
