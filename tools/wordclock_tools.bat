@@ -56,16 +56,16 @@ echo   3  Check parameters    SCAD ^<-^> FreeCAD macro settings (models, Python 
 echo   4  Check 3D models     render all parts with OpenSCAD, fit check, FreeCAD comparison
 echo   5  Render fronts       preview images light/dark, normal + _full, overview, GIFs, ticker -^> docs\render*
 echo   6  Bundle firmware     single-file versions -^> esphome\ + arduino\single_Language, zips -^> _private\makerworld
-echo   8  Bundle models       single-file PictureFrame SCAD -^> _private\makerworld\models
+echo   8  Bundle models       single-file SCAD (clock, PictureFrame, test print) -^> _private\makerworld\models
 echo   9  Export fronts       STL of the case front, all languages -^> _private\makerworld\export (slow)
 echo  10  Export PictureFrame STL of the picture frame plate, all languages, frames (RIBBA, SANNAHED) and
-echo                          boards (ESP32C6, WemosD1) -^> _private\makerworld\export (slow)
+echo                          board ESP32C6 (others via Customizer / --board) -^> _private\makerworld\export (slow)
 echo  11  Mask cache          rebuild tools\render_masks.json.xz after a language change (needs g++)
 echo  12  Bambu 3MF single    one Bambu Studio project per language from tools\template_P2S.3mf, asks the
 echo                          languages (Enter = all) -^> _private\makerworld\export_3mf (exports missing STL first)
-echo  13  Bambu 3MF all_      one plate per language: Wordclock_all / _scifi_all / _runes_all and per frame
+echo  13  Bambu 3MF all_      one plate per language: frame_Wordclock_all / _scifi_all / _runes_all and per frame
 echo                          and board Pictureframe_RIBBA_all_ESP32C6, ..._scifi_all_..., ..._runes_all_... -^> export_3mf
-echo  14  Export parts        STL of rear (one per board), holders and supports -^> _private\makerworld\export
+echo  14  Export parts        STL of rear (ESP32C6), holders, supports, test print -^> _private\makerworld\export
 echo  15  Fonts               check the fonts of the fronts (CN, JP, KR, runes), download and install
 echo                          missing ones for all users (asks for administrator rights)
 echo  16  Bambu 3MF PictureFrame single  one project per language, frame and board, asks the languages
@@ -109,11 +109,10 @@ rem special case: front plate for another picture frame (values of Wordclock_Mod
 if not exist models\Wordclock_Model_PictureFrame.scad (echo skipped: models\ not found & goto finish)
 echo.
 echo  PictureFrame for another picture frame - Enter keeps the value in brackets
-set "PF_SIZE=231" & set "PF_DEPTH=38" & set "PF_THICK=2" & set "PF_GLASS=0"
+set "PF_SIZE=231" & set "PF_DEPTH=38" & set "PF_GLASS=0"
 set "PF_MOUNT=SCREW" & set "PF_LANG=DE" & set "PF_FONT=Liberation" & set "PF_QUAL=Fine"
 set /p "PF_SIZE=  Picture size = glass size, mm (220...300)  [%PF_SIZE%]: "
 set /p "PF_DEPTH=  Inner depth of the frame, mm (22...80)     [%PF_DEPTH%]: "
-set /p "PF_THICK=  Thickness of the printed plate, mm (1...4)         [%PF_THICK%]: "
 set /p "PF_GLASS=  original Glass in front of the plate, mm (0 = none) [%PF_GLASS%]: "
 set /p "PF_MOUNT=  Fastening SCREW / THIMBLES / NONE          [%PF_MOUNT%]: "
 set /p "PF_LANG=  Languages (e.g. DE GB, ALL = all)          [%PF_LANG%]: "
@@ -122,7 +121,7 @@ set /p "PF_QUAL=  Quality Preview / Normal / Fine            [%PF_QUAL%]: "
 set "PF_L=--lang %PF_LANG%"
 if /i "%PF_LANG%"=="ALL" set "PF_L="
 set "TT=PictureFrame other"
-%PY% tools\export_fronts.py PictureFrame %PF_L% --font %PF_FONT% --quality %PF_QUAL% --size %PF_SIZE% --depth %PF_DEPTH% --thickness %PF_THICK% --glass %PF_GLASS% --mount %PF_MOUNT%
+%PY% tools\export_fronts.py PictureFrame %PF_L% --font %PF_FONT% --quality %PF_QUAL% --size %PF_SIZE% --depth %PF_DEPTH% --glass %PF_GLASS% --mount %PF_MOUNT%
 call :done P
 goto finish
 

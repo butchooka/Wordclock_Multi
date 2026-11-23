@@ -26,8 +26,8 @@ Options:
     --style S         light = white front skin (FRONT_SKIN, default) | dark = dark front, letters open
     --size N          edge length of the single images in pixels (default 1600)
     --bg RRGGBB       background colour (default 1E1F22)
-    --filler F        how the filler cells ("x" in the grid) are printed: auto (default, as FILLER = auto in the
-                      models: default of the language from lang_XX.scad, else X), X, dot, or any other character
+    --filler F        how the filler cells ("x" in the grid) are printed: dot (default, as FILLER in the models), X,
+                      auto (default of the language from lang_XX.scad, else X), or any other character
     --font FILE       TTF file (default: Liberation Sans Bold, else Arial Bold, else DejaVu Sans Bold). Languages
                       whose characters are not all in this font (JP, CN, KR, ...) automatically get a matching
                       font: own font of the language (lang_XX.scad), LANG_FONTS, FALLBACKS, then any installed font
@@ -604,7 +604,7 @@ def main():
     ap.add_argument("--style", default="light", choices=["light", "dark"])
     ap.add_argument("--size", type=int, default=1600)
     ap.add_argument("--bg", default="1E1F22")
-    ap.add_argument("--filler", default="auto")
+    ap.add_argument("--filler", default="dot")
     ap.add_argument("--font", default="")
     ap.add_argument("--out", default="")
     ap.add_argument("--gif-size", type=int, default=480)

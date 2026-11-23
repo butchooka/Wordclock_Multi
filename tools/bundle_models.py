@@ -5,10 +5,11 @@ The models share code: Wordclock_Common.scad (OpenSCAD) and Wordclock_Common.py 
 language grids in models/lang/. For an upload that needs ONE file this script inserts everything:
 
   OpenSCAD:  every line  include <file>  is replaced by the content of the file (recursive, relative to the
-             including file, every file only once) -> Wordclock_Model_PictureFrame.scad
-             without any include (all languages inside, Customizer parameters unchanged at the top).
-             Only the PictureFrame is bundled (MakerWorld: the normal case comes as 3MF/STL); the normal model
-             and the FreeCAD macros are not needed there (add them to SCAD_FILES / MACRO_FILES if wanted).
+             including file, every file only once) -> Wordclock_Model.scad (fully printed clock),
+             Wordclock_Model_PictureFrame.scad and Wordclock_TestPrint.scad without any include (all languages
+             inside, Customizer parameters unchanged at the top). MakerWorld: the 3MF/STL files are made for the
+             ESP32-C6 SuperMini only, other boards, fillers, letter thickness ... via the Customizer (these files).
+             The FreeCAD macros are not needed there (add them to MACRO_FILES if wanted).
   FreeCAD:   (MACRO_FILES, empty) the block "# >>> include Wordclock_Common.py" ... "# <<< include" is replaced by
              Wordclock_Common.py. Note: the macro still reads the language grids from a folder "lang" next to it.
 
@@ -23,9 +24,10 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MODELS = ROOT / "models"
-SCAD_FILES = ["Wordclock_Model_PictureFrame.scad"]     # MakerWorld: the case is uploaded as 3MF/STL, only the
-MACRO_FILES = []                                       # PictureFrame (other frame sizes) needs the SCAD (Customizer)
-OLD_FILES = ["Wordclock_Model.scad", "Wordclock_Model.FCMacro", "Wordclock_Model_PictureFrame.FCMacro"]
+SCAD_FILES = ["Wordclock_Model.scad", "Wordclock_Model_PictureFrame.scad",   # MakerWorld Customizer (other boards,
+              "Wordclock_TestPrint.scad"]                                   # frame sizes, fillers ...) + test print
+MACRO_FILES = []
+OLD_FILES = ["Wordclock_Model.FCMacro", "Wordclock_Model_PictureFrame.FCMacro"]
 
 INCLUDE_RE = re.compile(r"^\s*include\s*<([^>]+)>\s*;?\s*(//.*)?$")
 USE_RE = re.compile(r"^\s*use\s*<([^>]+)>")

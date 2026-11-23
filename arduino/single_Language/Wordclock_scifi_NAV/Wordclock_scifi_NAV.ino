@@ -77,7 +77,7 @@
     Example: http://wortuhr.local/api/set?brday=40&col_time=random&fx=blink&fxcolor=ff8800
     Answer: {"ok":true,"applied":[...],"ignored":[...]}; GET /api/get returns all controllable values.
     Current limit, Wi-Fi, device name, NTP, time zone, location, night mode, wiring, restart,
-    factory reset only via the web interface.
+    forget Wi-Fi only via the web interface.
 */
 
 #include <Arduino.h>
@@ -1159,12 +1159,13 @@ void handleRestart() {
   ESP.restart();
 }
 
-void handleReset() {
-  prefs.begin("wortuhr", false);
-  prefs.clear();
-  prefs.end();
+void handleWifiForget() {  // forgets only the Wi-Fi (SSID + password), all other settings stay
+  S.ssid = ""; S.pass = "";
+  saveSettings();  // also stores pending changes
+  Serial.println("Wi-Fi forgotten, restart as hotspot");
   sendJson("{\"ok\":true}");
   delay(500);
+  WiFi.disconnect(true, true);  // also clear credentials the Wi-Fi driver may have kept
   ESP.restart();
 }
 
@@ -1189,7 +1190,7 @@ void setupWeb() {
   server.on("/api/set", handleApiSet);
   server.on("/api/get", handleApiGet);
   server.on("/api/restart", HTTP_POST, handleRestart);
-  server.on("/api/reset", HTTP_POST, handleReset);
+  server.on("/api/wifi_forget", HTTP_POST, handleWifiForget);
   server.onNotFound(handleNotFound);
   server.begin();
 }

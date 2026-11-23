@@ -10,7 +10,7 @@ new 3MF after the next run.
 
 Objects of the template are found by their name (".stl" and "_freecad" are ignored):
   Frame...  / Front        -> the front of the language (Frame_<LANG>.stl)
-  Rear (or Holder_Rear)    -> Rear_<BOARD>.stl: one plate per board of export_fronts.BOARDS (ESP32C6, WemosD1), the
+  Rear (or Holder_Rear)    -> Rear_<BOARD>.stl: one plate per board of export_fronts.EXPORT_BOARDS (ESP32C6), the
                               rear is 160 x 160 mm, two do not fit on one bed; plate "Rear ESP32-C6 SuperMini"
   Holder_<name>            -> Holder_<name>.stl, plus Holder_<name>_Support.stl as a second part of the same object
                               (break-away supports; in Bambu Studio: right click on the part > Delete, if not wanted)
@@ -27,13 +27,13 @@ A 3MF is only written again when its STL files, the template or make_3mf.py chan
 folder, see tools/wc_stamp.py; --force = all). Languages with their own script (CN, JP, KR, runes) get their
 own font, its tag is in the file names; a missing font stops the run before anything is exported.
 Input:  _private/makerworld/export/           Output: _private/makerworld/export_3mf/
-  Wordclock_<LANG>.3mf          one project per language (default)
-  Wordclock_all.3mf             --all: one project with one plate per front plus the plates of the other parts;
-  Wordclock_scifi_all.3mf       the groups of ALL_GROUPS each get their own file: all = languages and dialects,
-  Wordclock_runes_all.3mf       scifi = Klingon, Na'vi, Quenya, Valyrian, runes = runic DE / GB (room for more)
+  frame_Wordclock_<LANG>.3mf    one project per language (default)
+  frame_Wordclock_all.3mf       --all: one project with one plate per front plus the plates of the other parts;
+  frame_Wordclock_scifi_all.3mf the groups of ALL_GROUPS each get their own file: all = languages and dialects,
+  frame_Wordclock_runes_all.3mf scifi = Klingon, Na'vi, Quenya, Valyrian, runes = runic DE / GB (room for more)
   Pictureframe_<FRAME>_<LANG>_<BOARD>.3mf  --pictureframe: one project per language, picture frame and board
                                 (export_fronts.PF_FRAMES: RIBBA, SANNAHED; --frame RIBBA = only this one;
-                                BOARDS: ESP32C6, WemosD1; --board ESP32C6 = only this one) with one plate: the
+                                default EXPORT_BOARDS: ESP32C6; --board WemosD1 = other board) with one plate: the
                                 PictureFrame plate takes the place and all settings (filament change, per object
                                 settings) of the front of the template - no template of its own needed. Prime tower
                                 off (no room next to the large plate, not needed: a little white after the change)
@@ -415,7 +415,7 @@ def esc(s):
 def pictureframe(a, tpl, front_plate, langs):
     """--pictureframe: one 3MF per language and frame, the plate replaces the front of the template."""
     frames = a.frame or list(export_fronts.PF_FRAMES)
-    boards = a.board or list(export_fronts.BOARDS)
+    boards = a.board or export_fronts.EXPORT_BOARDS
     names = [(L, f, B, export_fronts.pf_name(L, f, B)) for f in frames for B in boards for L in langs]
     print("\n=== Step 3/4: export the PictureFrame STL files (%d frames x %d boards x %d languages) - takes a while"
           % (len(frames), len(boards), len(langs)))
@@ -541,7 +541,7 @@ def main():
     ap.add_argument("--frame", nargs="*", type=str.upper, choices=sorted(export_fronts.PF_FRAMES),
                     help="--pictureframe: only these frames (default: all)")
     ap.add_argument("--board", nargs="*", choices=list(export_fronts.BOARDS),
-                    help="--pictureframe: only these boards (default: all)")
+                    help="these boards (default: export_fronts.EXPORT_BOARDS = ESP32C6)")
     ap.add_argument("--font", default="Liberation")
     ap.add_argument("--quality", default="Fine")
     ap.add_argument("--manifold", action="store_true")
@@ -603,7 +603,8 @@ def main():
         print("Left out (not in export_fronts.HOLDERS): %s" % ", ".join(left))
     roles = sorted({o["role"] for o in tpl.objects.values() if o["role"] != "FRONT" and wanted(o["role"])})
     sup = [] if a.no_supports else [r + "_Support" for r in roles if r.startswith("Holder_")]
-    roles = [x for r in roles for x in (export_fronts.REARS if r == "Rear" else [r])]   # one rear per board
+    rears_wanted = ["Rear_" + B for B in (a.board or export_fronts.EXPORT_BOARDS)]
+    roles = [x for r in roles for x in (rears_wanted if r == "Rear" else [r])]   # one rear per board
     os.makedirs(STL_DIR, exist_ok=True)
     print("=== Step 2/4: check the fonts (%d languages)" % len(langs))
     errors = export_fronts.check_fonts(langs, a.font, export_fronts.find_openscad(None))
@@ -665,7 +666,8 @@ def main():
             rears = [o for o in pl["objects"] if tpl.objects[o]["role"] == "Rear"]
             other = [o for o in pl["objects"] if tpl.objects[o]["role"] != "Rear" and wanted(tpl.objects[o]["role"])]
             for o in rears:                           # one plate per board, the rear does not fit twice
-                for B, (_, label) in export_fronts.BOARDS.items():
+                for B in (a.board or export_fronts.EXPORT_BOARDS):
+                    label = export_fronts.BOARDS[B][1]
                     b.add_plate(i, "Rear %s" % label)
                     b.add_object(o, "Rear_" + B, [mesh("Rear_" + B)], centre if len(pl["objects"]) > 1 else None)
             if split and len(other) > 1:
@@ -704,7 +706,7 @@ def main():
     print("\n=== Step 4/4: write the 3MF files -> %s" % os.path.relpath(OUT_DIR, ROOT))
     if not a.all_only:
         for i, L in enumerate(langs):
-            fn = "Wordclock_%s.3mf" % L
+            fn = "frame_Wordclock_%s.3mf" % L
             print("[%d/%d] %-14s -> %s ... " % (i + 1, len(langs), L, fn), end="", flush=True)
             inp = base([L], "Wordclock %s" % L)
             fresh, why = info.check(os.path.join(OUT_DIR, fn), inp)
@@ -719,7 +721,7 @@ def main():
             made += 1
             print("ok (%.1f MB)" % (os.path.getsize(os.path.join(OUT_DIR, fn)) / 1e6))
     for gname, gtitle, glangs in (all_groups(langs) if a.all or a.all_only else []):
-        fn = "Wordclock_%s.3mf" % gname
+        fn = "frame_Wordclock_%s.3mf" % gname
         title = "Wordclock %s" % gtitle
         print("%-9s %2d fronts -> %s ... " % (gname, len(glangs), fn), end="", flush=True)
         inp = base(glangs, title)

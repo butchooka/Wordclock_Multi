@@ -177,19 +177,20 @@ tools/                     Python tools (check_lang, make_info, render_fronts, b
   install_fonts.py         checks the fonts of the fronts (CN, JP, KR: Noto Sans SC/JP/KR Bold, runes: Segoe UI
                            Historic) and downloads / installs missing Noto fonts for all users (menu item 15)
   make_3mf.py              Bambu Studio project (3MF) per language from tools/template_P2S.3mf, --all: also all_ files
-                           (menu item 13: Wordclock_all / _scifi_all / _runes_all.3mf and per frame and board
+                           (menu item 13: frame_Wordclock_all / _scifi_all / _runes_all.3mf and per frame and board
                            Pictureframe_<FRAME>_[scifi_|runes_]all_<BOARD>.3mf; single 3MF per language only on
                            demand, menu items 12 / 16 ask the languages; no Holder_Wall - keyhole in the rear,
                            one plate per language, plates named "DE - Deutsch"); file names without the font;
-                           one rear plate per board (Rear_ESP32C6 / Rear_WemosD1), every holder on its own plate:
+                           rear plate for the ESP32-C6 SuperMini (Rear_ESP32C6), every holder on its own plate:
                            only the meshes are swapped, printer, profile, filament change, plates and per object
                            settings come from the template; break-away hook supports as a removable part;
                            --pictureframe (menu item 16): one project per language, picture frame and board
-                           (Pictureframe_<RIBBA|SANNAHED>_<LANG>_<ESP32C6|WemosD1>.3mf), the plate takes the place
+                           (Pictureframe_<RIBBA|SANNAHED>_<LANG>_ESP32C6.3mf), the plate takes the place
                            and settings of the front of the same template, prime tower off
   export_fronts.py         STL export with OpenSCAD: fronts, parts, PictureFrame plates per frame
-                           (PF_FRAMES: RIBBA 231 / 38 mm, SANNAHED 249 / 44 mm, BOARDS: ESP32C6, WemosD1
-                           -> Frame_<LANG>.stl, Rear_<BOARD>.stl, Pictureframe_<FRAME>_<LANG>_<BOARD>.stl)
+                           (PF_FRAMES: RIBBA 231 / 38 mm, SANNAHED 249 / 44 mm, EXPORT_BOARDS: ESP32C6, others with --board
+                           -> Frame_<LANG>.stl, Rear_<BOARD>.stl, Pictureframe_<FRAME>_<LANG>_<BOARD>.stl,
+                           TestPrint.stl = test print 3 x 3 cells: characters, light bleed, letter layer per cell)
 ```
 
 The C++ files in `arduino/Wordclock/src/` are used by both variants (ESPHome via `esphome: includes:`). They are
@@ -227,8 +228,19 @@ python3 tools/clean.py [--dry] [--backup]    remove __pycache__, temporary build
 
 ## Filler cells
 
-Cells that are never lit are `x` in every grid. The models print them as X, as a dot (CN, JP, KR) or any other
-character; they stay open light chambers so the effects and the text ticker use the whole face.
+Cells that are never lit are `x` in every grid. The models print them as a dot (default, `FILLER = "dot"`,
+diameter `FILLER_DOT` = 4 mm), as X or as the default of the language (`auto`) - selectable in the Customizer below
+the font; they stay open light chambers so the effects and the text ticker use the whole face.
+
+## Light bleed (neighbour cells, around the letters)
+
+- Filament: from layer 3 on **black** (dark blue or other dark colours let blue/white LED light through), front skin
+  (layers 1-2) white.
+- Chamber walls `CHAMBER_WALL_THICKNESS` 1.2 mm = 3 lines: slice with the Arachne wall generator (classic gives a zigzag
+  gap fill in the middle). Selectable 0.8 / 1.2 / 1.65 mm = 2 / 3 / 4 lines.
+- Support wall on the back (`MATRIX_SUPPORT`) rests on the matrix along the edges, otherwise light can run under the
+  walls into the neighbour cells. Connectors / solder pads stay free (`MATRIX_FREE_STRIPS`).
+- Test print first (`Wordclock_TestPrint.scad`, 3 x 3 cells, letter layer 1.0 ... 2.6 mm per cell).
 
 ## Licence
 

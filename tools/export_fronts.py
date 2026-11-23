@@ -8,10 +8,12 @@ PictureFrame = front plate for a deep picture frame, one file per frame of PF_FR
                -> Pictureframe_<FRAME>_<LANG>_<BOARD>.stl
                RIBBA = IKEA RIBBA 25x25 (231 / 38 mm, default of the model), SANNAHED = IKEA SANNAHED 25x25 (249 / 44 mm);
                BOARD = ESP32C6 (ESP32-C6 SuperMini) or WemosD1 (Wemos D1 mini ESP32), the ESP slot differs;
-               --frame RIBBA = only this frame, --board ESP32C6 = only this board (default: all)
-Parts        = the language independent parts: Rear_<BOARD>.stl (one rear per board), Holder_<name>.stl (HOLDERS:
-               Foot, Skadis, BasePlate; no Holder_Wall, the rear has a keyhole hanger) and the break-away supports
-               Holder_<name>_Support.stl (same print coordinates as the holder)
+               exported by default only for EXPORT_BOARDS (ESP32C6), other boards via the Customizer (MakerWorld)
+               or --board WemosD1; --frame RIBBA = only this frame
+Parts        = the language independent parts: Rear_<BOARD>.stl (one rear per board of EXPORT_BOARDS), Holder_<name>.stl
+               (HOLDERS: Foot, Skadis, BasePlate; no Holder_Wall, the rear has a keyhole hanger), the break-away
+               supports Holder_<name>_Support.stl (same print coordinates as the holder) and TestPrint.stl (small
+               test print of Wordclock_TestPrint.scad: narrow characters, light shining through)
 All files in print orientation as binary STL (much smaller than OpenSCAD's default ASCII STL; --ascii = old format).
 File names without the font (shorter); the font is part of the base data (export_info.json), a change of the font
 exports again. Fonts: a language with its own script (CN, JP, KR, runes) brings its font in lang_XX.scad. Before the
@@ -21,7 +23,7 @@ missing, nothing is exported and the font is named (else OpenSCAD would cut empt
 Only LANG, FONT, QUALITY, PRINT_ORIENT and ESP_BOARD (PictureFrame: also size and depth of the frame) are set, all other
 parameters are the defaults of the model.
 Output: _private/makerworld/export/ (private, not in the repository). FreeCAD: LANG = "ALL" in the macro.
-Special case other picture frame: --size/--depth/--tol/--thickness/--glass/--mount set the PictureFrame values
+Special case other picture frame: --size/--depth/--tol/--glass/--mount set the PictureFrame values
 (e.g. another IKEA frame) -> _private/makerworld/export/custom/Pictureframe_<size>x<depth>_<LANG>_<BOARD>.stl
 (wordclock_tools.bat item P asks for the values).
 Unchanged files are skipped: export_info.json in the output folder holds the base data of every STL (content of the
@@ -30,7 +32,7 @@ see tools/wc_stamp.py). Only when one of them changed OpenSCAD runs again (--for
 
 Call:  python tools/export_fronts.py [Front|PictureFrame|Both|Parts] [--lang DE GB ...] [--font Liberation|Arial|DejaVu]
                                      [--quality Preview|Normal|Fine] [--openscad PATH] [--manifold] [--ascii]
-                                     [--frame RIBBA SANNAHED] [--board ESP32C6 WemosD1] [--size MM] [--depth MM] [--tol MM] [--thickness MM] [--glass MM]
+                                     [--frame RIBBA SANNAHED] [--board ESP32C6 WemosD1] [--size MM] [--depth MM] [--tol MM] [--glass MM]
                                      [--mount SCREW|THIMBLES|NONE] [--force]
        (or tools/wordclock_tools.bat)
 """
@@ -58,8 +60,12 @@ HOLDERS = ["Holder_Foot", "Holder_Skadis", "Holder_BasePlate"]
 # boards with their own export (rear of the case, PictureFrame plate): tag in the file name -> (ESP_BOARD, label)
 BOARDS = {"ESP32C6": ("esp32_c6_supermini", "ESP32-C6 SuperMini"),
           "WemosD1": ("wemos_d1_mini_esp32", "Wemos D1 mini ESP32")}
-REARS = ["Rear_" + b for b in BOARDS]
-PARTS = REARS + HOLDERS + [h + "_Support" for h in HOLDERS]
+# boards exported by default (MakerWorld: ESP32-C6 SuperMini only, other boards via the Customizer / --board)
+EXPORT_BOARDS = ["ESP32C6"]
+REARS = ["Rear_" + b for b in EXPORT_BOARDS]
+# small test print (own model, defaults of Wordclock_TestPrint.scad)
+TESTPRINT = "TestPrint"
+PARTS = REARS + HOLDERS + [h + "_Support" for h in HOLDERS] + [TESTPRINT]
 
 
 def board_def(board):
@@ -70,7 +76,14 @@ def part_defs(name):
     """-D definitions of a language independent part: Rear_<BOARD> = PART Rear with the ESP slot of that board."""
     if name.startswith("Rear_") and name[5:] in BOARDS:
         return ["-D", 'PART="Rear"'] + board_def(name[5:])
+    if name == TESTPRINT:
+        return []
     return ["-D", 'PART="%s"' % name]
+
+
+def part_model(name):
+    """Model file of a language independent part."""
+    return "Wordclock_TestPrint.scad" if name == TESTPRINT else "Wordclock_Model.scad"
 
 
 def find_openscad(given):
@@ -110,7 +123,7 @@ def pf_name(lang, frame, board):
 
 # special case other picture frame: option -> (SCAD parameter, min, max) - limits as in the Customizer
 PF_CUSTOM = {"size": ("PICTUREFRAME_SIZE", 220, 300), "depth": ("PICTUREFRAME_FRAME_DEPTH", 22, 80),
-             "tol": ("PICTUREFRAME_TOL", 0, 2), "thickness": ("PICTUREFRAME_THICKNESS", 1, 4),
+             "tol": ("PICTUREFRAME_TOL", 0, 2),
              "glass": ("PICTUREFRAME_GLASS_THICKNESS", 0, 3)}
 
 
@@ -340,12 +353,11 @@ def main(argv=None):
     ap.add_argument("--frame", nargs="*", type=str.upper, choices=sorted(PF_FRAMES),
                     help="PictureFrame: only these frames (default: all of PF_FRAMES)")
     ap.add_argument("--board", nargs="*", choices=list(BOARDS),
-                    help="PictureFrame and rear: only these boards (default: all of BOARDS)")
+                    help="PictureFrame and rear: only these boards (default: EXPORT_BOARDS = ESP32C6)")
     g = ap.add_argument_group("special case other picture frame (PictureFrame only)")
     g.add_argument("--size", type=float, help="picture size = glass size in mm (220 ... 300)")
     g.add_argument("--depth", type=float, help="inner depth of the frame in mm (22 ... 80)")
     g.add_argument("--tol", type=float, help="plate smaller per side in mm (0 ... 2)")
-    g.add_argument("--thickness", type=float, help="thickness of the front plate in mm (1 ... 4)")
     g.add_argument("--glass", type=float, help="keep the glass in front of the plate: its thickness, 0 = no glass")
     g.add_argument("--mount", type=str.upper, choices=["SCREW", "THIMBLES", "NONE"], help="fastening")
     ap.add_argument("--force", action="store_true", help="export everything, also unchanged files")
@@ -364,7 +376,7 @@ def main(argv=None):
     out_dir = OUT
     if pf_defs:
         if a.part != "PictureFrame":
-            errors.append("--size/--depth/--tol/--thickness/--glass/--mount only with PictureFrame")
+            errors.append("--size/--depth/--tol/--glass/--mount only with PictureFrame")
         if errors:
             for e in errors:
                 print("ERROR " + e)
@@ -378,14 +390,15 @@ def main(argv=None):
     failed = []
     t0 = time.time()
     if a.part == "Parts":
-        names = a.only or [n for n in PARTS if n not in REARS or not a.board or n[5:] in a.board]
+        rears = ["Rear_" + b for b in a.board] if a.board else REARS
+        names = a.only or [n for n in PARTS if n not in REARS] + rears
         print()
         for i, name in enumerate(names):
             fn = name + ".stl"
             print("[%d/%d] %-24s -> %s ... " % (i + 1, len(names), name, fn), end="", flush=True)
             d = part_defs(name) + ["-D", 'QUALITY="%s"' % a.quality, "-D", "PRINT_ORIENT=true"]
-            if not export(scad, extra, os.path.join(OUT, fn), d, "Wordclock_Model.scad", info,
-                          base_data(scad, extra, d, "Wordclock_Model.scad")):
+            if not export(scad, extra, os.path.join(OUT, fn), d, part_model(name), info,
+                          base_data(scad, extra, d, part_model(name))):
                 failed.append(name)
         print("\nResult: %d files, %d failed %s  (%.0f s)" % (len(names) - len(failed), len(failed), " ".join(failed),
                                                            time.time() - t0))
@@ -404,7 +417,7 @@ def main(argv=None):
     print("ok\n")
     # jobs: (part, frame, board); frame = PF_FRAMES key, "custom" for the special case, None for the front
     jobs = []
-    boards = a.board or list(BOARDS)
+    boards = a.board or EXPORT_BOARDS
     for part in parts:
         if part != "PictureFrame":
             jobs.append((part, None, None))

@@ -2,7 +2,7 @@
  "note": "written by the Wordclock tools (tools/wc_stamp.py): base data of every output, an output is only built again when they change",
  "outputs": {
   "run_all": {
-   "built": "2026-11-16 13:02:03",
+   "built": "2026-11-23 12:29:31",
    "files": {
     "arduino/Wordclock/src/wc_core.h": {
      "date": "2026-11-16 12:45:18",
@@ -17,128 +17,128 @@
      "sha256": "eae426bff17cfae3"
     },
     "arduino/Wordclock/src/wc_lang_CN.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "087965edcd1860c9"
+     "date": "2026-11-23 11:07:57",
+     "sha256": "9e4203c7c7a71335"
     },
     "arduino/Wordclock/src/wc_lang_CZ.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "293df538a1388f05"
+     "date": "2026-11-23 11:07:58",
+     "sha256": "8b5f306e1c728974"
     },
     "arduino/Wordclock/src/wc_lang_DE.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "f284cb2e0a15d2d6"
+     "date": "2026-11-23 11:07:59",
+     "sha256": "3885abcab442af06"
     },
     "arduino/Wordclock/src/wc_lang_DK.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "15cbd93d6bc94865"
+     "date": "2026-11-23 11:07:59",
+     "sha256": "f5ceaf09b0e77d48"
     },
     "arduino/Wordclock/src/wc_lang_EO.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "586dc24542e2ac75"
+     "date": "2026-11-23 11:08:00",
+     "sha256": "870f001800c7578d"
     },
     "arduino/Wordclock/src/wc_lang_ES.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "9c9d09e99b1ea253"
+     "date": "2026-11-23 11:08:00",
+     "sha256": "ca5edef16d4db511"
     },
     "arduino/Wordclock/src/wc_lang_FR.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "2ce068cb4f73ea5d"
+     "date": "2026-11-23 11:08:01",
+     "sha256": "4693e1f495dd6a3b"
     },
     "arduino/Wordclock/src/wc_lang_GB.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "88c6fa869570a0ba"
+     "date": "2026-11-23 11:08:02",
+     "sha256": "13923accea786da8"
     },
     "arduino/Wordclock/src/wc_lang_GR.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "738371367efdb7d6"
+     "date": "2026-11-23 11:08:03",
+     "sha256": "73360a598f9a44fb"
     },
     "arduino/Wordclock/src/wc_lang_HU.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "6052908a595144bf"
+     "date": "2026-11-23 11:08:03",
+     "sha256": "4b80926e9ac30d10"
     },
     "arduino/Wordclock/src/wc_lang_ID.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "eec1b10e5a940aa1"
+     "date": "2026-11-23 11:08:04",
+     "sha256": "9f46100d55bead8a"
     },
     "arduino/Wordclock/src/wc_lang_IT.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "8ab251afe2396f1c"
+     "date": "2026-11-23 11:08:05",
+     "sha256": "99cd24cb15d40fbc"
     },
     "arduino/Wordclock/src/wc_lang_JP.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "13c69252d494dadf"
+     "date": "2026-11-23 11:08:05",
+     "sha256": "7aa24d8779bef1d1"
     },
     "arduino/Wordclock/src/wc_lang_KR.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "11cad1be9095bf03"
+     "date": "2026-11-23 11:08:06",
+     "sha256": "8b003297c7326d0d"
     },
     "arduino/Wordclock/src/wc_lang_NL.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "348aea26a804817d"
+     "date": "2026-11-23 11:08:07",
+     "sha256": "f0f01616f4d726c8"
     },
     "arduino/Wordclock/src/wc_lang_NO.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "919f41b7f3189ff2"
+     "date": "2026-11-23 11:08:08",
+     "sha256": "3d64510385a799ea"
     },
     "arduino/Wordclock/src/wc_lang_PL.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "40542948ad839df5"
+     "date": "2026-11-23 11:08:09",
+     "sha256": "db44e5023a6b039b"
     },
     "arduino/Wordclock/src/wc_lang_PT.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "4af0713fbde29119"
+     "date": "2026-11-23 11:08:10",
+     "sha256": "21516f46f7ce2860"
     },
     "arduino/Wordclock/src/wc_lang_RO.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "01990242a9aa0bdf"
+     "date": "2026-11-23 11:08:11",
+     "sha256": "46a4f29da1550041"
     },
     "arduino/Wordclock/src/wc_lang_SE.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "deae98d1b524e97c"
+     "date": "2026-11-23 11:08:11",
+     "sha256": "e1a546d48ee2446d"
     },
     "arduino/Wordclock/src/wc_lang_TR.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "e2818d7d8a17a67a"
+     "date": "2026-11-23 11:08:12",
+     "sha256": "74b402d7e18c53fe"
     },
     "arduino/Wordclock/src/wc_lang_TZ.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "19b5785b16d000a9"
+     "date": "2026-11-23 11:08:13",
+     "sha256": "997e52cbcff840bc"
     },
     "arduino/Wordclock/src/wc_lang_UA.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "9357147c8f1785dc"
+     "date": "2026-11-23 11:08:13",
+     "sha256": "eb1047e14044c5e3"
     },
     "arduino/Wordclock/src/wc_lang_VA.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "404e768285582dde"
+     "date": "2026-11-23 11:08:14",
+     "sha256": "6da4762d6e355e64"
     },
     "arduino/Wordclock/src/wc_lang_dialect_BAD.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "5f44712606975ee3"
+     "date": "2026-11-23 11:08:15",
+     "sha256": "864310df7602ff8b"
     },
     "arduino/Wordclock/src/wc_lang_dialect_CH.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "98138accced2b272"
+     "date": "2026-11-23 11:08:15",
+     "sha256": "3f704e3b41bacde9"
     },
     "arduino/Wordclock/src/wc_lang_dialect_SWG.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "1d3565a751684439"
+     "date": "2026-11-23 11:08:16",
+     "sha256": "27db033f6f383aaa"
     },
     "arduino/Wordclock/src/wc_lang_scifi_HVA.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "d2ff01619b0e358d"
+     "date": "2026-11-23 11:08:17",
+     "sha256": "86de10246d032df0"
     },
     "arduino/Wordclock/src/wc_lang_scifi_NAV.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "47e640cab4ad2f19"
+     "date": "2026-11-23 11:08:17",
+     "sha256": "0880cf9afe34cba7"
     },
     "arduino/Wordclock/src/wc_lang_scifi_QYA.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "0fc1e4462f7bbf0e"
+     "date": "2026-11-23 11:08:18",
+     "sha256": "808c26047cd126d6"
     },
     "arduino/Wordclock/src/wc_lang_scifi_TLH.h": {
-     "date": "2026-11-16 12:45:18",
-     "sha256": "68097250eaa7f053"
+     "date": "2026-11-23 11:08:18",
+     "sha256": "ea1bc1540314a12c"
     },
     "arduino/Wordclock/src/wc_text.h": {
      "date": "2026-11-16 12:45:18",
@@ -281,15 +281,15 @@
      "sha256": "efc7c726b9202d69"
     },
     "tools/render_fronts.py": {
-     "date": "2026-11-16 12:46:23",
-     "sha256": "ab89a52b7e929196"
+     "date": "2026-11-23 11:51:41",
+     "sha256": "da8d522a6b05ba8b"
     },
     "tools/render_mask.cpp": {
      "date": "2026-11-16 12:45:19",
      "sha256": "6337c770ae7cca3b"
     }
    },
-   "key": "2d0ed26b8d418e60",
+   "key": "20271e18e8acb5d9",
    "params": {
     "compiler": true,
     "default_font": "LiberationSans-Bold.ttf",
@@ -332,7 +332,7 @@
     "options": {
      "bg": "1E1F22",
      "color": "warmwhite",
-     "filler": "auto",
+     "filler": "dot",
      "font": "",
      "gif_ms": 1000,
      "gif_size": 480,

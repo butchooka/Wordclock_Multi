@@ -178,19 +178,20 @@ tools/                     Python-Werkzeuge (check_lang, make_info, render_front
   install_fonts.py         prüft die Schriften der Fronten (CN, JP, KR: Noto Sans SC/JP/KR Bold, Runen: Segoe UI
                            Historic), lädt fehlende Noto-Schriften und installiert sie für alle Benutzer (Menüpunkt 15)
   make_3mf.py              Bambu-Studio-Projekt (3MF) je Sprache aus tools/template_P2S.3mf, --all: zusätzlich all_-Dateien
-                           (Menüpunkt 13: Wordclock_all / _scifi_all / _runes_all.3mf und je Rahmen und Board
+                           (Menüpunkt 13: frame_Wordclock_all / _scifi_all / _runes_all.3mf und je Rahmen und Board
                            Pictureframe_<RAHMEN>_[scifi_|runes_]all_<BOARD>.3mf; Einzel-3MF je Sprache nur bei Bedarf,
                            Menüpunkte 12 / 16 fragen die Sprachen ab; kein Holder_Wall - Schlüsselloch in der Rückwand,
                            eine Platte je Sprache, Platten benannt „DE - Deutsch“); Dateinamen ohne Schrift;
-                           je Board eine Rückwand-Platte (Rear_ESP32C6 / Rear_WemosD1), jeder Halter auf eigener Platte:
+                           Rückwand-Platte für den ESP32-C6 SuperMini (Rear_ESP32C6), jeder Halter auf eigener Platte:
                            nur die Netze werden getauscht, Drucker, Profil, Farbwechsel, Platten und Objekt-Einstellungen
                            kommen aus der Vorlage; abbrechbare Haken-Stützen als entfernbares Teil;
                            --pictureframe (Menüpunkt 16): ein Projekt je Sprache, Bilderrahmen und Board
-                           (Pictureframe_<RIBBA|SANNAHED>_<LANG>_<ESP32C6|WemosD1>.3mf), die Platte übernimmt Platz
+                           (Pictureframe_<RIBBA|SANNAHED>_<LANG>_ESP32C6.3mf), die Platte übernimmt Platz
                            und Einstellungen der Front derselben Vorlage, ohne Purge-Tower
   export_fronts.py         STL-Export mit OpenSCAD: Fronten, Teile, PictureFrame-Platten je Rahmen
-                           (PF_FRAMES: RIBBA 231 / 38 mm, SANNAHED 249 / 44 mm, BOARDS: ESP32C6, WemosD1
-                           -> Frame_<LANG>.stl, Rear_<BOARD>.stl, Pictureframe_<RAHMEN>_<LANG>_<BOARD>.stl)
+                           (PF_FRAMES: RIBBA 231 / 38 mm, SANNAHED 249 / 44 mm, EXPORT_BOARDS: ESP32C6, andere mit --board
+                           -> Frame_<LANG>.stl, Rear_<BOARD>.stl, Pictureframe_<RAHMEN>_<LANG>_<BOARD>.stl,
+                           TestPrint.stl = Testdruck 3 x 3 Felder: Zeichen, Durchscheinen, Buchstabenschicht je Feld)
 ```
 
 Die C++-Dateien in `arduino/Wordclock/src/` nutzen beide Varianten (ESPHome über `esphome: includes:`). Sie werden
@@ -229,8 +230,19 @@ python3 tools/clean.py [--dry] [--backup]    __pycache__, temporäre Build-Ordne
 
 ## Füllfelder
 
-Felder, die nie leuchten, sind in jedem Raster `x`. Die Modelle drucken sie als X, als Punkt (CN, JP, KR) oder als
-beliebiges anderes Zeichen; sie bleiben offene Lichtkammern, damit Effekte und Lauftext die ganze Fläche nutzen.
+Felder, die nie leuchten, sind in jedem Raster `x`. Die Modelle drucken sie als Punkt (Standard, `FILLER = "dot"`,
+Durchmesser `FILLER_DOT` = 4 mm), als X oder als Vorgabe der Sprache (`auto`) - im Customizer unter der Schriftart
+wählbar; sie bleiben offene Lichtkammern, damit Effekte und Lauftext die ganze Fläche nutzen.
+
+## Durchscheinen (Nachbarfelder, um die Buchstaben)
+
+- Filament: ab Schicht 3 **schwarz** (Dunkelblau und andere dunkle Farben lassen blaues/weißes LED-Licht durch),
+  Frontschicht (Schicht 1-2) weiß.
+- Kammerwände `CHAMBER_WALL_THICKNESS` 1,2 mm = 3 Linien: mit Wandgenerator Arachne slicen (klassisch ergibt in der Mitte
+  eine Zickzack-Lückenfüllung). Wählbar 0,8 / 1,2 / 1,65 mm = 2 / 3 / 4 Linien.
+- Stützwand auf der Rückwand (`MATRIX_SUPPORT`) liegt am Rand auf der Matrix auf, sonst kann Licht unter den Wänden in
+  die Nachbarfelder laufen. Anschlüsse / Lötpads bleiben frei (`MATRIX_FREE_STRIPS`).
+- Vorher Testdruck (`Wordclock_TestPrint.scad`, 3 x 3 Felder, Buchstabenschicht 1,0 ... 2,6 mm je Feld).
 
 ## Lizenz
 

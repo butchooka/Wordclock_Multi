@@ -1,5 +1,62 @@
 # Changelog – Wordclock_Multi
 
+## 2026-11-23 - Light bleed: wall choice, support wall on the back, test print 3 x 3
+- `CHAMBER_WALL_THICKNESS` (default 1.2 mm) customizable (section Front) in `Wordclock_Model` and
+  `Wordclock_Model_PictureFrame` (`.scad` / `.FCMacro`): 0.8 / 1.2 / 1.65 mm = 2 / 3 / 4 lines of a 0.4 nozzle.
+  1.2 mm needs the Arachne wall generator (classic: 2 lines + zigzag gap fill = light leak).
+- `LETTER_THICKNESS` slider from 1.0 mm (was 1.6) in both models.
+- Back (`Wordclock_Model.scad` / `.FCMacro`): new support wall (`MATRIX_SUPPORT`, on by default) along the edges
+  (centre line 70 mm from the centre = under a chamber wall), arc around each corner block, rests on the rear of the
+  matrix without pressure (`MATRIX_SUPPORT_GAP` 0). Before: 0.5 mm air and only the support ring; the old V4 clock had
+  ribs. Open at the cable, keyhole, hook slots and at the free strips `MATRIX_FREE_STRIPS` (default top, left, right
+  30 ... 60 mm from the frame wall: connectors / solder pads).
+- `Wordclock_TestPrint.scad`: default 3 x 3 cells (`ÄIW|MJx*Ö`), letter layer per cell row by row from
+  `TEST_LETTER_MIN` 1.0 mm in `TEST_THICKNESS_STEP` 0.2 mm (1.0 ... 2.6 mm), `CHAMBER_WALL_THICKNESS` and
+  `CHAMBER_HEIGHT` customizable, rim = chamber wall, small tab marks the top.
+- Comparison with the old V4 clock (no light bleed): black PETG from layer 4 (3 white layers), chamber walls only
+  0.8 mm, 14 mm chambers, ribs on the back -> the filament colour is the main factor.
+
+## 2026-11-23 - Filler dots by default, letter thickness customizable, test print, C6-only exports
+- Filler cells: default `FILLER = "dot"` (was `"auto"` = X for most languages) and `FILLER_DOT` 3.0 -> 4.0 mm in
+  `Wordclock_Model` and `Wordclock_Model_PictureFrame` (`.scad` / `.FCMacro`). Both are now in the Customizer below
+  the font (`dot`, `X`, `auto` = language default, dot 2 ... 7 mm). `render_fronts.py --filler` default `dot`.
+- `LETTER_THICKNESS` customizable again (1.6 ... 3.0 mm, 0.2 mm steps; main model: section Front, PictureFrame: Basis
+  Settings) - raise it if light shines through into the neighbouring cells.
+- New `models/Wordclock_TestPrint.scad`: small test print (default 4 x 2 cells, approx. 40 x 20 mm) with the same light
+  chambers and letter pockets as the front, characters freely selectable (`TEST_CHARS`, default `IJÍÄWMx|`).
+  `Wordclock_Common.scad`: new module `glyph_solid()` (one cell), used by `glyph_solids()` and the test print.
+  `export_fronts.py Parts` (item 14) also exports `TestPrint.stl`.
+- `bundle_models.py` (item 8) bundles `Wordclock_Model.scad` again, plus `Wordclock_TestPrint.scad` (MakerWorld Customizer).
+- Exports only for the ESP32-C6 SuperMini: new `EXPORT_BOARDS = ["ESP32C6"]` in `export_fronts.py` (rear and PictureFrame
+  STL, 3MF); other boards via the Customizer or `--board WemosD1`.
+- `make_3mf.py`: 3MF of the fully printed clock renamed `Wordclock_<LANG|all|...>.3mf` -> `frame_Wordclock_...3mf`.
+- MakerWorld text: photo hint removed, printing without colour change or change between layer 2 and 3, dark filament for
+  the rear part, test print, ready-made files C6 only (rest via Customizer).
+
+## 2026-11-23 - Letter layer fixed 1.6 mm
+- New `LETTER_THICKNESS = 1.6` (fixed) in all models: the dark layer with the cut-out letters must not shine
+  through. Front plate = `LETTER_THICKNESS + FRONT_SKIN` (`FRONT_THICKNESS` in `Wordclock_Model`,
+  `PICTUREFRAME_THICKNESS` in PictureFrame, 2.0 mm with the default skin 0.4 mm). `PICTUREFRAME_THICKNESS` is no
+  longer adjustable: Customizer slider, preset in `Wordclock_Model_PictureFrame.json`, `export_fronts.py --thickness`
+  and the question in `wordclock_tools.bat` item P removed.
+
+## 2026-11-21 - Arduino: "Forget Wi-Fi" instead of factory reset
+- Web interface, section System: the button "Factory reset" is replaced by "Forget Wi-Fi". It deletes only SSID and
+  password, the clock restarts as hotspot, all other settings (colours, location, night mode, wiring ...) are kept.
+- `Wordclock.ino`: `handleReset()` -> `handleWifiForget()`, endpoint `/api/reset` -> `/api/wifi_forget` (POST).
+- `UI_JSON` of all languages: keys `reset` / `q_reset` -> `wifi_forget` / `q_wifi_forget`; `webpage.h` rebuilt.
+
+## 2026-11-21 - Front plate 2 mm
+- `FRONT_THICKNESS` default 1.6 -> 2.0 mm in `Wordclock_Model` (`.scad` / `.FCMacro`). PictureFrame already uses
+  `PICTUREFRAME_THICKNESS = 2.0`, unchanged.
+- Keyhole: `KEYHOLE_HEAD_DIAMETER` / `PICTUREFRAME_KEYHOLE_HEAD_DIAMETER` 9.0 -> 11.0 mm (screw heads up to approx. 10.5 mm).
+
+## 2026-11-21 - Strain relief anchored to the lower edge
+- Back (`Wordclock_Model.scad` / `.FCMacro`): the strain relief pedestal now starts at a fixed `STRAIN_RELIEF_FROM_EDGE = 16` mm
+  above the lower edge (just above the rear U-slot, height unchanged) instead of board length + `STRAIN_RELIEF_GAP` below
+  the ESP slot. Reason: with short boards (C6 SuperMini, XIAO) the USB plug almost touched the pedestal. The
+  watermark stays centred between ESP slot and pedestal. Parameter `STRAIN_RELIEF_GAP` removed (PictureFrame unchanged).
+
 ## 2026-11-19 - Clearer skip messages of the export tools
 - `wc_stamp.py`: new `Info.check()` gives the reason with the state. `export_fronts.py` / `make_3mf.py` print
   `up to date (built 2026-11-19 09:20), skipped` instead of `unchanged, skipped`, and on a rebuild the reason, e.g.
