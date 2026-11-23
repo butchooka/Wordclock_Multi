@@ -9,7 +9,10 @@
   (centre line 70 mm from the centre = under a chamber wall), arc around each corner block, rests on the rear of the
   matrix without pressure (`MATRIX_SUPPORT_GAP` 0). Before: 0.5 mm air and only the support ring; the old V4 clock had
   ribs. Open at the cable, keyhole, hook slots and at the free strips `MATRIX_FREE_STRIPS` (default top, left, right
-  30 ... 60 mm from the frame wall: connectors / solder pads).
+  30 ... 60 mm from the frame wall: connectors / solder pads). The support ring above the ESP slot now has the same
+  height (was 0.2 mm below the back of the matrix pocket).
+- `MATRIX_THICKNESS` 0.3 -> 0.15 mm (measured) in `Wordclock_Model` and `Wordclock_Model_PictureFrame` (`.scad` /
+  `.FCMacro`): support wall and ring end exactly at the rear of the matrix, case 0.15 mm shallower.
 - `Wordclock_TestPrint.scad`: default 3 x 3 cells (`ÄIW|MJx*Ö`), letter layer per cell row by row from
   `TEST_LETTER_MIN` 1.0 mm in `TEST_THICKNESS_STEP` 0.2 mm (1.0 ... 2.6 mm), `CHAMBER_WALL_THICKNESS` and
   `CHAMBER_HEIGHT` customizable, rim = chamber wall, small tab marks the top.
