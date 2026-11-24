@@ -11,6 +11,10 @@
   ribs. Open at the cable, keyhole, hook slots and at the free strips `MATRIX_FREE_STRIPS` (default top, left, right
   30 ... 60 mm from the frame wall: connectors / solder pads). The support ring above the ESP slot now has the same
   height (was 0.2 mm below the back of the matrix pocket).
+- Support wall: `MATRIX_SUPPORT_JOIN` (on): the left / right free strips no longer cut the top and bottom wall, so
+  the short pieces next to the keyhole and the cable (approx. 10 mm) are joined to the corner arcs (stiffer, easier
+  to print).
+- Support ring above the ESP slot: inner cut now through the full ring height (the higher ring had a 0.5 mm lid).
 - `MATRIX_THICKNESS` 0.3 -> 0.15 mm (measured) in `Wordclock_Model` and `Wordclock_Model_PictureFrame` (`.scad` /
   `.FCMacro`): support wall and ring end exactly at the rear of the matrix, case 0.15 mm shallower.
 - `Wordclock_TestPrint.scad`: default 3 x 3 cells (`ÄIW|MJx*Ö`), letter layer per cell row by row from
