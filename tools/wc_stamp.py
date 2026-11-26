@@ -9,8 +9,8 @@ only built again when one of these changed or the output file is missing / has a
 The content and not the date decides (git checkout, OneDrive and tools that rewrite a file with the same content
 change the date only); the date is in the info file for information.
 
-Info files: _private/makerworld/export/export_info.json (custom/ has its own),
-            _private/makerworld/export_3mf/3mf_info.json, docs/render*/render_info.json
+Info files: makerworld/export/export_info.json (custom/ has its own),
+            makerworld/export_3mf/3mf_info.json, docs/render*/render_info.json
 Build everything again: option --force of the tools, or the environment variable WC_FORCE=1
 (wordclock_tools.bat: second argument F, e.g. "wordclock_tools.bat A F").
 """

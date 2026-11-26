@@ -10,11 +10,11 @@ Removes (only generated files, never sources or results):
   - temporary folders in %TEMP%: wc_firmware_build (sketch copy + build cache of build_firmware), wc_check_*
 With --backup additionally the large generated outputs (slim folder for a manual backup, all can be rebuilt
 with tools/wordclock_tools.bat), only files NOT tracked by git:
-  - _private/makerworld/export/ (STL incl. custom/, menu 9, 10, 14, P), export_3mf/ (menu 12, 13),
+  - makerworld/export/ (STL incl. custom/, menu 9, 10, 14, P), export_3mf/ (menu 12, 13),
     models/ (menu 8), *.zip (menu 6)
   - downloaded fonts tools/logs/fonts/*.otf (menu 15), tools/logs/claude/*.stl *.otf *.png
   - models/export/, output/, arduino/Wordclock/firmware/
-  Kept: sources, logs *.txt, _private/ notes (todo.md, MakerWorld_Text.txt, README.txt), templates, everything in git.
+  Kept: sources, logs *.txt, _private/ notes (todo.md), makerworld/ texts (MakerWorld_Text.txt, README.txt), templates, everything in git.
 Usage:  python3 tools/clean.py [--quiet] [--dry] [--backup]
 Called automatically by tools/wordclock_tools.bat after every action (without --backup).
 """
@@ -51,9 +51,9 @@ def targets():
     return [p for p in out if os.path.exists(p)]
 
 
-BACKUP_DIRS = ("_private/makerworld/export", "_private/makerworld/export_3mf", "_private/makerworld/models",
+BACKUP_DIRS = ("makerworld/export", "makerworld/export_3mf", "makerworld/models",
                "models/export", "output", "arduino/Wordclock/firmware")
-BACKUP_GLOBS = ("_private/makerworld/*.zip", "tools/logs/fonts/*.otf", "tools/logs/fonts/*.ttf",
+BACKUP_GLOBS = ("makerworld/*.zip", "tools/logs/fonts/*.otf", "tools/logs/fonts/*.ttf",
                 "tools/logs/claude/*.stl", "tools/logs/claude/*.otf", "tools/logs/claude/*.ttf",
                 "tools/logs/claude/*.png", "tools/logs/claude/*.3mf")
 

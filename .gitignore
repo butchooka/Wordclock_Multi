@@ -5,6 +5,7 @@ models/lang/*.bak
 
 # private working files (notes, archive, instructions for Claude)
 _private/
+makerworld/
 CLAUDE.md
 Claude.md
 

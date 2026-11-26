@@ -14,7 +14,7 @@ needs no folder structure this script writes per language:
             inside the .ino, code from the headers would get prototypes before its types and not compile.
 
 Both folders are part of the repository and get a README.md (how to use the files). The two zips
-(Wordclock_ESPHome.zip, Wordclock_Arduino.zip, content of the folders at the top level) and README.txt for the MakerWorld upload go to _private/makerworld/
+(Wordclock_ESPHome.zip, Wordclock_Arduino.zip, content of the folders at the top level) and README.txt for the MakerWorld upload go to makerworld/
 (private, not in the repository). Needs Python 3 only, takes about a second.
 Call:  python tools/bundle_firmware.py [DE GB ...] [--no-zip]   (or tools/wordclock_tools.bat)
 Exit code 1 on an error (missing file, a line that was expected but not found).
@@ -284,7 +284,7 @@ def main():
     codes = a.langs or all_codes()
     out_esp = ESP / "single_Language"
     out_ino = ROOT / "arduino" / "single_Language"
-    out_mw = ROOT / "_private" / "makerworld"
+    out_mw = ROOT / "makerworld"
     if not a.langs:                                    # complete run: remove languages that no longer exist
         for d in (out_esp, out_ino):
             shutil.rmtree(d, ignore_errors=True)

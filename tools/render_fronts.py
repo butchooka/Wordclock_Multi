@@ -21,7 +21,7 @@ Usage (from the repository root):
 Options:
     --time hh:mm      time shown (default 10:22, shows hour, minute words and the single minutes)
     --color C         palette name (warmwhite, white, red, orange, yellow, green, blue, violet) or hex RRGGBB
-    --set S           both (default) | normal = time only | full = also VENT (orange), ALARM (red), battery 50 %
+    --set S           both (default) | normal = time only | full = also VENT (orange), ALARM (red), battery 50 % (toned down, battery green)
                       (white) and the temperature dots (scale: outside 8 degC yellow, inside 24 degC orange)
     --style S         light = white front skin (FRONT_SKIN, default) | dark = dark front, letters open
     --size N          edge length of the single images in pixels (default 1600)
@@ -283,6 +283,16 @@ def variant_grid(code):
     return [lang_field(code, 2 + r) for r in range(16)]
 
 
+# Render-only toning of the additional displays ("_full" set) so they do not outshine the time:
+# battery (firmware white) -> subtle green, VENT orange and ALARM red with less brightness. Firmware unchanged.
+FEATURE_TONE = {(255, 255, 255): (80, 150, 95), (255, 70, 0): (190, 75, 25), (255, 0, 0): (180, 35, 35)}
+
+
+def tone_features(cols, color):
+    col = hex_rgb(color)
+    return [[c if c == col else FEATURE_TONE.get(c, c) for c in row] for row in cols]
+
+
 def lang_mask(lang, hhmm, color, features, cxx, tmp):
     exe = os.path.join(tmp, "render_mask_" + lang + (".exe" if os.name == "nt" else ""))
     if not os.path.isfile(exe):                 # compiled once per language and run (both sets, ticker)
@@ -296,6 +306,8 @@ def lang_mask(lang, hhmm, color, features, cxx, tmp):
     code, name, text = lines[0].split("\t")
     grid = lines[1:17]
     cols = [[hex_rgb(v) for v in l.split()] for l in lines[17:33]]
+    if features:
+        cols = tone_features(cols, color)
     return code, name, text, grid, cols
 
 
@@ -318,7 +330,7 @@ def lang_mask_cached(lang, hhmm, color, features, cache):
     if features:
         for k, v in e["extra"].items():
             i = int(k)
-            cols[i // 16][i % 16] = col if v == "T" else hex_rgb(v)
+            cols[i // 16][i % 16] = col if v == "T" else FEATURE_TONE.get(hex_rgb(v), hex_rgb(v))
     return e["code"], e["name"], e["texts"][t], e["grid"], cols
 
 
@@ -399,37 +411,43 @@ def render(grid, cols, size, style, bg, font_spec, filler="X"):
             dr.rectangle([cx - STROKE_W / 2 * s, cy - STROKE_H / 2 * s, cx + STROKE_W / 2 * s, cy + STROKE_H / 2 * s],
                          fill=fill)
             return
-        # same fitting as glyph2d() in Wordclock_Model.scad: baseline at -CAP/2, too wide/high glyphs reduced
-        # into the chamber (FIT), long descender: Q/J cut at the chamber edge, others reduced and pushed up
+        # same fitting as glyph2d() in Wordclock_Common.scad: baseline at -CAP/2, each axis reduced on its own
+        # (too wide: only narrower, too high/accents: only lower), long descender: Q/J cut at the chamber edge,
+        # others reduced in height and pushed up
         fit = FIT * s
         bb = font.getbbox(ch, anchor="ls")          # relative to the baseline, y down
         w, top, bot = bb[2] - bb[0], -bb[1], bb[3]  # ink width, ascent, descent (px)
         h = top + bot
-        k0 = min(1.0, fit / max(w, 1), (fit / 2 + cap_px / 2) / top if top > 0 else 1.0)
         centre = ch in "+"
-        low = not centre and bot * k0 > (fit - cap_px) / 2
+        kx = min(1.0, fit / max(w, 1))
+        ky = min(1.0, fit / max(h, 1)) if centre else min(1.0, (fit / 2 + cap_px / 2) / top if top > 0 else 1.0)
+        low = not centre and bot * ky > (fit - cap_px) / 2
         cut = low and ch in "QJ"
         if low and not cut:
-            k = min(k0, fit / max(h, 1))
-        elif centre:
-            k = min(1.0, fit / max(w, 1), fit / max(h, 1))
-        else:
-            k = k0
-        f = font if abs(k - 1.0) < 1e-3 else ImageFont.truetype(font_path, max(4, int(round(fsize * k))), index=font_idx)
-        bb = f.getbbox(ch, anchor="ls")
-        ox = cx - (bb[0] + bb[2]) / 2
+            ky = min(ky, fit / max(h, 1))
+        sw, sh = w * kx, h * ky                     # ink size after fitting
+        left = cx - sw / 2
         if centre:
-            oy = cy - (bb[1] + bb[3]) / 2
+            ytop = cy - sh / 2
         elif low and not cut:
-            oy = cy + fit / 2 - bb[3]               # bottom of the ink on the chamber edge
+            ytop = cy + fit / 2 - sh                # bottom of the ink on the chamber edge
         else:
-            oy = cy + cap_px / 2                    # common baseline
-        if not cut:
-            dr.text((ox, oy), ch, font=f, fill=fill, anchor="ls")
+            ytop = cy + cap_px / 2 - top * ky       # common baseline
+        scaled = kx < 1.0 - 1e-3 or ky < 1.0 - 1e-3
+        if not scaled and not cut:
+            dr.text((left - bb[0], ytop + top), ch, font=font, fill=fill, anchor="ls")
             return
         target = dr._image
+        tile = Image.new("L", (max(1, int(w)), max(1, int(h))), 0)
+        ImageDraw.Draw(tile).text((-bb[0], top), ch, font=font, fill=255, anchor="ls")
+        if scaled:
+            tile = tile.resize((max(1, int(round(sw))), max(1, int(round(sh)))), Image.LANCZOS)
+        x, y = int(round(left)), int(round(ytop))
+        if not cut:
+            target.paste(fill, (x, y, x + tile.size[0], y + tile.size[1]), tile)
+            return
         tmp = Image.new("L", target.size, 0)
-        ImageDraw.Draw(tmp).text((ox, oy), ch, font=f, fill=255, anchor="ls")
+        tmp.paste(tile, (x, y))
         clip = Image.new("L", target.size, 0)
         ImageDraw.Draw(clip).rectangle([cx - fit / 2, cy - fit / 2, cx + fit / 2, cy + fit / 2], fill=255)
         target.paste(fill, (0, 0), ImageChops.multiply(tmp, clip))
@@ -452,8 +470,8 @@ def render(grid, cols, size, style, bg, font_spec, filler="X"):
                 fd.rectangle([cx - e, cy - e, cx + e, cy + e], fill=col)
 
     # glow: wide soft halo + tight bloom of the lit shapes, coloured by the cell colour
-    halo = lit_mask.filter(ImageFilter.GaussianBlur(3.0 * s)).point(lambda v: min(255, int(v * 1.9)))
-    bloom = lit_mask.filter(ImageFilter.GaussianBlur(0.8 * s)).point(lambda v: min(255, int(v * 0.9)))
+    halo = lit_mask.filter(ImageFilter.GaussianBlur(2.6 * s)).point(lambda v: min(255, int(v * 1.35)))
+    bloom = lit_mask.filter(ImageFilter.GaussianBlur(0.7 * s)).point(lambda v: min(255, int(v * 0.75)))
     alpha = ImageChops.lighter(halo, bloom)
     face_mask = Image.new("L", (W, H), 0)
     ImageDraw.Draw(face_mask).rounded_rectangle([x0, y0, x0 + FRONT * s, y0 + FRONT * s], radius=CORNER_R * s, fill=255)

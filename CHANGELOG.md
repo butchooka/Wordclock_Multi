@@ -1,5 +1,31 @@
 # Changelog – Wordclock_Multi
 
+## 2026-11-26 - SCAD side-by-side view in print orientation
+- `Wordclock_Model.scad`: `PART = "All_SideBySide"` now places every part in its print orientation on z = 0 (front
+  face down, rear flat, holders standing, supports included); one export, then "Split to objects" in Bambu Studio.
+  `PRINT_ORIENT = false` keeps the old unrotated layout. MakerWorld text: hint added (EN/DE).
+
+## 2026-11-26 - MakerWorld export: Wemos rear again
+- `export_fronts.py`: new `REAR_BOARDS` (ESP32C6, WemosD1); parts export (menu item 14) writes `Rear_ESP32C6.stl` and
+  `Rear_WemosD1.stl` again. `make_3mf.py`: one rear plate per board ("Rear ESP32-C6 SuperMini", "Rear Wemos D1 mini
+  ESP32"). PictureFrame stays ESP32-C6 only (`EXPORT_BOARDS`, other boards via `--board`).
+
+## 2026-11-26 - MakerWorld folder moved to the top level
+- MakerWorld outputs (texts, zips, `export/`, `export_3mf/`, `models/`) now in `makerworld/` (was `_private/makerworld/`,
+  still ignored). Paths updated in `bundle_firmware.py`, `bundle_models.py`, `export_fronts.py`, `make_3mf.py`,
+  `clean.py`, `wc_stamp.py`, `wordclock_tools.bat`, `Wordclock_Common.py` (FreeCAD export folder) and model comments.
+
+## 2026-11-26 - Corner screws: direct screwing as default
+- `Wordclock_Model.scad` / `.FCMacro`: default `SCREW_TYPE` is now `m3_coarse` (standard M3x0.5 screws, the ones used
+  with inserts, 2.5 mm core hole, hand-tight); `insert` stays selectable in the Customizer.
+- MakerWorld text (EN/DE): screw note with Customizer hint for heat set inserts.
+
+## 2026-11-26 - Letters: oversize reduced per axis
+- `Wordclock_Common.scad` (`glyph2d()`) / `Wordclock_Common.py` (`base_glyph()`): too wide characters (W, Ш, Ю) are
+  only narrowed (full cap height, was reduced uniformly to 88 %), too high characters (Ä Ö Ü, accents) are only
+  lowered (full width). Same cap height and baseline for W in DE, GB, NL, PL, ID, TZ, dialects, NAV.
+- `tools/render_fronts.py`: same per-axis fitting in the renders (scaled glyphs drawn as tile and resized).
+
 ## 2026-11-23 - Light bleed: wall choice, support wall on the back, test print 3 x 3
 - `CHAMBER_WALL_THICKNESS` (default 1.2 mm) customizable (section Front) in `Wordclock_Model` and
   `Wordclock_Model_PictureFrame` (`.scad` / `.FCMacro`): 0.8 / 1.2 / 1.65 mm = 2 / 3 / 4 lines of a 0.4 nozzle.
@@ -15,6 +41,7 @@
   the short pieces next to the keyhole and the cable (approx. 10 mm) are joined to the corner arcs (stiffer, easier
   to print).
 - Support ring above the ESP slot: inner cut now through the full ring height (the higher ring had a 0.5 mm lid).
+- `MATRIX_SUPPORT_GAP` 0 -> 0.3 mm (print test): support wall and ESP support ring 0.3 mm lower, the back sits closer to the matrix.
 - `MATRIX_THICKNESS` 0.3 -> 0.15 mm (measured) in `Wordclock_Model` and `Wordclock_Model_PictureFrame` (`.scad` /
   `.FCMacro`): support wall and ring end exactly at the rear of the matrix, case 0.15 mm shallower.
 - `Wordclock_TestPrint.scad`: default 3 x 3 cells (`ÄIW|MJx*Ö`), letter layer per cell row by row from

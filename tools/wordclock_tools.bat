@@ -1,7 +1,8 @@
 @echo off
 rem tools\wordclock_tools.bat - Wordclock_Multi: all tools in one menu (double-click).
-rem Choose an action by its number, A runs all of them one after another in a sensible order.
-rem Direct call without menu:  wordclock_tools.bat 5      or      wordclock_tools.bat A
+rem Choose an action by its number, A runs all of them one after another in a sensible order (without the
+rem slow model check 4), F (Full) runs all including 4.
+rem Direct call without menu:  wordclock_tools.bat 5      or      wordclock_tools.bat A      or      wordclock_tools.bat F
 rem Unchanged outputs are skipped (5, 9, 10, 12-14, 16: info file with the base data next to the outputs, see
 rem tools\wc_stamp.py). Build everything again: second argument F, e.g.  wordclock_tools.bat A F
 rem Needs Python 3 (python.org, option "Add python.exe to PATH"). Logs go to tools\logs\, after every action
@@ -55,29 +56,30 @@ echo   2  Check ESPHome       all lang_XX.yaml, with ESPHome installed also "esp
 echo   3  Check parameters    SCAD ^<-^> FreeCAD macro settings (models, Python only)
 echo   4  Check 3D models     render all parts with OpenSCAD, fit check, FreeCAD comparison
 echo   5  Render fronts       preview images light/dark, normal + _full, overview, GIFs, ticker -^> docs\render*
-echo   6  Bundle firmware     single-file versions -^> esphome\ + arduino\single_Language, zips -^> _private\makerworld
-echo   8  Bundle models       single-file SCAD (clock, PictureFrame, test print) -^> _private\makerworld\models
-echo   9  Export fronts       STL of the case front, all languages -^> _private\makerworld\export (slow)
+echo   6  Bundle firmware     single-file versions -^> esphome\ + arduino\single_Language, zips -^> makerworld
+echo   8  Bundle models       single-file SCAD (clock, PictureFrame, test print) -^> makerworld\models
+echo   9  Export fronts       STL of the case front, all languages -^> makerworld\export (slow)
 echo  10  Export PictureFrame STL of the picture frame plate, all languages, frames (RIBBA, SANNAHED) and
-echo                          board ESP32C6 (others via Customizer / --board) -^> _private\makerworld\export (slow)
+echo                          board ESP32C6 (others via Customizer / --board) -^> makerworld\export (slow)
 echo  11  Mask cache          rebuild tools\render_masks.json.xz after a language change (needs g++)
 echo  12  Bambu 3MF single    one Bambu Studio project per language from tools\template_P2S.3mf, asks the
-echo                          languages (Enter = all) -^> _private\makerworld\export_3mf (exports missing STL first)
+echo                          languages (Enter = all) -^> makerworld\export_3mf (exports missing STL first)
 echo  13  Bambu 3MF all_      one plate per language: frame_Wordclock_all / _scifi_all / _runes_all and per frame
 echo                          and board Pictureframe_RIBBA_all_ESP32C6, ..._scifi_all_..., ..._runes_all_... -^> export_3mf
-echo  14  Export parts        STL of rear (ESP32C6), holders, supports, test print -^> _private\makerworld\export
+echo  14  Export parts        STL of rears (ESP32C6, WemosD1), holders, supports, test print -^> makerworld\export
 echo  15  Fonts               check the fonts of the fronts (CN, JP, KR, runes), download and install
 echo                          missing ones for all users (asks for administrator rights)
 echo  16  Bambu 3MF PictureFrame single  one project per language, frame and board, asks the languages
 echo                          (Enter = all), no prime tower -^> export_3mf (exports missing STL first)
 echo   P  PictureFrame other  special case: asks size, depth, ... of another picture frame and exports
-echo                          the plates -^> _private\makerworld\export\custom
-echo   A  All                15 1 2 3 4 5 6 8 9 10 14 13 one after another (single 3MF 12 / 16 only on demand)
+echo                          the plates -^> makerworld\export\custom
+echo   A  All                15 1 2 3 5 6 8 9 10 14 13 one after another (without 4; single 3MF 12 / 16 only on demand)
+echo   F  Full               like A, but including 4 (check 3D models): 15 1 2 3 4 5 6 8 9 10 14 13
 echo   C  Clean              remove caches and temporary files only
 echo   B  Backup clean       also remove generated STL/3MF/zips/fonts (slim folder for a manual backup,
 echo                          only git-ignored outputs, lists first and asks; rebuild with 6, 8-10, 12-16)
 echo   Q  Quit
-echo   Unchanged outputs are skipped (5, 9, 10, 12-14, 16); all again: wordclock_tools.bat 9 F  (or A F)
+echo   Unchanged outputs are skipped (5, 9, 10, 12-14, 16); all again: wordclock_tools.bat 9 F  (or A F / F F)
 echo.
 set "SEL="
 set /p "SEL=Choice: "
@@ -85,7 +87,8 @@ if not defined SEL goto menu
 
 :run
 if /i "%SEL%"=="Q" exit /b 0
-if /i "%SEL%"=="A" goto all
+if /i "%SEL%"=="A" (set "ALLSEQ=15 1 2 3 5 6 8 9 10 14 13" & set "NTOT=11" & goto all)
+if /i "%SEL%"=="F" (set "ALLSEQ=15 1 2 3 4 5 6 8 9 10 14 13" & set "NTOT=12" & goto all)
 if /i "%SEL%"=="C" goto clean_only
 if /i "%SEL%"=="B" goto clean_backup
 if /i "%SEL%"=="P" goto pf_custom
@@ -95,7 +98,7 @@ goto finish
 :all
 set "T0=%time%"
 set "NALL=0"
-for %%N in (15 1 2 3 4 5 6 8 9 10 14 13) do (
+for %%N in (%ALLSEQ%) do (
   set /a NALL+=1
   call :do %%N
 )
@@ -150,7 +153,7 @@ rem ----------------------------------------------------------------------------
 call set "TT=%%T%~1%%"
 echo.
 echo =============================================================================================
-if defined NALL (echo  [%NALL%/12]  %~1  %TT%   - start %time:~0,8%) else (echo  %~1  %TT%   - start %time:~0,8%)
+if defined NALL (echo  [%NALL%/%NTOT%]  %~1  %TT%   - start %time:~0,8%) else (echo  %~1  %TT%   - start %time:~0,8%)
 echo =============================================================================================
 if "%~1"=="1"  goto a1
 if "%~1"=="2"  goto a2

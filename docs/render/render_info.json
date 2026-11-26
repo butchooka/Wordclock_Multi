@@ -2,7 +2,7 @@
  "note": "written by the Wordclock tools (tools/wc_stamp.py): base data of every output, an output is only built again when they change",
  "outputs": {
   "run_all": {
-   "built": "2026-11-23 12:47:11",
+   "built": "2026-11-26 10:58:25",
    "files": {
     "arduino/Wordclock/src/wc_core.h": {
      "date": "2026-11-16 12:45:18",
@@ -281,15 +281,15 @@
      "sha256": "efc7c726b9202d69"
     },
     "tools/render_fronts.py": {
-     "date": "2026-11-23 12:40:56",
-     "sha256": "d18f42af8a7edb25"
+     "date": "2026-11-26 10:47:44",
+     "sha256": "e78d70188fb4e0dc"
     },
     "tools/render_mask.cpp": {
      "date": "2026-11-16 12:45:19",
      "sha256": "6337c770ae7cca3b"
     }
    },
-   "key": "20910bcef75658f8",
+   "key": "525ef024a220a9dd",
    "params": {
     "compiler": true,
     "default_font": "LiberationSans-Bold.ttf",

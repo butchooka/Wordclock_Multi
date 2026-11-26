@@ -10,8 +10,9 @@ new 3MF after the next run.
 
 Objects of the template are found by their name (".stl" and "_freecad" are ignored):
   Frame...  / Front        -> the front of the language (Frame_<LANG>.stl)
-  Rear (or Holder_Rear)    -> Rear_<BOARD>.stl: one plate per board of export_fronts.EXPORT_BOARDS (ESP32C6), the
-                              rear is 160 x 160 mm, two do not fit on one bed; plate "Rear ESP32-C6 SuperMini"
+  Rear (or Holder_Rear)    -> Rear_<BOARD>.stl: one plate per board of export_fronts.REAR_BOARDS (ESP32C6, WemosD1),
+                              the rear is 160 x 160 mm, two do not fit on one bed; plates "Rear ESP32-C6 SuperMini",
+                              "Rear Wemos D1 mini ESP32"
   Holder_<name>            -> Holder_<name>.stl, plus Holder_<name>_Support.stl as a second part of the same object
                               (break-away supports; in Bambu Studio: right click on the part > Delete, if not wanted)
 Supports are only added to holders that stand on the plate as exported (template object not tilted).
@@ -26,7 +27,7 @@ see export_info.json), so the 3MF always shows the current model (--reuse = take
 A 3MF is only written again when its STL files, the template or make_3mf.py changed (3mf_info.json in the output
 folder, see tools/wc_stamp.py; --force = all). Languages with their own script (CN, JP, KR, runes) get their
 own font, its tag is in the file names; a missing font stops the run before anything is exported.
-Input:  _private/makerworld/export/           Output: _private/makerworld/export_3mf/
+Input:  makerworld/export/           Output: makerworld/export_3mf/
   frame_Wordclock_<LANG>.3mf    one project per language (default)
   frame_Wordclock_all.3mf       --all: one project with one plate per front plus the plates of the other parts;
   frame_Wordclock_scifi_all.3mf the groups of ALL_GROUPS each get their own file: all = languages and dialects,
@@ -62,8 +63,8 @@ import xml.etree.ElementTree as ET
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOOLS = os.path.join(ROOT, "tools")
 MODELS = os.path.join(ROOT, "models")
-STL_DIR = os.path.join(ROOT, "_private", "makerworld", "export")
-OUT_DIR = os.path.join(ROOT, "_private", "makerworld", "export_3mf")
+STL_DIR = os.path.join(ROOT, "makerworld", "export")
+OUT_DIR = os.path.join(ROOT, "makerworld", "export_3mf")
 TEMPLATE = os.path.join(TOOLS, "template_P2S.3mf")
 sys.path.insert(0, TOOLS)
 import export_fronts  # noqa: E402  (same folder; OpenSCAD export and font tags)
@@ -541,7 +542,7 @@ def main():
     ap.add_argument("--frame", nargs="*", type=str.upper, choices=sorted(export_fronts.PF_FRAMES),
                     help="--pictureframe: only these frames (default: all)")
     ap.add_argument("--board", nargs="*", choices=list(export_fronts.BOARDS),
-                    help="these boards (default: export_fronts.EXPORT_BOARDS = ESP32C6)")
+                    help="these boards (default: PictureFrame export_fronts.EXPORT_BOARDS = ESP32C6, rear REAR_BOARDS = ESP32C6 WemosD1)")
     ap.add_argument("--font", default="Liberation")
     ap.add_argument("--quality", default="Fine")
     ap.add_argument("--manifold", action="store_true")
@@ -603,7 +604,7 @@ def main():
         print("Left out (not in export_fronts.HOLDERS): %s" % ", ".join(left))
     roles = sorted({o["role"] for o in tpl.objects.values() if o["role"] != "FRONT" and wanted(o["role"])})
     sup = [] if a.no_supports else [r + "_Support" for r in roles if r.startswith("Holder_")]
-    rears_wanted = ["Rear_" + B for B in (a.board or export_fronts.EXPORT_BOARDS)]
+    rears_wanted = ["Rear_" + B for B in (a.board or export_fronts.REAR_BOARDS)]
     roles = [x for r in roles for x in (rears_wanted if r == "Rear" else [r])]   # one rear per board
     os.makedirs(STL_DIR, exist_ok=True)
     print("=== Step 2/4: check the fonts (%d languages)" % len(langs))
@@ -666,7 +667,7 @@ def main():
             rears = [o for o in pl["objects"] if tpl.objects[o]["role"] == "Rear"]
             other = [o for o in pl["objects"] if tpl.objects[o]["role"] != "Rear" and wanted(tpl.objects[o]["role"])]
             for o in rears:                           # one plate per board, the rear does not fit twice
-                for B in (a.board or export_fronts.EXPORT_BOARDS):
+                for B in (a.board or export_fronts.REAR_BOARDS):
                     label = export_fronts.BOARDS[B][1]
                     b.add_plate(i, "Rear %s" % label)
                     b.add_object(o, "Rear_" + B, [mesh("Rear_" + B)], centre if len(pl["objects"]) > 1 else None)

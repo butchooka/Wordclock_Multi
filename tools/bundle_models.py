@@ -13,7 +13,7 @@ language grids in models/lang/. For an upload that needs ONE file this script in
   FreeCAD:   (MACRO_FILES, empty) the block "# >>> include Wordclock_Common.py" ... "# <<< include" is replaced by
              Wordclock_Common.py. Note: the macro still reads the language grids from a folder "lang" next to it.
 
-Output: _private/makerworld/models/ (same file names, private, not in the repository). No OpenSCAD / FreeCAD needed, takes about a second.
+Output: makerworld/models/ (same file names, private, not in the repository). No OpenSCAD / FreeCAD needed, takes about a second.
 Call:  python tools/bundle_models.py [--out DIR]     (or tools/wordclock_tools.bat)
 Exit code 1 on an error (missing include file, "use <...>", include left in the result).
 """
@@ -93,7 +93,7 @@ def bundle_macro(path):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--out", default=str(ROOT / "_private" / "makerworld" / "models"), help="target folder")
+    ap.add_argument("--out", default=str(ROOT / "makerworld" / "models"), help="target folder")
     a = ap.parse_args()
     out_dir = pathlib.Path(a.out)
     out_dir.mkdir(parents=True, exist_ok=True)

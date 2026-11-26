@@ -174,7 +174,7 @@ tools/                     Python-Werkzeuge (check_lang, make_info, render_front
   wc_stamp.py              Basisdaten jeder Ausgabe (Inhalts-Hash und Datum der Eingangsdateien, Parameter, Versionen
                            von OpenSCAD, Schriften) in einer Info-Datei neben den Ausgaben:
                            docs/render*/render_info.json,
-                           _private/makerworld/export/export_info.json, export_3mf/3mf_info.json; --force = alles neu
+                           makerworld/export/export_info.json, export_3mf/3mf_info.json; --force = alles neu
   install_fonts.py         prüft die Schriften der Fronten (CN, JP, KR: Noto Sans SC/JP/KR Bold, Runen: Segoe UI
                            Historic), lädt fehlende Noto-Schriften und installiert sie für alle Benutzer (Menüpunkt 15)
   make_3mf.py              Bambu-Studio-Projekt (3MF) je Sprache aus tools/template_P2S.3mf, --all: zusätzlich all_-Dateien
@@ -182,7 +182,7 @@ tools/                     Python-Werkzeuge (check_lang, make_info, render_front
                            Pictureframe_<RAHMEN>_[scifi_|runes_]all_<BOARD>.3mf; Einzel-3MF je Sprache nur bei Bedarf,
                            Menüpunkte 12 / 16 fragen die Sprachen ab; kein Holder_Wall - Schlüsselloch in der Rückwand,
                            eine Platte je Sprache, Platten benannt „DE - Deutsch“); Dateinamen ohne Schrift;
-                           Rückwand-Platte für den ESP32-C6 SuperMini (Rear_ESP32C6), jeder Halter auf eigener Platte:
+                           Rückwand-Platten für ESP32-C6 SuperMini und Wemos D1 mini ESP32 (Rear_ESP32C6, Rear_WemosD1), jeder Halter auf eigener Platte:
                            nur die Netze werden getauscht, Drucker, Profil, Farbwechsel, Platten und Objekt-Einstellungen
                            kommen aus der Vorlage; abbrechbare Haken-Stützen als entfernbares Teil;
                            --pictureframe (Menüpunkt 16): ein Projekt je Sprache, Bilderrahmen und Board

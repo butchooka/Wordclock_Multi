@@ -10,7 +10,7 @@ PictureFrame = front plate for a deep picture frame, one file per frame of PF_FR
                BOARD = ESP32C6 (ESP32-C6 SuperMini) or WemosD1 (Wemos D1 mini ESP32), the ESP slot differs;
                exported by default only for EXPORT_BOARDS (ESP32C6), other boards via the Customizer (MakerWorld)
                or --board WemosD1; --frame RIBBA = only this frame
-Parts        = the language independent parts: Rear_<BOARD>.stl (one rear per board of EXPORT_BOARDS), Holder_<name>.stl
+Parts        = the language independent parts: Rear_<BOARD>.stl (one rear per board of REAR_BOARDS), Holder_<name>.stl
                (HOLDERS: Foot, Skadis, BasePlate; no Holder_Wall, the rear has a keyhole hanger), the break-away
                supports Holder_<name>_Support.stl (same print coordinates as the holder) and TestPrint.stl (small
                test print of Wordclock_TestPrint.scad: narrow characters, light shining through)
@@ -22,9 +22,9 @@ fonts OpenSCAD sees (Windows: the system font folder = "Install for all users", 
 missing, nothing is exported and the font is named (else OpenSCAD would cut empty boxes).
 Only LANG, FONT, QUALITY, PRINT_ORIENT and ESP_BOARD (PictureFrame: also size and depth of the frame) are set, all other
 parameters are the defaults of the model.
-Output: _private/makerworld/export/ (private, not in the repository). FreeCAD: LANG = "ALL" in the macro.
+Output: makerworld/export/ (private, not in the repository). FreeCAD: LANG = "ALL" in the macro.
 Special case other picture frame: --size/--depth/--tol/--glass/--mount set the PictureFrame values
-(e.g. another IKEA frame) -> _private/makerworld/export/custom/Pictureframe_<size>x<depth>_<LANG>_<BOARD>.stl
+(e.g. another IKEA frame) -> makerworld/export/custom/Pictureframe_<size>x<depth>_<LANG>_<BOARD>.stl
 (wordclock_tools.bat item P asks for the values).
 Unchanged files are skipped: export_info.json in the output folder holds the base data of every STL (content of the
 model, Wordclock_Common.scad, lang_all.scad and the language file, the -D values, OpenSCAD version and the font file,
@@ -50,7 +50,7 @@ import wc_stamp
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODELS = os.path.join(ROOT, "models")
-OUT = os.path.join(ROOT, "_private", "makerworld", "export")
+OUT = os.path.join(ROOT, "makerworld", "export")
 # FONT setting of the model -> OpenSCAD font name
 BASE_FONTS = {"liberation": "Liberation Sans:style=Bold", "arial": "Arial:style=Bold", "dejavu": "DejaVu Sans:style=Bold"}
 FONT_TAGS = {"liberation": "LiberationSansBold", "arial": "ArialBold", "dejavu": "DejaVuSansBold"}
@@ -62,7 +62,9 @@ BOARDS = {"ESP32C6": ("esp32_c6_supermini", "ESP32-C6 SuperMini"),
           "WemosD1": ("wemos_d1_mini_esp32", "Wemos D1 mini ESP32")}
 # boards exported by default (MakerWorld: ESP32-C6 SuperMini only, other boards via the Customizer / --board)
 EXPORT_BOARDS = ["ESP32C6"]
-REARS = ["Rear_" + b for b in EXPORT_BOARDS]
+# boards with their own rear in the default export (MakerWorld: C6 SuperMini and Wemos D1 mini ESP32)
+REAR_BOARDS = ["ESP32C6", "WemosD1"]
+REARS = ["Rear_" + b for b in REAR_BOARDS]
 # small test print (own model, defaults of Wordclock_TestPrint.scad)
 TESTPRINT = "TestPrint"
 PARTS = REARS + HOLDERS + [h + "_Support" for h in HOLDERS] + [TESTPRINT]
@@ -353,7 +355,7 @@ def main(argv=None):
     ap.add_argument("--frame", nargs="*", type=str.upper, choices=sorted(PF_FRAMES),
                     help="PictureFrame: only these frames (default: all of PF_FRAMES)")
     ap.add_argument("--board", nargs="*", choices=list(BOARDS),
-                    help="PictureFrame and rear: only these boards (default: EXPORT_BOARDS = ESP32C6)")
+                    help="only these boards (default: PictureFrame EXPORT_BOARDS = ESP32C6, rear REAR_BOARDS = ESP32C6 WemosD1)")
     g = ap.add_argument_group("special case other picture frame (PictureFrame only)")
     g.add_argument("--size", type=float, help="picture size = glass size in mm (220 ... 300)")
     g.add_argument("--depth", type=float, help="inner depth of the frame in mm (22 ... 80)")
