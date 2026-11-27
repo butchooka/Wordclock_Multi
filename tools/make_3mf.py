@@ -32,6 +32,8 @@ Input:  makerworld/export/           Output: makerworld/export_3mf/
   frame_Wordclock_all.3mf       --all: one project with one plate per front plus the plates of the other parts;
   frame_Wordclock_scifi_all.3mf the groups of ALL_GROUPS each get their own file: all = languages and dialects,
   frame_Wordclock_runes_all.3mf scifi = Klingon, Na'vi, Quenya, Valyrian, runes = runic DE / GB (room for more)
+  frame_Wordclock_<LANG>_Rear_Foot.3mf  with --all / --all-only for KIT_LANGS (DE, GB): front, rear (KIT_BOARD = ESP32C6)
+                                and Holder_Foot (KIT_HOLDERS), one plate each
   Pictureframe_<FRAME>_<LANG>_<BOARD>.3mf  --pictureframe: one project per language, picture frame and board
                                 (export_fronts.PF_FRAMES: RIBBA, SANNAHED; --frame RIBBA = only this one;
                                 default EXPORT_BOARDS: ESP32C6; --board WemosD1 = other board) with one plate: the
@@ -201,7 +203,7 @@ def role_of(name):
     n = re.sub(r"_freecad$", "", n)
     if n.lower().startswith("frame") or n.lower() == "front":
         return "FRONT"
-    if n == "Holder_Rear":
+    if n == "Holder_Rear" or n.startswith("Rear"):      # Rear, Rear_ESP32C6, ... -> one rear per board
         return "Rear"
     return n
 
@@ -370,6 +372,10 @@ ALL_GROUPS = [("runes_all", "runes", lambda L: L.startswith("scifi_RUNE")),
               ("scifi_all", "sci-fi languages", lambda L: L.startswith("scifi_")),
               ("all", "all languages", lambda L: True)]
 ALL_ORDER = ["all", "scifi_all", "runes_all"]          # order of the output
+# kit files (with --all / --all-only): front + rear + foot of one language, one plate each
+KIT_LANGS = ["DE", "GB"]
+KIT_HOLDERS = ["Holder_Foot"]
+KIT_BOARD = "ESP32C6"                                   # rear of the kit files (only this board)
 
 
 def all_groups(langs):
@@ -606,6 +612,9 @@ def main():
     sup = [] if a.no_supports else [r + "_Support" for r in roles if r.startswith("Holder_")]
     rears_wanted = ["Rear_" + B for B in (a.board or export_fronts.REAR_BOARDS)]
     roles = [x for r in roles for x in (rears_wanted if r == "Rear" else [r])]   # one rear per board
+    kit_board = KIT_BOARD
+    if (a.all or a.all_only) and "Rear_" + kit_board not in roles:
+        roles.append("Rear_" + kit_board)                                          # rear of the kit files
     os.makedirs(STL_DIR, exist_ok=True)
     print("=== Step 2/4: check the fonts (%d languages)" % len(langs))
     errors = export_fronts.check_fonts(langs, a.font, export_fronts.find_openscad(None))
@@ -680,6 +689,23 @@ def main():
                 for o in other:
                     b.add_object(o, tpl.objects[o]["role"], part_meshes(o))
 
+    def fill_kit(b, L):
+        """Kit: front of L, rear (KIT_BOARD) and the holders of KIT_HOLDERS, one plate each (centred)."""
+        for i, pl in enumerate(tpl.plates):
+            for o in pl["objects"]:
+                r = tpl.objects[o]["role"]
+                if r == "FRONT":
+                    fname = export_fronts.front_name(L)
+                    b.add_plate(i, lang_label(L))
+                    b.add_object(o, fname, [front_loader(fname)])
+                elif r == "Rear":
+                    b.add_plate(i, "Rear %s" % export_fronts.BOARDS[kit_board][1])
+                    b.add_object(o, "Rear_" + kit_board, [mesh("Rear_" + kit_board)],
+                                 centre if len(pl["objects"]) > 1 else None)
+                elif r in KIT_HOLDERS:
+                    b.add_plate(i, r)
+                    b.add_object(o, r, part_meshes(o), centre)
+
     skipped = set()
 
     def part_meshes(o):
@@ -737,6 +763,22 @@ def main():
             b = Builder(tpl, title)
             fill(b, glangs, split=False)
             print("(holders on one plate, else more than %d plates) " % MAX_PLATES, end="")
+        b.write(os.path.join(OUT_DIR, fn))
+        info.store(os.path.join(OUT_DIR, fn), inp)
+        made += 1
+        print("ok (%d plates, %.1f MB)" % (len(b.plates), os.path.getsize(os.path.join(OUT_DIR, fn)) / 1e6))
+    for L in ([x for x in KIT_LANGS if x in langs] if a.all or a.all_only else []):
+        fn = "frame_Wordclock_%s_Rear_Foot.3mf" % L
+        title = "Wordclock %s front, rear, foot" % L
+        print("kit       %-6s -> %s ... " % (L, fn), end="", flush=True)
+        inp = base([L], title)
+        fresh, why = info.check(os.path.join(OUT_DIR, fn), inp)
+        print(why, end="\n" if fresh else " ... ", flush=True)
+        if fresh:
+            skipped_3mf += 1
+            continue
+        b = Builder(tpl, title)
+        fill_kit(b, L)
         b.write(os.path.join(OUT_DIR, fn))
         info.store(os.path.join(OUT_DIR, fn), inp)
         made += 1

@@ -207,6 +207,7 @@ WinLibs to `Path` (Windows key, "environment variables", edit environment variab
 python3 tools/check_lang.py [XX] [--words]   check grids, word positions, texts, YAML keys
 python3 tools/make_info.py                   write docs/languages, setup guides, language lists in config.h, YAML and README
 python3 tools/render_fronts.py [XX ...]      PNG renders of the fronts plus GIF (Pillow), e.g. --style dark --time 13:47
+python3 tools/make_video.py                  MP4 of the ALL GIFs (light/dark) -> makerworld/, max. 29.5 s (ffmpeg)
                                              (normal and _full set, only one: --set normal / --set full)
                                              (Windows: tools/wordclock_tools.bat, item 5; no compiler needed, the lit
                                              words come from tools/render_masks.json.xz)

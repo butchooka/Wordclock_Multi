@@ -209,6 +209,7 @@ für dieses Konto bearbeiten).
 python3 tools/check_lang.py [XX] [--words]   Raster, Wortpositionen, Texte, YAML-Schlüssel prüfen
 python3 tools/make_info.py                   docs/languages, Anleitungen, Sprachlisten in config.h, YAML und README schreiben
 python3 tools/render_fronts.py [XX ...]      PNG-Bilder der Fronten plus GIF (Pillow), z. B. --style dark --time 13:47
+python3 tools/make_video.py                  MP4 der ALL-GIFs (hell/dunkel) -> makerworld/, max. 29,5 s (ffmpeg)
                                              (Satz normal und _full, nur einer: --set normal / --set full)
                                              (Windows: tools/wordclock_tools.bat, Punkt 5; kein Compiler nötig, die
                                              leuchtenden Wörter kommen aus tools/render_masks.json.xz)

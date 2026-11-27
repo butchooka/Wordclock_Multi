@@ -11,7 +11,7 @@ Removes (only generated files, never sources or results):
 With --backup additionally the large generated outputs (slim folder for a manual backup, all can be rebuilt
 with tools/wordclock_tools.bat), only files NOT tracked by git:
   - makerworld/export/ (STL incl. custom/, menu 9, 10, 14, P), export_3mf/ (menu 12, 13),
-    models/ (menu 8), *.zip (menu 6)
+    models/ (menu 8), *.zip (menu 6), *.mp4 (menu 5)
   - downloaded fonts tools/logs/fonts/*.otf (menu 15), tools/logs/claude/*.stl *.otf *.png
   - models/export/, output/, arduino/Wordclock/firmware/
   Kept: sources, logs *.txt, _private/ notes (todo.md), makerworld/ texts (MakerWorld_Text.txt, README.txt), templates, everything in git.
@@ -53,7 +53,7 @@ def targets():
 
 BACKUP_DIRS = ("makerworld/export", "makerworld/export_3mf", "makerworld/models",
                "models/export", "output", "arduino/Wordclock/firmware")
-BACKUP_GLOBS = ("makerworld/*.zip", "tools/logs/fonts/*.otf", "tools/logs/fonts/*.ttf",
+BACKUP_GLOBS = ("makerworld/*.zip", "makerworld/*.mp4", "tools/logs/fonts/*.otf", "tools/logs/fonts/*.ttf",
                 "tools/logs/claude/*.stl", "tools/logs/claude/*.otf", "tools/logs/claude/*.ttf",
                 "tools/logs/claude/*.png", "tools/logs/claude/*.3mf")
 

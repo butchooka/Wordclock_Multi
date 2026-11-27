@@ -55,7 +55,8 @@ echo                          desktop word clock docs\wordclock_desktop.html (ne
 echo   2  Check ESPHome       all lang_XX.yaml, with ESPHome installed also "esphome config"
 echo   3  Check parameters    SCAD ^<-^> FreeCAD macro settings (models, Python only)
 echo   4  Check 3D models     render all parts with OpenSCAD, fit check, FreeCAD comparison
-echo   5  Render fronts       preview images light/dark, normal + _full, overview, GIFs, ticker -^> docs\render*
+echo   5  Render fronts       preview images light/dark, normal + _full, overview, GIFs, ticker -^> docs\render*,
+echo                          MP4 video of all fronts (light/dark, max. 29.5 s) -^> makerworld
 echo   6  Bundle firmware     single-file versions -^> esphome\ + arduino\single_Language, zips -^> makerworld
 echo   8  Bundle models       single-file SCAD (clock, PictureFrame, test print) -^> makerworld\models
 echo   9  Export fronts       STL of the case front, all languages -^> makerworld\export (slow)
@@ -66,6 +67,7 @@ echo  12  Bambu 3MF single    one Bambu Studio project per language from tools\t
 echo                          languages (Enter = all) -^> makerworld\export_3mf (exports missing STL first)
 echo  13  Bambu 3MF all_      one plate per language: frame_Wordclock_all / _scifi_all / _runes_all and per frame
 echo                          and board Pictureframe_RIBBA_all_ESP32C6, ..._scifi_all_..., ..._runes_all_... -^> export_3mf
+echo                          plus frame_Wordclock_DE_Rear_Foot / _GB_Rear_Foot (front + rear + foot)
 echo  14  Export parts        STL of rears (ESP32C6, WemosD1), holders, supports, test print -^> makerworld\export
 echo  15  Fonts               check the fonts of the fronts (CN, JP, KR, runes), download and install
 echo                          missing ones for all users (asks for administrator rights)
@@ -229,6 +231,9 @@ echo Light fronts ...
 echo.
 echo Dark fronts ...
 %PY% tools\render_fronts.py --style dark
+echo.
+echo MakerWorld videos (MP4, max. 29.5 s) ...
+%PY% tools\make_video.py
 goto done
 
 :a6
